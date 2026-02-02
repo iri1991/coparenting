@@ -106,6 +106,8 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
     setPushMessage(null);
     try {
       const reg = await navigator.serviceWorker.register("/sw.js");
+      // Așteptăm ca SW să fie activ (necesar pe unele browsere pentru push)
+      await reg.ready;
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         setPushStatus(permission === "denied" ? "denied" : "idle");
@@ -137,6 +139,8 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
         setPushMessage("Nu s-a putut salva abonamentul.");
         return;
       }
+      // Trimite o notificare de test imediat ca să confirme că merge
+      await fetch("/api/push/test", { method: "POST" });
       setPushStatus("enabled");
       setPushMessage("Notificări activate.");
     } catch (e) {

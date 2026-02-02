@@ -1,17 +1,19 @@
 self.addEventListener("push", function (event) {
-  if (!event.data) return;
   let payload = { title: "Eva Coparenting", body: "" };
-  try {
-    payload = event.data.json();
-  } catch (_) {
-    payload.body = event.data.text();
+  if (event.data) {
+    try {
+      payload = event.data.json();
+    } catch (_) {
+      payload.body = event.data.text();
+    }
   }
-  const options = {
+  var options = {
     body: payload.body || payload.title,
     icon: "/file.svg",
     badge: "/file.svg",
     tag: payload.tag || "evacoparenting",
     data: { url: payload.url || "/" },
+    requireInteraction: false,
   };
   event.waitUntil(self.registration.showNotification(payload.title || "Eva", options));
 });
