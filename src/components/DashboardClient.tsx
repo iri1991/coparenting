@@ -8,6 +8,7 @@ import { AddEventModal } from "@/components/AddEventModal";
 import { WeekSummary } from "@/components/WeekSummary";
 import type { ScheduleEvent } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
+import { Bell, BellOff } from "lucide-react";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -46,6 +47,8 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
   const [editEvent, setEditEvent] = useState<ScheduleEvent | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [pushStatus, setPushStatus] = useState<"idle" | "loading" | "enabled" | "unsupported" | "denied" | "error">("idle");
+  const [pushMessage, setPushMessage] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
     const res = await fetch("/api/user/me");
@@ -81,34 +84,65 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
     return () => window.removeEventListener("focus", onFocus);
   }, [fetchEvents]);
 
-  // Înregistrare push: SW + abonare când e autentificat
+  // Stare inițială notificări (fără popup – popup-ul se afișează doar la click)
   useEffect(() => {
-    if (!currentUserId || typeof window === "undefined" || !("serviceWorker" in navigator) || !("PushManager" in window)) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const reg = await navigator.serviceWorker.register("/sw.js");
-        const permission = await Notification.requestPermission();
-        if (cancelled || permission !== "granted") return;
-        const keyRes = await fetch("/api/push/vapid-public");
-        if (!keyRes.ok) return;
-        const { publicKey } = await keyRes.json();
-        if (!publicKey) return;
-        const sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(publicKey) as BufferSource,
-        });
-        if (cancelled) return;
-        await fetch("/api/push/subscribe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(sub.toJSON()),
-        });
-      } catch (_) {
-        // push indisponibil sau refuzat
+    if (typeof window === "undefined") return;
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+      setPushStatus("unsupported");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      setPushStatus("enabled");
+    } else if (Notification.permission === "denied") {
+      setPushStatus("denied");
+    } else {
+      setPushStatus("idle");
+    }
+  }, []);
+
+  const enablePush = useCallback(async () => {
+    if (!currentUserId) return;
+    setPushStatus("loading");
+    setPushMessage(null);
+    try {
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        setPushStatus(permission === "denied" ? "denied" : "idle");
+        if (permission === "denied") setPushMessage("Ai refuzat notificările.");
+        return;
       }
-    })();
-    return () => { cancelled = true; };
+      const keyRes = await fetch("/api/push/vapid-public");
+      if (!keyRes.ok) {
+        setPushStatus("error");
+        setPushMessage("Notificările nu sunt configurate pe server.");
+        return;
+      }
+      const { publicKey } = await keyRes.json();
+      if (!publicKey) {
+        setPushStatus("error");
+        return;
+      }
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicKey) as BufferSource,
+      });
+      const subscribeRes = await fetch("/api/push/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sub.toJSON()),
+      });
+      if (!subscribeRes.ok) {
+        setPushStatus("error");
+        setPushMessage("Nu s-a putut salva abonamentul.");
+        return;
+      }
+      setPushStatus("enabled");
+      setPushMessage("Notificări activate.");
+    } catch (e) {
+      setPushStatus("error");
+      setPushMessage(e instanceof Error ? e.message : "Eroare la activare.");
+    }
   }, [currentUserId]);
 
   const monthStart = startOfMonth(currentDate);
@@ -239,6 +273,57 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
 
   return (
     <div className="space-y-6">
+      {/* Zonă notificări – vizibilă și cu buton la click (user gesture) pentru popup */}
+      {pushStatus !== "unsupported" && (
+        <div className="rounded-2xl bg-stone-100 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 p-4">
+          <div className="flex items-center gap-3">
+            {pushStatus === "enabled" ? (
+              <Bell className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden />
+            ) : (
+              <BellOff className="w-5 h-5 text-stone-400 dark:text-stone-500 flex-shrink-0" aria-hidden />
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-stone-800 dark:text-stone-200">
+                {pushStatus === "enabled" && "Notificări activate"}
+                {pushStatus === "idle" && "Primești alerte pentru evenimente noi și reminder seara."}
+                {pushStatus === "loading" && "Se activează notificările…"}
+                {pushStatus === "denied" && "Notificări dezactivate. Poți permite în setările browserului."}
+                {pushStatus === "error" && (pushMessage || "Notificări indisponibile.")}
+              </p>
+              {pushMessage && pushStatus === "enabled" && (
+                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{pushMessage}</p>
+              )}
+            </div>
+            {pushStatus === "idle" && (
+              <button
+                type="button"
+                onClick={enablePush}
+                className="flex-shrink-0 py-2 px-4 rounded-xl bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 active:scale-[0.98] touch-manipulation"
+              >
+                Activează notificări
+              </button>
+            )}
+            {pushStatus === "denied" && (
+              <span className="text-xs text-stone-400 dark:text-stone-500 flex-shrink-0">
+                Setări → Site-uri → Notificări
+              </span>
+            )}
+            {pushStatus === "error" && (
+              <button
+                type="button"
+                onClick={enablePush}
+                className="flex-shrink-0 py-2 px-4 rounded-xl border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
+              >
+                Încearcă din nou
+              </button>
+            )}
+            {pushStatus === "enabled" && (
+              <span className="text-xs text-amber-600 dark:text-amber-400 flex-shrink-0">✓</span>
+            )}
+          </div>
+        </div>
+      )}
+
       {!profileLoading && !parentType && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
           <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
