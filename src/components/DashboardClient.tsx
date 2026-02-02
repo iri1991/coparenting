@@ -65,7 +65,7 @@ export function DashboardClient({ initialEvents, currentUserId }: DashboardClien
         if (!publicKey) return;
         const sub = await reg.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(publicKey),
+          applicationServerKey: urlBase64ToUint8Array(publicKey) as BufferSource,
         });
         if (cancelled) return;
         await fetch("/api/push/subscribe", {
