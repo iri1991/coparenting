@@ -63,6 +63,9 @@ export async function auth() {
 }
 
 declare module "next-auth" {
+  interface User {
+    parentType?: "tata" | "mama";
+  }
   interface Session {
     user: {
       id: string;
@@ -70,5 +73,11 @@ declare module "next-auth" {
       name?: string | null;
       parentType?: "tata" | "mama" | null;
     };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    parentType?: "tata" | "mama";
   }
 }
