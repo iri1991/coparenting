@@ -9,8 +9,8 @@ self.addEventListener("push", function (event) {
   }
   var options = {
     body: payload.body || payload.title,
-    icon: "/file.svg",
-    badge: "/file.svg",
+    icon: "/icon.svg",
+    badge: "/icon.svg",
     tag: payload.tag || "evacoparenting",
     data: { url: payload.url || "/" },
     requireInteraction: false,
