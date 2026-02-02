@@ -42,7 +42,18 @@ npm run dev
 
 Deschide [http://localhost:3000](http://localhost:3000). Înregistrează două conturi (ex. email-ul tău și al Andreeei), apoi conectează-te și adaugă evenimente.
 
-### 4. Notificări și calendar
+### 4. Asociere Tata / Mama
+
+Fiecare utilizator trebuie asociat cu rolul „Tata” sau „Mama” ca să apară corect mesajul „petreci x zile cu Eva” și pentru notificări. Poți:
+
+- **Din aplicație**: la prima deschidere după login apare „Ești Tata sau Mama?” – alege butonul corespunzător.
+- **Prin script** (pentru conturile existente): din rădăcina proiectului, cu `.env` configurat:
+  ```bash
+  yarn set-parent-types
+  ```
+  Scriptul setează `me@irinelnicoara.ro` → Tata (Irinel) și `andramd2803@gmail.com` → Mama (Andreea). Pentru alte emailuri editează `scripts/set-parent-types.mjs`.
+
+### 5. Notificări și calendar
 
 - **În aplicație**: modificările se reîncarcă la câteva secunde și la focus.
 - **Notificări push**: la prima deschidere (după login) browserul poate cere permisiunea pentru notificări; dacă accepți, primești push când se adaugă un eveniment nou și seara (ex. 21:00) cu programul de mâine. Cron-ul rulează pe Vercel la 21:00 ora României; setează `CRON_SECRET` în mediu.
@@ -71,3 +82,5 @@ Deschide [http://localhost:3000](http://localhost:3000). Înregistrează două c
 - `vercel.json` – program cron (19:00 UTC = 21:00 România)
 - `src/lib/mongodb.ts` – conexiune MongoDB
 - `src/lib/auth.ts` – configurare NextAuth
+- `src/app/api/user/me/route.ts` – profil utilizator (GET/PATCH), inclusiv parentType (Tata/Mama)
+- `scripts/set-parent-types.mjs` – script one-shot pentru asocierea email → Tata/Mama

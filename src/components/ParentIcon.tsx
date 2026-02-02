@@ -11,7 +11,7 @@ interface ParentIconProps {
   "aria-label"?: string;
 }
 
-/** Iconițe pentru Tata (persoană), Mama (persoană), Cu toții (persoane) */
+/** Iconițe pentru Irinel, Andreea, Cu toții */
 export function ParentIcon({
   parent,
   size = 20,

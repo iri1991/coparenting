@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { startOfMonth, endOfMonth, isWithinInterval, parseISO, min, max, format } from "date-fns";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval, parseISO, min, max, format } from "date-fns";
 import { Calendar, type DateRange } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
 import { AddEventModal } from "@/components/AddEventModal";
 import { WeekSummary } from "@/components/WeekSummary";
 import type { ScheduleEvent } from "@/types/events";
+import { PARENT_LABELS } from "@/types/events";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -19,17 +20,47 @@ function urlBase64ToUint8Array(base64: string): Uint8Array {
   return out;
 }
 
+type ParentRole = "tata" | "mama";
+
+interface UserProfile {
+  name: string | null;
+  email: string | null;
+  parentType: ParentRole | null;
+}
+
 interface DashboardClientProps {
   initialEvents: ScheduleEvent[];
   currentUserId?: string;
+  userName?: string;
 }
 
-export function DashboardClient({ initialEvents, currentUserId }: DashboardClientProps) {
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+}
+
+export function DashboardClient({ initialEvents, currentUserId, userName }: DashboardClientProps) {
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState<DateRange | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editEvent, setEditEvent] = useState<ScheduleEvent | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  const fetchProfile = useCallback(async () => {
+    const res = await fetch("/api/user/me");
+    if (res.ok) {
+      const data = await res.json();
+      setProfile({ name: data.name, email: data.email, parentType: data.parentType ?? null });
+    } else {
+      setProfile(null);
+    }
+    setProfileLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   const fetchEvents = useCallback(async () => {
     const res = await fetch("/api/events");
@@ -167,8 +198,75 @@ export function DashboardClient({ initialEvents, currentUserId }: DashboardClien
       ? selectedRange.start
       : null;
 
+  const parentType = profile?.parentType ?? null;
+
+  const daysThisWeekWithEvents = useMemo(() => {
+    const now = new Date();
+    const weekStart = startOfWeek(now, { weekStartsOn: 1 });
+    const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
+    const startStr = format(weekStart, "yyyy-MM-dd");
+    const endStr = format(weekEnd, "yyyy-MM-dd");
+    const inWeek = events.filter((e) => {
+      if (e.date < startStr || e.date > endStr) return false;
+      if (!parentType) return true;
+      return e.parent === parentType || e.parent === "together";
+    });
+    return new Set(inWeek.map((e) => e.date)).size;
+  }, [events, parentType]);
+
+  const greetingName =
+    parentType != null ? PARENT_LABELS[parentType] : capitalize(userName || "acolo");
+  const daysLabel = daysThisWeekWithEvents === 1 ? "zi" : "zile";
+  const greeting =
+    !profileLoading && parentType != null
+      ? `Salut ${greetingName}, săptămâna asta petreci ${daysThisWeekWithEvents} ${daysLabel} cu Eva.`
+      : null;
+
+  const setParentType = useCallback(
+    async (role: ParentRole) => {
+      const res = await fetch("/api/user/me", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ parentType: role }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProfile((p) => (p ? { ...p, parentType: data.parentType } : { name: null, email: null, parentType: data.parentType }));
+      }
+    },
+    []
+  );
+
   return (
     <div className="space-y-6">
+      {!profileLoading && !parentType && (
+        <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
+          <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
+            Ești Irinel sau Andreea?
+          </p>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => setParentType("tata")}
+              className="flex-1 py-2.5 px-4 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-[0.98] touch-manipulation"
+            >
+              Irinel
+            </button>
+            <button
+              type="button"
+              onClick={() => setParentType("mama")}
+              className="flex-1 py-2.5 px-4 rounded-xl bg-pink-500 text-white font-medium hover:bg-pink-600 active:scale-[0.98] touch-manipulation"
+            >
+              Andreea
+            </button>
+          </div>
+        </div>
+      )}
+      {greeting && (
+        <p className="text-stone-700 dark:text-stone-300 text-base font-medium leading-snug">
+          {greeting}
+        </p>
+      )}
       <WeekSummary
         events={events}
         onSelectDay={(date) => setSelectedRange({ start: date, end: date })}

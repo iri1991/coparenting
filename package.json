@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "set-parent-types": "node --env-file=.env scripts/set-parent-types.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

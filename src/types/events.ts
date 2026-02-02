@@ -23,9 +23,10 @@ export interface ScheduleEvent {
   type?: string;
 }
 
+/** Numele afișat pentru fiecare părinte (Irinel = tata, Andreea = mama) */
 export const PARENT_LABELS: Record<ParentType, string> = {
-  tata: "Tata",
-  mama: "Mama",
+  tata: "Irinel",
+  mama: "Andreea",
   together: "Cu toții",
 };
 

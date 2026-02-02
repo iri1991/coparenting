@@ -28,7 +28,8 @@ export const authOptions: NextAuthOptions = {
         return {
           id: String(user._id),
           email: user.email,
-          name: user.name ?? undefined,
+          name: (user as { name?: string }).name ?? undefined,
+          parentType: (user as { parentType?: "tata" | "mama" }).parentType ?? undefined,
         };
       },
     }),
@@ -40,6 +41,8 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.name = user.name;
+        token.parentType = user.parentType;
       }
       return token;
     },
@@ -47,6 +50,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        session.user.name = token.name as string | undefined;
+        session.user.parentType = token.parentType as "tata" | "mama" | undefined;
       }
       return session;
     },
@@ -59,6 +64,11 @@ export async function auth() {
 
 declare module "next-auth" {
   interface Session {
-    user: { id: string; email?: string | null; name?: string | null };
+    user: {
+      id: string;
+      email?: string | null;
+      name?: string | null;
+      parentType?: "tata" | "mama" | null;
+    };
   }
 }

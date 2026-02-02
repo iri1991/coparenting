@@ -125,6 +125,11 @@ export default async function HomePage() {
         <DashboardClient
           initialEvents={events}
           currentUserId={session.user.id}
+          userName={
+            session.user.name?.trim() ||
+            (session.user.email ? session.user.email.split("@")[0] : null) ||
+            "acolo"
+          }
         />
       </main>
     </div>
