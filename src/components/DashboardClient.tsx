@@ -106,8 +106,6 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
     setPushMessage(null);
     try {
       const reg = await navigator.serviceWorker.register("/sw.js");
-      // Așteptăm ca SW să fie activ (necesar pe unele browsere pentru push)
-      await reg.ready;
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         setPushStatus(permission === "denied" ? "denied" : "idle");
