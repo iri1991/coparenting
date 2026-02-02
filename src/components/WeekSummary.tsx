@@ -44,7 +44,7 @@ export function WeekSummary({
           {format(weekStart, "d MMM", { locale: ro })} – {format(weekEnd, "d MMM yyyy", { locale: ro })}
         </p>
       </div>
-      <div className="p-3 flex gap-2 overflow-x-auto min-h-[100px]">
+      <div className="p-3 grid grid-cols-4 sm:grid-cols-7 gap-2 min-h-0">
         {days.map((day) => {
           const dayEvents = getEventsForDay(day);
           const eventsWithNotes = getEventsWithNotes(day);
@@ -53,12 +53,12 @@ export function WeekSummary({
           const isSelected = selectedDate && isSameDay(day, selectedDate);
           const today = isToday(day);
           return (
-            <div key={day.toISOString()} className="relative flex-shrink-0">
+            <div key={day.toISOString()} className="relative min-w-0">
               <button
                 type="button"
                 onClick={() => onSelectDay?.(day)}
                 className={`
-                  w-[76px] min-w-[76px] rounded-xl flex flex-col items-center
+                  w-full min-h-[88px] rounded-xl flex flex-col items-center
                   touch-manipulation active:scale-[0.98] transition border-2
                   ${isSelected ? "border-amber-400 bg-amber-50/80 dark:bg-amber-950/30 dark:border-amber-500" : "border-transparent hover:bg-stone-50 dark:hover:bg-stone-800/50"}
                   ${today && !isSelected ? "bg-stone-50 dark:bg-stone-800/30" : ""}
@@ -92,9 +92,9 @@ export function WeekSummary({
                       <span className="mb-1 flex items-center justify-center">
                         <ParentIcon parent={first.parent} size={20} aria-label={getEventShortLabel(first)} />
                       </span>
-                      <span className="text-[11px] leading-snug text-stone-600 dark:text-stone-300 text-center font-medium">
+                      <span className="text-[11px] leading-snug text-stone-600 dark:text-stone-300 text-center font-medium line-clamp-2 break-words w-full px-0.5">
                         {first.title ? (
-                          <span className="line-clamp-2">{first.title}</span>
+                          first.title
                         ) : (
                           getEventShortLabel(first)
                         )}
