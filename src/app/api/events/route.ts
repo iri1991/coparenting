@@ -110,7 +110,7 @@ export async function POST(request: Request) {
     .collection("blocked_periods")
     .find({})
     .toArray();
-  const blockList = (blocks as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
     userId: String(b.userId),
     parentType: b.parentType,
     startDate: b.startDate,
@@ -181,7 +181,7 @@ export async function PATCH(request: Request) {
   const finalParent = (parent != null ? parent : cur.parent) as ParentType;
 
   const blocks = await db.collection("blocked_periods").find({}).toArray();
-  const blockList = (blocks as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
     userId: String(b.userId),
     parentType: b.parentType,
     startDate: b.startDate,
