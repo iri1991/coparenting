@@ -176,7 +176,7 @@ export async function PATCH(request: Request) {
   if (!current) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
-  const cur = current as { date: string; parent: string };
+  const cur = current as unknown as { date: string; parent: string };
   const finalDate = date != null ? String(date).slice(0, 10) : cur.date;
   const finalParent = (parent != null ? parent : cur.parent) as ParentType;
 
