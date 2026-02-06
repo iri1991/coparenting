@@ -35,3 +35,21 @@ export async function sendNewEventNotification(event: ScheduleEvent): Promise<vo
     url: "/",
   });
 }
+
+/**
+ * Notifică părintele care a blocat ziua că celălalt a încercat să adauge program cu Eva în perioada blocată.
+ */
+export async function sendBlockedDayAttemptNotification(
+  blockerUserId: string,
+  attemptedByParentLabel: string,
+  dateStr: string
+): Promise<void> {
+  const subs = await getSubscriptionsForUsers([blockerUserId]);
+  if (subs.length === 0) return;
+  const dateLabel = format(new Date(dateStr + "T12:00:00"), "d MMM yyyy", { locale: ro });
+  await sendPushToSubscriptions(subs, {
+    title: "Zi blocată",
+    body: `${attemptedByParentLabel} a încercat să programeze cu Eva pe ${dateLabel}, dar ai acea zi blocată.`,
+    url: "/",
+  });
+}

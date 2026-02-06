@@ -6,8 +6,11 @@ import { Calendar, type DateRange } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
 import { AddEventModal } from "@/components/AddEventModal";
 import { WeekSummary } from "@/components/WeekSummary";
+import { BlockedPeriodsSection } from "@/components/BlockedPeriodsSection";
+import { AddBlockedPeriodModal } from "@/components/AddBlockedPeriodModal";
 import type { ScheduleEvent } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
+import type { BlockedPeriod } from "@/types/blocked";
 import { Bell, BellOff } from "lucide-react";
 
 const POLL_INTERVAL_MS = 15000;
@@ -49,6 +52,9 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
   const [profileLoading, setProfileLoading] = useState(true);
   const [pushStatus, setPushStatus] = useState<"idle" | "loading" | "enabled" | "unsupported" | "denied" | "error">("idle");
   const [pushMessage, setPushMessage] = useState<string | null>(null);
+  const [blockedPeriods, setBlockedPeriods] = useState<BlockedPeriod[]>([]);
+  const [blockModalOpen, setBlockModalOpen] = useState(false);
+  const [blockListRefreshKey, setBlockListRefreshKey] = useState(0);
 
   const fetchProfile = useCallback(async () => {
     const res = await fetch("/api/user/me");
@@ -83,6 +89,18 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
   }, [fetchEvents]);
+
+  const fetchBlockedPeriods = useCallback(async () => {
+    const res = await fetch("/api/blocked-days");
+    if (res.ok) {
+      const data = await res.json();
+      setBlockedPeriods(data);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchBlockedPeriods();
+  }, [fetchBlockedPeriods]);
 
   // Stare inițială notificări (fără popup – popup-ul se afișează doar la click)
   useEffect(() => {
@@ -195,7 +213,12 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
             endTime: payload.endTime ?? null,
           }),
         });
-        if (res.ok) await fetchEvents();
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          await fetchEvents();
+        } else if (data.error) {
+          alert(data.error);
+        }
       } else {
         const res = await fetch("/api/events", {
           method: "POST",
@@ -211,7 +234,12 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
             endTime: payload.endTime ?? null,
           }),
         });
-        if (res.ok) await fetchEvents();
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          await fetchEvents();
+        } else if (data.error) {
+          alert(data.error);
+        }
       }
       setEditEvent(null);
     },
@@ -366,6 +394,11 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
         onSelectDate={handleSelectDate}
         selectedRange={selectedRange}
         onDeselectRange={() => setSelectedRange(null)}
+        blockedPeriods={blockedPeriods}
+      />
+      <BlockedPeriodsSection
+        key={blockListRefreshKey}
+        onAddClick={() => setBlockModalOpen(true)}
       />
       <div>
         <div className="flex items-center justify-between mb-3">
@@ -410,6 +443,14 @@ export function DashboardClient({ initialEvents, currentUserId, userName }: Dash
         initialDate={selectedRange?.start ?? undefined}
         editEvent={editEvent}
         currentUserId={currentUserId}
+      />
+      <AddBlockedPeriodModal
+        isOpen={blockModalOpen}
+        onClose={() => setBlockModalOpen(false)}
+        onSaved={() => {
+          setBlockListRefreshKey((k) => k + 1);
+          fetchBlockedPeriods();
+        }}
       />
     </div>
   );

@@ -9,6 +9,7 @@ Aplicație simplă pentru planificarea zilelor cu Eva – Tunari (cu tata), Otop
 - **Sincronizare** – evenimentele se reîncarcă la fiecare 15 secunde și când revii în aplicație (focus)
 - **Export calendar (.ics)** – buton în header pentru descărcare; poți importa în Google Calendar, Apple Calendar etc.
 - **Notificări push** – la eveniment nou și seara înainte de preluare (programul de mâine); cerere de permisiune la prima deschidere
+- **Zile blocate** – fiecare părinte poate bloca perioade (ex. „plecat o săptămână”); nu se pot adăuga evenimente cu Eva în zilele blocate, iar celălalt părinte este notificat dacă încearcă
 - **PWA** – pe mobil poți adăuga aplicația pe ecranul principal
 
 ## Setup
@@ -17,7 +18,7 @@ Aplicație simplă pentru planificarea zilelor cu Eva – Tunari (cu tata), Otop
 
 1. Creează un cluster (gratuit) la [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) sau folosește MongoDB local.
 2. Obține connection string-ul (ex. `mongodb+srv://user:pass@cluster.mongodb.net/`).
-3. Baza de date și colecțiile (`users`, `schedule_events`, `push_subscriptions`) se creează automat la primul utilizare.
+3. Baza de date și colecțiile (`users`, `schedule_events`, `push_subscriptions`, `blocked_periods`) se creează automat la primul utilizare.
 
 ### 2. Variabile de mediu
 
@@ -71,7 +72,9 @@ Fiecare utilizator trebuie asociat cu rolul „Tata” sau „Mama” ca să apa
 
 - `src/app/page.tsx` – pagină principală (landing sau dashboard)
 - `src/app/login/page.tsx` – autentificare
-- `src/app/api/events/route.ts` – CRUD evenimente (GET, POST, PATCH, DELETE)
+- `src/app/api/events/route.ts` – CRUD evenimente; verifică zilele blocate la adăugare/editare
+- `src/app/api/blocked-days/route.ts` – perioade blocate (GET toate / ?mine=1, POST, DELETE)
+- `src/types/blocked.ts` – tip BlockedPeriod
 - `src/app/api/auth/signup/route.ts` – înregistrare utilizator
 - `src/app/api/calendar/ics/route.ts` – export .ics
 - `src/app/api/cron/evening-reminder/route.ts` – cron: trimite push cu evenimentele de mâine (seara)

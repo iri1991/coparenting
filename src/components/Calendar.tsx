@@ -14,9 +14,14 @@ import {
 } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
-import { getEventColor, getEventDisplayLabel } from "@/types/events";
+import { getEventColor, getEventDisplayLabel, PARENT_LABELS } from "@/types/events";
+import type { BlockedPeriod } from "@/types/blocked";
 
 export type DateRange = { start: Date; end: Date };
+
+function isDateInBlock(dateStr: string, start: string, end: string): boolean {
+  return dateStr >= start && dateStr <= end;
+}
 
 interface CalendarProps {
   currentDate: Date;
@@ -25,6 +30,7 @@ interface CalendarProps {
   onSelectDate: (date: Date) => void;
   selectedRange: DateRange | null;
   onDeselectRange: () => void;
+  blockedPeriods?: BlockedPeriod[];
 }
 
 export function Calendar({
@@ -34,6 +40,7 @@ export function Calendar({
   onSelectDate,
   selectedRange,
   onDeselectRange,
+  blockedPeriods = [],
 }: CalendarProps) {
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
@@ -59,6 +66,19 @@ export function Calendar({
   function isInRange(date: Date): boolean {
     if (!selectedRange) return false;
     return isWithinInterval(date, { start: selectedRange.start, end: selectedRange.end });
+  }
+
+  /** Pentru o zi, returnează inițialele părinților care au blocat (ex. ["I"], ["A"], ["I","A"]) */
+  function getBlockedLabelsForDay(date: Date): string[] {
+    const d = format(date, "yyyy-MM-dd");
+    const out: string[] = [];
+    for (const b of blockedPeriods) {
+      if (b.parentType !== "together" && isDateInBlock(d, b.startDate, b.endDate)) {
+        const initial = PARENT_LABELS[b.parentType].charAt(0);
+        if (!out.includes(initial)) out.push(initial);
+      }
+    }
+    return out.sort();
   }
 
   return (
@@ -119,6 +139,7 @@ export function Calendar({
               const inMonth = isSameMonth(date, currentDate);
               const inRange = isInRange(date);
               const today = isToday(date);
+              const blockedLabels = getBlockedLabelsForDay(date);
               return (
                 <button
                   key={date.toISOString()}
@@ -133,7 +154,7 @@ export function Calendar({
                   `}
                 >
                   <span className="text-sm">{format(date, "d")}</span>
-                  <div className="flex gap-0.5 flex-wrap justify-center max-w-full">
+                  <div className="flex gap-0.5 flex-wrap justify-center max-w-full items-center">
                     {dayEvents.slice(0, 2).map((e) => (
                       <span
                         key={e.id}
@@ -144,6 +165,14 @@ export function Calendar({
                     ))}
                     {dayEvents.length > 2 && (
                       <span className="text-[10px] text-stone-400">+{dayEvents.length - 2}</span>
+                    )}
+                    {blockedLabels.length > 0 && (
+                      <span
+                        className="text-[10px] font-medium text-stone-400 dark:text-stone-500 px-1"
+                        title={`Blocat: ${blockedLabels.join(", ")}`}
+                      >
+                        🔒 {blockedLabels.join("")}
+                      </span>
                     )}
                   </div>
                 </button>

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
-import { sendNewEventNotification } from "@/lib/notify";
+import { sendBlockedDayAttemptNotification, sendNewEventNotification } from "@/lib/notify";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
+import { PARENT_LABELS } from "@/types/events";
 
 function deriveFromType(
   type: string
@@ -66,6 +67,29 @@ export async function GET() {
   return NextResponse.json(events);
 }
 
+function isDateInBlock(dateStr: string, startDate: string, endDate: string): boolean {
+  return dateStr >= startDate && dateStr <= endDate;
+}
+
+/** Returnează { userId, parentLabel } al părintelui care a blocat ziua, sau null. */
+function getBlockerForEventDate(
+  dateStr: string,
+  eventParent: ParentType,
+  blocks: { userId: string; parentType: string; startDate: string; endDate: string }[]
+): { userId: string; parentLabel: string } | null {
+  const toCheck: ParentType[] =
+    eventParent === "together" ? ["tata", "mama"] : [eventParent];
+  for (const block of blocks) {
+    if (toCheck.includes(block.parentType as ParentType) && isDateInBlock(dateStr, block.startDate, block.endDate)) {
+      return {
+        userId: block.userId,
+        parentLabel: PARENT_LABELS[block.parentType as ParentType],
+      };
+    }
+  }
+  return null;
+}
+
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -79,10 +103,37 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+  const dateStr = String(date).slice(0, 10);
   const db = await getDb();
+
+  const blocks = await db
+    .collection("blocked_periods")
+    .find({})
+    .toArray();
+  const blockList = (blocks as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+    userId: String(b.userId),
+    parentType: b.parentType,
+    startDate: b.startDate,
+    endDate: b.endDate,
+  }));
+  const blocker = getBlockerForEventDate(dateStr, parent as ParentType, blockList);
+  if (blocker) {
+    try {
+      const attemptedBy =
+        session.user.parentType && (session.user.parentType === "tata" || session.user.parentType === "mama")
+          ? PARENT_LABELS[session.user.parentType]
+          : "Cineva";
+      await sendBlockedDayAttemptNotification(blocker.userId, attemptedBy, dateStr);
+    } catch (_) {}
+    return NextResponse.json(
+      { error: `Nu poți adăuga: ${blocker.parentLabel} are zilele blocate în acea perioadă.` },
+      { status: 400 }
+    );
+  }
+
   const now = new Date();
   const { insertedId } = await db.collection("schedule_events").insertOne({
-    date: String(date).slice(0, 10),
+    date: dateStr,
     parent,
     location,
     locationLabel: locationLabel ?? null,
@@ -121,6 +172,36 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
   const db = await getDb();
+  const current = await db.collection("schedule_events").findOne({ _id: oid });
+  if (!current) {
+    return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
+  }
+  const cur = current as { date: string; parent: string };
+  const finalDate = date != null ? String(date).slice(0, 10) : cur.date;
+  const finalParent = (parent != null ? parent : cur.parent) as ParentType;
+
+  const blocks = await db.collection("blocked_periods").find({}).toArray();
+  const blockList = (blocks as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+    userId: String(b.userId),
+    parentType: b.parentType,
+    startDate: b.startDate,
+    endDate: b.endDate,
+  }));
+  const blocker = getBlockerForEventDate(finalDate, finalParent, blockList);
+  if (blocker) {
+    try {
+      const attemptedBy =
+        session.user.parentType && (session.user.parentType === "tata" || session.user.parentType === "mama")
+          ? PARENT_LABELS[session.user.parentType]
+          : "Cineva";
+      await sendBlockedDayAttemptNotification(blocker.userId, attemptedBy, finalDate);
+    } catch (_) {}
+    return NextResponse.json(
+      { error: `Nu poți muta evenimentul: ${blocker.parentLabel} are zilele blocate în acea perioadă.` },
+      { status: 400 }
+    );
+  }
+
   const update: Record<string, unknown> = {};
   if (date != null) update.date = String(date).slice(0, 10);
   if (parent != null) update.parent = parent;
@@ -130,6 +211,7 @@ export async function PATCH(request: Request) {
   if (notes !== undefined) update.notes = notes ?? null;
   if (startTime !== undefined) update.startTime = startTime ?? null;
   if (endTime !== undefined) update.endTime = endTime ?? null;
+
   const result = await db.collection("schedule_events").findOneAndUpdate(
     { _id: oid },
     { $set: update },

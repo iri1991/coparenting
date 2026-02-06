@@ -1,15 +1,13 @@
 import webpush from "web-push";
 import { getDb } from "@/lib/mongodb";
 
-const vapidPublic = process.env.VAPID_PUBLIC_KEY;
-const vapidPrivate = process.env.VAPID_PRIVATE_KEY;
+// Trim chei din .env – newline/space cauzează 403 BadJwtToken la Apple (Safari/iOS)
+const vapidPublic = process.env.VAPID_PUBLIC_KEY?.trim();
+const vapidPrivate = process.env.VAPID_PRIVATE_KEY?.trim();
+const vapidMailto = process.env.VAPID_MAILTO?.trim() || "mailto:support@example.com";
 
 if (vapidPublic && vapidPrivate) {
-  webpush.setVapidDetails(
-    "mailto:evacoparenting@localhost",
-    vapidPublic,
-    vapidPrivate
-  );
+  webpush.setVapidDetails(vapidMailto, vapidPublic, vapidPrivate);
 }
 
 export interface PushSubscriptionDoc {
