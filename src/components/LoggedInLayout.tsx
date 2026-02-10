@@ -40,7 +40,10 @@ export function LoggedInLayout({
           <div className="flex items-center gap-1 sm:gap-2">
             <button
               type="button"
-              onClick={() => (openAddModalFn ?? (() => setModalOpen(true)))()}
+              onClick={(e) => {
+                if (!e.isTrusted) return;
+                (openAddModalFn ?? (() => setModalOpen(true)))();
+              }}
               className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
               title="Adaugă eveniment"
               aria-label="Adaugă eveniment"

@@ -132,8 +132,8 @@ export function AddEventModal({
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <div className={`grid gap-3 ${!editEvent ? "grid-cols-2" : "grid-cols-1"}`}>
-            <div>
+          <div className={`grid gap-3 ${!editEvent ? "grid-cols-1 min-[400px]:grid-cols-2" : "grid-cols-1"}`}>
+            <div className="min-w-0">
               <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
                 De la data
               </label>
@@ -142,50 +142,50 @@ export function AddEventModal({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
               />
             </div>
             {!editEvent && (
-              <div>
+              <div className="min-w-0">
                 <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
-                  Până la data (opțional)
+                  Până la (opțional)
                 </label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   min={date}
-                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                  className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
                 />
                 {endDate && endDate >= date && (
                   <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
-                    Se vor crea evenimente pentru fiecare zi din interval.
+                    Se creează evenimente pentru fiecare zi din interval.
                   </p>
                 )}
               </div>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
+          <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3">
+            <div className="min-w-0">
               <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
-                Ora început (opțional)
+                Ora start
               </label>
               <input
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
-                Ora sfârșit (opțional)
+                Ora sfârșit
               </label>
               <input
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
               />
             </div>
           </div>
