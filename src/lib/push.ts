@@ -49,8 +49,13 @@ export async function sendPushToSubscriptions(
       );
     } catch (e: unknown) {
       const status = e && typeof e === "object" && "statusCode" in e ? (e as { statusCode: number }).statusCode : 0;
-      if (status === 410 || status === 404) {
+      const body = e && typeof e === "object" && "body" in e ? String((e as { body: unknown }).body) : "";
+      const isVapidMismatch = status === 400 && body.includes("VapidPkHashMismatch");
+      if (status === 410 || status === 404 || isVapidMismatch) {
         await col.deleteOne({ endpoint: sub.endpoint });
+        if (isVapidMismatch) {
+          console.warn("[push] Abonament invalid (VAPID schimbat), șters. Reabonează-te din app.", sub.endpoint);
+        }
       } else {
         console.error("[push] sendNotification failed", sub.endpoint, e);
       }

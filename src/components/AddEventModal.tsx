@@ -11,7 +11,7 @@ type EventPayload = Omit<ScheduleEvent, "id" | "created_at">;
 interface AddEventModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (event: EventPayload, existingId?: string) => void;
+  onSave: (event: EventPayload & { endDate?: string }, existingId?: string) => void;
   initialDate?: Date | null;
   editEvent?: ScheduleEvent | null;
   currentUserId?: string;
@@ -28,6 +28,7 @@ export function AddEventModal({
   const [date, setDate] = useState(
     initialDate ? format(initialDate, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")
   );
+  const [endDate, setEndDate] = useState("");
   const [parent, setParent] = useState<ParentType>("tata");
   const [location, setLocation] = useState<LocationType>("tunari");
   const [locationLabel, setLocationLabel] = useState("");
@@ -39,6 +40,7 @@ export function AddEventModal({
   useEffect(() => {
     if (editEvent) {
       setDate(editEvent.date);
+      setEndDate("");
       setParent(editEvent.parent);
       setLocation(editEvent.location);
       setLocationLabel(editEvent.locationLabel || "");
@@ -48,6 +50,7 @@ export function AddEventModal({
       setEndTime(editEvent.endTime || "");
     } else if (initialDate) {
       setDate(format(initialDate, "yyyy-MM-dd"));
+      setEndDate("");
       setParent("tata");
       setLocation("tunari");
       setLocationLabel("");
@@ -57,6 +60,7 @@ export function AddEventModal({
       setEndTime("");
     } else {
       setDate(format(new Date(), "yyyy-MM-dd"));
+      setEndDate("");
       setParent("tata");
       setLocation("tunari");
       setLocationLabel("");
@@ -81,6 +85,7 @@ export function AddEventModal({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const endDateVal = endDate.trim();
     onSave(
       {
         date,
@@ -92,6 +97,7 @@ export function AddEventModal({
         startTime: startTime.trim() || undefined,
         endTime: endTime.trim() || undefined,
         created_by: currentUserId || "",
+        ...(endDateVal && endDateVal >= date ? { endDate: endDateVal } : {}),
       },
       editEvent?.id
     );
@@ -126,17 +132,38 @@ export function AddEventModal({
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
-              Data
-            </label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
-            />
+          <div className={`grid gap-3 ${!editEvent ? "grid-cols-2" : "grid-cols-1"}`}>
+            <div>
+              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+                De la data
+              </label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+              />
+            </div>
+            {!editEvent && (
+              <div>
+                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+                  Până la data (opțional)
+                </label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  min={date}
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                />
+                {endDate && endDate >= date && (
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                    Se vor crea evenimente pentru fiecare zi din interval.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>

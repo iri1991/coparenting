@@ -1,13 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
 import { getEventDisplayLabel } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
 
+const INITIAL_VISIBLE = 5;
+const EXPAND_BY = 10;
+
 interface EventListProps {
   events: ScheduleEvent[];
+  onView?: (event: ScheduleEvent) => void;
   onEdit?: (event: ScheduleEvent) => void;
   onDelete?: (event: ScheduleEvent) => void;
   emptyMessage?: string;
@@ -15,10 +20,13 @@ interface EventListProps {
 
 export function EventList({
   events,
+  onView,
   onEdit,
   onDelete,
   emptyMessage = "Niciun eveniment în această perioadă.",
 }: EventListProps) {
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+
   const sorted = [...events].sort((a, b) => {
     const d = new Date(a.date).getTime() - new Date(b.date).getTime();
     if (d !== 0) return d;
@@ -26,6 +34,10 @@ export function EventList({
     const bTime = b.startTime ?? "";
     return aTime.localeCompare(bTime);
   });
+
+  const visible = sorted.slice(0, visibleCount);
+  const hasMore = visibleCount < sorted.length;
+  const remaining = sorted.length - visibleCount;
 
   if (sorted.length === 0) {
     return (
@@ -36,11 +48,25 @@ export function EventList({
   }
 
   return (
-    <ul className="space-y-2">
-      {sorted.map((event) => (
+    <div className="space-y-3">
+      <ul className="space-y-2">
+      {visible.map((event) => (
         <li
           key={event.id}
-          className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm"
+          role={onView ? "button" : undefined}
+          tabIndex={onView ? 0 : undefined}
+          onClick={onView ? () => onView(event) : undefined}
+          onKeyDown={
+            onView
+              ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onView(event);
+                  }
+                }
+              : undefined
+          }
+          className={`flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm ${onView ? "cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation" : ""}`}
         >
           <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-800">
             <ParentIcon parent={event.parent} size={20} aria-label={getEventDisplayLabel(event)} />
@@ -69,7 +95,7 @@ export function EventList({
               </p>
             )}
           </div>
-          <div className="flex gap-1 shrink-0">
+          <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
             {onEdit && (
               <button
                 type="button"
@@ -98,5 +124,15 @@ export function EventList({
         </li>
       ))}
     </ul>
+      {hasMore && (
+        <button
+          type="button"
+          onClick={() => setVisibleCount((c) => Math.min(c + EXPAND_BY, sorted.length))}
+          className="w-full py-2.5 px-4 rounded-xl border border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-400 text-sm font-medium hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation"
+        >
+          Arată mai multe {remaining > 0 ? `(+${Math.min(EXPAND_BY, remaining)})` : ""}
+        </button>
+      )}
+    </div>
   );
 }

@@ -10,14 +10,11 @@ import {
   isSameMonth,
   isSameDay,
   isToday,
-  isWithinInterval,
 } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
 import { getEventColor, getEventDisplayLabel, PARENT_LABELS } from "@/types/events";
 import type { BlockedPeriod } from "@/types/blocked";
-
-export type DateRange = { start: Date; end: Date };
 
 function isDateInBlock(dateStr: string, start: string, end: string): boolean {
   return dateStr >= start && dateStr <= end;
@@ -28,8 +25,7 @@ interface CalendarProps {
   onMonthChange: (date: Date) => void;
   events: ScheduleEvent[];
   onSelectDate: (date: Date) => void;
-  selectedRange: DateRange | null;
-  onDeselectRange: () => void;
+  selectedDate: Date | null;
   blockedPeriods?: BlockedPeriod[];
 }
 
@@ -38,8 +34,7 @@ export function Calendar({
   onMonthChange,
   events,
   onSelectDate,
-  selectedRange,
-  onDeselectRange,
+  selectedDate,
   blockedPeriods = [],
 }: CalendarProps) {
   const monthStart = startOfMonth(currentDate);
@@ -63,10 +58,7 @@ export function Calendar({
     return events.filter((e) => e.date === d);
   }
 
-  function isInRange(date: Date): boolean {
-    if (!selectedRange) return false;
-    return isWithinInterval(date, { start: selectedRange.start, end: selectedRange.end });
-  }
+  const isSelected = selectedDate ? (date: Date) => isSameDay(date, selectedDate) : () => false;
 
   /** Pentru o zi, returnează inițialele părinților care au blocat (ex. ["I"], ["A"], ["I","A"]) */
   function getBlockedLabelsForDay(date: Date): string[] {
@@ -108,22 +100,6 @@ export function Calendar({
           </svg>
         </button>
       </div>
-      {selectedRange && (
-        <div className="px-4 py-2 border-b border-stone-200 dark:border-stone-700 flex items-center justify-between gap-2 bg-amber-50/50 dark:bg-amber-950/20">
-          <span className="text-sm text-stone-600 dark:text-stone-400">
-            {isSameDay(selectedRange.start, selectedRange.end)
-              ? format(selectedRange.start, "d MMM yyyy", { locale: ro })
-              : `${format(selectedRange.start, "d MMM", { locale: ro })} – ${format(selectedRange.end, "d MMM yyyy", { locale: ro })}`}
-          </span>
-          <button
-            type="button"
-            onClick={onDeselectRange}
-            className="text-sm font-medium text-amber-700 dark:text-amber-400 hover:underline touch-manipulation"
-          >
-            Deselectează
-          </button>
-        </div>
-      )}
       <div className="p-2">
         <div className="grid grid-cols-7 gap-0.5 text-center text-xs font-medium text-stone-500 dark:text-stone-400 mb-1">
           {["Lu", "Ma", "Mi", "Jo", "Vi", "Sâ", "Du"].map((d) => (
@@ -137,7 +113,7 @@ export function Calendar({
             week.map((date) => {
               const dayEvents = getEventsForDay(date);
               const inMonth = isSameMonth(date, currentDate);
-              const inRange = isInRange(date);
+              const selected = isSelected(date);
               const today = isToday(date);
               const blockedLabels = getBlockedLabelsForDay(date);
               return (
@@ -149,8 +125,8 @@ export function Calendar({
                     min-h-[44px] sm:min-h-[52px] rounded-xl flex flex-col items-center justify-center gap-0.5
                     touch-manipulation active:scale-95 transition
                     ${!inMonth ? "text-stone-300 dark:text-stone-600" : "text-stone-800 dark:text-stone-200"}
-                    ${inRange ? "ring-2 ring-amber-500 bg-amber-100 dark:bg-amber-900/40" : "hover:bg-stone-100 dark:hover:bg-stone-800"}
-                    ${today && !inRange ? "bg-amber-100/50 dark:bg-amber-900/20 font-semibold" : ""}
+                    ${selected ? "ring-2 ring-amber-500 bg-amber-100 dark:bg-amber-900/40" : "hover:bg-stone-100 dark:hover:bg-stone-800"}
+                    ${today && !selected ? "bg-amber-100/50 dark:bg-amber-900/20 font-semibold" : ""}
                   `}
                 >
                   <span className="text-sm">{format(date, "d")}</span>
