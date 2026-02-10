@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { HeaderNotificationIcon } from "@/components/HeaderNotificationIcon";
 import { DashboardClient } from "@/components/DashboardClient";
 import type { ScheduleEvent } from "@/types/events";
+
+/** Modalul de adăugare se deschide doar după acest delay de la mount (evită deschidere la încărcare). */
+const ADD_MODAL_OPEN_DELAY_MS = 800;
 
 interface LoggedInLayoutProps {
   initialEvents: ScheduleEvent[];
@@ -20,6 +23,16 @@ export function LoggedInLayout({
   const [modalOpen, setModalOpen] = useState(false);
   const [blockedDaysModalOpen, setBlockedDaysModalOpen] = useState(false);
   const [openAddModalFn, setOpenAddModalFn] = useState<(() => void) | null>(null);
+  const addModalAllowedRef = useRef(false);
+
+  useEffect(() => {
+    setModalOpen(false);
+    const t = setTimeout(() => {
+      addModalAllowedRef.current = true;
+    }, ADD_MODAL_OPEN_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   const registerOpenAddModal = useCallback((fn: (() => void) | null) => {
     setOpenAddModalFn(fn);
   }, []);
@@ -41,7 +54,7 @@ export function LoggedInLayout({
             <button
               type="button"
               onClick={(e) => {
-                if (!e.isTrusted) return;
+                if (!e.isTrusted || !addModalAllowedRef.current) return;
                 (openAddModalFn ?? (() => setModalOpen(true)))();
               }}
               className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
