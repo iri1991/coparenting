@@ -84,8 +84,12 @@ export function ChatClient({
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-h-[600px]">
-      <div className="flex-1 overflow-y-auto space-y-3 p-2 min-h-0">
+    <div className="flex-1 flex flex-col min-h-0 bg-stone-100 dark:bg-stone-950">
+      {/* Listă scrollabilă – ocupă tot spațiul rămas */}
+      <div
+        className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain px-3 py-3 space-y-3"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         {messages.length === 0 && (
           <p className="text-center text-stone-500 dark:text-stone-400 text-sm py-8">
             Niciun mesaj încă. Scrie un mesaj pentru a începe conversația cu celălalt părinte.
@@ -102,10 +106,10 @@ export function ChatClient({
                 {isMe ? "Tu" : m.senderLabel}
               </span>
               <div
-                className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
+                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[15px] leading-snug ${
                   isMe
                     ? "bg-amber-500 text-white rounded-br-md"
-                    : "bg-stone-200 dark:bg-stone-700 text-stone-900 dark:text-stone-100 rounded-bl-md"
+                    : "bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-bl-md shadow-sm border border-stone-100 dark:border-stone-700"
                 }`}
               >
                 <p className="whitespace-pre-wrap break-words">{m.text}</p>
@@ -124,26 +128,35 @@ export function ChatClient({
         <div ref={listEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="p-3 border-t border-stone-200 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80">
+      {/* Bară de input fixă jos – tip iMessage */}
+      <form
+        onSubmit={handleSubmit}
+        className="shrink-0 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-stone-100 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800"
+      >
         {error && (
           <p className="text-red-600 dark:text-red-400 text-xs mb-2">{error}</p>
         )}
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-end">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Scrie un mesaj…"
+            placeholder="Mesaj"
             maxLength={2000}
-            className="flex-1 px-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 text-sm"
+            className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            style={{ fontSize: "16px" }}
             disabled={sending}
+            autoComplete="off"
           />
           <button
             type="submit"
             disabled={sending || !input.trim()}
-            className="px-4 py-2.5 rounded-xl bg-amber-500 text-white font-medium text-sm hover:bg-amber-600 disabled:opacity-50 disabled:pointer-events-none"
+            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 disabled:pointer-events-none touch-manipulation"
+            aria-label="Trimite"
           >
-            {sending ? "…" : "Trimite"}
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
           </button>
         </div>
       </form>

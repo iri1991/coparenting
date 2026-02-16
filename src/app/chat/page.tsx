@@ -49,8 +49,8 @@ export default async function ChatPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 flex flex-col">
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-stone-900/80 backdrop-blur border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
+    <div className="h-screen max-h-[100dvh] flex flex-col bg-stone-100 dark:bg-stone-950 overflow-hidden">
+      <header className="shrink-0 z-40 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
         <div className="flex items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
           <AppLogo size={36} linkToHome className="h-9 w-9" />
           <h1 className="text-lg font-semibold text-stone-800 dark:text-stone-100">Chat</h1>
@@ -79,13 +79,8 @@ export default async function ChatPage() {
         </div>
       </header>
 
-      <main className="flex-1 px-4 py-4 max-w-2xl mx-auto w-full">
-        <p className="text-sm text-stone-500 dark:text-stone-400 mb-4">
-          Conversație privată cu celălalt părinte. Doar voi doi vedeți mesajele.
-        </p>
-        <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 overflow-hidden">
-          <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
-        </div>
+      <main className="flex-1 min-h-0 flex flex-col max-w-2xl mx-auto w-full">
+        <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
       </main>
     </div>
   );
