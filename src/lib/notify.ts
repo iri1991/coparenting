@@ -151,6 +151,7 @@ export async function sendEventUpdatedNotification(
   const body = time ? `${label} (${time})` : label;
   const title = `Eveniment modificat: ${dateLabel}`;
   const who = editorLabel.trim() || "Un părinte";
+  const actionSentence = `${who} a modificat evenimentul de ${dateLabel}: ${body}.`;
 
   const subs = await getSubscriptionsForUsers(recipientIds);
   if (subs.length > 0) {
@@ -164,15 +165,15 @@ export async function sendEventUpdatedNotification(
   if (emails.length > 0) {
     const appUrl = (process.env.NEXTAUTH_URL || "https://homesplit.ro").replace(/\/$/, "");
     const content = `
-      <p style="margin: 0 0 16px; font-size: 16px;"><strong>${who}</strong> a modificat un eveniment din calendar.</p>
-      <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;"><strong>${dateLabel}</strong>: ${body}</p>
+      <p style="margin: 0 0 16px; font-size: 16px;">${actionSentence}</p>
+      <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;">Deschide aplicația pentru a vedea modificările.</p>
       ${emailButtonHtml(appUrl, "Deschide aplicația")}
     `;
     await sendEmail({
       to: emails,
       subject: `HomeSplit – ${title}`,
       html: wrapEmailHtml(content),
-      text: `${who} a modificat un eveniment: ${dateLabel} – ${body}. Deschide aplicația.`,
+      text: `${actionSentence} Deschide aplicația.`,
     });
   }
 }

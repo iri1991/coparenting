@@ -11,6 +11,7 @@ import {
   sendProposalAppliedNotification,
 } from "@/lib/notify";
 import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 
 export async function POST() {
   const session = await auth();
@@ -85,9 +86,8 @@ export async function POST() {
     const weekEnd = p.days.length > 0 ? p.days[p.days.length - 1].date : p.weekStart;
     const weekLabel = `${format(new Date(p.weekStart + "T12:00:00"), "d MMM", { locale: ro })} – ${format(new Date(weekEnd + "T12:00:00"), "d MMM yyyy", { locale: ro })}`;
     sendProposalAppliedNotification(memberIds, weekLabel).catch((e) => console.error("[proposals] notify applied", e));
-    const userLabel =
-      session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-    await logFamilyActivity(db, familyId, session.user.id, userLabel, "proposal_applied", { weekLabel });
+    const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+    await logFamilyActivity(db, familyId, session.user.id, displayName, "proposal_applied", { weekLabel });
     return NextResponse.json({ ok: true, applied: true });
   }
 

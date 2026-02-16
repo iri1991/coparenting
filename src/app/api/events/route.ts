@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { addDays } from "date-fns";
 import { sendBlockedDayAttemptNotification, sendNewEventNotification, sendEventUpdatedNotification } from "@/lib/notify";
 import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
 import { getEventDisplayLabel } from "@/types/events";
@@ -167,8 +168,7 @@ export async function POST(request: Request) {
   } catch (_) {
     // nu blochează răspunsul dacă notificarea eșuează
   }
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  const userLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_created", {
     date: dateStr,
     label: getEventDisplayLabel(createdEvent),
@@ -255,17 +255,15 @@ export async function PATCH(request: Request) {
   }
   const updatedEvent = toEvent(result as Parameters<typeof toEvent>[0]);
   const threeDaysLater = addDays(new Date(), 3).toISOString().slice(0, 10);
+  const editorLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   if (finalDate >= todayStr && finalDate <= threeDaysLater) {
     try {
-      const editorLabel = session.user.name?.trim() || session.user.email?.split("@")[0] || "Un părinte";
       await sendEventUpdatedNotification(db, familyId, updatedEvent, session.user.id, editorLabel);
     } catch (_) {
       // nu blochează răspunsul
     }
   }
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-  await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_updated", {
+  await logFamilyActivity(db, familyId, session.user.id, editorLabel, "event_updated", {
     date: finalDate,
     label: getEventDisplayLabel(updatedEvent),
   });
@@ -310,8 +308,7 @@ export async function DELETE(request: Request) {
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  const userLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_deleted", {
     date: eventDate,
   });

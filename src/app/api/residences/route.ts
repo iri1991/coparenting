@@ -6,6 +6,7 @@ import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, getMaxResidences, isWithinLimit } from "@/lib/plan";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
 import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { Residence } from "@/types/family";
 
 function toResidence(doc: { _id: unknown; familyId: string; name: string; order?: number | null; createdAt: Date; updatedAt: Date }): Residence {
@@ -102,13 +103,11 @@ export async function POST(request: Request) {
   });
   const doc = await db.collection("residences").findOne({ _id: insertedId });
   const d = doc as unknown as Parameters<typeof toResidence>[0];
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   try {
-    const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
-    await notifyFamilyConfigUpdated(db, familyId, updatedByName);
+    await notifyFamilyConfigUpdated(db, familyId, displayName, `a adăugat locuința „${d.name}".`);
   } catch (_) {}
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-  await logFamilyActivity(db, familyId, session.user.id, userLabel, "residence_added", { name: d.name });
+  await logFamilyActivity(db, familyId, session.user.id, displayName, "residence_added", { name: d.name });
   return NextResponse.json(toResidence(d));
 }
 
@@ -146,13 +145,11 @@ export async function DELETE(request: Request) {
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Locuință negăsită sau nu vă aparține." }, { status: 404 });
   }
+  const resName = (resDoc as { name?: string } | null)?.name ?? "Locuință";
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   try {
-    const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
-    await notifyFamilyConfigUpdated(db, familyId, updatedByName);
+    await notifyFamilyConfigUpdated(db, familyId, displayName, `a șters locuința „${resName}".`);
   } catch (_) {}
-  const resName = (resDoc as { name?: string } | null)?.name;
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-  await logFamilyActivity(db, familyId, session.user.id, userLabel, "residence_deleted", { name: resName ?? "Locuință" });
+  await logFamilyActivity(db, familyId, session.user.id, displayName, "residence_deleted", { name: resName });
   return NextResponse.json({ ok: true });
 }

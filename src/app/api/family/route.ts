@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
 import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { Family } from "@/types/family";
 
 function toFamily(doc: { _id: unknown; createdByUserId: string; memberIds: string[]; parent1Name?: string | null; parent2Name?: string | null; name?: string | null; plan?: string | null; active?: boolean; createdAt: Date; updatedAt: Date }): Family {
@@ -136,13 +137,11 @@ export async function PATCH(request: Request) {
   if (typeof body.parent2Name === "string") update.parent2Name = body.parent2Name.trim() || null;
   if (typeof body.name === "string") update.name = body.name.trim() || null;
   await db.collection("families").updateOne({ _id: oid }, { $set: update });
+  const displayName = await getParentDisplayName(db, oid, session.user.id, session.user.parentType ?? undefined);
   try {
-    const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
-    await notifyFamilyConfigUpdated(db, oid, updatedByName);
+    await notifyFamilyConfigUpdated(db, oid, displayName, "a actualizat datele familiei (nume părinți sau nume familie).");
   } catch (_) {}
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-  await logFamilyActivity(db, oid, session.user.id, userLabel, "family_updated", {});
+  await logFamilyActivity(db, oid, session.user.id, displayName, "family_updated", {});
   const doc = await db.collection("families").findOne({ _id: oid });
   const d = doc as unknown as Parameters<typeof toFamily>[0];
   return NextResponse.json({ family: toFamily(d) });

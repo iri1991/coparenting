@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, canUseDocuments } from "@/lib/plan";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
@@ -97,9 +98,10 @@ export async function POST(request: Request) {
     { _id: childId, familyId },
     { $set: { travelDocuments, updatedAt: now } }
   );
+  const childName = (child as { name?: string }).name ?? "copil";
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   try {
-    const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
-    await notifyFamilyConfigUpdated(db, familyId, updatedByName);
+    await notifyFamilyConfigUpdated(db, familyId, displayName, `a adăugat documentul „${docName}" la copilul ${childName}.`);
   } catch (_) {}
   return NextResponse.json({ id: String(insertedId), name: docName });
 }

@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 
 async function getFamilyIdForUser(db: Awaited<ReturnType<typeof getDb>>, userId: string): Promise<ObjectId | null> {
   const user = await db.collection("users").findOne(
@@ -100,6 +101,8 @@ export async function DELETE(
   const childId = (doc as unknown as { childId: ObjectId }).childId;
   await db.collection("child_documents").deleteOne({ _id: oid });
   const child = await db.collection("children").findOne({ _id: childId, familyId });
+  const docName = (doc as { name?: string }).name ?? "document";
+  const childName = child ? (child as { name?: string }).name ?? "copil" : "copil";
   if (child) {
     const list = ((child as { travelDocuments?: { id: string; name: string }[] }).travelDocuments || []).filter(
       (t) => String(t.id) !== id
@@ -109,9 +112,9 @@ export async function DELETE(
       { $set: { travelDocuments: list, updatedAt: new Date() } }
     );
   }
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   try {
-    const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
-    await notifyFamilyConfigUpdated(db, familyId, updatedByName);
+    await notifyFamilyConfigUpdated(db, familyId, displayName, `a șters documentul „${docName}" de la copilul ${childName}.`);
   } catch (_) {}
   return NextResponse.json({ ok: true });
 }

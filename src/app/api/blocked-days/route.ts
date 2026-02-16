@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, canAddBlockedDayThisMonth } from "@/lib/plan";
 import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
 
@@ -123,9 +124,8 @@ export async function POST(request: Request) {
     createdAt: now,
   });
   const doc = await db.collection("blocked_periods").findOne({ _id: insertedId });
-  const userLabel =
-    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-  await logFamilyActivity(db, familyId, session.user.id, userLabel, "blocked_period_added", {
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(db, familyId, session.user.id, displayName, "blocked_period_added", {
     startDate: start,
     endDate: end,
   });
@@ -167,9 +167,8 @@ export async function DELETE(request: Request) {
   }
   if (session.user.familyId) {
     const familyId = new ObjectId(session.user.familyId);
-    const userLabel =
-      session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
-    await logFamilyActivity(db, familyId, session.user.id, userLabel, "blocked_period_deleted", {});
+    const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+    await logFamilyActivity(db, familyId, session.user.id, displayName, "blocked_period_deleted", {});
   }
   return NextResponse.json({ ok: true });
 }

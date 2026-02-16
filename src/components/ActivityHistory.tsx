@@ -6,39 +6,61 @@ import { ro } from "date-fns/locale";
 import type { ActivityEntry, ActivityAction } from "@/lib/activity";
 import { Calendar, UserPlus, Home, Users, FileText, Ban, CheckCircle } from "lucide-react";
 
-const ACTION_LABELS: Record<ActivityAction, string> = {
-  event_created: "A adăugat un eveniment",
-  event_updated: "A modificat un eveniment",
-  event_deleted: "A șters un eveniment",
-  child_added: "A adăugat copilul",
-  child_updated: "A actualizat copilul",
-  child_deleted: "A șters copilul",
-  residence_added: "A adăugat locuința",
-  residence_deleted: "A șters locuința",
-  family_updated: "A actualizat configurarea familiei",
-  proposal_applied: "A aplicat programul săptămânii",
-  member_joined: "S-a alăturat familiei",
-  blocked_period_added: "A adăugat o perioadă blocată",
-  blocked_period_deleted: "A șters o perioadă blocată",
-};
-
-function formatDetail(action: ActivityAction, payload: ActivityEntry["payload"]): string | null {
-  if (action === "event_created" || action === "event_updated" || action === "event_deleted") {
-    const parts: string[] = [];
-    if (payload.date) parts.push(payload.date);
-    if (payload.label) parts.push(payload.label);
-    return parts.length ? parts.join(" – ") : null;
+/** Propoziție completă: [Cine] [acțiune] [detalii]. */
+function fullActionSentence(
+  userLabel: string,
+  action: ActivityAction,
+  payload: ActivityEntry["payload"]
+): string {
+  const who = userLabel.trim() || "Utilizator";
+  switch (action) {
+    case "event_created": {
+      const d = payload.date && payload.label ? `${payload.date} – ${payload.label}` : payload.date || payload.label || "eveniment";
+      return `${who} a adăugat evenimentul: ${d}.`;
+    }
+    case "event_updated": {
+      const d = payload.date && payload.label ? `${payload.date} – ${payload.label}` : payload.date || payload.label || "eveniment";
+      return `${who} a modificat evenimentul: ${d}.`;
+    }
+    case "event_deleted": {
+      const d = payload.date || payload.label || "eveniment";
+      return `${who} a șters evenimentul: ${d}.`;
+    }
+    case "child_added": {
+      const n = typeof payload.name === "string" ? payload.name : "copil";
+      return `${who} a adăugat copilul ${n}.`;
+    }
+    case "child_updated": {
+      const n = typeof payload.name === "string" ? payload.name : "copil";
+      return `${who} a actualizat datele copilului ${n}.`;
+    }
+    case "child_deleted": {
+      const n = typeof payload.name === "string" ? payload.name : "copil";
+      return `${who} a șters copilul ${n}.`;
+    }
+    case "residence_added": {
+      const n = typeof payload.name === "string" ? payload.name : "locuință";
+      return `${who} a adăugat locuința „${n}".`;
+    }
+    case "residence_deleted": {
+      const n = typeof payload.name === "string" ? payload.name : "locuință";
+      return `${who} a șters locuința „${n}".`;
+    }
+    case "family_updated":
+      return `${who} a actualizat datele familiei.`;
+    case "proposal_applied":
+      return payload.weekLabel ? `${who} a aplicat programul pentru ${payload.weekLabel}.` : `${who} a aplicat programul săptămânii.`;
+    case "member_joined":
+      return `${who} s-a alăturat familiei.`;
+    case "blocked_period_added":
+      return payload.startDate && payload.endDate
+        ? `${who} a adăugat perioada blocată ${payload.startDate} – ${payload.endDate}.`
+        : `${who} a adăugat o perioadă blocată.`;
+    case "blocked_period_deleted":
+      return `${who} a șters o perioadă blocată.`;
+    default:
+      return `${who} – acțiune în aplicație.`;
   }
-  if (action === "child_added" || action === "child_updated" || action === "child_deleted") {
-    return typeof payload.name === "string" ? payload.name : null;
-  }
-  if (action === "residence_added" || action === "residence_deleted") {
-    return typeof payload.name === "string" ? payload.name : null;
-  }
-  if (action === "proposal_applied" && payload.weekLabel) {
-    return String(payload.weekLabel);
-  }
-  return null;
 }
 
 function iconForAction(action: ActivityAction) {
@@ -125,23 +147,16 @@ export function ActivityHistory() {
       />
       <ul className="space-y-0">
         {entries.map((entry) => {
-          const detail = formatDetail(entry.action, entry.payload);
+          const sentence = fullActionSentence(entry.userLabel, entry.action, entry.payload);
           return (
             <li key={entry.id} className="relative flex gap-4 pb-6 last:pb-0">
               <span className="relative z-10 flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-600 shadow-sm">
                 {iconForAction(entry.action)}
               </span>
               <div className="min-w-0 flex-1 pt-0.5">
-                <p className="text-sm font-medium text-stone-800 dark:text-stone-100">
-                  <span className="text-amber-700 dark:text-amber-300">{entry.userLabel}</span>
-                  {" · "}
-                  {ACTION_LABELS[entry.action] ?? entry.action}
+                <p className="text-sm font-medium text-stone-800 dark:text-stone-100 leading-snug">
+                  {sentence}
                 </p>
-                {detail && (
-                  <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400 truncate">
-                    {detail}
-                  </p>
-                )}
                 <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
                   {format(parseISO(entry.createdAt), "d MMM yyyy, HH:mm", { locale: ro })}
                 </p>

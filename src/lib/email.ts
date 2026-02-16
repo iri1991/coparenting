@@ -132,11 +132,13 @@ import type { Db } from "mongodb";
 /**
  * Notifică toți membrii familiei pe email când configurarea a fost actualizată.
  * Apelat după PATCH family, POST/PATCH/DELETE children, POST/DELETE residences, documente.
+ * @param actionDetail - acțiunea concretă (ex: "a adăugat copilul Maria", "a șters locuința X")
  */
 export async function notifyFamilyConfigUpdated(
   db: Db,
   familyId: import("mongodb").ObjectId,
-  updatedByName?: string | null
+  updatedByName?: string | null,
+  actionDetail?: string | null
 ): Promise<void> {
   const family = await db.collection("families").findOne({ _id: familyId });
   const memberIds = (family as { memberIds?: unknown[] } | null)?.memberIds ?? [];
@@ -149,8 +151,11 @@ export async function notifyFamilyConfigUpdated(
     .filter((e): e is string => typeof e === "string" && e.length > 0);
   if (emails.length === 0) return;
   const who = updatedByName?.trim() || "Un părinte";
+  const actionSentence = actionDetail?.trim()
+    ? `${who} ${actionDetail}`
+    : `Configurarea familiei a fost actualizată de ${who}.`;
   const content = `
-    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">Configurarea familiei a fost actualizată de <strong>${who}</strong>.</p>
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${actionSentence}</p>
     <p style="margin: 0 0 8px; font-size: 15px; color: ${BRAND.textMuted};">Verifică în aplicație pentru detalii.</p>
     ${emailButtonHtml(baseUrl, "Deschide aplicația")}
   `;
@@ -158,6 +163,6 @@ export async function notifyFamilyConfigUpdated(
     to: emails,
     subject: "HomeSplit – Configurare actualizată",
     html: wrapEmailHtml(content),
-    text: `Configurarea familiei a fost actualizată de ${who}. Verifică în aplicație: ${baseUrl}`,
+    text: `${actionSentence} Verifică în aplicație: ${baseUrl}`,
   });
 }
