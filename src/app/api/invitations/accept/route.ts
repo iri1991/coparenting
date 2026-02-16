@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   if (!inv) {
     return NextResponse.json({ error: "Invitație invalidă sau deja folosită." }, { status: 400 });
   }
-  const invDoc = inv as { expiresAt: Date; familyId: ObjectId; email: string };
+  const invDoc = inv as unknown as { expiresAt: Date; familyId: ObjectId; email: string };
   if (new Date() > new Date(invDoc.expiresAt)) {
     await db.collection("invitations").updateOne(
       { _id: inv._id },

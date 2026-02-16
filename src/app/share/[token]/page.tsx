@@ -64,9 +64,9 @@ export default async function SharePage({
   const parent2Name =
     (family as { parent2Name?: string }).parent2Name?.trim() || "Părinte 2";
   const familyName = (family as { name?: string }).name?.trim();
-  const residenceNames = (residenceDocs as { name: string }[]).map((r) => r.name);
+  const residenceNames = (residenceDocs as unknown as { name: string }[]).map((r) => r.name);
 
-  const events: ShareDayEvent[] = (eventDocs as {
+  const events: ShareDayEvent[] = (eventDocs as unknown as {
     _id: unknown;
     date: string;
     type?: string | null;

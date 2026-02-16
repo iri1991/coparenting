@@ -104,13 +104,18 @@ export async function sendEmail({ to, subject, html, text }: SendEmailOptions): 
     return false;
   }
   try {
-    const { error } = await resend.emails.send({
+    const htmlBody = html ?? (text ? text.replace(/\n/g, "<br>") : undefined);
+    const payload = {
       from,
       to: Array.isArray(to) ? to : [to],
       subject,
-      html: html ?? (text ? text.replace(/\n/g, "<br>") : undefined),
-      text,
-    });
+      ...(htmlBody ? { html: htmlBody } : {}),
+      ...(text ? { text } : {}),
+    };
+    if (!payload.html && !payload.text) return false;
+    const { error } = await resend.emails.send(
+      payload as Parameters<Resend["emails"]["send"]>[0]
+    );
     if (error) {
       console.error("[email] Resend error", error);
       return false;

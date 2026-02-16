@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
-import { getFamilyPlan, isWithinLimit } from "@/lib/plan";
+import { getFamilyPlan, getMaxResidences, isWithinLimit } from "@/lib/plan";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
 import type { Residence } from "@/types/family";
 

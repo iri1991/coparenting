@@ -96,7 +96,7 @@ export default async function HomePage() {
   const familyData = family as { parent1Name?: string; parent2Name?: string };
   const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
   const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
-  const childName = (children as { name: string }[])[0]?.name || "copilul";
+  const childName = (children as unknown as { name: string }[])[0]?.name || "copilul";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 flex flex-col">
@@ -111,7 +111,7 @@ export default async function HomePage() {
         parent1Name={parent1Name}
         parent2Name={parent2Name}
         childName={childName}
-        residenceNames={(residences as { name: string }[]).map((r) => r.name)}
+        residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
         initialUnreadCount={chatUnreadCount}
         isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
       />

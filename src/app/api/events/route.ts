@@ -284,7 +284,7 @@ export async function DELETE(request: Request) {
   if (!existing) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
-  const eventDate = (existing as { date: string }).date;
+  const eventDate = (existing as unknown as { date: string }).date;
   const todayStr = new Date().toISOString().slice(0, 10);
   if (eventDate < todayStr) {
     return NextResponse.json(

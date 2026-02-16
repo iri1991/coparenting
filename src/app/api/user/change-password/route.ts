@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   if (!user?.passwordHash) {
     return NextResponse.json({ error: "Cont negăsit." }, { status: 404 });
   }
-  const ok = await bcrypt.compare(currentPassword, (user as { passwordHash: string }).passwordHash);
+  const ok = await bcrypt.compare(currentPassword, (user as unknown as { passwordHash: string }).passwordHash);
   if (!ok) {
     return NextResponse.json({ error: "Parola curentă este incorectă." }, { status: 400 });
   }

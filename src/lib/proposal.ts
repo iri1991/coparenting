@@ -52,7 +52,7 @@ export async function generateProposalForWeek(
     .collection("blocked_periods")
     .find({ familyId })
     .toArray();
-  const blockList = (blocks as { userId: string; parentType: string; startDate: string; endDate: string }[]).map(
+  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map(
     (b) => ({ userId: b.userId, parentType: b.parentType, startDate: b.startDate, endDate: b.endDate })
   );
 

@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: (user as { name?: string }).name ?? undefined,
           parentType: (user as { parentType?: "tata" | "mama" }).parentType ?? undefined,
-          familyId: (user as { familyId?: unknown }).familyId != null ? String((user as { familyId: unknown }).familyId) : undefined,
+          familyId: (user as { familyId?: unknown }).familyId != null ? String((user as { familyId?: unknown }).familyId) : undefined,
         };
       },
     }),

@@ -97,7 +97,7 @@ export async function DELETE(
   if (!doc) {
     return NextResponse.json({ error: "Document negăsit." }, { status: 404 });
   }
-  const childId = (doc as { childId: ObjectId }).childId;
+  const childId = (doc as unknown as { childId: ObjectId }).childId;
   await db.collection("child_documents").deleteOne({ _id: oid });
   const child = await db.collection("children").findOne({ _id: childId, familyId });
   if (child) {
