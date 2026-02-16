@@ -63,5 +63,9 @@ export async function POST(request: Request) {
     { _id: inv._id },
     { $set: { status: "accepted", acceptedAt: now, updatedAt: now } }
   );
+  const { logFamilyActivity } = await import("@/lib/activity");
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Membru nou";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "member_joined", {});
   return NextResponse.json({ ok: true });
 }

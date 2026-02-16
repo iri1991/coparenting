@@ -4,8 +4,10 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { addDays } from "date-fns";
 import { sendBlockedDayAttemptNotification, sendNewEventNotification, sendEventUpdatedNotification } from "@/lib/notify";
+import { logFamilyActivity } from "@/lib/activity";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
+import { getEventDisplayLabel } from "@/types/events";
 
 function deriveFromType(
   type: string
@@ -165,6 +167,12 @@ export async function POST(request: Request) {
   } catch (_) {
     // nu blochează răspunsul dacă notificarea eșuează
   }
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_created", {
+    date: dateStr,
+    label: getEventDisplayLabel(createdEvent),
+  });
   return NextResponse.json(createdEvent);
 }
 
@@ -255,6 +263,12 @@ export async function PATCH(request: Request) {
       // nu blochează răspunsul
     }
   }
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_updated", {
+    date: finalDate,
+    label: getEventDisplayLabel(updatedEvent),
+  });
   return NextResponse.json(updatedEvent);
 }
 
@@ -296,5 +310,10 @@ export async function DELETE(request: Request) {
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_deleted", {
+    date: eventDate,
+  });
   return NextResponse.json({ ok: true });
 }

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { AppLogo } from "@/components/AppLogo";
 import { AccountClient } from "@/components/AccountClient";
 import { ConfigClient } from "@/components/ConfigClient";
-import { User, Settings } from "lucide-react";
+import { User, Settings, History } from "lucide-react";
+import { ActivityHistory } from "@/components/ActivityHistory";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -32,7 +33,7 @@ export function AccountPageShell({
   configData,
   currentUserId,
 }: AccountPageShellProps) {
-  const [activeTab, setActiveTab] = useState<"cont" | "config">("cont");
+  const [activeTab, setActiveTab] = useState<"cont" | "config" | "istoric">("cont");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -59,7 +60,11 @@ export function AccountPageShell({
                 Cont și date
               </h1>
               <p className="text-stone-500 dark:text-stone-400 text-xs">
-                {activeTab === "cont" ? "Profil, parolă, export" : "Configurare familie"}
+                {activeTab === "cont"
+                  ? "Profil, parolă, export"
+                  : activeTab === "config"
+                    ? "Configurare familie"
+                    : "Istoric acțiuni"}
               </p>
             </div>
           </div>
@@ -99,6 +104,22 @@ export function AccountPageShell({
                 Configurare
               </button>
             )}
+            {configData && (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "istoric"}
+                onClick={() => setActiveTab("istoric")}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                  activeTab === "istoric"
+                    ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 shadow-sm"
+                    : "text-stone-600 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200"
+                }`}
+              >
+                <History className="w-4 h-4 shrink-0" />
+                Istoric
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -131,6 +152,14 @@ export function AccountPageShell({
                 currentUserId={currentUserId}
                 plan={configData.plan}
               />
+            </div>
+          )}
+          {activeTab === "istoric" && (
+            <div className="animate-in fade-in duration-200">
+              <p className="text-sm text-stone-500 dark:text-stone-400 mb-6">
+                Ultimele acțiuni ale tale și ale celuilalt părinte în aplicație.
+              </p>
+              <ActivityHistory />
             </div>
           )}
         </main>

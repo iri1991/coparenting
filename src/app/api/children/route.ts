@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, getMaxChildren, isWithinLimit } from "@/lib/plan";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
+import { logFamilyActivity } from "@/lib/activity";
 import type { Child, TravelDocumentRef } from "@/types/family";
 
 function toChild(doc: {
@@ -122,6 +123,9 @@ export async function POST(request: Request) {
     const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
     await notifyFamilyConfigUpdated(db, familyId, updatedByName);
   } catch (_) {}
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "child_added", { name: d.name });
   return NextResponse.json(toChild(d));
 }
 
@@ -154,6 +158,7 @@ export async function DELETE(request: Request) {
   } catch {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
+  const childDoc = await db.collection("children").findOne({ _id: oid, familyId }, { projection: { name: 1 } });
   const result = await db.collection("children").deleteOne({ _id: oid, familyId });
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Copil negăsit sau nu vă aparține." }, { status: 404 });
@@ -162,6 +167,10 @@ export async function DELETE(request: Request) {
     const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
     await notifyFamilyConfigUpdated(db, familyId, updatedByName);
   } catch (_) {}
+  const childName = (childDoc as { name?: string } | null)?.name;
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "child_deleted", { name: childName ?? "Copil" });
   return NextResponse.json({ ok: true });
 }
 
@@ -212,5 +221,8 @@ export async function PATCH(request: Request) {
     const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
     await notifyFamilyConfigUpdated(db, familyId, updatedByName);
   } catch (_) {}
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "child_updated", { name: d.name });
   return NextResponse.json(toChild(d));
 }

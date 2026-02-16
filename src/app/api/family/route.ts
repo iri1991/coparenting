@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
+import { logFamilyActivity } from "@/lib/activity";
 import type { Family } from "@/types/family";
 
 function toFamily(doc: { _id: unknown; createdByUserId: string; memberIds: string[]; parent1Name?: string | null; parent2Name?: string | null; name?: string | null; plan?: string | null; active?: boolean; createdAt: Date; updatedAt: Date }): Family {
@@ -139,6 +140,9 @@ export async function PATCH(request: Request) {
     const updatedByName = session.user.name?.trim() || session.user.email?.split("@")[0] || null;
     await notifyFamilyConfigUpdated(db, oid, updatedByName);
   } catch (_) {}
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, oid, session.user.id, userLabel, "family_updated", {});
   const doc = await db.collection("families").findOne({ _id: oid });
   const d = doc as unknown as Parameters<typeof toFamily>[0];
   return NextResponse.json({ family: toFamily(d) });

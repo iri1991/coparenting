@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, canAddBlockedDayThisMonth } from "@/lib/plan";
+import { logFamilyActivity } from "@/lib/activity";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
 
@@ -122,6 +123,12 @@ export async function POST(request: Request) {
     createdAt: now,
   });
   const doc = await db.collection("blocked_periods").findOne({ _id: insertedId });
+  const userLabel =
+    session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+  await logFamilyActivity(db, familyId, session.user.id, userLabel, "blocked_period_added", {
+    startDate: start,
+    endDate: end,
+  });
   return NextResponse.json(toBlock(doc as Parameters<typeof toBlock>[0]));
 }
 
@@ -157,6 +164,12 @@ export async function DELETE(request: Request) {
   const result = await db.collection("blocked_periods").deleteOne(filter);
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Perioadă negăsită sau nu ți se aparține." }, { status: 404 });
+  }
+  if (session.user.familyId) {
+    const familyId = new ObjectId(session.user.familyId);
+    const userLabel =
+      session.user.parentType === "tata" ? "Tata" : session.user.parentType === "mama" ? "Mama" : session.user.name?.trim() || session.user.email?.split("@")[0] || "Utilizator";
+    await logFamilyActivity(db, familyId, session.user.id, userLabel, "blocked_period_deleted", {});
   }
   return NextResponse.json({ ok: true });
 }
