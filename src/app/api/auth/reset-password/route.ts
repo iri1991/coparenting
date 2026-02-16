@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const email = (doc as { email: string }).email;
+  const email = (doc as unknown as { email: string }).email;
   const passwordHash = await bcrypt.hash(newPassword, 10);
   await db.collection("users").updateOne(
     { email },
