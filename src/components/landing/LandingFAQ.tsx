@@ -34,14 +34,28 @@ const FAQ_ITEMS = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
 export function LandingFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="intrebari" className="py-16 sm:py-24">
+    <section id="intrebari" className="py-16 sm:py-24" aria-labelledby="faq-heading">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
+          <h2 id="faq-heading" className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
             Întrebări frecvente
           </h2>
         </AnimateOnScroll>

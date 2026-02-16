@@ -12,6 +12,7 @@ import {
   LandingWhyUs,
   LandingSecurity,
 } from "./LandingSections";
+import { LandingGeoSection } from "./LandingGeoSection";
 import { LandingPricing } from "./LandingPricing";
 import { LandingFAQ } from "./LandingFAQ";
 import { LandingFinalCTA } from "./LandingFinalCTA";
@@ -23,6 +24,7 @@ export function LandingPage() {
       <LandingHeader />
       <main>
         <LandingHero />
+        <LandingGeoSection />
         <LandingSocialProof />
         <LandingProblemSolution />
         <LandingFeatures />

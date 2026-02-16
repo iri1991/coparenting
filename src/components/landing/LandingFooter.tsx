@@ -5,6 +5,7 @@ import Image from "next/image";
 
 const FOOTER_LINKS = {
   produs: [
+    { label: "Ce este HomeSplit?", href: "#ce-este-homesplit" },
     { label: "Funcționalități", href: "#functionalitati" },
     { label: "Web app", href: "#web-app" },
     { label: "Prețuri", href: "#preturi" },
