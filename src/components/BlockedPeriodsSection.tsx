@@ -57,7 +57,7 @@ export function BlockedPeriodsSection({ onAddClick }: BlockedPeriodsSectionProps
           <p className="text-sm text-stone-400">Se încarcă…</p>
         ) : list.length === 0 ? (
           <p className="text-sm text-stone-500 dark:text-stone-400">
-            Nu ai perioade blocate. Adaugă când ești plecat ca să nu se programeze zile cu Eva în acele zile.
+            Nu ai perioade blocate. Adaugă când ești plecat ca să nu se programeze zile cu copilul în acele zile.
           </p>
         ) : (
           <ul className="space-y-2">

@@ -4,8 +4,8 @@ import { format, startOfWeek, endOfWeek, addDays, isToday, isSameDay } from "dat
 import { ro } from "date-fns/locale";
 import { MessageSquare } from "lucide-react";
 import type { ScheduleEvent } from "@/types/events";
-import { getEventShortLabel } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
+import { useFamilyLabels, getEventShortLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 
 const WEEKDAY_LETTERS = ["Lu", "Ma", "Mi", "Jo", "Vi", "Sâ", "Du"];
 
@@ -20,6 +20,8 @@ export function WeekSummary({
   onSelectDay,
   selectedDate,
 }: WeekSummaryProps) {
+  const labels = useFamilyLabels();
+  const getShortLabel = (e: ScheduleEvent) => getEventShortLabelWithLabels(e, labels);
   const now = new Date();
   const weekStart = startOfWeek(now, { weekStartsOn: 1 });
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
@@ -90,13 +92,13 @@ export function WeekSummary({
                   {first ? (
                     <>
                       <span className="mb-1 flex items-center justify-center">
-                        <ParentIcon parent={first.parent} size={20} aria-label={getEventShortLabel(first)} />
+                        <ParentIcon parent={first.parent} size={20} aria-label={getShortLabel(first)} />
                       </span>
                       <span className="text-[11px] leading-snug text-stone-600 dark:text-stone-300 text-center font-medium line-clamp-2 break-words w-full px-0.5">
                         {first.title ? (
                           first.title
                         ) : (
-                          getEventShortLabel(first)
+                          getShortLabel(first)
                         )}
                       </span>
                       {dayEvents.length > 1 && (

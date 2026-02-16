@@ -1,4 +1,4 @@
-/** Cu cine e Eva */
+/** Cu cine e copilul */
 export type ParentType = "tata" | "mama" | "together";
 
 /** Locație */
@@ -7,7 +7,7 @@ export type LocationType = "tunari" | "otopeni" | "other";
 export interface ScheduleEvent {
   id: string;
   date: string; // YYYY-MM-DD
-  /** Cu cine e Eva */
+  /** Cu cine e copilul */
   parent: ParentType;
   /** Locație */
   location: LocationType;
@@ -23,7 +23,7 @@ export interface ScheduleEvent {
   type?: string;
 }
 
-/** Numele afișat pentru fiecare părinte (Irinel = tata, Andreea = mama) */
+/** Numele afișat pentru fiecare părinte (implicit; în UI se folosesc numele din familia utilizatorului) */
 export const PARENT_LABELS: Record<ParentType, string> = {
   tata: "Irinel",
   mama: "Andreea",
@@ -49,14 +49,14 @@ export function getEventDisplayLabel(event: ScheduleEvent): string {
     event.location === "other" && event.locationLabel?.trim()
       ? event.locationLabel.trim()
       : LOCATION_LABELS[event.location];
-  return `Eva cu ${parent}, ${loc}`;
+  return `Copil cu ${parent}, ${loc}`;
 }
 
 export function getEventColor(event: ScheduleEvent): string {
   return PARENT_COLORS[event.parent];
 }
 
-/** Etichetă scurtă pentru sumar săptămână / celule mici (fără „Eva cu”, fără truncare) */
+/** Etichetă scurtă pentru sumar săptămână / celule mici (fără „copil cu”, fără truncare) */
 export function getEventShortLabel(event: ScheduleEvent): string {
   const parent = PARENT_LABELS[event.parent];
   const loc =

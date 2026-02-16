@@ -5,13 +5,15 @@ import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval, par
 import { ro } from "date-fns/locale";
 import { Calendar } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
+import { MonthEventsTimeline } from "@/components/MonthEventsTimeline";
 import { AddEventModal } from "@/components/AddEventModal";
 import { EventViewModal } from "@/components/EventViewModal";
 import { WeekSummary } from "@/components/WeekSummary";
 import { BlockedDaysModal } from "@/components/BlockedDaysModal";
+import { WeeklyProposalCard } from "@/components/WeeklyProposalCard";
 import type { ScheduleEvent } from "@/types/events";
-import { PARENT_LABELS } from "@/types/events";
 import type { BlockedPeriod } from "@/types/blocked";
+import { FamilyLabelsProvider } from "@/contexts/FamilyLabelsContext";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -27,12 +29,15 @@ interface DashboardClientProps {
   initialEvents: ScheduleEvent[];
   currentUserId?: string;
   userName?: string;
+  parent1Name?: string;
+  parent2Name?: string;
+  childName?: string;
+  residenceNames?: string[];
   /** When provided (e.g. from header), modals are controlled by parent */
   modalOpen?: boolean;
   setModalOpen?: (open: boolean) => void;
   blockedDaysModalOpen?: boolean;
   setBlockedDaysModalOpen?: (open: boolean) => void;
-  /** Called with a function that opens the add-event modal (new, no edit). Used by header. */
   registerOpenAddModal?: (fn: (() => void) | null) => void;
 }
 
@@ -44,6 +49,10 @@ export function DashboardClient({
   initialEvents,
   currentUserId,
   userName,
+  parent1Name = "Părinte 1",
+  parent2Name = "Părinte 2",
+  childName = "copilul",
+  residenceNames = ["Tunari", "Otopeni"],
   modalOpen: modalOpenProp,
   setModalOpen: setModalOpenProp,
   blockedDaysModalOpen: blockedDaysModalOpenProp,
@@ -66,6 +75,14 @@ export function DashboardClient({
   const setModalOpen = setModalOpenProp ?? setInternalModalOpen;
   const blockedDaysModalOpen = blockedDaysModalOpenProp ?? internalBlockedDaysModalOpen;
   const setBlockedDaysModalOpen = setBlockedDaysModalOpenProp ?? setInternalBlockedDaysModalOpen;
+
+  const todayStr = format(new Date(), "yyyy-MM-dd");
+  const canEditEvent = useCallback((e: ScheduleEvent) => e.date >= todayStr, [todayStr]);
+
+  // La montare, asigură-te că modalul de adăugare e închis (evită deschidere la navigare/încărcare).
+  useEffect(() => {
+    setModalOpen(false);
+  }, []);
 
   useEffect(() => {
     registerOpenAddModal?.(() => {
@@ -260,11 +277,11 @@ export function DashboardClient({
   }, [events, parentType]);
 
   const greetingName =
-    parentType != null ? PARENT_LABELS[parentType] : capitalize(userName || "acolo");
+    parentType === "tata" ? parent1Name : parentType === "mama" ? parent2Name : capitalize(userName || "acolo");
   const daysLabel = daysThisWeekWithEvents === 1 ? "zi" : "zile";
   const greeting =
     !profileLoading && parentType != null
-      ? `Salut ${greetingName}, săptămâna asta petreci ${daysThisWeekWithEvents} ${daysLabel} cu Eva.`
+      ? `Salut ${greetingName}, săptămâna asta petreci ${daysThisWeekWithEvents} ${daysLabel} cu ${childName}.`
       : null;
 
   const setParentType = useCallback(
@@ -283,11 +300,18 @@ export function DashboardClient({
   );
 
   return (
+    <FamilyLabelsProvider
+      parent1Name={parent1Name}
+      parent2Name={parent2Name}
+      childName={childName}
+      residenceNames={residenceNames}
+    >
     <div className="space-y-6">
+      <WeeklyProposalCard onApplied={fetchEvents} />
       {!profileLoading && !parentType && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
           <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
-            Ești Irinel sau Andreea?
+            Ești {parent1Name} sau {parent2Name}?
           </p>
           <div className="flex gap-3">
             <button
@@ -295,14 +319,14 @@ export function DashboardClient({
               onClick={() => setParentType("tata")}
               className="flex-1 py-2.5 px-4 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-[0.98] touch-manipulation"
             >
-              Irinel
+              {parent1Name}
             </button>
             <button
               type="button"
               onClick={() => setParentType("mama")}
               className="flex-1 py-2.5 px-4 rounded-xl bg-pink-500 text-white font-medium hover:bg-pink-600 active:scale-[0.98] touch-manipulation"
             >
-              Andreea
+              {parent2Name}
             </button>
           </div>
         </div>
@@ -364,30 +388,49 @@ export function DashboardClient({
             </button>
           )}
         </div>
-        <EventList
-          key={selectedDate ? selectedDate.toISOString() : format(currentDate, "yyyy-MM")}
-          events={eventsForRangeOrMonth}
-          onView={(e) => {
-            setViewEvent(e);
-            setEditEvent(null);
-          }}
-          onEdit={(e) => {
-            setEditEvent(e);
-            setViewEvent(null);
-            setModalOpen(true);
-          }}
-          onDelete={handleDelete}
-          emptyMessage={
-            selectedDate
-              ? "Niciun eveniment în această zi. Apasă Adaugă pentru a crea unul."
-              : "Niciun eveniment în această lună."
-          }
-        />
+        {selectedDate ? (
+          <EventList
+            key={selectedDate.toISOString()}
+            events={eventsForRangeOrMonth}
+            onView={(e) => {
+              setViewEvent(e);
+              setEditEvent(null);
+            }}
+            onEdit={(e) => {
+              setEditEvent(e);
+              setViewEvent(null);
+              setModalOpen(true);
+            }}
+            onDelete={handleDelete}
+            canEditEvent={canEditEvent}
+            emptyMessage="Niciun eveniment în această zi. Apasă Adaugă pentru a crea unul."
+          />
+        ) : (
+          <MonthEventsTimeline
+            key={format(currentDate, "yyyy-MM")}
+            events={eventsForRangeOrMonth}
+            currentDate={currentDate}
+            onView={(e) => {
+              setViewEvent(e);
+              setEditEvent(null);
+            }}
+            onEdit={(e) => {
+              setEditEvent(e);
+              setViewEvent(null);
+              setModalOpen(true);
+            }}
+            onDelete={handleDelete}
+            canEditEvent={canEditEvent}
+            onSelectDate={handleSelectDate}
+            emptyMessage="Niciun eveniment în această lună."
+          />
+        )}
       </div>
       <EventViewModal
         isOpen={!!viewEvent}
         onClose={() => setViewEvent(null)}
         event={viewEvent}
+        canEdit={viewEvent != null && viewEvent.date >= todayStr}
         blockedPeriods={blockedPeriods}
         onEdit={(e) => {
           setEditEvent(e);
@@ -414,5 +457,6 @@ export function DashboardClient({
         onBlockedChanged={fetchBlockedPeriods}
       />
     </div>
+    </FamilyLabelsProvider>
   );
 }

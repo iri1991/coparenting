@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
-import { sendBlockedDayAttemptNotification, sendNewEventNotification } from "@/lib/notify";
+import { addDays } from "date-fns";
+import { sendBlockedDayAttemptNotification, sendNewEventNotification, sendEventUpdatedNotification } from "@/lib/notify";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
 
@@ -57,10 +59,14 @@ export async function GET() {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+  if (!session.user.familyId) {
+    return NextResponse.json({ events: [] });
+  }
   const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId);
   const docs = await db
     .collection("schedule_events")
-    .find({})
+    .find({ familyId })
     .sort({ date: 1 })
     .toArray();
   const events = docs.map((d) => toEvent(d as Parameters<typeof toEvent>[0]));
@@ -95,6 +101,12 @@ export async function POST(request: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+  if (!session.user.familyId) {
+    return NextResponse.json(
+      { error: "Creați sau aderați la o familie mai întâi (Configurare)." },
+      { status: 400 }
+    );
+  }
   const body = await request.json();
   const { date, parent, location, locationLabel, title, notes, startTime, endTime } = body;
   if (!date || parent == null || location == null) {
@@ -105,10 +117,11 @@ export async function POST(request: Request) {
   }
   const dateStr = String(date).slice(0, 10);
   const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId);
 
   const blocks = await db
     .collection("blocked_periods")
-    .find({})
+    .find({ familyId })
     .toArray();
   const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
     userId: String(b.userId),
@@ -133,6 +146,7 @@ export async function POST(request: Request) {
 
   const now = new Date();
   const { insertedId } = await db.collection("schedule_events").insertOne({
+    familyId,
     date: dateStr,
     parent,
     location,
@@ -172,15 +186,26 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
   const db = await getDb();
-  const current = await db.collection("schedule_events").findOne({ _id: oid });
+  if (!session.user.familyId) {
+    return NextResponse.json({ error: "Neautorizat pentru familie." }, { status: 400 });
+  }
+  const familyId = new ObjectId(session.user.familyId);
+  const current = await db.collection("schedule_events").findOne({ _id: oid, familyId });
   if (!current) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
   const cur = current as unknown as { date: string; parent: string };
+  const todayStr = new Date().toISOString().slice(0, 10);
+  if (cur.date < todayStr) {
+    return NextResponse.json(
+      { error: "Evenimentele din trecut nu pot fi modificate." },
+      { status: 403 }
+    );
+  }
   const finalDate = date != null ? String(date).slice(0, 10) : cur.date;
   const finalParent = (parent != null ? parent : cur.parent) as ParentType;
 
-  const blocks = await db.collection("blocked_periods").find({}).toArray();
+  const blocks = await db.collection("blocked_periods").find({ familyId }).toArray();
   const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
     userId: String(b.userId),
     parentType: b.parentType,
@@ -220,7 +245,17 @@ export async function PATCH(request: Request) {
   if (!result) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
-  return NextResponse.json(toEvent(result as Parameters<typeof toEvent>[0]));
+  const updatedEvent = toEvent(result as Parameters<typeof toEvent>[0]);
+  const threeDaysLater = addDays(new Date(), 3).toISOString().slice(0, 10);
+  if (finalDate >= todayStr && finalDate <= threeDaysLater) {
+    try {
+      const editorLabel = session.user.name?.trim() || session.user.email?.split("@")[0] || "Un părinte";
+      await sendEventUpdatedNotification(db, familyId, updatedEvent, session.user.id, editorLabel);
+    } catch (_) {
+      // nu blochează răspunsul
+    }
+  }
+  return NextResponse.json(updatedEvent);
 }
 
 export async function DELETE(request: Request) {
@@ -241,7 +276,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
   const db = await getDb();
-  const result = await db.collection("schedule_events").deleteOne({ _id: oid });
+  if (!session.user.familyId) {
+    return NextResponse.json({ error: "Neautorizat." }, { status: 400 });
+  }
+  const familyId = new ObjectId(session.user.familyId);
+  const existing = await db.collection("schedule_events").findOne({ _id: oid, familyId }, { projection: { date: 1 } });
+  if (!existing) {
+    return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
+  }
+  const eventDate = (existing as { date: string }).date;
+  const todayStr = new Date().toISOString().slice(0, 10);
+  if (eventDate < todayStr) {
+    return NextResponse.json(
+      { error: "Evenimentele din trecut nu pot fi șterse." },
+      { status: 403 }
+    );
+  }
+  const result = await db.collection("schedule_events").deleteOne({ _id: oid, familyId });
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }

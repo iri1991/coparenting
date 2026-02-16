@@ -1,7 +1,7 @@
 {
-  "name": "Eva & Coparenting",
-  "short_name": "Eva Coparenting",
-  "description": "Planifică zilele cu Eva – Tunari, Otopeni, cu toții.",
+  "name": "HomeSplit",
+  "short_name": "HomeSplit",
+  "description": "Planifică zilele cu copilul – locuințe, părinți, sincronizat.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fffbeb",
@@ -9,15 +9,15 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/logo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon.svg",
+      "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]

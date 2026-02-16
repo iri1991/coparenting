@@ -1,5 +1,5 @@
 self.addEventListener("push", function (event) {
-  let payload = { title: "Eva Coparenting", body: "" };
+  let payload = { title: "HomeSplit", body: "" };
   if (event.data) {
     try {
       payload = event.data.json();
@@ -9,13 +9,13 @@ self.addEventListener("push", function (event) {
   }
   var options = {
     body: payload.body || payload.title,
-    icon: "/icon.svg",
-    badge: "/icon.svg",
-    tag: payload.tag || "evacoparenting",
+    icon: "/logo.png",
+    badge: "/logo.png",
+    tag: payload.tag || "homesplit",
     data: { url: payload.url || "/" },
     requireInteraction: false,
   };
-  event.waitUntil(self.registration.showNotification(payload.title || "Eva", options));
+  event.waitUntil(self.registration.showNotification(payload.title || "HomeSplit", options));
 });
 
 self.addEventListener("notificationclick", function (event) {

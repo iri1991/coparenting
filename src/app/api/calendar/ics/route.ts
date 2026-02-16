@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import {
@@ -43,7 +44,7 @@ function getSummary(doc: {
     location === "other" && doc.locationLabel?.trim()
       ? doc.locationLabel.trim()
       : LOCATION_LABELS[location];
-  return `Eva cu ${parentStr}, ${locStr}`;
+  return `Copil cu ${parentStr}, ${locStr}`;
 }
 
 export async function GET() {
@@ -52,19 +53,24 @@ export async function GET() {
     const url = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
     return NextResponse.redirect(`${url}/login`);
   }
+  if (!session.user.familyId) {
+    const url = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
+    return NextResponse.redirect(`${url}/config`);
+  }
   const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId);
   const docs = await db
     .collection("schedule_events")
-    .find({})
+    .find({ familyId })
     .sort({ date: 1 })
     .toArray();
 
   const lines: string[] = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Eva Coparenting//RO",
+    "PRODID:-//HomeSplit//RO",
     "CALSCALE:GREGORIAN",
-    "X-WR-CALNAME:Eva Coparenting",
+    "X-WR-CALNAME:HomeSplit",
   ];
 
   for (const raw of docs) {
@@ -84,7 +90,7 @@ export async function GET() {
     const desc = [summary, eventDoc.notes].filter(Boolean).join(" – ");
     const hasTime = eventDoc.startTime || eventDoc.endTime;
     lines.push("BEGIN:VEVENT");
-    lines.push(`UID:${String(eventDoc._id)}@evacoparenting`);
+    lines.push(`UID:${String(eventDoc._id)}@homesplit`);
     if (hasTime) {
       const start = eventDoc.startTime ?? "00:00";
       const end = eventDoc.endTime ?? "23:59";
@@ -112,7 +118,7 @@ export async function GET() {
   return new NextResponse(ics, {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="eva-coparenting.ics"',
+      "Content-Disposition": 'attachment; filename="homesplit.ics"',
       "Cache-Control": "no-store",
     },
   });

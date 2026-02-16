@@ -35,10 +35,17 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
   const body = await request.json();
-  const { parentType } = body;
-  if (parentType !== "tata" && parentType !== "mama") {
+  const { parentType, name } = body;
+  const updates: Record<string, unknown> = { updatedAt: new Date() };
+  if (parentType === "tata" || parentType === "mama") {
+    updates.parentType = parentType;
+  }
+  if (typeof name === "string") {
+    updates.name = name.trim() || null;
+  }
+  if (Object.keys(updates).length <= 1) {
     return NextResponse.json(
-      { error: "parentType trebuie să fie 'tata' sau 'mama'" },
+      { error: "Trimite parentType și/sau name pentru actualizare." },
       { status: 400 }
     );
   }
@@ -49,9 +56,9 @@ export async function PATCH(request: Request) {
   } catch {
     return NextResponse.json({ error: "ID invalid" }, { status: 400 });
   }
-  await db.collection("users").updateOne(
-    { _id: oid },
-    { $set: { parentType, updatedAt: new Date() } }
-  );
-  return NextResponse.json({ parentType });
+  await db.collection("users").updateOne({ _id: oid }, { $set: updates });
+  const result: { parentType?: string; name?: string | null } = {};
+  if (updates.parentType) result.parentType = updates.parentType as string;
+  if (Object.prototype.hasOwnProperty.call(updates, "name")) result.name = updates.name as string | null;
+  return NextResponse.json(result);
 }

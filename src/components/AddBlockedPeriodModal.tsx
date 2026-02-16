@@ -88,7 +88,7 @@ export function AddBlockedPeriodModal({
         </div>
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
           <p className="text-sm text-stone-500 dark:text-stone-400">
-            În perioada blocată nu se poate programa niciun eveniment cu Eva (nici cu tine, nici cu celălalt părinte).
+            În perioada blocată nu se poate programa niciun eveniment cu copilul (nici cu tine, nici cu celălalt părinte).
           </p>
           <div>
             <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">

@@ -6,8 +6,8 @@ import { ro } from "date-fns/locale";
 import { Lock, Plus, Trash2, X } from "lucide-react";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
-import { PARENT_LABELS } from "@/types/events";
 import { AddBlockedPeriodModal } from "@/components/AddBlockedPeriodModal";
+import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
 
 type ParentRole = "tata" | "mama";
 
@@ -19,11 +19,6 @@ interface BlockedDaysModalProps {
   onBlockedChanged?: () => void;
 }
 
-const TABS: { key: ParentRole; label: string }[] = [
-  { key: "tata", label: `Zile blocate ${PARENT_LABELS.tata}` },
-  { key: "mama", label: `Zile blocate ${PARENT_LABELS.mama}` },
-];
-
 export function BlockedDaysModal({
   isOpen,
   onClose,
@@ -31,6 +26,11 @@ export function BlockedDaysModal({
   parentType,
   onBlockedChanged,
 }: BlockedDaysModalProps) {
+  const labels = useFamilyLabels();
+  const tabs: { key: ParentRole; label: string }[] = [
+    { key: "tata", label: `Zile blocate ${labels.parentLabels.tata}` },
+    { key: "mama", label: `Zile blocate ${labels.parentLabels.mama}` },
+  ];
   const [activeTab, setActiveTab] = useState<ParentRole>("tata");
   const [allPeriods, setAllPeriods] = useState<BlockedPeriod[]>([]);
   const [loading, setLoading] = useState(false);
@@ -107,7 +107,7 @@ export function BlockedDaysModal({
           </div>
 
           <div className="flex border-b border-stone-200 dark:border-stone-700">
-            {TABS.map(({ key, label }) => (
+            {tabs.map(({ key, label }) => (
               <button
                 key={key}
                 type="button"
@@ -175,7 +175,7 @@ function TabContent({
       <div className="space-y-3">
         <p className="text-sm text-stone-500 dark:text-stone-400">
           Nu ai perioade blocate. Adaugă când ești plecat ca să nu se programeze
-          zile cu Eva în acele zile.
+          zile cu copilul în acele zile.
         </p>
         <button
           type="button"

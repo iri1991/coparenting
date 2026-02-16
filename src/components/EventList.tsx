@@ -4,8 +4,8 @@ import { useState } from "react";
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
-import { getEventDisplayLabel } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
+import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 
 const INITIAL_VISIBLE = 5;
 const EXPAND_BY = 10;
@@ -15,6 +15,8 @@ interface EventListProps {
   onView?: (event: ScheduleEvent) => void;
   onEdit?: (event: ScheduleEvent) => void;
   onDelete?: (event: ScheduleEvent) => void;
+  /** Dacă e fals pentru un eveniment, butoanele Editează/Șterge sunt ascunse (evenimente din trecut). */
+  canEditEvent?: (event: ScheduleEvent) => boolean;
   emptyMessage?: string;
 }
 
@@ -23,9 +25,12 @@ export function EventList({
   onView,
   onEdit,
   onDelete,
+  canEditEvent,
   emptyMessage = "Niciun eveniment în această perioadă.",
 }: EventListProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+  const labels = useFamilyLabels();
+  const getDisplayLabel = (event: ScheduleEvent) => getEventDisplayLabelWithLabels(event, labels);
 
   const sorted = [...events].sort((a, b) => {
     const d = new Date(a.date).getTime() - new Date(b.date).getTime();
@@ -69,11 +74,11 @@ export function EventList({
           className={`flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm ${onView ? "cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation" : ""}`}
         >
           <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-800">
-            <ParentIcon parent={event.parent} size={20} aria-label={getEventDisplayLabel(event)} />
+            <ParentIcon parent={event.parent} size={20} aria-label={getDisplayLabel(event)} />
           </span>
           <div className="flex-1 min-w-0">
             <p className="font-medium text-stone-800 dark:text-stone-100 truncate">
-              {event.title || getEventDisplayLabel(event)}
+              {event.title || getDisplayLabel(event)}
             </p>
             <p className="text-sm text-stone-500 dark:text-stone-400">
               {format(parseISO(event.date), "EEEE, d MMMM", { locale: ro })}
@@ -95,32 +100,34 @@ export function EventList({
               </p>
             )}
           </div>
-          <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
-            {onEdit && (
-              <button
-                type="button"
-                onClick={() => onEdit(event)}
-                className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 touch-manipulation"
-                aria-label="Editează"
-              >
-                <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </button>
-            )}
-            {onDelete && (
-              <button
-                type="button"
-                onClick={() => onDelete(event)}
-                className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 active:scale-95 touch-manipulation"
-                aria-label="Șterge"
-              >
-                <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            )}
-          </div>
+          {(onEdit || onDelete) && (canEditEvent == null || canEditEvent(event)) && (
+            <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
+              {onEdit && (
+                <button
+                  type="button"
+                  onClick={() => onEdit(event)}
+                  className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 touch-manipulation"
+                  aria-label="Editează"
+                >
+                  <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  type="button"
+                  onClick={() => onDelete(event)}
+                  className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 active:scale-95 touch-manipulation"
+                  aria-label="Șterge"
+                >
+                  <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          )}
         </li>
       ))}
     </ul>

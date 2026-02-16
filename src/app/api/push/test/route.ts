@@ -18,7 +18,7 @@ export async function POST() {
     return NextResponse.json({ error: "Niciun abonament push pentru acest utilizator." }, { status: 404 });
   }
   await sendPushToSubscriptions(subs, {
-    title: "Eva Coparenting",
+    title: "HomeSplit",
     body: "Notificări activate. Vei primi alerte pentru evenimente noi și reminder seara.",
     url: "/",
   });

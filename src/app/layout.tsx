@@ -14,10 +14,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Eva & Coparenting",
-  description: "Planifică zilele cu Eva – Tunari, Otopeni, cu toții. Simplu și sincronizat.",
+  title: "HomeSplit",
+  description: "Planifică zilele cu copilul – locuințe, părinți, sincronizat. HomeSplit.",
   manifest: "/manifest.json",
-  appleWebApp: { capable: true, title: "Eva Coparenting" },
+  appleWebApp: { capable: true, title: "HomeSplit" },
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({

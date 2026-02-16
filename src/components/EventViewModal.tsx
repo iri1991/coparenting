@@ -4,8 +4,8 @@ import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
 import { X, MapPin, Calendar, Clock, Lock } from "lucide-react";
 import type { ScheduleEvent } from "@/types/events";
-import { getEventDisplayLabel, LOCATION_LABELS, PARENT_LABELS } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
+import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 import type { BlockedPeriod } from "@/types/blocked";
 
 interface EventViewModalProps {
@@ -13,6 +13,8 @@ interface EventViewModalProps {
   onClose: () => void;
   event: ScheduleEvent | null;
   onEdit?: (event: ScheduleEvent) => void;
+  /** Când false, butonul „Editează” nu se afișează (ex. evenimente din trecut). */
+  canEdit?: boolean;
   blockedPeriods?: BlockedPeriod[];
 }
 
@@ -21,8 +23,10 @@ export function EventViewModal({
   onClose,
   event,
   onEdit,
+  canEdit = true,
   blockedPeriods = [],
 }: EventViewModalProps) {
+  const labels = useFamilyLabels();
   if (!isOpen || !event) return null;
 
   const eventDate = event.date;
@@ -30,11 +34,11 @@ export function EventViewModal({
     (b) => b.startDate <= eventDate && b.endDate >= eventDate
   );
 
-  const title = event.title?.trim() || getEventDisplayLabel(event);
+  const title = event.title?.trim() || getEventDisplayLabelWithLabels(event, labels);
   const locationLabel =
     event.location === "other" && event.locationLabel?.trim()
       ? event.locationLabel.trim()
-      : LOCATION_LABELS[event.location];
+      : labels.locationLabels[event.location];
   const hasTime = !!(event.startTime || event.endTime);
   const timeLabel =
     event.startTime && event.endTime
@@ -71,7 +75,7 @@ export function EventViewModal({
               <ParentIcon
                 parent={event.parent}
                 size={28}
-                aria-label={getEventDisplayLabel(event)}
+                aria-label={getEventDisplayLabelWithLabels(event, labels)}
               />
             </span>
             <div className="min-w-0 flex-1 pr-8">
@@ -152,7 +156,7 @@ export function EventViewModal({
                     key={b.id}
                     className="text-sm text-stone-700 dark:text-stone-300 bg-stone-50 dark:bg-stone-800/50 rounded-lg px-3 py-2 border border-stone-100 dark:border-stone-700"
                   >
-                    <span className="font-medium">{PARENT_LABELS[b.parentType]}</span>
+                    <span className="font-medium">{labels.parentLabels[b.parentType]}</span>
                     {b.note?.trim() ? (
                       <span className="text-stone-600 dark:text-stone-400"> – {b.note.trim()}</span>
                     ) : null}
@@ -170,7 +174,7 @@ export function EventViewModal({
             >
               Închide
             </button>
-            {onEdit && (
+            {onEdit && canEdit && (
               <button
                 type="button"
                 onClick={() => {

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
+import { getActiveFamily } from "@/lib/family";
+import { getFamilyPlan, canAddBlockedDayThisMonth } from "@/lib/plan";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
 
@@ -25,16 +27,28 @@ function toBlock(doc: {
   };
 }
 
-/** GET: toate perioadele blocate (pentru calendar). Opțional ?mine=1 doar ale mele. */
+/** GET: toate perioadele blocate (pentru calendar). Opțional ?mine=1 doar ale mele. Doar din familia userului. */
 export async function GET(request: Request) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+  const db = await getDb();
+  const filter: { userId?: string; familyId?: ObjectId } = {};
+  if (session.user.familyId) {
+    const familyId = new ObjectId(session.user.familyId);
+    const family = await getActiveFamily(db, familyId);
+    if (!family) {
+      return NextResponse.json(
+        { error: "Familia nu există sau a fost dezactivată. Contactați suportul." },
+        { status: 403 }
+      );
+    }
+    filter.familyId = familyId;
+  }
   const { searchParams } = new URL(request.url);
   const mineOnly = searchParams.get("mine") === "1";
-  const db = await getDb();
-  const filter = mineOnly ? { userId: session.user.id } : {};
+  if (mineOnly) filter.userId = session.user.id;
   const docs = await db
     .collection("blocked_periods")
     .find(filter)
@@ -44,16 +58,22 @@ export async function GET(request: Request) {
   return NextResponse.json(list);
 }
 
-/** POST: adaugă o perioadă blocată (doar pentru userul curent). */
+/** POST: adaugă o perioadă blocată (doar pentru userul curent, în familia sa). */
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+  if (!session.user.familyId) {
+    return NextResponse.json(
+      { error: "Creați sau aderați la o familie mai întâi." },
+      { status: 400 }
+    );
+  }
   const parentType = session.user.parentType;
   if (!parentType || (parentType !== "tata" && parentType !== "mama")) {
     return NextResponse.json(
-      { error: "Setează mai întâi dacă ești Irinel sau Andreea (profil)." },
+      { error: "Setează în Configurare rolul tău (numele primului sau al doilea părinte)." },
       { status: 400 }
     );
   }
@@ -68,8 +88,32 @@ export async function POST(request: Request) {
     );
   }
   const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId!);
+  const family = await getActiveFamily(db, familyId);
+  if (!family) {
+    return NextResponse.json(
+      { error: "Familia nu există sau a fost dezactivată. Contactați suportul." },
+      { status: 403 }
+    );
+  }
+  const plan = await getFamilyPlan(db, familyId);
+  const monthStart = start.slice(0, 7) + "-01";
+  const monthEnd = start.slice(0, 7) + "-31";
+  const countThisMonth = await db.collection("blocked_periods").countDocuments({
+    familyId,
+    userId: session.user.id,
+    startDate: { $lte: monthEnd },
+    endDate: { $gte: monthStart },
+  });
+  if (!canAddBlockedDayThisMonth(plan, countThisMonth)) {
+    return NextResponse.json(
+      { error: "Planul Free permite maxim 5 zile blocate pe lună. Treci la Pro pentru zile nelimitate." },
+      { status: 403 }
+    );
+  }
   const now = new Date();
   const { insertedId } = await db.collection("blocked_periods").insertOne({
+    familyId: new ObjectId(session.user.familyId),
     userId: session.user.id,
     parentType,
     startDate: start,
@@ -99,10 +143,18 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
   const db = await getDb();
-  const result = await db.collection("blocked_periods").deleteOne({
-    _id: oid,
-    userId: session.user.id,
-  });
+  if (session.user.familyId) {
+    const family = await getActiveFamily(db, new ObjectId(session.user.familyId));
+    if (!family) {
+      return NextResponse.json(
+        { error: "Familia nu există sau a fost dezactivată. Contactați suportul." },
+        { status: 403 }
+      );
+    }
+  }
+  const filter: { _id: ObjectId; userId: string; familyId?: ObjectId } = { _id: oid, userId: session.user.id };
+  if (session.user.familyId) filter.familyId = new ObjectId(session.user.familyId);
+  const result = await db.collection("blocked_periods").deleteOne(filter);
   if (result.deletedCount === 0) {
     return NextResponse.json({ error: "Perioadă negăsită sau nu ți se aparține." }, { status: 404 });
   }

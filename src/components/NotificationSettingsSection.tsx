@@ -5,7 +5,7 @@ import { Bell, BellOff } from "lucide-react";
 
 type PushStatus = "idle" | "loading" | "enabled" | "unsupported" | "denied" | "error";
 
-interface HeaderNotificationIconProps {
+interface NotificationSettingsSectionProps {
   currentUserId?: string;
 }
 
@@ -18,24 +18,30 @@ function urlBase64ToUint8Array(base64: string): Uint8Array {
   return out;
 }
 
-export function HeaderNotificationIcon({ currentUserId }: HeaderNotificationIconProps) {
+export function NotificationSettingsSection({ currentUserId }: NotificationSettingsSectionProps) {
   const [status, setStatus] = useState<PushStatus>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
-  // Detectă suportul și permisiunea curentă
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
       setStatus("unsupported");
       return;
     }
-    if (Notification.permission === "granted") {
-      setStatus("enabled");
-    } else if (Notification.permission === "denied") {
+    if (Notification.permission === "denied") {
       setStatus("denied");
-    } else {
-      setStatus("idle");
+      return;
     }
+    if (Notification.permission !== "granted") {
+      setStatus("idle");
+      return;
+    }
+    navigator.serviceWorker.ready
+      .then((reg) => reg.pushManager.getSubscription())
+      .then((sub) => {
+        setStatus(sub ? "enabled" : "idle");
+      })
+      .catch(() => setStatus("idle"));
   }, []);
 
   const enablePush = useCallback(async () => {
@@ -75,7 +81,6 @@ export function HeaderNotificationIcon({ currentUserId }: HeaderNotificationIcon
         setMessage("Nu s-a putut salva abonamentul.");
         return;
       }
-      // notificare de test
       await fetch("/api/push/test", { method: "POST" });
       setStatus("enabled");
       setMessage("Notificări activate.");
@@ -92,33 +97,40 @@ export function HeaderNotificationIcon({ currentUserId }: HeaderNotificationIcon
   const isActive = status === "enabled";
   const isLoading = status === "loading";
 
-  let title = "Notificări";
-  if (status === "enabled") title = message || "Notificări activate";
-  else if (status === "idle") title = "Activează notificările pentru evenimente și reminder seara.";
-  else if (status === "denied") title = "Notificări blocate în browser.";
-  else if (status === "error") title = message || "Eroare la activarea notificărilor.";
-
   return (
-    <button
-      type="button"
-      onClick={enablePush}
-      disabled={isLoading || isActive}
-      className="relative p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
-      title={title}
-      aria-label={title}
-    >
+    <section className="rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800/50 p-4 mb-6">
+      <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
+        {isActive ? (
+          <Bell className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden />
+        ) : (
+          <BellOff className="w-4 h-4 text-stone-500 dark:text-stone-400" aria-hidden />
+        )}
+        Notificări push
+      </h2>
+      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+        Primești alerte pentru evenimente și reminder seara. Notificările se activează <strong>per dispozitiv</strong> – pe telefon și pe laptop trebuie activate separat.
+      </p>
+      {message && (
+        <p className={`text-xs mb-3 ${status === "error" ? "text-red-600 dark:text-red-400" : "text-stone-600 dark:text-stone-400"}`}>
+          {message}
+        </p>
+      )}
       {isActive ? (
-        <Bell className="w-5 h-5 text-amber-600 dark:text-amber-400" aria-hidden />
+        <p className="text-sm text-amber-700 dark:text-amber-300">Notificările sunt activate pe acest dispozitiv.</p>
+      ) : status === "denied" ? (
+        <p className="text-sm text-stone-500 dark:text-stone-400">
+          Notificările sunt blocate în setările browserului. Deschide setările site-ului și permite notificările pentru a le activa.
+        </p>
       ) : (
-        <BellOff className="w-5 h-5 text-stone-400 dark:text-stone-500" aria-hidden />
+        <button
+          type="button"
+          onClick={enablePush}
+          disabled={isLoading || !currentUserId}
+          className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white text-sm font-medium"
+        >
+          {isLoading ? "Se activează…" : "Activează notificările"}
+        </button>
       )}
-      {isActive && (
-        <span className="absolute top-1 right-1 inline-block w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400" />
-      )}
-      {isLoading && (
-        <span className="absolute top-1 right-1 inline-block w-2 h-2 rounded-full bg-stone-400 animate-ping" />
-      )}
-    </button>
+    </section>
   );
 }
-

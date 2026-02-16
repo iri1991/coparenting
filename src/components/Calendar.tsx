@@ -13,8 +13,9 @@ import {
 } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
-import { getEventColor, getEventDisplayLabel, PARENT_LABELS } from "@/types/events";
+import { getEventColor } from "@/types/events";
 import type { BlockedPeriod } from "@/types/blocked";
+import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 
 function isDateInBlock(dateStr: string, start: string, end: string): boolean {
   return dateStr >= start && dateStr <= end;
@@ -37,6 +38,7 @@ export function Calendar({
   selectedDate,
   blockedPeriods = [],
 }: CalendarProps) {
+  const labels = useFamilyLabels();
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const start = startOfWeek(monthStart, { weekStartsOn: 1 });
@@ -66,7 +68,8 @@ export function Calendar({
     const out: string[] = [];
     for (const b of blockedPeriods) {
       if (b.parentType !== "together" && isDateInBlock(d, b.startDate, b.endDate)) {
-        const initial = PARENT_LABELS[b.parentType].charAt(0);
+        const name = labels.parentLabels[b.parentType];
+        const initial = name.charAt(0).toUpperCase();
         if (!out.includes(initial)) out.push(initial);
       }
     }
@@ -136,7 +139,7 @@ export function Calendar({
                         key={e.id}
                         className="w-1.5 h-1.5 rounded-full shrink-0"
                         style={{ backgroundColor: getEventColor(e) }}
-                        title={e.title || getEventDisplayLabel(e)}
+                        title={e.title || getEventDisplayLabelWithLabels(e, labels)}
                       />
                     ))}
                     {dayEvents.length > 2 && (

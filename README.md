@@ -1,15 +1,15 @@
-# Eva & Coparenting
+# HomeSplit
 
-Aplicație simplă pentru planificarea zilelor cu Eva – Tunari (cu tata), Otopeni (cu mama), cu toții. Folosibilă pe mobil, cu sincronizare și export calendar.
+Aplicație pentru planificarea zilelor cu copilul – locuințe, părinți, cu toții. HomeSplit. Folosibilă pe mobil, cu sincronizare și export calendar.
 
 ## Funcționalități
 
 - **Calendar interactiv** – vezi luna curentă, alege o zi, adaugă evenimente
-- **Tipuri de evenimente**: Eva la Tunari, Eva la Otopeni, Cu toții, Altele
+- **Tipuri de evenimente**: la locuința 1, la locuința 2, Cu toții, Altele (numele locuințelor se configurează per familie)
 - **Sincronizare** – evenimentele se reîncarcă la fiecare 15 secunde și când revii în aplicație (focus)
 - **Export calendar (.ics)** – buton în header pentru descărcare; poți importa în Google Calendar, Apple Calendar etc.
 - **Notificări push** – la eveniment nou și seara înainte de preluare (programul de mâine); cerere de permisiune la prima deschidere
-- **Zile blocate** – fiecare părinte poate bloca perioade (ex. „plecat o săptămână”); nu se pot adăuga evenimente cu Eva în zilele blocate, iar celălalt părinte este notificat dacă încearcă
+- **Zile blocate** – fiecare părinte poate bloca perioade (ex. „plecat o săptămână”); nu se pot adăuga evenimente cu copilul în zilele blocate, iar celălalt părinte este notificat dacă încearcă
 - **PWA** – pe mobil poți adăuga aplicația pe ecranul principal
 
 ## Setup
@@ -45,7 +45,7 @@ Deschide [http://localhost:3000](http://localhost:3000). Înregistrează două c
 
 ### 4. Asociere Tata / Mama
 
-Fiecare utilizator trebuie asociat cu rolul „Tata” sau „Mama” ca să apară corect mesajul „petreci x zile cu Eva” și pentru notificări. Poți:
+Fiecare utilizator trebuie asociat cu rolul „Tata” sau „Mama” ca să apară corect mesajul „petreci x zile cu [copil]” și pentru notificări. Poți:
 
 - **Din aplicație**: la prima deschidere după login apare „Ești Tata sau Mama?” – alege butonul corespunzător.
 - **Prin script** (pentru conturile existente): din rădăcina proiectului, cu `.env` configurat:

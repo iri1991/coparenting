@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
-import { PARENT_LABELS, LOCATION_LABELS, getEventDisplayLabel } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
+import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 
 type EventPayload = Omit<ScheduleEvent, "id" | "created_at">;
 
@@ -25,6 +25,7 @@ export function AddEventModal({
   editEvent,
   currentUserId,
 }: AddEventModalProps) {
+  const labels = useFamilyLabels();
   const [date, setDate] = useState(
     initialDate ? format(initialDate, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")
   );
@@ -71,15 +72,18 @@ export function AddEventModal({
     }
   }, [editEvent, initialDate, isOpen]);
 
-  const displayLabel = getEventDisplayLabel({
-    id: "",
-    date,
-    parent,
-    location,
-    locationLabel: locationLabel.trim() || undefined,
-    created_by: "",
-    created_at: "",
-  });
+  const displayLabel = getEventDisplayLabelWithLabels(
+    {
+      id: "",
+      date,
+      parent,
+      location,
+      locationLabel: locationLabel.trim() || undefined,
+      created_by: "",
+      created_at: "",
+    },
+    labels
+  );
 
   if (!isOpen) return null;
 
@@ -191,7 +195,7 @@ export function AddEventModal({
           </div>
           <div>
             <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
-              Cu cine e Eva
+              Cu cine e {labels.childName}
             </label>
             <div className="grid grid-cols-3 gap-2">
               {(["tata", "mama", "together"] as const).map((p) => (
@@ -199,7 +203,7 @@ export function AddEventModal({
                   key={p}
                   type="button"
                   onClick={() => setParent(p)}
-                  aria-label={PARENT_LABELS[p]}
+                  aria-label={labels.parentLabels[p]}
                   className={`
                     flex items-center justify-center p-4 rounded-xl border-2 transition touch-manipulation
                     ${parent === p ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40" : "border-stone-200 dark:border-stone-600 hover:border-stone-300"}
@@ -225,7 +229,7 @@ export function AddEventModal({
                     ${location === loc ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-stone-800 dark:text-stone-200" : "border-stone-200 dark:border-stone-600 hover:border-stone-300 text-stone-600 dark:text-stone-400"}
                   `}
                 >
-                  {LOCATION_LABELS[loc]}
+                  {labels.locationLabels[loc]}
                 </button>
               ))}
             </div>

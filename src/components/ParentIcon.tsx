@@ -2,7 +2,8 @@
 
 import { User, Users } from "lucide-react";
 import type { ParentType } from "@/types/events";
-import { PARENT_COLORS, PARENT_LABELS } from "@/types/events";
+import { PARENT_COLORS } from "@/types/events";
+import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
 
 interface ParentIconProps {
   parent: ParentType;
@@ -11,15 +12,16 @@ interface ParentIconProps {
   "aria-label"?: string;
 }
 
-/** Iconițe pentru Irinel, Andreea, Cu toții */
+/** Iconițe pentru părinte 1, părinte 2, Cu toții */
 export function ParentIcon({
   parent,
   size = 20,
   className = "",
   "aria-label": ariaLabel,
 }: ParentIconProps) {
+  const labels = useFamilyLabels();
   const color = PARENT_COLORS[parent];
-  const label = ariaLabel ?? PARENT_LABELS[parent];
+  const label = ariaLabel ?? labels.parentLabels[parent];
 
   if (parent === "together") {
     return (

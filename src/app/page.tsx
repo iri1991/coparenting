@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
-import Link from "next/link";
+import { getActiveFamily } from "@/lib/family";
+import { redirect } from "next/navigation";
+import { ObjectId } from "mongodb";
 import { LoggedInLayout } from "@/components/LoggedInLayout";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 
@@ -55,43 +57,46 @@ export default async function HomePage() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
-        <div className="max-w-sm w-full text-center space-y-8">
-          <div>
-            <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
-              Eva &amp; Coparenting
-            </h1>
-            <p className="mt-2 text-stone-600 dark:text-stone-400 text-sm">
-              Planifică zilele cu Eva – Tunari, Otopeni, cu toții. Simplu și sincronizat.
-            </p>
-          </div>
-          <Link
-            href="/login"
-            className="inline-flex items-center justify-center w-full py-3 px-4 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 active:scale-[0.98] transition"
-          >
-            Conectare
-          </Link>
-          <p className="text-stone-500 text-xs">
-            Folosește aceeași aplicație împreună cu Andreea – evenimentele se sincronizează.
-          </p>
-        </div>
-      </div>
-    );
+    const { LandingPage: Landing } = await import("@/components/landing/LandingPage");
+    return <Landing />;
   }
 
-  let events: ScheduleEvent[] = [];
-  try {
-    const db = await getDb();
-    const docs = await db
-      .collection("schedule_events")
-      .find({})
-      .sort({ date: 1 })
-      .toArray();
-    events = docs.map((d) => toEvent(d as Parameters<typeof toEvent>[0]));
-  } catch (e) {
-    console.error(e);
+  if (!session.user.familyId) {
+    redirect("/setup");
   }
+
+  const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId);
+  const family = await getActiveFamily(db, familyId);
+  if (!family) {
+    redirect("/family-deactivated");
+  }
+  const [children, residences, eventDocs, userDoc] = await Promise.all([
+    db.collection("children").find({ familyId }).sort({ createdAt: 1 }).toArray(),
+    db.collection("residences").find({ familyId }).sort({ order: 1, createdAt: 1 }).toArray(),
+    db.collection("schedule_events").find({ familyId }).sort({ date: 1 }).toArray(),
+    db.collection("users").findOne(
+      { _id: new ObjectId(session.user.id) },
+      { projection: { chatLastReadAt: 1 } }
+    ),
+  ]);
+
+  const hasChildren = (children as unknown[]).length > 0;
+  const hasResidences = (residences as unknown[]).length > 0;
+  if (!hasChildren || !hasResidences) {
+    redirect("/config");
+  }
+
+  const chatLastReadAt = (userDoc as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
+  const chatUnreadFilter: { familyId: ObjectId; createdAt?: { $gt: Date } } = { familyId };
+  if (chatLastReadAt) chatUnreadFilter.createdAt = { $gt: chatLastReadAt };
+  const chatUnreadCount = await db.collection("messages").countDocuments(chatUnreadFilter);
+
+  const events: ScheduleEvent[] = (eventDocs as Parameters<typeof toEvent>[0][]).map((d) => toEvent(d));
+  const familyData = family as { parent1Name?: string; parent2Name?: string };
+  const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
+  const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
+  const childName = (children as { name: string }[])[0]?.name || "copilul";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 flex flex-col">
@@ -103,6 +108,12 @@ export default async function HomePage() {
           (session.user.email ? session.user.email.split("@")[0] : null) ||
           "acolo"
         }
+        parent1Name={parent1Name}
+        parent2Name={parent2Name}
+        childName={childName}
+        residenceNames={(residences as { name: string }[]).map((r) => r.name)}
+        initialUnreadCount={chatUnreadCount}
+        isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
       />
     </div>
   );
