@@ -4,7 +4,7 @@ import type { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { getEventDisplayLabel } from "@/types/events";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
 import type { ScheduleEvent } from "@/types/events";
 
 type Db = Awaited<ReturnType<typeof getDb>>;
@@ -162,10 +162,16 @@ export async function sendEventUpdatedNotification(
   const users = await db.collection("users").find({ _id: { $in: oids } }).project({ email: 1 }).toArray();
   const emails = users.map((u) => (u as { email?: string }).email).filter((e): e is string => typeof e === "string" && e.length > 0);
   if (emails.length > 0) {
+    const appUrl = (process.env.NEXTAUTH_URL || "https://homesplit.ro").replace(/\/$/, "");
+    const content = `
+      <p style="margin: 0 0 16px; font-size: 16px;"><strong>${who}</strong> a modificat un eveniment din calendar.</p>
+      <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;"><strong>${dateLabel}</strong>: ${body}</p>
+      ${emailButtonHtml(appUrl, "Deschide aplicația")}
+    `;
     await sendEmail({
       to: emails,
       subject: `HomeSplit – ${title}`,
-      html: `<p><strong>${who}</strong> a modificat un eveniment din calendar.</p><p><strong>${dateLabel}</strong>: ${body}</p><p>Deschide aplicația pentru detalii.</p>`,
+      html: wrapEmailHtml(content),
       text: `${who} a modificat un eveniment: ${dateLabel} – ${body}. Deschide aplicația.`,
     });
   }

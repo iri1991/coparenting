@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
 import crypto from "crypto";
 
 const TOKEN_BYTES = 32;
@@ -36,18 +36,19 @@ export async function POST(request: Request) {
     createdAt: now,
   });
 
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXTAUTH_URL?.replace(/\/$/, "") || "http://localhost:3000";
   const resetUrl = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}`;
 
+  const content = `
+    <p style="margin: 0 0 16px; font-size: 16px;">Ai solicitat resetarea parolei pentru contul tău HomeSplit.</p>
+    <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;">Apasă butonul de mai jos pentru a alege o parolă nouă. Linkul expiră în ${EXPIRY_HOURS} ore.</p>
+    ${emailButtonHtml(resetUrl, "Resetează parola")}
+    <p style="margin: 24px 0 0; font-size: 14px; color: #78716c;">Dacă nu ai solicitat resetarea, poți ignora acest email.</p>
+  `;
   const sent = await sendEmail({
     to: email,
     subject: "Resetare parolă HomeSplit",
-    html: `
-      <p>Ai solicitat resetarea parolei pentru HomeSplit.</p>
-      <p><strong><a href="${resetUrl}">Resetează parola</a></strong></p>
-      <p>Link direct: ${resetUrl}</p>
-      <p>Linkul expiră în ${EXPIRY_HOURS} ore. Dacă nu ai solicitat resetarea, poți ignora acest email.</p>
-    `,
+    html: wrapEmailHtml(content),
     text: `Resetare parolă HomeSplit. Link: ${resetUrl} (expiră în ${EXPIRY_HOURS} ore.)`,
   });
 

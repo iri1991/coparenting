@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
 import type { Invitation } from "@/types/family";
 import crypto from "crypto";
 
@@ -100,20 +100,20 @@ export async function POST(request: Request) {
   });
   const doc = await db.collection("invitations").findOne({ _id: insertedId });
   const inv = toInvitation(doc as Parameters<typeof toInvitation>[0]);
-  const baseUrl = process.env.NEXTAUTH_URL || request.url.replace(/\/api\/invitations\/?$/, "");
+  const baseUrl = (process.env.NEXTAUTH_URL || request.url.replace(/\/api\/invitations\/?$/, "")).replace(/\/$/, "");
   const joinUrl = `${baseUrl}/join?token=${encodeURIComponent(token)}`;
 
   let emailSent = false;
   try {
+    const content = `
+      <p style="margin: 0 0 16px; font-size: 16px;">Ai fost invitat(ă) să te alături unei familii pe <strong>HomeSplit</strong>.</p>
+      <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;">Acceptă invitația pentru a avea acces la calendarul comun. Linkul expiră în ${EXPIRY_DAYS} zile.</p>
+      ${emailButtonHtml(joinUrl, "Acceptă invitația")}
+    `;
     emailSent = await sendEmail({
       to: email,
       subject: "Invitație HomeSplit – alătură-te familiei",
-      html: `
-        <p>Ai fost invitat(ă) să te alături unei familii pe HomeSplit.</p>
-        <p><strong><a href="${joinUrl}">Acceptă invitația</a></strong></p>
-        <p>Link direct: ${joinUrl}</p>
-        <p>Linkul expiră în ${EXPIRY_DAYS} zile.</p>
-      `,
+      html: wrapEmailHtml(content),
       text: `Invitație HomeSplit. Acceptă aici: ${joinUrl} (expiră în ${EXPIRY_DAYS} zile.)`,
     });
   } catch (_) {

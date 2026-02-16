@@ -51,7 +51,7 @@ export async function GET(
   if (!doc) {
     return NextResponse.json({ error: "Document negăsit." }, { status: 404 });
   }
-  const d = doc as { name: string; contentType: string; content: Buffer };
+  const d = doc as unknown as { name: string; contentType: string; content: Buffer };
   const content = d.content instanceof Buffer ? d.content : Buffer.from(d.content);
   const ext = d.contentType === "application/pdf" ? "pdf" : d.contentType.startsWith("image/") ? d.contentType.split("/")[1] || "jpg" : "bin";
   const safeName = (d.name || "document").replace(/[^a-zA-Z0-9._\s-]/g, "_").trim().slice(0, 100) || "document";
