@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "set-parent-types": "node --env-file=.env scripts/set-parent-types.mjs"
+    "set-parent-types": "node --env-file=.env scripts/set-parent-types.mjs",
+    "setup-stripe": "node --env-file=.env scripts/setup-stripe.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "resend": "^4.0.0",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.563.0",
     "mongodb": "^7.0.0",
@@ -19,6 +19,8 @@
     "next-auth": "^4.24.13",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "resend": "^4.0.0",
+    "stripe": "^20.3.1",
     "web-push": "^3.6.7"
   },
   "devDependencies": {

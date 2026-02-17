@@ -65,7 +65,7 @@ export function LandingHero() {
                   href="/login"
                   className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-amber-600 active:scale-[0.98] transition"
                 >
-                  Încearcă gratuit
+                  Începe gratuit
                 </Link>
                 <a
                   href="#cum-functioneaza"

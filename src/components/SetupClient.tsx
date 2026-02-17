@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export function SetupClient() {
+interface SetupClientProps {
+  /** După crearea familiei, redirect cu plan pentru fluxul de checkout. */
+  pendingPlan?: "pro" | "family";
+}
+
+export function SetupClient({ pendingPlan }: SetupClientProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +22,8 @@ export function SetupClient() {
         setError(data.error || "Eroare la creare familie.");
         return;
       }
-      window.location.href = "/config";
+      const query = pendingPlan ? `?plan=${pendingPlan}` : "";
+      window.location.href = `/config${query}`;
     } finally {
       setLoading(false);
     }

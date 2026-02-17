@@ -4,13 +4,19 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { SetupClient } from "@/components/SetupClient";
 
-export default async function SetupPage() {
+export default async function SetupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
   }
+  const params = await searchParams;
+  const planParam = params?.plan;
   if (session.user.familyId) {
-    redirect("/");
+    redirect(planParam ? `/?plan=${planParam}` : "/");
   }
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
@@ -26,7 +32,7 @@ export default async function SetupPage() {
             Creează un cerc de coparenting sau intră cu o invitație de la celălalt părinte.
           </p>
         </div>
-        <SetupClient />
+        <SetupClient pendingPlan={planParam === "pro" || planParam === "family" ? planParam : undefined} />
         <p className="text-center text-stone-500 text-sm">
           <Link href="/api/auth/signout" className="text-amber-600 hover:underline">
             Deconectare

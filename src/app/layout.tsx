@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
+import { UpgradeModalProvider } from "@/contexts/UpgradeModalContext";
 import { siteUrl, defaultTitle, defaultDescription, keywords } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -108,7 +109,9 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <UpgradeModalProvider>{children}</UpgradeModalProvider>
+        </SessionProvider>
       </body>
     </html>
   );

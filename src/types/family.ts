@@ -17,6 +17,16 @@ export interface Family {
   parent2Name?: string;
   /** Plan de plată: free | pro | family */
   plan?: PlanType;
+  /** ID client Stripe (creat la prima plată). */
+  stripeCustomerId?: string;
+  /** ID abonament Stripe (subscription). */
+  stripeSubscriptionId?: string;
+  /** Status abonament: active, trialing, past_due, canceled, unpaid etc. */
+  subscriptionStatus?: string;
+  /** Sfârșitul perioadei curente (facturare). */
+  currentPeriodEnd?: string;
+  /** ID preț Stripe (pentru a ști planul/intervalul). */
+  stripePriceId?: string;
   /** Familia este activă (poate fi dezactivată din admin). Implicit true. */
   active?: boolean;
   /** Token unic pentru link partajare program săptămânal (Pro/Family+). */

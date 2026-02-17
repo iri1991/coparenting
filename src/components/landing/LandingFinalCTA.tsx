@@ -20,7 +20,7 @@ export function LandingFinalCTA() {
         <AnimateOnScroll delay={200}>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
-              href="/login"
+              href="/login?plan=pro"
               className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-8 py-4 text-base font-medium text-white shadow-lg hover:bg-amber-600 active:scale-[0.98] transition"
             >
               Încearcă Pro 14 zile (fără card)

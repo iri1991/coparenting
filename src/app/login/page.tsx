@@ -4,12 +4,17 @@ import { useState } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get("plan");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "ok" | "error"; text: string } | null>(null);
+
+  const redirectAfterLogin = planParam === "pro" || planParam === "family" ? `/?plan=${planParam}` : "/";
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -26,7 +31,7 @@ export default function LoginPage() {
       return;
     }
     if (res?.ok) {
-      window.location.href = "/";
+      window.location.href = redirectAfterLogin;
       return;
     }
     setMessage({ type: "error", text: "Ceva nu a mers bine." });

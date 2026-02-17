@@ -7,6 +7,7 @@ import { AccountClient } from "@/components/AccountClient";
 import { ConfigClient } from "@/components/ConfigClient";
 import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
+import { SubscriptionSection } from "@/components/SubscriptionSection";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -16,6 +17,9 @@ export interface ConfigData {
   initialResidences: { id: string; name: string }[];
   memberCount: number;
   plan?: "free" | "pro" | "family";
+  stripeConfigured?: boolean;
+  subscriptionStatus?: string | null;
+  currentPeriodEnd?: string | null;
 }
 
 interface AccountPageShellProps {
@@ -143,6 +147,12 @@ export function AccountPageShell({
                   Nume părinți, copii, locuințe, invitații. Modificările sunt notificate pe email tuturor membrilor.
                 </p>
               </div>
+              <SubscriptionSection
+                plan={configData.plan}
+                stripeConfigured={configData.stripeConfigured ?? false}
+                currentPeriodEnd={configData.currentPeriodEnd}
+                subscriptionStatus={configData.subscriptionStatus}
+              />
               <ConfigClient
                 initialFamily={configData.initialFamily}
                 initialChildren={configData.initialChildren}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
+import { UpgradeCta } from "@/components/UpgradeCta";
 
 interface FamilyData {
   id: string;
@@ -144,7 +145,10 @@ function ChildDetailsForm({
       </div>
       )}
       {!canUseDocuments && (
-        <p className="text-xs text-stone-500 dark:text-stone-400">Documentele sunt disponibile în planul Pro.</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xs text-stone-500 dark:text-stone-400">Documentele sunt disponibile în planul Pro.</p>
+          <UpgradeCta variant="inline" />
+        </div>
       )}
       <div>
         <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Alte informații</label>
@@ -184,6 +188,8 @@ interface ConfigClientProps {
   currentUserId?: string;
   /** Plan familie: Free nu are documente. */
   plan?: "free" | "pro" | "family";
+  /** Link pentru „Înapoi” / „Merg la calendar” (ex. /?plan=pro după setup cu plan). */
+  returnToHref?: string;
 }
 
 export function ConfigClient({
@@ -194,6 +200,7 @@ export function ConfigClient({
   embedInAccount = false,
   currentUserId,
   plan = "free",
+  returnToHref,
 }: ConfigClientProps) {
   const canUseDocuments = plan === "pro" || plan === "family";
   const router = useRouter();
@@ -418,7 +425,7 @@ export function ConfigClient({
   }
 
   function handleDone() {
-    router.push("/");
+    router.push(embedInAccount ? "/" : (returnToHref ?? "/"));
     router.refresh();
   }
 
@@ -550,6 +557,12 @@ export function ConfigClient({
             <Plus className="w-5 h-5" />
           </button>
         </div>
+        {plan === "free" && children.length >= 1 && (
+          <p className="mt-2 text-xs text-stone-500 dark:text-stone-400 flex flex-wrap items-center gap-1.5">
+            Planul Free: 1 copil. Pro: până la 3. Family+: nelimitat.
+            <UpgradeCta variant="inline" children="Upgrade" />
+          </p>
+        )}
       </section>
 
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
@@ -602,8 +615,28 @@ export function ConfigClient({
             <Plus className="w-5 h-5" />
           </button>
         </div>
+        {plan === "free" && residences.length >= 1 && (
+          <p className="mt-2 text-xs text-stone-500 dark:text-stone-400 flex flex-wrap items-center gap-1.5">
+            Planul Free: 1 locuință. Pro / Family+: locații multiple.
+            <UpgradeCta variant="inline" children="Upgrade" />
+          </p>
+        )}
       </section>
 
+      {!canSharePdf && (
+        <section className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20 p-4">
+          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            Partajare program și export PDF
+          </h2>
+          <p className="text-xs text-stone-600 dark:text-stone-400 mb-3">
+            Disponibile în planul Pro – link partajare și export PDF pentru programul săptămânal.
+          </p>
+          <UpgradeCta variant="button" />
+        </section>
+      )}
       {canSharePdf && (
         <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
@@ -810,7 +843,7 @@ export function ConfigClient({
 
       <div className="flex gap-3">
         <Link
-          href={embedInAccount ? "/account" : "/"}
+          href={embedInAccount ? "/account" : (returnToHref ?? "/")}
           className="flex-1 py-3 text-center rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium"
         >
           {embedInAccount ? "Înapoi la cont" : "Înapoi"}

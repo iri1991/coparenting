@@ -15,6 +15,10 @@ interface FamilyRow {
   childrenCount: number;
   residencesCount: number;
   createdAt: string;
+  stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
+  subscriptionStatus: string | null;
+  currentPeriodEnd: string | null;
 }
 
 interface AdminFamiliesTableProps {
@@ -91,6 +95,7 @@ export function AdminFamiliesTable({ families: initialFamilies }: AdminFamiliesT
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Familie</th>
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Status</th>
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Plan</th>
+              <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Abonament</th>
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Membri</th>
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Copii</th>
               <th className="text-left px-4 py-3 font-medium text-stone-700 dark:text-stone-300">Locații</th>
@@ -127,6 +132,28 @@ export function AdminFamiliesTable({ families: initialFamilies }: AdminFamiliesT
                   </select>
                   {updatingId === f.id && (
                     <span className="ml-1 text-stone-400 text-xs">Se salvează…</span>
+                  )}
+                </td>
+                <td className="px-4 py-3 text-stone-600 dark:text-stone-400 text-xs">
+                  {f.subscriptionStatus ? (
+                    <span title={f.stripeSubscriptionId ?? undefined}>
+                      {f.subscriptionStatus}
+                      {f.currentPeriodEnd && (
+                        <span className="block text-stone-500">până {format(new Date(f.currentPeriodEnd), "d MMM yyyy", { locale: ro })}</span>
+                      )}
+                      {f.stripeCustomerId && (
+                        <a
+                          href={`https://dashboard.stripe.com/customers/${f.stripeCustomerId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-amber-600 dark:text-amber-400 hover:underline"
+                        >
+                          Stripe →
+                        </a>
+                      )}
+                    </span>
+                  ) : (
+                    "—"
                   )}
                 </td>
                 <td className="px-4 py-3 text-stone-600 dark:text-stone-400">{f.memberCount}</td>

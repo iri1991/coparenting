@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { WeekProposal } from "@/types/proposal";
+import { UpgradeCta } from "@/components/UpgradeCta";
 
 interface ProposalResponse {
   proposal: (WeekProposal & {
@@ -69,7 +70,8 @@ export function WeeklyProposalCard({ onApplied }: WeeklyProposalCardProps) {
       <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 p-4">
         <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1">Propunere program săptămână</h3>
         <p className="text-sm text-stone-600 dark:text-stone-400 mb-2">{data.upgradeMessage}</p>
-        <p className="text-xs text-stone-500 dark:text-stone-500">Planul Pro include propunerea automată în fiecare duminică.</p>
+        <p className="text-xs text-stone-500 dark:text-stone-500 mb-3">Planul Pro include propunerea automată în fiecare duminică.</p>
+        <UpgradeCta variant="button" />
       </div>
     );
   }

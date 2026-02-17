@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
+import { isStripeConfigured } from "@/lib/stripe";
 import { AccountPageShell, type ConfigData } from "@/components/AccountPageShell";
 
 export default async function AccountPage() {
@@ -22,7 +23,17 @@ export default async function AccountPage() {
         db.collection("children").find({ familyId }).sort({ createdAt: 1 }).toArray(),
         db.collection("residences").find({ familyId }).sort({ order: 1, createdAt: 1 }).toArray(),
       ]);
-      const familyData = family as { _id: unknown; parent1Name?: string; parent2Name?: string; name?: string; memberIds?: unknown[]; plan?: string };
+      const familyData = family as {
+        _id: unknown;
+        parent1Name?: string;
+        parent2Name?: string;
+        name?: string;
+        memberIds?: unknown[];
+        plan?: string;
+        stripeCustomerId?: string;
+        subscriptionStatus?: string;
+        currentPeriodEnd?: string;
+      };
       const plan = familyData.plan === "pro" || familyData.plan === "family" ? familyData.plan : "free";
       configData = {
         initialFamily: {
@@ -32,6 +43,9 @@ export default async function AccountPage() {
           name: familyData.name ?? "",
         },
         plan,
+        stripeConfigured: isStripeConfigured(),
+        subscriptionStatus: familyData.subscriptionStatus ?? null,
+        currentPeriodEnd: familyData.currentPeriodEnd ?? null,
         initialChildren: (children as { _id: unknown; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string }[]).map((c) => ({
           id: String(c._id),
           name: c.name,

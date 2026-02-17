@@ -53,8 +53,14 @@ function toEvent(doc: {
   };
 }
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
   const session = await auth();
+  const params = await searchParams;
+  const planParam = params?.plan;
 
   if (!session?.user?.id) {
     const { LandingPage: Landing } = await import("@/components/landing/LandingPage");
@@ -62,7 +68,7 @@ export default async function HomePage() {
   }
 
   if (!session.user.familyId) {
-    redirect("/setup");
+    redirect(planParam ? `/setup?plan=${planParam}` : "/setup");
   }
 
   const db = await getDb();
@@ -84,7 +90,7 @@ export default async function HomePage() {
   const hasChildren = (children as unknown[]).length > 0;
   const hasResidences = (residences as unknown[]).length > 0;
   if (!hasChildren || !hasResidences) {
-    redirect("/config");
+    redirect(planParam ? `/config?plan=${planParam}` : "/config");
   }
 
   const chatLastReadAt = (userDoc as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
@@ -93,16 +99,21 @@ export default async function HomePage() {
   const chatUnreadCount = await db.collection("messages").countDocuments(chatUnreadFilter);
 
   const events: ScheduleEvent[] = (eventDocs as Parameters<typeof toEvent>[0][]).map((d) => toEvent(d));
-  const familyData = family as { parent1Name?: string; parent2Name?: string };
+  const familyData = family as { parent1Name?: string; parent2Name?: string; plan?: string };
   const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
   const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
   const childName = (children as unknown as { name: string }[])[0]?.name || "copilul";
+  const plan = familyData.plan === "pro" || familyData.plan === "family" ? familyData.plan : "free";
+
+  const pendingPlan = planParam === "pro" || planParam === "family" ? planParam : undefined;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 flex flex-col">
       <LoggedInLayout
         initialEvents={events}
         currentUserId={session.user.id}
+        plan={plan}
+        pendingPlan={pendingPlan}
         userName={
           session.user.name?.trim() ||
           (session.user.email ? session.user.email.split("@")[0] : null) ||

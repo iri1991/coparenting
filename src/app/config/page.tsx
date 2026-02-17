@@ -3,11 +3,17 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ConfigClient } from "@/components/ConfigClient";
+import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
+import { isStripeConfigured } from "@/lib/stripe";
 import { ObjectId } from "mongodb";
 
-export default async function ConfigPage() {
+export default async function ConfigPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
@@ -15,6 +21,9 @@ export default async function ConfigPage() {
   if (!session.user.familyId) {
     redirect("/setup");
   }
+  const params = await searchParams;
+  const planParam = params?.plan;
+  const pendingPlan = planParam === "pro" || planParam === "family" ? planParam : undefined;
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
   const family = await getActiveFamily(db, familyId);
@@ -33,6 +42,9 @@ export default async function ConfigPage() {
   };
   const memberCount = ((family as { memberIds?: unknown[] }).memberIds || []).length;
   const plan = (family as { plan?: string }).plan === "pro" || (family as { plan?: string }).plan === "family" ? (family as { plan: "pro" | "family" }).plan : "free";
+  const stripeConfigured = isStripeConfigured();
+  const subscriptionStatus = (family as { subscriptionStatus?: string }).subscriptionStatus ?? null;
+  const currentPeriodEnd = (family as { currentPeriodEnd?: string }).currentPeriodEnd ?? null;
   const childrenData = (children as { _id: unknown; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string }[]).map((c) => ({
     id: String(c._id),
     name: c.name,
@@ -57,6 +69,12 @@ export default async function ConfigPage() {
             </p>
           </div>
         </div>
+        <SubscriptionSection
+          plan={plan}
+          stripeConfigured={stripeConfigured}
+          currentPeriodEnd={currentPeriodEnd}
+          subscriptionStatus={subscriptionStatus}
+        />
         <ConfigClient
           initialFamily={familyData}
           initialChildren={childrenData}
@@ -64,6 +82,7 @@ export default async function ConfigPage() {
           memberCount={memberCount}
           currentUserId={session.user.id}
           plan={plan}
+          returnToHref={pendingPlan ? `/?plan=${pendingPlan}` : "/"}
         />
       </div>
     </div>

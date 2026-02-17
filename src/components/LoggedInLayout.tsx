@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { AppLogo } from "@/components/AppLogo";
 import { DashboardClient } from "@/components/DashboardClient";
+import { UpgradeCta } from "@/components/UpgradeCta";
 import type { ScheduleEvent } from "@/types/events";
 
 /** Modalul de adăugare se deschide doar după acest delay de la mount (evită deschidere la încărcare). */
@@ -21,6 +22,10 @@ interface LoggedInLayoutProps {
   residenceNames?: string[];
   initialUnreadCount?: number;
   isAdmin?: boolean;
+  /** Plan familie: free | pro | family. Pentru afișare link Upgrade în header. */
+  plan?: "free" | "pro" | "family";
+  /** După înregistrare + setup din landing cu plan plătit: deschide checkout. */
+  pendingPlan?: "pro" | "family";
 }
 
 export function LoggedInLayout({
@@ -33,8 +38,11 @@ export function LoggedInLayout({
   residenceNames = ["Tunari", "Otopeni"],
   initialUnreadCount = 0,
   isAdmin = false,
+  plan = "free",
+  pendingPlan,
 }: LoggedInLayoutProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [pendingPlanHandled, setPendingPlanHandled] = useState(false);
   const [blockedDaysModalOpen, setBlockedDaysModalOpen] = useState(false);
   const [openAddModalFn, setOpenAddModalFn] = useState<(() => void) | null>(null);
   const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
@@ -47,6 +55,34 @@ export function LoggedInLayout({
     }, ADD_MODAL_OPEN_DELAY_MS);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    if (!pendingPlan || pendingPlanHandled) return;
+    setPendingPlanHandled(true);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/stripe/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan: pendingPlan, interval: "month" }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (cancelled) return;
+        if (res.ok && data.url) {
+          if (typeof window !== "undefined" && window.history?.replaceState) {
+            window.history.replaceState({}, "", window.location.pathname);
+          }
+          window.location.href = data.url;
+        }
+      } catch {
+        // ignore
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [pendingPlan, pendingPlanHandled]);
 
   useEffect(() => {
     const poll = async () => {
@@ -73,6 +109,9 @@ export function LoggedInLayout({
         <div className="flex items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
           <AppLogo size={36} linkToHome className="h-9 w-9" />
           <div className="flex items-center gap-1 sm:gap-2">
+            {plan === "free" && (
+              <UpgradeCta variant="button" className="py-2 px-3 rounded-lg text-sm" children="Upgrade" />
+            )}
             <button
               type="button"
               onClick={(e) => {
@@ -162,6 +201,7 @@ export function LoggedInLayout({
           blockedDaysModalOpen={blockedDaysModalOpen}
           setBlockedDaysModalOpen={setBlockedDaysModalOpen}
           registerOpenAddModal={registerOpenAddModal}
+          plan={plan}
         />
       </main>
     </>

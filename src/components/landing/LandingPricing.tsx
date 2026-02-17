@@ -113,7 +113,7 @@ export function LandingPricing() {
                   ))}
                 </ul>
                 <Link
-                  href="/login"
+                  href={plan.name === "Free" ? "/login" : plan.name === "Pro" ? "/login?plan=pro" : "/login?plan=family"}
                   className={`mt-6 block w-full rounded-xl py-3 text-center font-medium transition ${
                     plan.ctaPrimary
                       ? "bg-amber-500 text-white hover:bg-amber-600"

@@ -14,6 +14,7 @@ import { WeeklyProposalCard } from "@/components/WeeklyProposalCard";
 import type { ScheduleEvent } from "@/types/events";
 import type { BlockedPeriod } from "@/types/blocked";
 import { FamilyLabelsProvider } from "@/contexts/FamilyLabelsContext";
+import { UpgradeCta } from "@/components/UpgradeCta";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -39,6 +40,7 @@ interface DashboardClientProps {
   blockedDaysModalOpen?: boolean;
   setBlockedDaysModalOpen?: (open: boolean) => void;
   registerOpenAddModal?: (fn: (() => void) | null) => void;
+  plan?: "free" | "pro" | "family";
 }
 
 function capitalize(s: string): string {
@@ -58,6 +60,7 @@ export function DashboardClient({
   blockedDaysModalOpen: blockedDaysModalOpenProp,
   setBlockedDaysModalOpen: setBlockedDaysModalOpenProp,
   registerOpenAddModal,
+  plan = "free",
 }: DashboardClientProps) {
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -307,6 +310,14 @@ export function DashboardClient({
       residenceNames={residenceNames}
     >
     <div className="space-y-6">
+      {plan === "free" && (
+        <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm text-stone-700 dark:text-stone-300">
+            Deblochează Pro: propunere automată, documente, mai mulți copii și locații.
+          </p>
+          <UpgradeCta variant="button" />
+        </div>
+      )}
       <WeeklyProposalCard onApplied={fetchEvents} />
       {!profileLoading && !parentType && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
@@ -455,6 +466,7 @@ export function DashboardClient({
         currentUserId={currentUserId}
         parentType={profile?.parentType ?? null}
         onBlockedChanged={fetchBlockedPeriods}
+        plan={plan}
       />
     </div>
     </FamilyLabelsProvider>

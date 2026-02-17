@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { AdminFamiliesTable } from "@/components/AdminFamiliesTable";
+import { AdminUsersTable } from "@/components/AdminUsersTable";
 import type { PlanType } from "@/types/plan";
 
 const ADMIN_EMAIL = "me@irinelnicoara.ro";
@@ -35,7 +36,19 @@ export default async function AdminPage() {
   const residencesMap = new Map((residencesPerFamily as { _id: ObjectId; count: number }[]).map((x) => [String(x._id), x.count]));
 
   const planCounts = { free: 0, pro: 0, family: 0 };
-  const familyRows = (families as { _id: ObjectId; plan?: string; memberIds?: string[]; active?: boolean; createdAt: Date }[]).map((f) => {
+  const familyRows = (
+    families as {
+      _id: ObjectId;
+      plan?: string;
+      memberIds?: string[];
+      active?: boolean;
+      createdAt: Date;
+      stripeCustomerId?: string;
+      stripeSubscriptionId?: string;
+      subscriptionStatus?: string;
+      currentPeriodEnd?: string;
+    }[]
+  ).map((f) => {
     const plan: PlanType = f.plan === "pro" || f.plan === "family" ? f.plan : "free";
     planCounts[plan]++;
     return {
@@ -46,6 +59,33 @@ export default async function AdminPage() {
       childrenCount: childrenMap.get(String(f._id)) ?? 0,
       residencesCount: residencesMap.get(String(f._id)) ?? 0,
       createdAt: f.createdAt.toISOString(),
+      stripeCustomerId: f.stripeCustomerId ?? null,
+      stripeSubscriptionId: f.stripeSubscriptionId ?? null,
+      subscriptionStatus: f.subscriptionStatus ?? null,
+      currentPeriodEnd: f.currentPeriodEnd ?? null,
+    };
+  });
+
+  const users = (await db.collection("users").find({}).sort({ createdAt: -1 }).toArray()) as {
+    _id: ObjectId;
+    email?: string;
+    name?: string;
+    familyId?: ObjectId;
+    createdAt?: Date;
+  }[];
+  const familyById = new Map(familyRows.map((r) => [r.id, r]));
+  const userRows = users.map((u) => {
+    const fid = u.familyId ? String(u.familyId) : null;
+    const fam = fid ? familyById.get(fid) : null;
+    return {
+      id: String(u._id),
+      email: u.email ?? "",
+      name: u.name ?? "",
+      familyId: fid,
+      plan: fam?.plan ?? "free",
+      subscriptionStatus: fam?.subscriptionStatus ?? null,
+      currentPeriodEnd: fam?.currentPeriodEnd ?? null,
+      stripeCustomerId: fam?.stripeCustomerId ?? null,
     };
   });
 
@@ -89,6 +129,9 @@ export default async function AdminPage() {
           <p className="text-stone-500 dark:text-stone-400 text-sm">Free: {planCounts.free} · Pro: {planCounts.pro} · Family+: {planCounts.family}</p>
         </div>
         <AdminFamiliesTable families={familyRows} />
+        <div className="mt-8">
+          <AdminUsersTable users={userRows} />
+        </div>
       </div>
     </div>
   );

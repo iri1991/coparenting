@@ -7,6 +7,7 @@ import { Lock, Plus, Trash2, X } from "lucide-react";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
 import { AddBlockedPeriodModal } from "@/components/AddBlockedPeriodModal";
+import { UpgradeCta } from "@/components/UpgradeCta";
 import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
 
 type ParentRole = "tata" | "mama";
@@ -17,6 +18,7 @@ interface BlockedDaysModalProps {
   currentUserId?: string;
   parentType: ParentRole | null;
   onBlockedChanged?: () => void;
+  plan?: "free" | "pro" | "family";
 }
 
 export function BlockedDaysModal({
@@ -25,6 +27,7 @@ export function BlockedDaysModal({
   currentUserId,
   parentType,
   onBlockedChanged,
+  plan = "free",
 }: BlockedDaysModalProps) {
   const labels = useFamilyLabels();
   const tabs: { key: ParentRole; label: string }[] = [
@@ -127,13 +130,23 @@ export function BlockedDaysModal({
             {loading ? (
               <p className="text-sm text-stone-400">Se încarcă…</p>
             ) : (
-              <TabContent
-                periods={byParent(activeTab)}
-                canManage={!!canManage(activeTab)}
-                onAdd={() => setAddModalOpen(true)}
-                onDelete={handleDelete}
-                currentUserId={currentUserId}
-              />
+              <>
+                <TabContent
+                  periods={byParent(activeTab)}
+                  canManage={!!canManage(activeTab)}
+                  onAdd={() => setAddModalOpen(true)}
+                  onDelete={handleDelete}
+                  currentUserId={currentUserId}
+                />
+                {plan === "free" && (
+                  <div className="mt-4 pt-3 border-t border-stone-200 dark:border-stone-700">
+                    <p className="text-xs text-stone-500 dark:text-stone-400 mb-2">
+                      Planul Free: max 5 zile blocate pe lună. Pro / Family+: nelimitat.
+                    </p>
+                    <UpgradeCta variant="button" />
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
