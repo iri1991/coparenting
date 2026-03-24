@@ -16,6 +16,7 @@ import type { BlockedPeriod } from "@/types/blocked";
 import { FamilyLabelsProvider } from "@/contexts/FamilyLabelsContext";
 import { UpgradeCta } from "@/components/UpgradeCta";
 import { EndOfPeriodActivitiesModal } from "@/components/EndOfPeriodActivitiesModal";
+import { ActivityRecommendationsTab } from "@/components/ActivityRecommendationsTab";
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
 
 const POLL_INTERVAL_MS = 15000;
@@ -46,6 +47,8 @@ interface DashboardClientProps {
   /** Din URL `/?add=1` sau `/?blocked=1` */
   openAddModalOnMount?: boolean;
   openBlockedModalOnMount?: boolean;
+  /** Oraș din familie pentru sugestii AI (fallback fără GPS). */
+  activityCity?: string;
 }
 
 function capitalize(s: string): string {
@@ -68,6 +71,7 @@ export function DashboardClient({
   plan = "free",
   openAddModalOnMount = false,
   openBlockedModalOnMount = false,
+  activityCity,
 }: DashboardClientProps) {
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -90,7 +94,7 @@ export function DashboardClient({
   const [newLinkUrl, setNewLinkUrl] = useState("");
   const [newLinkCategory, setNewLinkCategory] = useState("");
   const [linksSaving, setLinksSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"program" | "hub">("program");
+  const [activeTab, setActiveTab] = useState<"program" | "hub" | "idei">("program");
   const [interruptModalOpen, setInterruptModalOpen] = useState(false);
   const [interruptTarget, setInterruptTarget] = useState<"otherParent" | "someoneElse">("otherParent");
   const [interruptCaretaker, setInterruptCaretaker] = useState("");
@@ -593,11 +597,17 @@ export function DashboardClient({
           <UpgradeCta variant="button" />
         </div>
       )}
-      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 flex">
+      <div
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 grid grid-cols-3 gap-1"
+        role="tablist"
+        aria-label="Secțiuni acasă"
+      >
         <button
           type="button"
+          role="tab"
+          aria-selected={activeTab === "program"}
           onClick={() => setActiveTab("program")}
-          className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
             activeTab === "program"
               ? "bg-amber-500 text-white"
               : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
@@ -607,14 +617,32 @@ export function DashboardClient({
         </button>
         <button
           type="button"
+          role="tab"
+          aria-selected={activeTab === "hub"}
           onClick={() => setActiveTab("hub")}
-          className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
             activeTab === "hub"
               ? "bg-amber-500 text-white"
               : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
           }`}
+          title="Rapoarte și resurse"
         >
-          Rapoarte & resurse
+          <span className="sm:hidden">Rapoarte</span>
+          <span className="hidden sm:inline">Rapoarte & resurse</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "idei"}
+          onClick={() => setActiveTab("idei")}
+          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
+            activeTab === "idei"
+              ? "bg-amber-500 text-white"
+              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+          }`}
+          title="Recomandări AI"
+        >
+          Idei
         </button>
       </div>
       {activeTab === "hub" && <WeeklyProposalCard onApplied={fetchEvents} />}
@@ -656,6 +684,9 @@ export function DashboardClient({
             </button>
           )}
         </div>
+      )}
+      {activeTab === "idei" && !profileLoading && parentType && (
+        <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
       )}
       {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">

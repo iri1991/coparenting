@@ -12,6 +12,8 @@ interface FamilyData {
   parent1Name: string;
   parent2Name: string;
   name: string;
+  /** Oraș pentru sugestii AI (vreme, idei de ieșit). */
+  activityCity?: string;
 }
 interface TravelDocRef {
   id: string;
@@ -23,6 +25,7 @@ interface ChildData {
   allergies?: string;
   travelDocuments?: TravelDocRef[];
   notes?: string;
+  birthDate?: string;
 }
 
 function ChildDetailsForm({
@@ -33,13 +36,14 @@ function ChildDetailsForm({
   canUseDocuments = true,
 }: {
   child: ChildData;
-  onSave: (data: { allergies?: string; notes?: string }) => void;
+  onSave: (data: { allergies?: string; notes?: string; birthDate?: string | null }) => void;
   onDocumentsChange: (docs: TravelDocRef[]) => void;
   saving: boolean;
   canUseDocuments?: boolean;
 }) {
   const [allergies, setAllergies] = useState(child.allergies ?? "");
   const [notes, setNotes] = useState(child.notes ?? "");
+  const [birthDate, setBirthDate] = useState(child.birthDate ?? "");
   const [docName, setDocName] = useState("");
   const [docFile, setDocFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -47,7 +51,8 @@ function ChildDetailsForm({
   useEffect(() => {
     setAllergies(child.allergies ?? "");
     setNotes(child.notes ?? "");
-  }, [child.id, child.allergies, child.notes]);
+    setBirthDate(child.birthDate ?? "");
+  }, [child.id, child.allergies, child.notes, child.birthDate]);
   async function handleUploadDocument(e: React.FormEvent) {
     e.preventDefault();
     if (!docName.trim() || !docFile) return;
@@ -78,6 +83,16 @@ function ChildDetailsForm({
   }
   return (
     <div className="px-3 pb-3 pt-1 border-t border-stone-200 dark:border-stone-700 space-y-3">
+      <div>
+        <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Data nașterii (opțional)</label>
+        <input
+          type="date"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+        />
+        <p className="text-[11px] text-stone-400 mt-1">Folosită pentru sugestii de activități potrivite vârstei.</p>
+      </div>
       <div>
         <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Alergii / intoleranțe</label>
         <textarea
@@ -162,7 +177,13 @@ function ChildDetailsForm({
       </div>
       <button
         type="button"
-        onClick={() => onSave({ allergies: allergies.trim() || undefined, notes: notes.trim() || undefined })}
+        onClick={() =>
+          onSave({
+            allergies: allergies.trim() || undefined,
+            notes: notes.trim() || undefined,
+            birthDate: birthDate.trim() ? birthDate.trim() : null,
+          })
+        }
         disabled={saving}
         className="w-full py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
       >
@@ -251,6 +272,7 @@ export function ConfigClient({
           parent1Name: family.parent1Name.trim() || null,
           parent2Name: family.parent2Name.trim() || null,
           name: family.name.trim() || null,
+          activityCity: family.activityCity?.trim() || null,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -280,7 +302,7 @@ export function ConfigClient({
         setMessage({ type: "error", text: data.error || "Eroare." });
         return;
       }
-      setChildren((prev) => [...prev, { id: data.id, name }]);
+      setChildren((prev) => [...prev, data as ChildData]);
       setNewChildName("");
     } finally {
       setSaving(false);
@@ -429,7 +451,7 @@ export function ConfigClient({
     router.refresh();
   }
 
-  async function saveChildDetails(childId: string, data: { allergies?: string; notes?: string }) {
+  async function saveChildDetails(childId: string, data: { allergies?: string; notes?: string; birthDate?: string | null }) {
     setSaving(true);
     setMessage(null);
     try {
@@ -493,6 +515,20 @@ export function ConfigClient({
               placeholder="Nume"
               className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
             />
+          </div>
+          <div>
+            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Oraș (sugestii AI & vreme)</label>
+            <input
+              type="text"
+              value={family.activityCity ?? ""}
+              onChange={(e) => setFamily((f) => ({ ...f, activityCity: e.target.value }))}
+              onBlur={() => saveFamily()}
+              placeholder="Ex. București, Cluj-Napoca"
+              className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
+            />
+            <p className="text-[11px] text-stone-400 mt-1">
+              Folosit dacă nu acorzi acces la locație pe telefon. Poți completa și data nașterii copilului la „Detalii”.
+            </p>
           </div>
         </div>
       </section>

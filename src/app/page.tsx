@@ -101,9 +101,10 @@ export default async function HomePage({
   const chatUnreadCount = await db.collection("messages").countDocuments(chatUnreadFilter);
 
   const events: ScheduleEvent[] = (eventDocs as Parameters<typeof toEvent>[0][]).map((d) => toEvent(d));
-  const familyData = family as { parent1Name?: string; parent2Name?: string; plan?: string };
+  const familyData = family as { parent1Name?: string; parent2Name?: string; plan?: string; activityCity?: string };
   const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
   const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
+  const activityCity = familyData.activityCity?.trim();
   const childName = (children as unknown as { name: string }[])[0]?.name || "copilul";
   const plan = familyData.plan === "pro" || familyData.plan === "family" ? familyData.plan : "free";
 
@@ -129,6 +130,7 @@ export default async function HomePage({
         residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
         initialUnreadCount={chatUnreadCount}
         isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
+        activityCity={activityCity}
       />
     </div>
   );

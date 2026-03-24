@@ -41,18 +41,20 @@ export default async function ConfigPage({
     parent1Name: (family as { parent1Name?: string }).parent1Name ?? "",
     parent2Name: (family as { parent2Name?: string }).parent2Name ?? "",
     name: (family as { name?: string }).name ?? "",
+    activityCity: (family as { activityCity?: string }).activityCity ?? "",
   };
   const memberCount = ((family as { memberIds?: unknown[] }).memberIds || []).length;
   const plan = (family as { plan?: string }).plan === "pro" || (family as { plan?: string }).plan === "family" ? (family as { plan: "pro" | "family" }).plan : "free";
   const stripeConfigured = isStripeConfigured();
   const subscriptionStatus = (family as { subscriptionStatus?: string }).subscriptionStatus ?? null;
   const currentPeriodEnd = (family as { currentPeriodEnd?: string }).currentPeriodEnd ?? null;
-  const childrenData = (children as { _id: unknown; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string }[]).map((c) => ({
+  const childrenData = (children as { _id: unknown; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string; birthDate?: string }[]).map((c) => ({
     id: String(c._id),
     name: c.name,
     allergies: c.allergies ?? "",
     travelDocuments: Array.isArray(c.travelDocuments) ? c.travelDocuments : [],
     notes: c.notes ?? "",
+    birthDate: typeof c.birthDate === "string" ? c.birthDate : undefined,
   }));
   const residencesData = (residences as { _id: unknown; name: string }[]).map((r) => ({ id: String(r._id), name: r.name }));
   return (

@@ -16,6 +16,7 @@ function toChild(doc: {
   allergies?: string | null;
   travelDocuments?: TravelDocumentRef[] | { id: string; name: string }[] | string | null;
   notes?: string | null;
+  birthDate?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): Child {
@@ -23,6 +24,7 @@ function toChild(doc: {
   const travelDocuments: TravelDocumentRef[] | undefined = Array.isArray(raw)
     ? raw.map((t) => (typeof t === "object" && t && "id" in t && "name" in t ? { id: String(t.id), name: String(t.name) } : null)).filter(Boolean) as TravelDocumentRef[]
     : undefined;
+  const bd = doc.birthDate;
   return {
     id: String(doc._id),
     familyId: String(doc.familyId),
@@ -30,6 +32,7 @@ function toChild(doc: {
     allergies: doc.allergies ?? undefined,
     travelDocuments: travelDocuments?.length ? travelDocuments : undefined,
     notes: doc.notes ?? undefined,
+    birthDate: typeof bd === "string" && /^\d{4}-\d{2}-\d{2}$/.test(bd) ? bd : undefined,
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -108,6 +111,13 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ error: "Numele copilului este obligatoriu." }, { status: 400 });
   }
+  let birthDate: string | null = null;
+  if (body.birthDate != null && body.birthDate !== "") {
+    if (typeof body.birthDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(body.birthDate)) {
+      return NextResponse.json({ error: "Data nașterii trebuie în format YYYY-MM-DD." }, { status: 400 });
+    }
+    birthDate = body.birthDate;
+  }
   const now = new Date();
   const { insertedId } = await db.collection("children").insertOne({
     familyId,
@@ -115,6 +125,7 @@ export async function POST(request: Request) {
     allergies: null,
     travelDocuments: [],
     notes: null,
+    birthDate,
     createdAt: now,
     updatedAt: now,
   });
@@ -205,8 +216,18 @@ export async function PATCH(request: Request) {
   if (typeof body.name === "string") update.name = body.name.trim();
   if (typeof body.allergies === "string") update.allergies = body.allergies.trim() || null;
   if (typeof body.notes === "string") update.notes = body.notes.trim() || null;
+  if ("birthDate" in body) {
+    const v = body.birthDate;
+    if (v === null || v === "") update.birthDate = null;
+    else if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v)) update.birthDate = v;
+    else {
+      return NextResponse.json({ error: "Data nașterii trebuie YYYY-MM-DD sau goală." }, { status: 400 });
+    }
+  }
   if (Object.keys(update).length <= 1) {
-    return NextResponse.json({ error: "Trimite cel puțin un câmp de actualizat (name, allergies, notes)." }, { status: 400 });
+    return NextResponse.json({
+      error: "Trimite cel puțin un câmp de actualizat (name, allergies, notes, birthDate).",
+    }, { status: 400 });
   }
   const result = await db.collection("children").updateOne({ _id: oid, familyId }, { $set: update });
   if (result.matchedCount === 0) {

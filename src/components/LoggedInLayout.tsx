@@ -31,6 +31,8 @@ interface LoggedInLayoutProps {
   /** Deschide modale de pe link-uri `/?add=1` / `/?blocked=1` (ex. din chat). */
   openAddModalOnMount?: boolean;
   openBlockedModalOnMount?: boolean;
+  /** Oraș familie (fallback pentru sugestii AI dacă nu e geolocație). */
+  activityCity?: string;
 }
 
 export function LoggedInLayout({
@@ -47,6 +49,7 @@ export function LoggedInLayout({
   pendingPlan,
   openAddModalOnMount = false,
   openBlockedModalOnMount = false,
+  activityCity,
 }: LoggedInLayoutProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingPlanHandled, setPendingPlanHandled] = useState(false);
@@ -228,6 +231,7 @@ export function LoggedInLayout({
           plan={plan}
           openAddModalOnMount={openAddModalOnMount}
           openBlockedModalOnMount={openBlockedModalOnMount}
+          activityCity={activityCity}
         />
       </main>
       <MobileQuickNav />

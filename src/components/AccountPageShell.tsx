@@ -13,8 +13,8 @@ import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 type ParentType = "tata" | "mama" | null;
 
 export interface ConfigData {
-  initialFamily: { id: string; parent1Name: string; parent2Name: string; name: string };
-  initialChildren: { id: string; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string }[];
+  initialFamily: { id: string; parent1Name: string; parent2Name: string; name: string; activityCity?: string };
+  initialChildren: { id: string; name: string; allergies?: string; travelDocuments?: { id: string; name: string }[]; notes?: string; birthDate?: string }[];
   initialResidences: { id: string; name: string }[];
   memberCount: number;
   plan?: "free" | "pro" | "family";

@@ -6,6 +6,7 @@ import { getActiveFamily } from "@/lib/family";
 import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import { sendChildActivityAddedNotification } from "@/lib/notify";
+import { getTodayDateStringEuropeBucharest } from "@/lib/date-bucharest";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -84,7 +85,7 @@ export async function POST(request: Request) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(periodEndDate)) {
     return NextResponse.json({ error: "periodEndDate invalid." }, { status: 400 });
   }
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = getTodayDateStringEuropeBucharest();
   if (periodEndDate > todayStr) {
     return NextResponse.json({ error: "Poți adăuga activități doar pentru zile trecute sau azi." }, { status: 400 });
   }

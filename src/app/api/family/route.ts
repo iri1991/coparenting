@@ -8,7 +8,19 @@ import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { Family } from "@/types/family";
 
-function toFamily(doc: { _id: unknown; createdByUserId: string; memberIds: string[]; parent1Name?: string | null; parent2Name?: string | null; name?: string | null; plan?: string | null; active?: boolean; createdAt: Date; updatedAt: Date }): Family {
+function toFamily(doc: {
+  _id: unknown;
+  createdByUserId: string;
+  memberIds: string[];
+  parent1Name?: string | null;
+  parent2Name?: string | null;
+  name?: string | null;
+  plan?: string | null;
+  active?: boolean;
+  activityCity?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}): Family {
   const plan = doc.plan === "pro" || doc.plan === "family" ? doc.plan : undefined;
   return {
     id: String(doc._id),
@@ -19,6 +31,7 @@ function toFamily(doc: { _id: unknown; createdByUserId: string; memberIds: strin
     parent2Name: doc.parent2Name ?? undefined,
     plan: plan ?? "free",
     active: doc.active !== false,
+    activityCity: doc.activityCity?.trim() || undefined,
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -136,6 +149,9 @@ export async function PATCH(request: Request) {
   if (typeof body.parent1Name === "string") update.parent1Name = body.parent1Name.trim() || null;
   if (typeof body.parent2Name === "string") update.parent2Name = body.parent2Name.trim() || null;
   if (typeof body.name === "string") update.name = body.name.trim() || null;
+  if ("activityCity" in body && (typeof body.activityCity === "string" || body.activityCity === null)) {
+    update.activityCity = typeof body.activityCity === "string" ? body.activityCity.trim() || null : null;
+  }
   await db.collection("families").updateOne({ _id: oid }, { $set: update });
   const displayName = await getParentDisplayName(db, oid, session.user.id, session.user.parentType ?? undefined);
   try {

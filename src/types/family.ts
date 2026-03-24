@@ -33,6 +33,8 @@ export interface Family {
   shareToken?: string;
   /** Data la care a fost creat linkul de partajare. */
   shareCreatedAt?: string;
+  /** Oraș pentru sugestii AI (vreme, idei de activități). */
+  activityCity?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -53,6 +55,8 @@ export interface Child {
   travelDocuments?: TravelDocumentRef[];
   /** Alte informații (sănătate, medicamente, contact doctor etc.) */
   notes?: string;
+  /** Data nașterii (YYYY-MM-DD) — pentru sugestii potrivite vârstei. */
+  birthDate?: string;
   createdAt: string;
   updatedAt: string;
 }
