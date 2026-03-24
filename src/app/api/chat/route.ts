@@ -7,6 +7,7 @@ import { sendNewChatMessageNotification } from "@/lib/notify";
 
 const MAX_MESSAGE_LENGTH = 2000;
 const MAX_MESSAGES = 100;
+const MAX_REPLY_PREVIEW_LENGTH = 120;
 
 /** GET: mesajele din chat-ul familiei (doar membri). */
 export async function GET() {
@@ -48,7 +49,15 @@ export async function GET() {
     .limit(MAX_MESSAGES)
     .toArray();
 
-  const messages = (docs as { _id: unknown; senderId: string; text: string; createdAt: Date }[]).map(
+  const messages = (docs as {
+    _id: unknown;
+    senderId: string;
+    text: string;
+    createdAt: Date;
+    replyToId?: string;
+    replyToSenderId?: string;
+    replyToText?: string;
+  }[]).map(
     (d) => {
       const senderIndex = memberIds.indexOf(d.senderId);
       const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
@@ -56,6 +65,29 @@ export async function GET() {
         d.senderId === session.user.id &&
         !!otherLastReadAt &&
         d.createdAt.getTime() <= otherLastReadAt.getTime();
+      let replyTo: {
+        id: string;
+        senderId: string;
+        senderLabel: string;
+        text: string;
+      } | null = null;
+      if (
+        typeof d.replyToId === "string" &&
+        d.replyToId &&
+        typeof d.replyToSenderId === "string" &&
+        d.replyToSenderId &&
+        typeof d.replyToText === "string"
+      ) {
+        const replySenderIndex = memberIds.indexOf(d.replyToSenderId);
+        const replySenderLabel =
+          replySenderIndex === 0 ? parent1Name : replySenderIndex === 1 ? parent2Name : "Membru";
+        replyTo = {
+          id: d.replyToId,
+          senderId: d.replyToSenderId,
+          senderLabel: replySenderLabel,
+          text: d.replyToText,
+        };
+      }
       return {
         id: String(d._id),
         senderId: d.senderId,
@@ -63,6 +95,7 @@ export async function GET() {
         text: d.text,
         createdAt: d.createdAt.toISOString(),
         seenByOther,
+        replyTo,
       };
     }
   );
@@ -82,6 +115,7 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => ({}));
   const text = typeof body.text === "string" ? body.text.trim() : "";
+  const replyToId = typeof body.replyToId === "string" ? body.replyToId.trim() : "";
   if (!text) {
     return NextResponse.json({ error: "Mesajul nu poate fi gol." }, { status: 400 });
   }
@@ -106,13 +140,63 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Nu sunteți membru al acestei familii." }, { status: 403 });
   }
 
+  let replyPayload:
+    | {
+        replyToId: string;
+        replyToSenderId: string;
+        replyToText: string;
+      }
+    | undefined;
+  if (replyToId) {
+    let replyOid: ObjectId;
+    try {
+      replyOid = new ObjectId(replyToId);
+    } catch {
+      return NextResponse.json({ error: "Mesajul la care răspunzi nu este valid." }, { status: 400 });
+    }
+    const repliedMessage = await db.collection("messages").findOne(
+      { _id: replyOid, familyId },
+      { projection: { _id: 1, senderId: 1, text: 1 } }
+    );
+    if (!repliedMessage) {
+      return NextResponse.json({ error: "Mesajul la care răspunzi nu a fost găsit." }, { status: 404 });
+    }
+    const replySenderId = String((repliedMessage as { senderId?: unknown }).senderId ?? "");
+    const replyTextRaw = String((repliedMessage as { text?: unknown }).text ?? "").trim();
+    if (!replySenderId || !replyTextRaw) {
+      return NextResponse.json({ error: "Mesajul la care răspunzi nu este disponibil." }, { status: 400 });
+    }
+    replyPayload = {
+      replyToId: String((repliedMessage as { _id: unknown })._id),
+      replyToSenderId: replySenderId,
+      replyToText:
+        replyTextRaw.length > MAX_REPLY_PREVIEW_LENGTH
+          ? `${replyTextRaw.slice(0, MAX_REPLY_PREVIEW_LENGTH - 1)}…`
+          : replyTextRaw,
+    };
+  }
+
   const now = new Date();
-  const { insertedId } = await db.collection("messages").insertOne({
+  const insertDoc: {
+    familyId: ObjectId;
+    senderId: string;
+    text: string;
+    createdAt: Date;
+    replyToId?: string;
+    replyToSenderId?: string;
+    replyToText?: string;
+  } = {
     familyId,
     senderId: session.user.id,
     text,
     createdAt: now,
-  });
+  };
+  if (replyPayload) {
+    insertDoc.replyToId = replyPayload.replyToId;
+    insertDoc.replyToSenderId = replyPayload.replyToSenderId;
+    insertDoc.replyToText = replyPayload.replyToText;
+  }
+  const { insertedId } = await db.collection("messages").insertOne(insertDoc);
 
   const otherUserIds = memberIds.filter((id) => id !== session.user.id);
   if (otherUserIds.length > 0) {
@@ -130,5 +214,12 @@ export async function POST(request: Request) {
     senderId: session.user.id,
     text,
     createdAt: now.toISOString(),
+    replyTo: replyPayload
+      ? {
+          id: replyPayload.replyToId,
+          senderId: replyPayload.replyToSenderId,
+          text: replyPayload.replyToText,
+        }
+      : null,
   });
 }

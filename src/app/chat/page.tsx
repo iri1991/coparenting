@@ -47,7 +47,15 @@ export default async function ChatPage() {
     .toArray();
 
   const initialMessages: ChatMessage[] = (
-    docs as { _id: unknown; senderId: string; text: string; createdAt: Date }[]
+    docs as {
+      _id: unknown;
+      senderId: string;
+      text: string;
+      createdAt: Date;
+      replyToId?: string;
+      replyToSenderId?: string;
+      replyToText?: string;
+    }[]
   ).map((d) => {
     const senderIndex = memberIds.indexOf(d.senderId);
     const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
@@ -55,6 +63,24 @@ export default async function ChatPage() {
       d.senderId === session.user.id &&
       !!otherLastReadAt &&
       d.createdAt.getTime() <= otherLastReadAt.getTime();
+    let replyTo: ChatMessage["replyTo"] = null;
+    if (
+      typeof d.replyToId === "string" &&
+      d.replyToId &&
+      typeof d.replyToSenderId === "string" &&
+      d.replyToSenderId &&
+      typeof d.replyToText === "string"
+    ) {
+      const replySenderIndex = memberIds.indexOf(d.replyToSenderId);
+      const replySenderLabel =
+        replySenderIndex === 0 ? parent1Name : replySenderIndex === 1 ? parent2Name : "Membru";
+      replyTo = {
+        id: d.replyToId,
+        senderId: d.replyToSenderId,
+        senderLabel: replySenderLabel,
+        text: d.replyToText,
+      };
+    }
     return {
       id: String(d._id),
       senderId: d.senderId,
@@ -62,6 +88,7 @@ export default async function ChatPage() {
       text: d.text,
       createdAt: d.createdAt.toISOString(),
       seenByOther,
+      replyTo,
     };
   });
 

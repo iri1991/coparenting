@@ -9,6 +9,12 @@ export interface ChatMessage {
   text: string;
   createdAt: string;
   seenByOther?: boolean;
+  replyTo?: {
+    id: string;
+    senderId: string;
+    senderLabel: string;
+    text: string;
+  } | null;
 }
 
 const POLL_INTERVAL_MS = 8000;
@@ -24,6 +30,7 @@ export function ChatClient({
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [replyTo, setReplyTo] = useState<ChatMessage | null>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
 
   const fetchMessages = useCallback(async () => {
@@ -69,7 +76,7 @@ export function ChatClient({
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, replyToId: replyTo?.id ?? undefined }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -86,8 +93,20 @@ export function ChatClient({
           text: data.text,
           createdAt: data.createdAt,
           seenByOther: false,
+          replyTo: data.replyTo
+            ? {
+                id: String(data.replyTo.id),
+                senderId: String(data.replyTo.senderId),
+                senderLabel:
+                  data.replyTo.senderId === currentUserId
+                    ? "Tu"
+                    : prev.find((x) => x.id === String(data.replyTo.id))?.senderLabel || "Membru",
+                text: String(data.replyTo.text),
+              }
+            : null,
         },
       ]);
+      setReplyTo(null);
       fetchMessages();
     } finally {
       setSending(false);
@@ -123,8 +142,27 @@ export function ChatClient({
                     : "bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-bl-md shadow-sm border border-stone-100 dark:border-stone-700"
                 }`}
               >
+                {m.replyTo && (
+                  <div
+                    className={`mb-1.5 rounded-lg px-2.5 py-1.5 text-xs border ${
+                      isMe
+                        ? "bg-white/20 border-white/30 text-white/90"
+                        : "bg-stone-50 dark:bg-stone-700/60 border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-300"
+                    }`}
+                  >
+                    <p className="font-semibold">{m.replyTo.senderId === currentUserId ? "Tu" : m.replyTo.senderLabel}</p>
+                    <p className="max-h-10 overflow-hidden whitespace-pre-wrap break-words">{m.replyTo.text}</p>
+                  </div>
+                )}
                 <p className="whitespace-pre-wrap break-words">{m.text}</p>
               </div>
+              <button
+                type="button"
+                onClick={() => setReplyTo(m)}
+                className="mt-1 text-[11px] text-stone-500 dark:text-stone-400 hover:underline"
+              >
+                Reply
+              </button>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-xs text-stone-400 dark:text-stone-500">
                   {new Date(m.createdAt).toLocaleString("ro-RO", {
@@ -151,6 +189,26 @@ export function ChatClient({
         onSubmit={handleSubmit}
         className="shrink-0 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-stone-100 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800"
       >
+        {replyTo && (
+          <div className="mb-2 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2 flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold text-amber-700 dark:text-amber-300">
+                Reply către {replyTo.senderId === currentUserId ? "tine" : replyTo.senderLabel}
+              </p>
+              <p className="text-xs text-stone-700 dark:text-stone-300 max-h-10 overflow-hidden whitespace-pre-wrap break-words">
+                {replyTo.text}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setReplyTo(null)}
+              className="text-xs text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+              aria-label="Anulează reply"
+            >
+              ✕
+            </button>
+          </div>
+        )}
         {error && (
           <p className="text-red-600 dark:text-red-400 text-xs mb-2">{error}</p>
         )}
