@@ -8,31 +8,37 @@ export const brandName = "HomeSplit";
 export const ogImage = "/logo.png";
 export const serviceArea = ["Romania", "Bucuresti", "Ilfov"] as const;
 
-export const defaultTitle = "HomeSplit - Co-parenting calm si clar: program copil, handover, activitati";
+export const defaultTitle =
+  "HomeSplit — Calendar familie, activități copil & co-parenting (împreună sau la distanță)";
 export const defaultDescription =
-  "HomeSplit ajuta parintii separati sa organizeze calm programul copilului: calendar comun, handover clar, activitati, observatii si informatii importante. Mai putin stres intre parinti, mai multa stabilitate pentru copil.";
+  "HomeSplit ajută familiile cu copii: calendar comun, activități, idei AI, documente și chat — fie că locuiți împreună și vreți mai multă claritate și timp de calitate, fie că sunteți la două adrese și aveți nevoie de handover și program predictibil.";
 
 /** Propoziții clare, citabile de motoare AI (GEO). */
 export const geoSummary = [
-  "HomeSplit este o aplicatie de co-parenting pentru parinti separati care vor un program clar pentru copil, fara discutii tensionate.",
-  "Aplicatia centralizeaza calendarul copilului, handover-ul, zilele blocate, activitatile si observatiile de la final de perioada.",
-  "Beneficiul principal este emotional si practic: mai putin stres intre parinti si mai multa predictibilitate pentru copil.",
-  "HomeSplit functioneaza in Romania, in limba romana, ca web app accesibila direct din browser pe telefon sau desktop.",
-  "Un abonament acopera ambii parinti si poate fi inceput gratuit, cu upgrade simplu cand familia are nevoie de functii extinse.",
+  "HomeSplit este o aplicație pentru familii cu copii din România: potrivită atât pentru părinți care locuiesc împreună (timp împreună, activități, idei, documente), cât și pentru co-parenting la două adrese.",
+  "Include calendarul copilului, activități recurente, recomandări AI pentru ieșit, materiale utile, profil cu alergii și documente de familie, plus chat între părinți.",
+  "Familiile împreună pot folosi aceleași instrumente fără să fie nevoie de custodie sau handover — se concentrează pe organizare și petrecerea timpului cu copilul.",
+  "Familiile la distanță beneficiază de propunere automată săptămânală, zile blocate, jurnal la handover și istoric — mai puțin stres, mai multă predictibilitate pentru copil.",
+  "HomeSplit funcționează în limba română, ca web app din browser pe telefon sau desktop; un abonament acoperă ambii părinți, cu început gratuit.",
 ] as const;
 
 export const keywords = [
   "co-parenting",
   "coparenting",
-  "aplicatie co parenting romania",
+  "aplicatie familie copii",
+  "calendar copil",
+  "activitati copil familie",
+  "organizare timp copil",
+  "familie impreuna aplicatie",
+  "timp calitate copil",
   "program copil dupa divort",
   "program custodie",
-  "calendar copil",
   "handover copil",
   "predare primire copil",
   "custodie comuna organizare",
   "părinți separați",
   "planificare zile copil",
   "aplicație co-parenting România",
+  "documente familie copil",
   "HomeSplit",
 ];

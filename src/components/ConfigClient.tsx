@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
+import type { FamilyHouseholdMode } from "@/types/family";
+import { resolveHouseholdMode } from "@/lib/household-mode";
 
 interface FamilyData {
   id: string;
@@ -14,6 +16,7 @@ interface FamilyData {
   name: string;
   /** Oraș pentru sugestii AI (vreme, idei de ieșit). */
   activityCity?: string;
+  householdMode?: FamilyHouseholdMode;
 }
 interface TravelDocRef {
   id: string;
@@ -273,12 +276,16 @@ export function ConfigClient({
           parent2Name: family.parent2Name.trim() || null,
           name: family.name.trim() || null,
           activityCity: family.activityCity?.trim() || null,
+          householdMode: resolveHouseholdMode(family.householdMode),
         }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setMessage({ type: "error", text: data.error || "Eroare la salvare." });
         return;
+      }
+      if (data.family?.householdMode) {
+        setFamily((f) => ({ ...f, householdMode: data.family.householdMode }));
       }
       setMessage({ type: "ok", text: "Salvat." });
     } finally {
@@ -530,6 +537,83 @@ export function ConfigClient({
               Folosit dacă nu acorzi acces la locație pe telefon. Poți completa și data nașterii copilului la „Detalii”.
             </p>
           </div>
+          <div>
+            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">Tip de familie</span>
+            <div className="space-y-2">
+              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-amber-400 dark:has-[:checked]:border-amber-600">
+                <input
+                  type="radio"
+                  name="householdMode"
+                  className="mt-0.5"
+                  checked={resolveHouseholdMode(family.householdMode) === "together"}
+                  onChange={() => {
+                    setFamily((f) => ({ ...f, householdMode: "together" }));
+                    void (async () => {
+                      setSaving(true);
+                      try {
+                        const res = await fetch("/api/family", {
+                          method: "PATCH",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ householdMode: "together" }),
+                        });
+                        const data = await res.json().catch(() => ({}));
+                        if (res.ok && data.family?.householdMode) {
+                          setFamily((prev) => ({ ...prev, householdMode: data.family.householdMode }));
+                          setMessage({ type: "ok", text: "Mod salvat." });
+                        } else if (!res.ok) {
+                          setMessage({ type: "error", text: data.error || "Eroare." });
+                        }
+                      } finally {
+                        setSaving(false);
+                      }
+                    })();
+                  }}
+                />
+                <span>
+                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">Locuim împreună</span>
+                  <span className="block text-xs text-stone-500 dark:text-stone-400">
+                    Fără predare/primire automată; locuințele sunt opționale (ex. bunici, vacanță).
+                  </span>
+                </span>
+              </label>
+              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-amber-400 dark:has-[:checked]:border-amber-600">
+                <input
+                  type="radio"
+                  name="householdMode"
+                  className="mt-0.5"
+                  checked={resolveHouseholdMode(family.householdMode) === "two_households"}
+                  onChange={() => {
+                    setFamily((f) => ({ ...f, householdMode: "two_households" }));
+                    void (async () => {
+                      setSaving(true);
+                      try {
+                        const res = await fetch("/api/family", {
+                          method: "PATCH",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ householdMode: "two_households" }),
+                        });
+                        const data = await res.json().catch(() => ({}));
+                        if (res.ok && data.family?.householdMode) {
+                          setFamily((prev) => ({ ...prev, householdMode: data.family.householdMode }));
+                          setMessage({ type: "ok", text: "Mod salvat." });
+                        } else if (!res.ok) {
+                          setMessage({ type: "error", text: data.error || "Eroare." });
+                        }
+                      } finally {
+                        setSaving(false);
+                      }
+                    })();
+                  }}
+                />
+                <span>
+                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">Două locuințe (custodie / handover)</span>
+                  <span className="block text-xs text-stone-500 dark:text-stone-400">
+                    Adaugă cel puțin o locuință pentru calendar; propuneri și schimb de perioadă ca înainte.
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -614,7 +698,9 @@ export function ConfigClient({
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">Locuințe</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-          Ex: Tunari, Otopeni, Bunici – unde poate sta copilul
+          {resolveHouseholdMode(family.householdMode) === "together"
+            ? "Opțional: ex. Acasă, Bunici, vacanță — pentru etichete în calendar. La modul „două locuințe” devin necesare pentru program."
+            : "Ex: Tunari, Otopeni, Bunici – unde poate sta copilul (minim una pentru acces la calendar)."}
         </p>
         <ul className="space-y-2 mb-3">
           {residences.map((r) => (

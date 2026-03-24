@@ -6,7 +6,7 @@ import { getActiveFamily } from "@/lib/family";
 import { notifyFamilyConfigUpdated } from "@/lib/email";
 import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
-import type { Family } from "@/types/family";
+import type { Family, FamilyHouseholdMode } from "@/types/family";
 
 function toFamily(doc: {
   _id: unknown;
@@ -18,10 +18,12 @@ function toFamily(doc: {
   plan?: string | null;
   active?: boolean;
   activityCity?: string | null;
+  householdMode?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): Family {
   const plan = doc.plan === "pro" || doc.plan === "family" ? doc.plan : undefined;
+  const hm = doc.householdMode === "together" ? "together" : doc.householdMode === "two_households" ? "two_households" : undefined;
   return {
     id: String(doc._id),
     name: doc.name ?? undefined,
@@ -32,6 +34,7 @@ function toFamily(doc: {
     plan: plan ?? "free",
     active: doc.active !== false,
     activityCity: doc.activityCity?.trim() || undefined,
+    householdMode: hm,
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -88,6 +91,8 @@ export async function POST(request: Request) {
   }
   const body = await request.json().catch(() => ({}));
   const { parent1Name, parent2Name, name } = body;
+  const householdMode: FamilyHouseholdMode =
+    body?.householdMode === "together" ? "together" : "two_households";
   const now = new Date();
   const { insertedId } = await db.collection("families").insertOne({
     createdByUserId: session.user.id,
@@ -95,6 +100,7 @@ export async function POST(request: Request) {
     parent1Name: typeof parent1Name === "string" ? parent1Name.trim() || null : null,
     parent2Name: typeof parent2Name === "string" ? parent2Name.trim() || null : null,
     name: typeof name === "string" ? name.trim() || null : null,
+    householdMode,
     plan: "free",
     active: true,
     createdAt: now,
@@ -151,6 +157,9 @@ export async function PATCH(request: Request) {
   if (typeof body.name === "string") update.name = body.name.trim() || null;
   if ("activityCity" in body && (typeof body.activityCity === "string" || body.activityCity === null)) {
     update.activityCity = typeof body.activityCity === "string" ? body.activityCity.trim() || null : null;
+  }
+  if (body.householdMode === "together" || body.householdMode === "two_households") {
+    update.householdMode = body.householdMode;
   }
   await db.collection("families").updateOne({ _id: oid }, { $set: update });
   const displayName = await getParentDisplayName(db, oid, session.user.id, session.user.parentType ?? undefined);

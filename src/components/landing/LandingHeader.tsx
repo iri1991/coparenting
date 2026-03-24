@@ -52,13 +52,13 @@ export function LandingHeader() {
             href="/login"
             className="hidden sm:inline-flex px-4 py-2 rounded-xl text-sm font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
           >
-            Intră în cont
+            Conectare
           </Link>
           <Link
-            href="/login"
+            href="/register"
             className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 active:scale-[0.98] transition"
           >
-            Încearcă gratuit
+            Creează cont
           </Link>
           <button
             type="button"
@@ -85,9 +85,14 @@ export function LandingHeader() {
               {link.label}
             </a>
           ))}
-          <Link href="/login" className="block px-3 py-2 rounded-lg text-amber-600 dark:text-amber-400 font-medium" onClick={() => setMobileOpen(false)}>
-            Intră în cont
-          </Link>
+          <div className="flex flex-col gap-1 pt-2 border-t border-stone-200 dark:border-stone-700">
+            <Link href="/register" className="block px-3 py-2 rounded-lg bg-amber-500 text-white text-center font-medium" onClick={() => setMobileOpen(false)}>
+              Creează cont
+            </Link>
+            <Link href="/login" className="block px-3 py-2 rounded-lg text-amber-600 dark:text-amber-400 font-medium text-center" onClick={() => setMobileOpen(false)}>
+              Conectare
+            </Link>
+          </div>
         </div>
       )}
     </header>

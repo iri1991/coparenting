@@ -3,6 +3,12 @@ export type ParentRole = "parent1" | "parent2";
 
 import type { PlanType } from "./plan";
 
+/**
+ * Situația locuinței: aceeași casă (fără presupuneri de predare/primire) vs două locuințe (custodie / handover).
+ * Lipsește în documente vechi — tratat ca `two_households` în logică.
+ */
+export type FamilyHouseholdMode = "together" | "two_households";
+
 export interface Family {
   id: string;
   /** Nume opțional al „cercului” (ex. „Familia X”) */
@@ -35,6 +41,8 @@ export interface Family {
   shareCreatedAt?: string;
   /** Oraș pentru sugestii AI (vreme, idei de activități). */
   activityCity?: string;
+  /** Mod locuință: împreună vs două adrese (vezi `FamilyHouseholdMode`). */
+  householdMode?: FamilyHouseholdMode;
   createdAt: string;
   updatedAt: string;
 }

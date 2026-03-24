@@ -4,12 +4,13 @@ import Link from "next/link";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
 const BULLETS = [
-  "Știi din timp cine preia copilul, unde și la ce oră",
-  "Mai puține discuții tensionate, mai multă claritate între părinți",
-  "Activitățile copilului rămân centralizate, fără repetiții",
-  "La final de perioadă notați simplu ce a mers bine",
-  "Link-uri utile (melodii, povești, clipuri) la îndemână pentru ambii",
-  "Alergii, documente și informații importante într-un loc sigur",
+  "Potrivit și pentru familii care locuiesc împreună: activități, idei AI, documente — fără mesaje risipite",
+  "Știi din timp cine e cu copilul, unde și la ce oră (util și la două adrese)",
+  "Mai puțină încărcare mentală, același plan vizibil pentru amândoi",
+  "Tab Idei: recomandări AI pentru ieșit (vreme, oraș) — salvezi în activități sau refuzi",
+  "Activitățile copilului centralizate; la handover, notițe rapide despre ce a mers bine",
+  "Link-uri utile (melodii, povești, clipuri) la îndemână",
+  "Alergii, documente de familie și informații importante într-un loc sigur",
 ];
 
 const BADGES = [
@@ -26,17 +27,17 @@ export function LandingHero() {
           <div className="space-y-8">
             <AnimateOnScroll>
               <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl lg:text-5xl leading-tight">
-                Un spațiu calm pentru co-parenting, în care copilul rămâne în centru.
+                Organizare pentru familie — împreună acasă sau la două adrese.
               </h1>
             </AnimateOnScroll>
             <AnimateOnScroll delay={100}>
               <p className="text-lg text-stone-600 dark:text-stone-400 max-w-xl">
-                HomeSplit vă ajută să transformați haosul din mesaje într-un plan clar, cald și previzibil: cine preia copilul, ce activități are și ce informații importante trebuie să știe fiecare părinte.
+                Fie că vreți mai multă claritate și timp de calitate când stați în aceeași casă, fie că împărțiți programul copilului între două locuințe — HomeSplit pune calendarul, activitățile, ideile și documentele într-un singur loc, pentru amândoi părinții.
               </p>
             </AnimateOnScroll>
             <AnimateOnScroll delay={200}>
               <p className="text-stone-700 dark:text-stone-300 font-medium">
-                În fiecare duminică primiți o propunere de program pentru săptămâna următoare, pe care o ajustați împreună în câteva minute.
+                Propunere săptămânală automată, recomandări AI pentru ieșit și tot ce ține de copil la îndemână — fără să vă pierdeți în chat-uri și foi volante.
               </p>
             </AnimateOnScroll>
             <ul className="space-y-2">
@@ -62,10 +63,10 @@ export function LandingHero() {
             <AnimateOnScroll delay={700}>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/login"
+                  href="/register"
                   className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-amber-600 active:scale-[0.98] transition"
                 >
-                  Începe gratuit
+                  Creează cont gratuit
                 </Link>
                 <a
                   href="#cum-functioneaza"
@@ -80,7 +81,7 @@ export function LandingHero() {
                 Fără card. Setare rapidă.
               </p>
               <p className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
-                Mai puțină presiune între părinți. Mai multă liniște pentru copil.
+                Mai puțin stres pentru voi. Mai multă liniște și predictibilitate pentru copil.
               </p>
             </AnimateOnScroll>
           </div>

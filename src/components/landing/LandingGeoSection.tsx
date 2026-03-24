@@ -20,13 +20,13 @@ export function LandingGeoSection() {
             id="geo-heading"
             className="text-xl font-bold text-stone-900 dark:text-stone-100 sm:text-2xl"
           >
-            HomeSplit pe scurt (pentru părinți ocupați)
+            HomeSplit pe scurt (familii cu copii)
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={40}>
           <p className="mt-3 text-stone-600 dark:text-stone-400">
-            Dacă simți că programul copilului vă consumă energie și discuții, HomeSplit este construit să readucă ordine,
-            calm și încredere între părinți.
+            Fie că locuiți împreună și vreți claritate pentru activități și documente, fie că împărțiți programul la două
+            adrese — HomeSplit aduce același hub: calendar, idei AI, materiale utile și informații despre copil, la un loc.
           </p>
         </AnimateOnScroll>
         <ul className="mt-6 space-y-4" role="list">

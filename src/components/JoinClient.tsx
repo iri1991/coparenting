@@ -110,9 +110,17 @@ export function JoinClient({ token, isLoggedIn }: JoinClientProps) {
         <p className="text-stone-500 text-sm text-center">
           Adaugă în URL token-ul din linkul de invitație: <strong>/join?token=...</strong>
         </p>
-        <Link href="/login" className="block w-full py-3 text-center rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600">
-          Mergi la conectare
-        </Link>
+        <div className="flex flex-col gap-2">
+          <Link href="/register" className="block w-full py-3 text-center rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600">
+            Creează cont
+          </Link>
+          <Link
+            href="/login"
+            className="block w-full py-3 text-center rounded-xl border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-50 dark:hover:bg-stone-800"
+          >
+            Conectare
+          </Link>
+        </div>
       </div>
     );
   }

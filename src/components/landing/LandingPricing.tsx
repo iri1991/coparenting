@@ -12,6 +12,7 @@ const PLANS = [
     features: [
       "1 copil",
       "Calendar săptămânal (program & handover basic)",
+      "Tab Idei: recomandări AI pentru activități (vreme, oraș, copil)",
       "Activități recurente: până la 3",
       "Zile blocate: până la 5 / lună",
       "1 locație implicită de predare",
@@ -34,6 +35,7 @@ const PLANS = [
     badge: "Cel mai bun raport preț/valoare",
     features: [
       "1–3 copii",
+      "Tab Idei: recomandări AI — accept → intră în jurnalul de activități",
       "Activități recurente nelimitat + „cine duce / cine ia”",
       "Zile blocate nelimitat",
       "Locații multiple + note handover",
@@ -57,6 +59,7 @@ const PLANS = [
     badge: null,
     features: [
       "Copii nelimitat",
+      "Recomandări AI (tab Idei) + jurnal activități",
       "Jurnal activități + materiale utile",
       "Acces îngrijitori (bonă/bunici) cu roluri",
       "Export / share program (PDF)",
@@ -123,7 +126,7 @@ export function LandingPricing() {
                   ))}
                 </ul>
                 <Link
-                  href={plan.name === "Free" ? "/login" : plan.name === "Pro" ? "/login?plan=pro" : "/login?plan=family"}
+                  href={plan.name === "Free" ? "/register" : plan.name === "Pro" ? "/register?plan=pro" : "/register?plan=family"}
                   className={`mt-6 block w-full rounded-xl py-3 text-center font-medium transition ${
                     plan.ctaPrimary
                       ? "bg-amber-500 text-white hover:bg-amber-600"

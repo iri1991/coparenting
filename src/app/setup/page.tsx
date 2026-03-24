@@ -29,7 +29,7 @@ export default async function SetupPage({
             Configurare familie
           </h1>
           <p className="mt-2 text-stone-600 dark:text-stone-400 text-sm">
-            Creează un cerc de coparenting sau intră cu o invitație de la celălalt părinte.
+            Creează familia ta sau intră cu o invitație de la celălalt părinte — la fel de simplu dacă stați împreună sau la două adrese.
           </p>
         </div>
         <SetupClient pendingPlan={planParam === "pro" || planParam === "family" ? planParam : undefined} />

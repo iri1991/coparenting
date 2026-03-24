@@ -5,6 +5,10 @@ import { AnimateOnScroll } from "./AnimateOnScroll";
 
 const FAQ_ITEMS = [
   {
+    q: "E doar pentru părinți separați sau divorțați?",
+    a: "Nu. HomeSplit e pentru orice familie cu copii: mulți părinți îl folosesc împreună acasă pentru activități, idei AI și documente. Funcțiile de handover și propunere săptămânală sunt acolo când copilul merge între două locuințe.",
+  },
+  {
     q: "Trebuie instalată aplicația?",
     a: "Nu. E o web app: o folosești direct din browser. Dacă vrei, o poți salva pe ecran ca icon.",
   },
@@ -27,6 +31,10 @@ const FAQ_ITEMS = [
   {
     q: "Cum funcționează „propunerea de duminică”?",
     a: "Aplicația generează automat programul săptămânii viitoare din zile blocate + activități recurente (și reguli, dacă sunt setate).",
+  },
+  {
+    q: "Ce sunt recomandările din tab „Idei”?",
+    a: "Sugestii în română, generate cu AI, ținând cont de vreme, oraș și copil. Poți accepta o idee și se adaugă la activitățile cu copilul sau o poți refuza (rămâne marcat).",
   },
   {
     q: "Avem jurnal cu ce a făcut copilul?",

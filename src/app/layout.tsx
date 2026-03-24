@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
     images: [
-      { url: ogImage, width: 512, height: 512, alt: "HomeSplit - co-parenting calm si clar" },
+      { url: ogImage, width: 512, height: 512, alt: "HomeSplit — calendar familie și activități copil" },
     ],
   },
   twitter: {
@@ -133,7 +133,7 @@ const jsonLd = {
       description: defaultDescription,
       audience: {
         "@type": "Audience",
-        audienceType: "Parinti separati sau divortati",
+        audienceType: "Familii cu copii din România (împreună sau co-parenting la distanță)",
       },
       offers: [
         {
@@ -142,7 +142,7 @@ const jsonLd = {
           price: "0",
           priceCurrency: "RON",
           category: "trial",
-          url: `${siteUrl}/login`,
+          url: `${siteUrl}/register`,
         },
         {
           "@type": "Offer",
@@ -150,7 +150,7 @@ const jsonLd = {
           price: "39",
           priceCurrency: "RON",
           billingDuration: "P1M",
-          url: `${siteUrl}/login?plan=pro`,
+          url: `${siteUrl}/register?plan=pro`,
         },
         {
           "@type": "Offer",
@@ -158,7 +158,7 @@ const jsonLd = {
           price: "59",
           priceCurrency: "RON",
           billingDuration: "P1M",
-          url: `${siteUrl}/login?plan=family`,
+          url: `${siteUrl}/register?plan=family`,
         },
       ],
       provider: { "@id": `${siteUrl}/#organization` },
@@ -166,8 +166,8 @@ const jsonLd = {
     {
       "@type": "Service",
       "@id": `${siteUrl}/#service`,
-      name: "Planificare co-parenting",
-      serviceType: "Organizare program copil si handover",
+      name: "Organizare familie & program copil",
+      serviceType: "Calendar, activități, idei AI, documente; handover când copilul e la două adrese",
       provider: { "@id": `${siteUrl}/#organization` },
       areaServed: serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
       availableChannel: {

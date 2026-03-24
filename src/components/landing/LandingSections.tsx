@@ -4,11 +4,12 @@ import { AnimateOnScroll } from "./AnimateOnScroll";
 
 export function LandingSocialProof() {
   const badges = [
-    "Mai puține discuții repetitive",
+    "Familii împreună sau la două adrese",
+    "Timp de calitate, fără haos în mesaje",
     "Mai multă previzibilitate pentru copil",
     "Plan clar pentru ambii părinți",
-    "Continuitate între cele două case",
-    "Informații importante, mereu la îndemână",
+    "Continuitate între locuri (când e cazul)",
+    "Documente și idei, la un loc",
     "Rutină calmă, săptămână după săptămână",
   ];
   return (
@@ -16,7 +17,7 @@ export function LandingSocialProof() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-xl font-semibold text-stone-800 dark:text-stone-100 sm:text-2xl">
-            Gândit pentru liniște în familie, nu pentru încă o sursă de stres.
+            La fel de utilă când locuiți împreună ca și când împărțiți programul la distanță.
           </h2>
         </AnimateOnScroll>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -35,9 +36,14 @@ export function LandingSocialProof() {
 
 export function LandingProblemSolution() {
   const cards = [
-    { pain: "Mesaje infinite", fix: "Plan centralizat", detail: "Programul e într-un singur loc, vizibil pentru amândoi." },
-    { pain: "Conflicte pe „cine duce”", fix: "Responsabilități clare", detail: "Activitățile copilului au responsabil setat (fix sau rotativ)." },
-    { pain: "Informații risipite", fix: "Profil complet", detail: "Alergii, medic, școală, documente, contacte — rapid, oricând." },
+    { pain: "Mesaje infinite", fix: "Plan centralizat", detail: "Programul e într-un singur loc, vizibil pentru amândoi — acasă sau între două case." },
+    { pain: "„Cine se ocupă azi de…”", fix: "Responsabilități clare", detail: "Activități cu responsabil (fix sau alternativ) — util la școală, hobby-uri sau handover." },
+    { pain: "Informații risipite", fix: "Profil & documente", detail: "Alergii, medic, școală, pașapoarte, acorduri — la îndemână pentru orice familie." },
+    {
+      pain: "Vrem idei, nu încă o listă în cap",
+      fix: "Idei AI + materiale",
+      detail: "Recomandări de ieșit și link-uri utile (melodii, cărți) — perfect și pentru weekend-uri împreună.",
+    },
   ];
   return (
     <section id="problema" className="py-16 sm:py-24">
@@ -49,7 +55,7 @@ export function LandingProblemSolution() {
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
           <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Co-parenting-ul devine obositor când fiecare schimbare înseamnă zeci de mesaje și neînțelegeri. HomeSplit transformă aceste momente într-un ritual simplu: vedeți aceleași informații, confirmați același plan, mergeți mai departe cu mai multă liniște.
+            Fie că vă coordonați din aceeași casă sau de la distanță, haosul din mesaje obosește la fel. HomeSplit vă ajută să aveți același plan, aceleași date despre copil și același loc pentru activități și documente — mai puțină fricțiune, mai multă energie pentru copil.
           </p>
         </AnimateOnScroll>
         <AnimateOnScroll delay={130}>
@@ -62,7 +68,7 @@ export function LandingProblemSolution() {
             />
           </div>
         </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((card, i) => (
             <AnimateOnScroll key={card.fix} delay={150 + i * 100}>
               <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 shadow-sm">
@@ -80,8 +86,16 @@ export function LandingProblemSolution() {
 
 const FEATURES = [
   {
+    title: "Familie împreună sau la distanță",
+    items: [
+      "Același spațiu pentru timp petrecut cu copilul: activități, idei AI, materiale utile",
+      "La două adrese: handover, calendar și chat — fără să renunțați la claritate",
+      "Voi alegeți ce folosiți intens (ex. fără „predare” dacă nu e cazul)",
+    ],
+  },
+  {
     title: "Program & calendar",
-    items: ["Calendar săptămânal/lunar pentru timpul copilului", "Handover: ore, locații, note"],
+    items: ["Calendar săptămânal/lunar pentru timpul copilului", "Handover: ore, locații, note (când copilul merge între locuri)"],
   },
   {
     title: "Zile blocate & disponibilitate",
@@ -118,12 +132,28 @@ const FEATURES = [
     items: ["Generează programul săptămânii viitoare", "Ține cont de: zile blocate, activități recurente, reguli", "Acceptă / ajustează / propune schimb"],
   },
   {
+    title: "Recomandări AI (tab Idei)",
+    items: [
+      "Sugestii de ieșit în română: vreme locală, oraș, vârsta copilului și programul tău",
+      "Acceptă o idee → intră automat la activitățile cu copilul; Refuză → rămâne marcat",
+      "Oraș salvat în familie sau geolocație; alergii din profil sunt luate în seamă",
+    ],
+  },
+  {
     title: "Profil copil (1+ copii)",
     items: ["Alergii + ce trebuie evitat", "Medicație / instrucțiuni", "Contacte utile (pediatru, școală, urgențe)"],
   },
   {
     title: "Documente & călătorie",
     items: ["Pașaport/CI, asigurare, acord de călătorie", "Încărcare + expirare + reminders"],
+  },
+  {
+    title: "Experiență mobilă",
+    items: [
+      "Trei taburi pe Acasă: Program, Rapoarte & resurse, Idei (recomandări)",
+      "Meniu fix jos: Acasă, Chat, Cont — mereu la îndemână",
+      "Bară de sus compactă (adăugare rapidă, logo, zile blocate); se ascunde la scroll în jos",
+    ],
   },
 ];
 
@@ -133,8 +163,13 @@ export function LandingFeatures() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Tot ce vă ajută să reduceți stresul zilnic, într-un singur loc.
+            Tot ce vă ajută la organizare și timp cu copilul — într-un singur loc.
           </h2>
+        </AnimateOnScroll>
+        <AnimateOnScroll delay={60}>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-stone-600 dark:text-stone-400">
+            Nu trebuie să fiți separați ca să folosiți HomeSplit: multe familii îl folosesc pentru claritate, activități și documente. Funcțiile de handover și propunere săptămânală sunt acolo când aveți nevoie de ele.
+          </p>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
@@ -156,7 +191,7 @@ export function LandingFeatures() {
         <AnimateOnScroll delay={400}>
           <div className="mt-10 text-center">
             <a
-              href="/login"
+              href="/register?plan=pro"
               className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition"
             >
               Încearcă Pro 14 zile (fără card)
@@ -169,10 +204,10 @@ export function LandingFeatures() {
 }
 
 const STEPS = [
-  { title: "Pasul 1 — Creezi familia", text: "Adaugi copilul/copiii și inviți celălalt părinte." },
-  { title: "Pasul 2 — Setezi disponibilitatea", text: "Introduci zile blocate, intervale și activitățile recurente." },
-  { title: "Pasul 3 — Duminică primești propunerea", text: "Aplicația generează automat programul pentru săptămâna următoare." },
-  { title: "Pasul 4 — Ajustați și confirmați", text: "Acceptați sau editați, apoi rămâne un plan clar pentru amândoi." },
+  { title: "Pasul 1 — Creezi familia", text: "Adaugi copilul/copiii; inviți celălalt părinte când sunteți gata (sau începeți doar voi, în aceeași casă)." },
+  { title: "Pasul 2 — Pui lucrurile importante", text: "Activități, zile blocate dacă e nevoie, documente — adaptat situației voastre." },
+  { title: "Pasul 3 — Duminică: propunere automată", text: "Unde e cazul, aplicația propune programul săptămânii următoare din regulile voastre." },
+  { title: "Pasul 4 — Ajustați și folosiți", text: "Editați în câteva minute; restul — idei AI, jurnal, chat — rămân mereu la îndemână." },
 ];
 
 export function LandingHowItWorks() {
@@ -202,8 +237,8 @@ export function LandingHowItWorks() {
         </div>
         <AnimateOnScroll delay={500}>
           <div className="mt-10 text-center">
-            <a href="/login" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
-              Încearcă gratuit
+            <a href="/register" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
+              Creează cont gratuit
             </a>
           </div>
         </AnimateOnScroll>
@@ -231,7 +266,7 @@ export function LandingWebApp() {
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
           <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Funcționează pe telefon, tabletă și laptop. Ideal pentru co-parenting: fiecare părinte intră rapid, fără instalări și fără update-uri.
+            Funcționează pe telefon, tabletă și laptop. Fie că lucrați din aceeași casă sau de la distanță — fiecare părinte intră rapid, fără instalări și fără update-uri.
           </p>
         </AnimateOnScroll>
         <div className="mt-10 flex flex-wrap justify-center gap-6">
@@ -280,9 +315,15 @@ export function LandingWebApp() {
           <p className="mt-6 text-center text-sm text-stone-500 dark:text-stone-400">
             În 10 secunde ai un icon pe ecran și intri ca într-o aplicație.
           </p>
-          <div className="mt-4 text-center">
-            <a href="/login" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
-              Deschide web app-ul
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            <a href="/register" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
+              Creează cont
+            </a>
+            <a
+              href="/login"
+              className="inline-flex items-center justify-center rounded-xl border border-stone-300 dark:border-stone-600 px-6 py-3 font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+            >
+              Conectare
             </a>
           </div>
         </AnimateOnScroll>
@@ -292,6 +333,7 @@ export function LandingWebApp() {
 }
 
 const USE_CASES = [
+  { quote: "Weekendul vrem idei, nu să căutăm în șase aplicații.", answer: "Tab Idei + materiale utile: propuneri și link-uri la un loc." },
   { quote: "Am deplasare marți–miercuri.", answer: "Blochezi zilele, aplicația propune automat ajustarea." },
   { quote: "Balet miercuri 16:00 — cine duce?", answer: "Activitatea e recurentă și are responsabil clar." },
   { quote: "S-a încheiat perioada mea. Ce facem cu activitățile făcute?", answer: "Primești popup de handover și le salvezi rapid, cu observații." },
@@ -308,7 +350,7 @@ export function LandingUseCases() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Exact pentru situațiile care creează fricțiune.
+            Pentru momentele când vreți claritate — acasă sau între două case.
           </h2>
         </AnimateOnScroll>
         <div className="mt-12 space-y-4">
@@ -327,10 +369,10 @@ export function LandingUseCases() {
 }
 
 const WHY_US = [
-  { title: "Automatizare săptămânală", text: "Propunere de duminică bazată pe datele reale." },
-  { title: "Continuitate între părinți", text: "Activități + materiale utile, centralizate după fiecare handover." },
+  { title: "Automatizare săptămânală", text: "Propunere de duminică bazată pe datele reale — utilă și când împărțiți programul." },
+  { title: "Un singur hub pentru copil", text: "Activități, idei AI, materiale utile — la fel de valoroase acasă ca la handover." },
   { title: "Trasabilitate", text: "Istoric schimbări pentru claritate și responsabilitate." },
-  { title: "Siguranță", text: "Alergii + documente + reminders, centralizate." },
+  { title: "Siguranță", text: "Alergii + documente de familie + reminders, centralizate." },
 ];
 
 export function LandingWhyUs() {
@@ -339,10 +381,10 @@ export function LandingWhyUs() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Nu e doar un calendar. E un sistem de co-parenting.
+            Nu e doar un calendar. E hub-ul vostru pentru copil — organizare, activități și informații.
           </h2>
         </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {WHY_US.map((item, i) => (
             <AnimateOnScroll key={item.title} delay={i * 100}>
               <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center">
