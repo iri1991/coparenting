@@ -3,16 +3,28 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
-import { getTodayDateStringEuropeBucharest } from "@/lib/date-bucharest";
+import { getTodayDateStringEuropeBucharest, addDaysToDateString } from "@/lib/date-bucharest";
 import { geocodeQuery, reverseGeocode } from "@/lib/nominatim";
 import { fetchCurrentWeatherOpenMeteo } from "@/lib/weather-open-meteo";
 import { ageYearsFromBirthDate } from "@/lib/child-age";
 import { generateActivitySuggestions } from "@/lib/activity-suggestions-ai";
 import type { ParentType } from "@/types/events";
 
+const SCHEDULE_WINDOW_DAYS = 56;
+
 function parseCoord(n: unknown): number | undefined {
   if (typeof n !== "number" || !Number.isFinite(n)) return undefined;
   return n;
+}
+
+function parentFromEventDoc(doc: { parent?: string | null; type?: string | null }): ParentType | null {
+  const p = doc.parent;
+  if (p === "tata" || p === "mama" || p === "together") return p;
+  const t = doc.type ?? "other";
+  if (t === "tunari") return "tata";
+  if (t === "otopeni") return "mama";
+  if (t === "together") return "together";
+  return "tata";
 }
 
 export async function POST(request: Request) {
@@ -53,14 +65,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Familia nu este activă." }, { status: 403 });
   }
 
-  const fam = family as {
-    parent1Name?: string | null;
-    parent2Name?: string | null;
-    activityCity?: string | null;
-  };
-  const parent1Name = (fam.parent1Name ?? "Părinte 1").trim() || "Părinte 1";
-  const parent2Name = (fam.parent2Name ?? "Părinte 2").trim() || "Părinte 2";
-  const activityCity = (fam.activityCity ?? "").trim();
+  const activityCity = ((family as { activityCity?: string | null }).activityCity ?? "").trim();
 
   const childDocs = await db
     .collection("children")
@@ -117,55 +122,58 @@ export async function POST(request: Request) {
   const weather = await fetchCurrentWeatherOpenMeteo(lat!, lng!);
 
   const todayStr = getTodayDateStringEuropeBucharest();
-  const eventDocs = await db
-    .collection("schedule_events")
-    .find({ familyId: familyOid, date: todayStr })
-    .sort({ startTime: 1 })
-    .toArray();
-
-  function parentFromEventDoc(doc: { parent?: string | null; type?: string | null }): ParentType | null {
-    const p = doc.parent;
-    if (p === "tata" || p === "mama" || p === "together") return p;
-    const t = doc.type ?? "other";
-    if (t === "tunari") return "tata";
-    if (t === "otopeni") return "mama";
-    if (t === "together") return "together";
-    return "tata";
-  }
-
-  let todayParent: ParentType | null = null;
-  if (eventDocs.length > 0) {
-    todayParent = parentFromEventDoc(eventDocs[0] as { parent?: string | null; type?: string | null });
-  }
+  const windowEndStr = addDaysToDateString(todayStr, SCHEDULE_WINDOW_DAYS);
 
   const viewerParentType =
     session.user.parentType === "tata" || session.user.parentType === "mama"
       ? session.user.parentType
       : null;
 
-  let viewerIsPrimaryCaretakerToday = false;
-  if (todayParent === null) {
-    viewerIsPrimaryCaretakerToday = false;
-  } else if (todayParent === "together") {
-    viewerIsPrimaryCaretakerToday = true;
-  } else if (viewerParentType && todayParent === viewerParentType) {
-    viewerIsPrimaryCaretakerToday = true;
+  const eventDocs = await db
+    .collection("schedule_events")
+    .find({
+      familyId: familyOid,
+      date: { $gte: todayStr, $lte: windowEndStr },
+    })
+    .sort({ date: 1, startTime: 1 })
+    .toArray();
+
+  const dayToParent = new Map<string, ParentType>();
+  for (const doc of eventDocs) {
+    const d = (doc as { date?: string }).date;
+    if (typeof d !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+    if (!dayToParent.has(d)) {
+      const p = parentFromEventDoc(doc as { parent?: string | null; type?: string | null });
+      if (p) dayToParent.set(d, p);
+    }
   }
 
-  const calendarMissingToday = eventDocs.length === 0;
+  const upcomingViewerOnlyDates: string[] = [];
+  const upcomingTogetherDates: string[] = [];
+  const sortedDays = Array.from(dayToParent.keys()).sort();
+  for (const d of sortedDays) {
+    const p = dayToParent.get(d);
+    if (!p || !viewerParentType) continue;
+    if (p === "together") {
+      upcomingTogetherDates.push(d);
+    } else if (p === viewerParentType) {
+      upcomingViewerOnlyDates.push(d);
+    }
+  }
+
+  const hasAnyViewerOrTogether =
+    (viewerParentType && upcomingViewerOnlyDates.length > 0) || upcomingTogetherDates.length > 0;
+  const noViewerDaysInWindow = !hasAnyViewerOrTogether;
 
   try {
     const result = await generateActivitySuggestions({
       cityLabel,
       weather,
       children,
-      parent1Name,
-      parent2Name,
-      childGenericName: firstChildName,
-      todayParent,
-      viewerParentType,
-      viewerIsPrimaryCaretakerToday,
-      calendarMissingToday,
+      childFirstName: firstChildName,
+      upcomingViewerOnlyDates,
+      upcomingTogetherDates,
+      noViewerDaysInWindow,
     });
 
     return NextResponse.json({
@@ -175,8 +183,14 @@ export async function POST(request: Request) {
         cityLabel,
         temperatureC: weather?.temperatureC ?? null,
         weatherLabelRo: weather?.labelRo ?? null,
-        todayParent,
-        viewerIsPrimaryCaretakerToday,
+        scheduleWindowEnd: windowEndStr,
+        availableViewerDates: viewerParentType
+          ? [...new Set([...upcomingViewerOnlyDates, ...upcomingTogetherDates])].sort()
+          : [],
+        togetherDates: upcomingTogetherDates,
+        viewerOnlyDates: upcomingViewerOnlyDates,
+        childFirstName: firstChildName,
+        viewerParentType,
       },
     });
   } catch (e) {

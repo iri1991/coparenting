@@ -27,10 +27,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
+  const rangeStart = searchParams.get("rangeStart");
+  const rangeEnd = searchParams.get("rangeEnd");
   const date = searchParams.get("date");
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return NextResponse.json({ error: "Parametru date invalid (YYYY-MM-DD)." }, { status: 400 });
-  }
+
   const familyId = await getFamilyIdForUser(session.user.id);
   if (!familyId) {
     return NextResponse.json({ decisions: {} as Record<string, "accepted" | "rejected"> });
@@ -41,6 +41,42 @@ export async function GET(request: Request) {
   }
 
   const db = await getDb();
+
+  /** Accept bate refuz pentru același titlu dacă există pe zile diferite (indiferent de ordinea documentelor). */
+  function mergeDecisions(docs: { titleNorm?: string; status?: string }[]) {
+    const decisions: Record<string, "accepted" | "rejected"> = {};
+    for (const d of docs) {
+      const t = d.titleNorm;
+      if (t && d.status === "accepted") decisions[t] = "accepted";
+    }
+    for (const d of docs) {
+      const t = d.titleNorm;
+      if (t && d.status === "rejected" && decisions[t] !== "accepted") decisions[t] = "rejected";
+    }
+    return decisions;
+  }
+
+  if (
+    rangeStart &&
+    rangeEnd &&
+    /^\d{4}-\d{2}-\d{2}$/.test(rangeStart) &&
+    /^\d{4}-\d{2}-\d{2}$/.test(rangeEnd)
+  ) {
+    const docs = await db
+      .collection("activity_suggestion_decisions")
+      .find({
+        familyId,
+        userId: session.user.id,
+        date: { $gte: rangeStart, $lte: rangeEnd },
+      })
+      .toArray();
+    return NextResponse.json({ decisions: mergeDecisions(docs as { titleNorm?: string; status?: string }[]) });
+  }
+
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return NextResponse.json({ error: "Parametru date sau rangeStart/rangeEnd invalid (YYYY-MM-DD)." }, { status: 400 });
+  }
+
   const docs = await db
     .collection("activity_suggestion_decisions")
     .find({ familyId, userId: session.user.id, date })

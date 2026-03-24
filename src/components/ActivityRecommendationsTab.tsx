@@ -24,6 +24,11 @@ type ApiOk = {
     cityLabel?: string;
     temperatureC?: number | null;
     weatherLabelRo?: string | null;
+    scheduleWindowEnd?: string;
+    availableViewerDates?: string[];
+    togetherDates?: string[];
+    viewerOnlyDates?: string[];
+    childFirstName?: string;
   };
 };
 
@@ -37,6 +42,28 @@ type IdeaBoard = {
 
 function todayBucharest(): string {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
+}
+
+/** +n zile la YYYY-MM-DD (local, pentru interval decizii). */
+function addCalendarDays(ymd: string, days: number): string {
+  const [y, m, d] = ymd.split("-").map(Number);
+  const t = new Date(y, m - 1, d + days);
+  const y2 = t.getFullYear();
+  const m2 = String(t.getMonth() + 1).padStart(2, "0");
+  const d2 = String(t.getDate()).padStart(2, "0");
+  return `${y2}-${m2}-${d2}`;
+}
+
+function formatRoDate(ymd: string): string {
+  try {
+    return new Date(ymd + "T12:00:00").toLocaleDateString("ro-RO", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+    });
+  } catch {
+    return ymd;
+  }
 }
 
 function storageKey(userId: string): string {
@@ -69,6 +96,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [detailOpen, setDetailOpen] = useState(false);
   const [detailTitle, setDetailTitle] = useState("");
+  /** Zi aleasă pentru salvare la Accept (per idee). */
+  const [acceptDayByItemId, setAcceptDayByItemId] = useState<Record<string, string>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -121,10 +150,12 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
     }
   }, [userId, board]);
 
-  const refreshDecisionsForDate = useCallback(async (date: string) => {
+  const refreshDecisionsForRange = useCallback(async (rangeStart: string, rangeEnd: string) => {
     setHydratingDecisions(true);
     try {
-      const res = await fetch(`/api/activity-suggestion-decisions?date=${encodeURIComponent(date)}`);
+      const res = await fetch(
+        `/api/activity-suggestion-decisions?rangeStart=${encodeURIComponent(rangeStart)}&rangeEnd=${encodeURIComponent(rangeEnd)}`
+      );
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.decisions && typeof json.decisions === "object") {
         setDecisions(json.decisions as Record<string, "accepted" | "rejected">);
@@ -134,9 +165,25 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
     }
   }, []);
 
+  const rangeEndFallback = useCallback(() => addCalendarDays(todayBucharest(), 60), []);
+
   useEffect(() => {
-    void refreshDecisionsForDate(todayBucharest());
-  }, [refreshDecisionsForDate]);
+    const start = todayBucharest();
+    void refreshDecisionsForRange(start, rangeEndFallback());
+  }, [refreshDecisionsForRange, rangeEndFallback]);
+
+  useEffect(() => {
+    const dates = board?.meta?.availableViewerDates;
+    if (!dates?.length) return;
+    const first = dates[0];
+    setAcceptDayByItemId((prev) => {
+      const next = { ...prev };
+      for (const item of board?.items ?? []) {
+        if (!next[item.id]) next[item.id] = first;
+      }
+      return next;
+    });
+  }, [board?.items, board?.meta?.availableViewerDates, board?.meta?.contextDate]);
 
   const contextDate = board?.meta?.contextDate ?? todayBucharest();
   const cityLabelForDetail = board?.meta?.cityLabel?.trim() || activityCity?.trim() || "";
@@ -205,20 +252,27 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         };
       });
 
-      const d = payload.meta?.contextDate;
-      if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
-        await refreshDecisionsForDate(d);
+      const meta = payload.meta;
+      const start = meta?.contextDate ?? todayBucharest();
+      const end = meta?.scheduleWindowEnd ?? addCalendarDays(start, 60);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(start) && /^\d{4}-\d{2}-\d{2}$/.test(end)) {
+        await refreshDecisionsForRange(start, end);
       }
     } catch {
       setError("Eroare de rețea. Încearcă din nou.");
     } finally {
       setLoading(false);
     }
-  }, [activityCity, refreshDecisionsForDate]);
+  }, [activityCity, refreshDecisionsForRange]);
 
   const handleAccept = useCallback(
     async (s: IdeaItem, index: number) => {
       const key = normalizeSuggestionTitleKey(s.title);
+      const chosenDay = acceptDayByItemId[s.id] ?? contextDate;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(chosenDay)) {
+        setError("Alege o zi validă.");
+        return;
+      }
 
       setActionIndex({ type: "accept", index });
       setError(null);
@@ -228,8 +282,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             activityName: s.title.trim(),
-            notes: "Sugestie AI",
-            periodEndDate: contextDate,
+            notes: `Sugestie AI · planificată pentru ${chosenDay}`,
+            periodEndDate: chosenDay,
           }),
         });
         const json = await res.json().catch(() => ({}));
@@ -240,7 +294,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         await fetch("/api/activity-suggestion-decisions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ date: contextDate, title: s.title, status: "accepted" }),
+          body: JSON.stringify({ date: chosenDay, title: s.title, status: "accepted" }),
         });
         onActivityLogged?.();
         setDecisions((prev) => ({ ...prev, [key]: "accepted" }));
@@ -248,7 +302,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         setActionIndex(null);
       }
     },
-    [contextDate, onActivityLogged]
+    [acceptDayByItemId, contextDate, onActivityLogged]
   );
 
   const handleReject = useCallback(
@@ -307,6 +361,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
     actionIndex?.index === i && actionIndex?.type === kind;
 
   const hasBoard = board && board.items.length > 0;
+  const availableViewerDates = board?.meta?.availableViewerDates ?? [];
 
   return (
     <section className="rounded-2xl border border-violet-200/80 dark:border-violet-800/80 bg-gradient-to-br from-violet-50/90 to-white dark:from-violet-950/40 dark:to-stone-900 p-4 shadow-sm">
@@ -318,8 +373,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
           <div>
             <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Recomandări</h2>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-              Ideile rămân aici când schimbi tab-ul; generează din nou pentru a adăuga altele (fără duplicate după
-              titlu). Click pe o idee pentru detalii (AI + linkuri Google). Ștergi manual sau în masă.
+              Sugestii pentru zilele tale cu copilul din calendar (și idei „împreună” când există astfel de zile). La
+              Accept alegi ziua. Fără referințe la celălalt părinte. Detalii la click; ștergere manuală sau în masă.
             </p>
           </div>
         </div>
@@ -377,11 +432,6 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
       {hasBoard && (
         <div className="mt-3 space-y-3 text-sm text-stone-700 dark:text-stone-300">
           <p className="leading-relaxed">{board!.intro}</p>
-          {board!.notRelevantNote && (
-            <p className="rounded-xl bg-stone-100/80 dark:bg-stone-800/80 px-3 py-2 text-xs leading-relaxed">
-              {board!.notRelevantNote}
-            </p>
-          )}
 
           <div className="flex flex-wrap items-center justify-between gap-2">
             <label className="inline-flex items-center gap-2 text-xs text-stone-600 dark:text-stone-400 cursor-pointer">
@@ -414,6 +464,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
               const key = normalizeSuggestionTitleKey(s.title);
               const st = decisions[key];
               const checked = selectedIds.includes(s.id);
+              const canSaveToCalendar = availableViewerDates.length > 0;
               return (
                 <li
                   key={s.id}
@@ -471,7 +522,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                               e.stopPropagation();
                               handleAccept(s, i);
                             }}
-                            disabled={!!actionIndex}
+                            disabled={!!actionIndex || !canSaveToCalendar}
                             className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50 touch-manipulation"
                           >
                             {busy(i, "accept") ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
@@ -508,6 +559,33 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                   <p className="mt-1 text-stone-600 dark:text-stone-400 leading-snug pl-7">{s.why}</p>
                   {s.tip && (
                     <p className="mt-1.5 text-xs text-stone-500 dark:text-stone-500 italic pl-7">{s.tip}</p>
+                  )}
+                  {!st && (
+                    <div className="mt-2 pl-7 space-y-1" onClick={(e) => e.stopPropagation()}>
+                      {canSaveToCalendar ? (
+                        <label className="flex flex-wrap items-center gap-2 text-[11px] text-stone-600 dark:text-stone-400">
+                          <span className="shrink-0">Salvează pentru ziua:</span>
+                          <select
+                            value={acceptDayByItemId[s.id] ?? availableViewerDates[0]}
+                            onChange={(e) =>
+                              setAcceptDayByItemId((prev) => ({ ...prev, [s.id]: e.target.value }))
+                            }
+                            className="rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-2 py-1 text-xs text-stone-800 dark:text-stone-200 max-w-[min(100%,14rem)]"
+                          >
+                            {availableViewerDates.map((d) => (
+                              <option key={d} value={d}>
+                                {formatRoDate(d)} ({d})
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      ) : (
+                        <p className="text-[11px] text-amber-700 dark:text-amber-300">
+                          Adaugă în calendar zilele în care ești cu copilul (sau zile „împreună”) ca să poți salva
+                          ideea.
+                        </p>
+                      )}
+                    </div>
                   )}
                 </li>
               );

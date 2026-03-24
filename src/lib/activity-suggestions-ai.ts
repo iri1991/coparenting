@@ -10,8 +10,6 @@ export interface ActivitySuggestionItem {
 export interface ActivitySuggestionsAIResult {
   intro: string;
   suggestions: ActivitySuggestionItem[];
-  /** Dacă utilizatorul curent nu e cel cu copilul azi, după calendar. */
-  notRelevantNote?: string;
   disclaimer: string;
 }
 
@@ -19,28 +17,36 @@ export interface ActivitySuggestionsContext {
   cityLabel: string;
   weather: CurrentWeatherSummary | null;
   children: { name: string; ageYears: number | null; allergiesNote?: string }[];
-  parent1Name: string;
-  parent2Name: string;
-  childGenericName: string;
-  todayParent: "tata" | "mama" | "together" | null;
-  viewerParentType: "tata" | "mama" | null;
-  viewerIsPrimaryCaretakerToday: boolean;
-  calendarMissingToday: boolean;
+  /** Prenume copil (ex. Eva) — folosit în text, fără numele celuilalt părinte. */
+  childFirstName: string;
+  /** Zile (YYYY-MM-DD) în care utilizatorul are copilul singur (tata/mama = viewer), din calendar. */
+  upcomingViewerOnlyDates: string[];
+  /** Zile „împreună” (amândoi cu copilul) — pentru idei tip prânz la restaurant. */
+  upcomingTogetherDates: string[];
+  /** True dacă nu există încă zile cu copilul în intervalul următor în calendar. */
+  noViewerDaysInWindow: boolean;
 }
 
-const SYSTEM = `Ești un asistent pentru părinți din România. Primești context JSON despre vreme, oraș, copii (vârste), program (cine are copilul azi) și nume de familie.
-Generează sugestii practice de activități (interior/exterior), potrivite vârstei. Dacă la un copil există „allergiesNote”, evită activități care le încalcă (ex. alimentație). Răspunde DOAR cu JSON valid, fără markdown, cu structura:
+const SYSTEM = `Ești un asistent pentru un părinte din România. Primești: oraș, vreme orientativă, date despre copil (prenume, vârstă), liste de zile din calendar în care părintele care folosește aplicația are copilul (singur) și zile „împreună” (amândoi adulți cu copilul).
+
+Scrie sugestii DOAR din perspectiva acestui părinte, pentru timpul lui cu copilul. Nu menționa „celălalt părinte”, custodie, „când nu ești tu”, „mama/tata” ca pereche sau orice comparație între adulți. Nu folosi fraze de tip „azi nu ești cu copilul”.
+
+Dacă există zile „împreună” în listă, include 1–2 sugestii potrivite pentru amândoi adulții cu copilul (ex. prânz la restaurant, plimbare, activitate de familie). Pentru restul zilelor (doar părintele cu copilul), idei solo: ieșit, interior, educativ, mișcare.
+
+Dacă nu există zile în calendar pentru viewer (noViewerDaysInWindow), propune totuși idei utile pentru următoarele ieșiri cu copilul în zonă, fără referințe la program sau la alt adult.
+
+Răspunde DOAR cu JSON valid, fără markdown:
 {
-  "intro": "string — 1-2 propoziții, ton prietenos, română",
+  "intro": "string — 1-2 propoziții, ton prietenos, doar „tu” și copilul (prenume), fără alți adulți",
   "suggestions": [ { "title": "...", "why": "...", "tip": "opțional" } ],
-  "notRelevantNote": "opțional — dacă utilizatorul NU e cel cu copilul azi: scurt, empatic, explică că azi celălalt părinte e cu copilul; fără a exclude idei pentru viitor",
-  "disclaimer": "string scurt: orele evenimentelor și disponibilitatea trebuie verificate; exemplele sunt orientative"
+  "disclaimer": "string scurt: verifică orare și condiții; orientativ"
 }
+
 Reguli:
-- 2–4 sugestii în "suggestions"; titluri concrete (ex. locuri tipice din RO: Therme, grădini zoologice, teatru pentru copii, muzee, parcuri).
-- Dacă nu știi program exact (teatru, spectacol), sugerează tipul de activitate și spune să verifice bilete/orar pe site-uri oficiale — nu inventa ore exacte dacă nu ești sigur; preferă formulări „verifică reprezentațiile de astăzi” în loc de ore fictive.
-- Respectă alergii dacă apar în context (câmp separat eventual); dacă nu sunt, nu menționa.
-- Ton: cald, scurt, util. Română corectă.`;
+- 2–4 sugestii; titluri concrete (locuri din RO unde e cazul).
+- Nu inventa ore exacte; sugerează verificare site/orar.
+- Respectă alergii dacă apar la copil.
+- Română corectă.`;
 
 export async function generateActivitySuggestions(
   ctx: ActivitySuggestionsContext
@@ -53,7 +59,7 @@ export async function generateActivitySuggestions(
   const userPayload = {
     ...ctx,
     note:
-      "Dacă viewerIsPrimaryCaretakerToday e false și todayParent e setat, include notRelevantNote. Dacă calendarMissingToday e true, menționează în intro că nu există încă zi planificată pentru astăzi în calendar.",
+      "Intro: poți menționa vremea ca indiciu pentru ieșiri, nu ca „doar azi”. Fără câmp notRelevantNote — nu există.",
   };
 
   const completion = await openai.chat.completions.create({
@@ -71,7 +77,7 @@ export async function generateActivitySuggestions(
   if (!raw) {
     throw new Error("Răspuns gol de la model");
   }
-  const parsed = JSON.parse(raw) as ActivitySuggestionsAIResult;
+  const parsed = JSON.parse(raw) as ActivitySuggestionsAIResult & { notRelevantNote?: string };
   if (!parsed.intro || !Array.isArray(parsed.suggestions)) {
     throw new Error("Format răspuns invalid");
   }
@@ -79,5 +85,9 @@ export async function generateActivitySuggestions(
     parsed.disclaimer =
       "Verifică orarele, biletele și condițiile meteo înainte de plecare. Sugestiile sunt orientative.";
   }
-  return parsed;
+  return {
+    intro: parsed.intro,
+    suggestions: parsed.suggestions,
+    disclaimer: parsed.disclaimer,
+  };
 }

@@ -6,8 +6,6 @@ import { getActiveFamily } from "@/lib/family";
 import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import { sendChildActivityAddedNotification } from "@/lib/notify";
-import { getTodayDateStringEuropeBucharest } from "@/lib/date-bucharest";
-
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -85,12 +83,8 @@ export async function POST(request: Request) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(periodEndDate)) {
     return NextResponse.json({ error: "periodEndDate invalid." }, { status: 400 });
   }
-  const todayStr = getTodayDateStringEuropeBucharest();
-  if (periodEndDate > todayStr) {
-    return NextResponse.json({ error: "Poți adăuga activități doar pentru zile trecute sau azi." }, { status: 400 });
-  }
 
-  // Retroactiv: activitatea poate fi adăugată doar pe o zi în care copilul a fost la părintele curent (sau together).
+  // Zi din calendar în care ești tu cu copilul sau zi „împreună” — merge și pentru planificare în viitor (ex. din sugestii AI).
   const hasOwnershipOnDate = await ctx.db.collection("schedule_events").findOne({
     familyId: ctx.familyId,
     date: periodEndDate,
@@ -98,7 +92,10 @@ export async function POST(request: Request) {
   });
   if (!hasOwnershipOnDate) {
     return NextResponse.json(
-      { error: "Nu poți adăuga activități pentru o zi în care copilul nu a fost la tine." },
+      {
+        error:
+          "Alege o zi din calendar în care copilul e cu tine sau o zi „împreună”. Completează programul în calendar dacă lipsește.",
+      },
       { status: 403 }
     );
   }
