@@ -1,6 +1,6 @@
-const STATIC_CACHE = "homesplit-static-v2";
-const RUNTIME_CACHE = "homesplit-runtime-v2";
-const API_CACHE = "homesplit-api-v2";
+const STATIC_CACHE = "homesplit-static-v3";
+const RUNTIME_CACHE = "homesplit-runtime-v3";
+const API_CACHE = "homesplit-api-v3";
 
 const APP_SHELL_URLS = [
   "/",
@@ -18,8 +18,6 @@ const CACHED_API_PREFIXES = [
   "/api/child-activities",
   "/api/useful-links",
   "/api/proposals/current",
-  "/api/chat",
-  "/api/chat/unread",
 ];
 
 self.addEventListener("install", function (event) {

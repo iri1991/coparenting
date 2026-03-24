@@ -21,7 +21,14 @@ export async function GET() {
   const chatLastReadAt = (user as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
 
   const familyId = new ObjectId(session.user.familyId);
-  const filter: { familyId: ObjectId; createdAt?: { $gt: Date } } = { familyId };
+  const filter: {
+    familyId: ObjectId;
+    senderId: { $ne: string };
+    createdAt?: { $gt: Date };
+  } = {
+    familyId,
+    senderId: { $ne: session.user.id },
+  };
   if (chatLastReadAt) {
     filter.createdAt = { $gt: chatLastReadAt };
   }
