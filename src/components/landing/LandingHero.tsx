@@ -4,21 +4,18 @@ import Link from "next/link";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
 const BULLETS = [
-  "Propunere automată de program săptămânal (duminică)",
-  "Zile blocate când un părinte nu poate acomoda",
-  "Activități recurente + „cine duce / cine ia”",
-  "Popup la final de perioadă: activități + observații",
-  "Istoric total activități (evitați repetițiile)",
-  "Materiale utile: link-uri către melodii, clipuri, cărți",
-  "Locații & ore pentru handover",
-  "Profil copil: alergii, medicație, contacte utile",
-  "Documente: pașaport, acord de călătorie, asigurare etc.",
+  "Știi din timp cine preia copilul, unde și la ce oră",
+  "Mai puține discuții tensionate, mai multă claritate între părinți",
+  "Activitățile copilului rămân centralizate, fără repetiții",
+  "La final de perioadă notați simplu ce a mers bine",
+  "Link-uri utile (melodii, povești, clipuri) la îndemână pentru ambii",
+  "Alergii, documente și informații importante într-un loc sigur",
 ];
 
 const BADGES = [
-  { label: "Web app", sub: "merge direct din browser" },
-  { label: "Nu instalezi nimic", sub: "din App Store / Google Play" },
-  { label: "Poți salva pe ecran", sub: "ca icon (ca o aplicație)" },
+  { label: "Calm", sub: "mai puține fricțiuni zilnice" },
+  { label: "Clar", sub: "plan vizibil pentru amândoi" },
+  { label: "Sigur", sub: "date private, doar în familie" },
 ];
 
 export function LandingHero() {
@@ -29,17 +26,17 @@ export function LandingHero() {
           <div className="space-y-8">
             <AnimateOnScroll>
               <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl lg:text-5xl leading-tight">
-                Co-parenting fără stres: program, locații, activități și informații esențiale despre copil — într-un singur loc.
+                Un spațiu calm pentru co-parenting, în care copilul rămâne în centru.
               </h1>
             </AnimateOnScroll>
             <AnimateOnScroll delay={100}>
               <p className="text-lg text-stone-600 dark:text-stone-400 max-w-xl">
-                Gestionează timpul cu copilul, zilele blocate, predarea/primirea (handover), activități recurente (ex. balet miercuri la 16:00) și documente de călătorie.
+                HomeSplit vă ajută să transformați haosul din mesaje într-un plan clar, cald și previzibil: cine preia copilul, ce activități are și ce informații importante trebuie să știe fiecare părinte.
               </p>
             </AnimateOnScroll>
             <AnimateOnScroll delay={200}>
               <p className="text-stone-700 dark:text-stone-300 font-medium">
-                În fiecare duminică, aplicația generează automat propunerea pentru săptămâna următoare, pe baza disponibilității ambilor părinți.
+                În fiecare duminică primiți o propunere de program pentru săptămâna următoare, pe care o ajustați împreună în câteva minute.
               </p>
             </AnimateOnScroll>
             <ul className="space-y-2">
@@ -80,30 +77,52 @@ export function LandingHero() {
             </AnimateOnScroll>
             <AnimateOnScroll delay={800}>
               <p className="text-sm text-stone-500 dark:text-stone-400">
-                Fără card. Setare în 3 minute.
+                Fără card. Setare rapidă.
               </p>
               <p className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
-                Date private. Acces doar pentru părinții invitați.
+                Mai puțină presiune între părinți. Mai multă liniște pentru copil.
               </p>
             </AnimateOnScroll>
           </div>
           <AnimateOnScroll delay={300} className="relative">
-            <div className="relative rounded-3xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-2xl shadow-stone-200/50 dark:shadow-black/20 p-6 lg:p-8">
-              <div className="space-y-4 text-sm">
-                <div className="flex justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
-                  <span className="font-medium text-stone-500 dark:text-stone-400">Săptămâna 3–9 Feb</span>
-                  <span className="rounded-full bg-amber-100 dark:bg-amber-900/30 px-2 py-0.5 text-amber-800 dark:text-amber-200 text-xs font-medium">Propus</span>
+            <div className="space-y-4">
+              <div className="relative overflow-hidden rounded-3xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-2xl shadow-stone-200/50 dark:shadow-black/20">
+                <img
+                  src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1400&q=80"
+                  alt="Părinte și copil într-un moment liniștit acasă"
+                  className="h-64 w-full object-cover sm:h-72"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                  <p className="text-white text-sm sm:text-base font-medium">
+                    Un plan clar acasă înseamnă mai puține tensiuni și mai mult timp bun cu copilul.
+                  </p>
                 </div>
-                {["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"].map((day, i) => (
-                  <div key={day} className="flex items-center justify-between py-1.5 text-stone-600 dark:text-stone-400">
-                    <span>{day}</span>
-                    <span className={i % 2 === 0 ? "text-amber-700 dark:text-amber-300 font-medium" : "text-stone-500 dark:text-stone-400"}>
-                      {i % 2 === 0 ? "Tata · Tunari" : "Mama · Otopeni"}
-                    </span>
-                  </div>
-                ))}
               </div>
-              <p className="mt-4 text-xs text-stone-400 dark:text-stone-500">Calendar + zile blocate + activități</p>
+              <div className="relative rounded-3xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-xl p-5">
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
+                    <span className="font-medium text-stone-500 dark:text-stone-400">Săptămâna următoare</span>
+                    <span className="rounded-full bg-amber-100 dark:bg-amber-900/30 px-2 py-0.5 text-amber-800 dark:text-amber-200 text-xs font-medium">Clar și confirmat</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
+                    <span>Luni - Marți</span>
+                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 1</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
+                    <span>Miercuri - Joi</span>
+                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 2</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
+                    <span>Vineri - Duminică</span>
+                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 1</span>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-stone-500 dark:text-stone-400">
+                  Funcționalitățile sunt gândite ca să reducă fricțiunea, nu să adauge complexitate.
+                </p>
+              </div>
             </div>
           </AnimateOnScroll>
         </div>

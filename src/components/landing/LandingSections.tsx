@@ -4,19 +4,19 @@ import { AnimateOnScroll } from "./AnimateOnScroll";
 
 export function LandingSocialProof() {
   const badges = [
-    "Planificare săptămânală automată",
-    "Activități recurente + responsabil",
-    "Activități la final de perioadă + observații",
-    "Materiale utile partajate între părinți",
-    "Alergii & documente la îndemână",
-    "Istoric și trasabilitate",
+    "Mai puține discuții repetitive",
+    "Mai multă previzibilitate pentru copil",
+    "Plan clar pentru ambii părinți",
+    "Continuitate între cele două case",
+    "Informații importante, mereu la îndemână",
+    "Rutină calmă, săptămână după săptămână",
   ];
   return (
     <section className="border-y border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/50 py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-xl font-semibold text-stone-800 dark:text-stone-100 sm:text-2xl">
-            Pentru părinți care vor claritate, nu discuții în buclă.
+            Gândit pentru liniște în familie, nu pentru încă o sursă de stres.
           </h2>
         </AnimateOnScroll>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -44,13 +44,23 @@ export function LandingProblemSolution() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Când programul e neclar, apar tensiuni. Când e clar, copilul câștigă.
+            Când planul e clar, energia voastră merge către copil, nu către conflicte.
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
           <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Co-parenting-ul devine greu când fiecare schimbare înseamnă mesaje, calcule și interpretări. Aplicația transformă totul într-un sistem simplu: disponibilitate, reguli, activități și locații — iar programul săptămânal se generează logic, nu emoțional.
+            Co-parenting-ul devine obositor când fiecare schimbare înseamnă zeci de mesaje și neînțelegeri. HomeSplit transformă aceste momente într-un ritual simplu: vedeți aceleași informații, confirmați același plan, mergeți mai departe cu mai multă liniște.
           </p>
+        </AnimateOnScroll>
+        <AnimateOnScroll delay={130}>
+          <div className="mt-8 overflow-hidden rounded-3xl border border-stone-200 dark:border-stone-700 shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80"
+              alt="Familie într-un moment calm în natură"
+              className="h-56 w-full object-cover sm:h-72"
+              loading="lazy"
+            />
+          </div>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           {cards.map((card, i) => (
@@ -123,7 +133,7 @@ export function LandingFeatures() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Tot ce ai nevoie pentru co-parenting, organizat pe module.
+            Tot ce vă ajută să reduceți stresul zilnic, într-un singur loc.
           </h2>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
