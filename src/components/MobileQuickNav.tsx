@@ -19,7 +19,7 @@ export function MobileQuickNav() {
   };
 
   return (
-    <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pb-[max(0.55rem,env(safe-area-inset-bottom))] pt-2">
+    <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-[50] px-4 pb-[max(0.55rem,env(safe-area-inset-bottom))] pt-2">
       <div className="mx-auto max-w-md">
         <div className="relative overflow-hidden rounded-[28px] border border-white/50 dark:border-white/10 bg-white/55 dark:bg-stone-900/45 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
           {/* liquid sheen */}

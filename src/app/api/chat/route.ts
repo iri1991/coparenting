@@ -9,14 +9,17 @@ const MAX_MESSAGE_LENGTH = 2000;
 const MAX_MESSAGES = 100;
 const MAX_REPLY_PREVIEW_LENGTH = 120;
 
+/** Fără cache HTTP / SW stale pentru lista de mesaje (altfel „dispar/apar” mesaje). */
+const NO_STORE_JSON = { "Cache-Control": "no-store, private, must-revalidate" } as const;
+
 /** GET: mesajele din chat-ul familiei (doar membri). */
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
+    return NextResponse.json({ error: "Neautorizat" }, { status: 401, headers: NO_STORE_JSON });
   }
   if (!session.user.familyId) {
-    return NextResponse.json({ messages: [] });
+    return NextResponse.json({ messages: [] }, { headers: NO_STORE_JSON });
   }
 
   const db = await getDb();
@@ -25,7 +28,7 @@ export async function GET() {
   if (!family) {
     return NextResponse.json(
       { error: "Familia nu există sau a fost dezactivată. Contactați suportul." },
-      { status: 403 }
+      { status: 403, headers: NO_STORE_JSON }
     );
   }
 
@@ -100,7 +103,7 @@ export async function GET() {
     }
   );
 
-  return NextResponse.json({ messages: messages.reverse() });
+  return NextResponse.json({ messages: messages.reverse() }, { headers: NO_STORE_JSON });
 }
 
 /** POST: trimite un mesaj în chat-ul familiei. */

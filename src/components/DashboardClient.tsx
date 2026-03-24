@@ -43,6 +43,9 @@ interface DashboardClientProps {
   setBlockedDaysModalOpen?: (open: boolean) => void;
   registerOpenAddModal?: (fn: (() => void) | null) => void;
   plan?: "free" | "pro" | "family";
+  /** Din URL `/?add=1` sau `/?blocked=1` */
+  openAddModalOnMount?: boolean;
+  openBlockedModalOnMount?: boolean;
 }
 
 function capitalize(s: string): string {
@@ -63,6 +66,8 @@ export function DashboardClient({
   setBlockedDaysModalOpen: setBlockedDaysModalOpenProp,
   registerOpenAddModal,
   plan = "free",
+  openAddModalOnMount = false,
+  openBlockedModalOnMount = false,
 }: DashboardClientProps) {
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -100,10 +105,25 @@ export function DashboardClient({
   const todayStr = format(new Date(), "yyyy-MM-dd");
   const canEditEvent = useCallback((e: ScheduleEvent) => e.date >= todayStr, [todayStr]);
 
-  // La montare, asigură-te că modalul de adăugare e închis (evită deschidere la navigare/încărcare).
+  // La montare: închide modalele dacă nu vin din URL (?add=1 / ?blocked=1).
   useEffect(() => {
-    setModalOpen(false);
-  }, []);
+    if (!openAddModalOnMount && !openBlockedModalOnMount) {
+      setModalOpen(false);
+    }
+  }, [openAddModalOnMount, openBlockedModalOnMount]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (openAddModalOnMount) {
+      setModalOpen(true);
+      window.history.replaceState({}, "", "/");
+      return;
+    }
+    if (openBlockedModalOnMount) {
+      setBlockedDaysModalOpen(true);
+      window.history.replaceState({}, "", "/");
+    }
+  }, [openAddModalOnMount, openBlockedModalOnMount]);
 
   useEffect(() => {
     registerOpenAddModal?.(() => {

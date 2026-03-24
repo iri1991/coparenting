@@ -4,9 +4,9 @@ import { getActiveFamily } from "@/lib/family";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ObjectId } from "mongodb";
-import { AppLogo } from "@/components/AppLogo";
 import { ChatClient, type ChatMessage } from "@/components/ChatClient";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
+import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 
 const MAX_MESSAGES = 100;
 
@@ -94,17 +94,15 @@ export default async function ChatPage() {
 
   return (
     <div className="h-screen max-h-[100dvh] flex flex-col bg-stone-100 dark:bg-stone-950 overflow-hidden">
-      <header className="shrink-0 z-40 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
-        <div className="flex items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="sm:hidden inline-flex items-center justify-center h-9 px-2 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
-            >
-              Înapoi
-            </Link>
-            <AppLogo size={36} linkToHome className="h-9 w-9" />
-          </div>
+      <MobileAppTopBar hideOnScroll={false} />
+      <header className="hidden sm:flex shrink-0 z-40 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
+        <div className="flex w-full items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
+          <Link
+            href="/"
+            className="text-sm font-medium text-stone-600 dark:text-stone-400 hover:underline"
+          >
+            Acasă
+          </Link>
           <h1 className="text-lg font-semibold text-stone-800 dark:text-stone-100">Chat</h1>
           <div className="flex items-center gap-1">
             <Link
@@ -131,7 +129,7 @@ export default async function ChatPage() {
         </div>
       </header>
 
-      <main className="flex-1 min-h-0 flex flex-col max-w-2xl mx-auto w-full pb-16 sm:pb-0">
+      <main className="flex min-h-0 flex-1 flex-col pt-12 sm:pt-0 max-w-2xl mx-auto w-full pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-0">
         <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
       </main>
       <MobileQuickNav />

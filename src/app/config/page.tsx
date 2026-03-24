@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { ConfigClient } from "@/components/ConfigClient";
 import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
+import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { isStripeConfigured } from "@/lib/stripe";
@@ -55,15 +56,10 @@ export default async function ConfigPage({
   }));
   const residencesData = (residences as { _id: unknown; name: string }[]).map((r) => ({ id: String(r._id), name: r.name }));
   return (
-    <div className="min-h-screen p-6 pb-24 sm:pb-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 pt-14 sm:pt-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-6 px-6">
+      <MobileAppTopBar />
       <div className="max-w-md mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <Link
-            href="/"
-            className="sm:hidden inline-flex items-center justify-center h-10 px-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800"
-          >
-            Înapoi
-          </Link>
+        <div className="hidden sm:flex items-center gap-3 mb-4">
           <Link href="/" className="shrink-0 rounded-xl hover:opacity-90 transition-opacity">
             <Image src="/logo.png" alt="HomeSplit" width={40} height={40} className="rounded-xl object-contain" />
           </Link>
@@ -75,6 +71,14 @@ export default async function ConfigPage({
               Nume copii, nume părinți, locuințe. Doar membrii familiei văd aceste date.
             </p>
           </div>
+        </div>
+        <div className="sm:hidden mb-4">
+          <h1 className="text-xl font-bold text-stone-800 dark:text-stone-100">
+            Configurare familie
+          </h1>
+          <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
+            Nume copii, nume părinți, locuințe. Doar membrii familiei văd aceste date.
+          </p>
         </div>
         <SubscriptionSection
           plan={plan}

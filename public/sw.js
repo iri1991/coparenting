@@ -1,10 +1,11 @@
-const STATIC_CACHE = "homesplit-static-v3";
-const RUNTIME_CACHE = "homesplit-runtime-v3";
-const API_CACHE = "homesplit-api-v3";
+const STATIC_CACHE = "homesplit-static-v4";
+const RUNTIME_CACHE = "homesplit-runtime-v4";
+const API_CACHE = "homesplit-api-v4";
+/** Snapshot chat doar pentru offline — nu se folosește când există rețea. */
+const CHAT_OFFLINE_CACHE = "homesplit-chat-offline-v1";
 
 const APP_SHELL_URLS = [
   "/",
-  "/chat",
   "/account",
   "/config",
   "/manifest.json",
@@ -20,6 +21,28 @@ const CACHED_API_PREFIXES = [
   "/api/proposals/current",
 ];
 
+function isChatApiPath(pathname) {
+  return pathname === "/api/chat" || pathname.startsWith("/api/chat/");
+}
+
+function isChatPagePath(pathname) {
+  return pathname === "/chat" || pathname.startsWith("/chat/");
+}
+
+var lastChatOfflineWrite = 0;
+var CHAT_OFFLINE_MIN_MS = 60 * 1000;
+
+function putChatOffline(cacheName, request, response) {
+  if (!response || !response.ok) return Promise.resolve();
+  var now = Date.now();
+  if (now - lastChatOfflineWrite < CHAT_OFFLINE_MIN_MS) return Promise.resolve();
+  lastChatOfflineWrite = now;
+  var copy = response.clone();
+  return caches.open(cacheName).then(function (cache) {
+    return cache.put(request, copy);
+  });
+}
+
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(STATIC_CACHE).then(function (cache) {
@@ -34,7 +57,12 @@ self.addEventListener("activate", function (event) {
     caches.keys().then(function (keys) {
       return Promise.all(
         keys.map(function (key) {
-          if (key !== STATIC_CACHE && key !== RUNTIME_CACHE && key !== API_CACHE) {
+          if (
+            key !== STATIC_CACHE &&
+            key !== RUNTIME_CACHE &&
+            key !== API_CACHE &&
+            key !== CHAT_OFFLINE_CACHE
+          ) {
             return caches.delete(key);
           }
           return Promise.resolve();
@@ -51,6 +79,55 @@ self.addEventListener("fetch", function (event) {
 
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+
+  // Chat API: mereu rețea când e online; cache doar ca backup offline.
+  if (isChatApiPath(url.pathname)) {
+    event.respondWith(
+      fetch(req)
+        .then(function (res) {
+          putChatOffline(CHAT_OFFLINE_CACHE, req, res).catch(function () {});
+          return res;
+        })
+        .catch(function () {
+          return caches.open(CHAT_OFFLINE_CACHE).then(function (cache) {
+            return cache.match(req).then(function (cached) {
+              if (cached) return cached;
+              if (url.pathname.includes("unread")) {
+                return new Response(JSON.stringify({ unreadCount: 0 }), {
+                  status: 200,
+                  headers: { "Content-Type": "application/json" },
+                });
+              }
+              return new Response(JSON.stringify({ messages: [] }), {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+              });
+            });
+          });
+        })
+    );
+    return;
+  }
+
+  // Pagina /chat: fără cache în RUNTIME; doar snapshot offline separat.
+  if (req.mode === "navigate" && isChatPagePath(url.pathname)) {
+    event.respondWith(
+      fetch(req)
+        .then(function (res) {
+          putChatOffline(CHAT_OFFLINE_CACHE, req, res).catch(function () {});
+          return res;
+        })
+        .catch(function () {
+          return caches.open(CHAT_OFFLINE_CACHE).then(function (cache) {
+            return cache.match(req).then(function (cached) {
+              if (cached) return cached;
+              return caches.match("/offline.html");
+            });
+          });
+        })
+    );
+    return;
+  }
 
   if (req.mode === "navigate") {
     event.respondWith(
@@ -72,7 +149,9 @@ self.addEventListener("fetch", function (event) {
     return;
   }
 
-  if (CACHED_API_PREFIXES.some(function (prefix) { return url.pathname.startsWith(prefix); })) {
+  if (CACHED_API_PREFIXES.some(function (prefix) {
+    return url.pathname.startsWith(prefix);
+  })) {
     event.respondWith(
       fetch(req)
         .then(function (res) {
@@ -86,6 +165,12 @@ self.addEventListener("fetch", function (event) {
           return caches.match(req);
         })
     );
+    return;
+  }
+
+  // Alte API-uri: fără interceptare cache (doar rețea).
+  if (url.pathname.startsWith("/api/")) {
+    event.respondWith(fetch(req));
     return;
   }
 

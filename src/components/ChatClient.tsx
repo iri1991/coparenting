@@ -19,6 +19,17 @@ export interface ChatMessage {
 
 const POLL_INTERVAL_MS = 8000;
 
+function mergeChatMessages(prev: ChatMessage[], server: ChatMessage[]): ChatMessage[] {
+  const map = new Map<string, ChatMessage>();
+  for (const m of server) map.set(m.id, m);
+  for (const m of prev) {
+    if (!map.has(m.id)) map.set(m.id, m);
+  }
+  return Array.from(map.values()).sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+}
+
 export function ChatClient({
   initialMessages,
   currentUserId,
@@ -35,10 +46,12 @@ export function ChatClient({
 
   const fetchMessages = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat");
+      const res = await fetch("/api/chat", { cache: "no-store" });
       if (!res.ok) return;
       const data = await res.json();
-      if (Array.isArray(data.messages)) setMessages(data.messages);
+      if (Array.isArray(data.messages)) {
+        setMessages((prev) => mergeChatMessages(prev, data.messages));
+      }
     } catch {
       // ignore
     }
@@ -84,30 +97,30 @@ export function ChatClient({
         return;
       }
       setInput("");
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: data.id,
-          senderId: data.senderId,
-          senderLabel: "", // will be filled on next poll, or we could show "Tu"
-          text: data.text,
-          createdAt: data.createdAt,
-          seenByOther: false,
-          replyTo: data.replyTo
-            ? {
-                id: String(data.replyTo.id),
-                senderId: String(data.replyTo.senderId),
-                senderLabel:
-                  data.replyTo.senderId === currentUserId
-                    ? "Tu"
-                    : prev.find((x) => x.id === String(data.replyTo.id))?.senderLabel || "Membru",
-                text: String(data.replyTo.text),
-              }
-            : null,
-        },
-      ]);
+      setMessages((prev) =>
+        mergeChatMessages(prev, [
+          {
+            id: data.id,
+            senderId: data.senderId,
+            senderLabel: "Tu",
+            text: data.text,
+            createdAt: data.createdAt,
+            seenByOther: false,
+            replyTo: data.replyTo
+              ? {
+                  id: String(data.replyTo.id),
+                  senderId: String(data.replyTo.senderId),
+                  senderLabel:
+                    data.replyTo.senderId === currentUserId
+                      ? "Tu"
+                      : prev.find((x) => x.id === String(data.replyTo.id))?.senderLabel || "Membru",
+                  text: String(data.replyTo.text),
+                }
+              : null,
+          },
+        ])
+      );
       setReplyTo(null);
-      fetchMessages();
     } finally {
       setSending(false);
     }

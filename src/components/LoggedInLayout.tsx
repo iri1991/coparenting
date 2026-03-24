@@ -5,6 +5,8 @@ import Link from "next/link";
 import { AppLogo } from "@/components/AppLogo";
 import { DashboardClient } from "@/components/DashboardClient";
 import { UpgradeCta } from "@/components/UpgradeCta";
+import { MobileAppTopBar } from "@/components/MobileAppTopBar";
+import { MobileQuickNav } from "@/components/MobileQuickNav";
 import type { ScheduleEvent } from "@/types/events";
 
 /** Modalul de adăugare se deschide doar după acest delay de la mount (evită deschidere la încărcare). */
@@ -26,6 +28,9 @@ interface LoggedInLayoutProps {
   plan?: "free" | "pro" | "family";
   /** După înregistrare + setup din landing cu plan plătit: deschide checkout. */
   pendingPlan?: "pro" | "family";
+  /** Deschide modale de pe link-uri `/?add=1` / `/?blocked=1` (ex. din chat). */
+  openAddModalOnMount?: boolean;
+  openBlockedModalOnMount?: boolean;
 }
 
 export function LoggedInLayout({
@@ -40,6 +45,8 @@ export function LoggedInLayout({
   isAdmin = false,
   plan = "free",
   pendingPlan,
+  openAddModalOnMount = false,
+  openBlockedModalOnMount = false,
 }: LoggedInLayoutProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingPlanHandled, setPendingPlanHandled] = useState(false);
@@ -87,7 +94,7 @@ export function LoggedInLayout({
   useEffect(() => {
     const poll = async () => {
       try {
-        const res = await fetch("/api/chat/unread");
+        const res = await fetch("/api/chat/unread", { cache: "no-store" });
         if (!res.ok) return;
         const data = await res.json();
         if (typeof data.unreadCount === "number") setUnreadCount(data.unreadCount);
@@ -110,9 +117,19 @@ export function LoggedInLayout({
     setOpenAddModalFn(fn);
   }, []);
 
+  const triggerAdd = useCallback(() => {
+    if (!addModalAllowedRef.current) return;
+    (openAddModalFn ?? (() => setModalOpen(true)))();
+  }, [openAddModalFn, setModalOpen]);
+
+  const triggerBlocked = useCallback(() => {
+    setBlockedDaysModalOpen(true);
+  }, []);
+
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-stone-900/80 backdrop-blur border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
+      <MobileAppTopBar onAddClick={triggerAdd} onLockClick={triggerBlocked} />
+      <header className="hidden sm:block sticky top-0 z-40 bg-white/80 dark:bg-stone-900/80 backdrop-blur border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
         <div className="flex items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
           <AppLogo size={36} linkToHome className="h-9 w-9" />
           <div className="flex items-center gap-1 sm:gap-2">
@@ -125,7 +142,7 @@ export function LoggedInLayout({
                 if (!e.isTrusted || !addModalAllowedRef.current) return;
                 e.preventDefault();
                 e.stopPropagation();
-                (openAddModalFn ?? (() => setModalOpen(true)))();
+                triggerAdd();
               }}
               className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
               title="Adaugă eveniment"
@@ -194,7 +211,7 @@ export function LoggedInLayout({
           </div>
         </div>
       </header>
-      <main className="flex-1 px-4 py-4 max-w-2xl mx-auto w-full pb-safe">
+      <main className="flex-1 px-4 py-4 max-w-2xl mx-auto w-full pt-14 sm:pt-4 pb-24 sm:pb-8">
         <DashboardClient
           initialEvents={initialEvents}
           currentUserId={currentUserId}
@@ -209,8 +226,11 @@ export function LoggedInLayout({
           setBlockedDaysModalOpen={setBlockedDaysModalOpen}
           registerOpenAddModal={registerOpenAddModal}
           plan={plan}
+          openAddModalOnMount={openAddModalOnMount}
+          openBlockedModalOnMount={openBlockedModalOnMount}
         />
       </main>
+      <MobileQuickNav />
     </>
   );
 }

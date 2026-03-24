@@ -56,11 +56,13 @@ function toEvent(doc: {
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ plan?: string }>;
+  searchParams: Promise<{ plan?: string; add?: string; blocked?: string }>;
 }) {
   const session = await auth();
   const params = await searchParams;
   const planParam = params?.plan;
+  const openAddModal = params?.add === "1";
+  const openBlockedModal = params?.blocked === "1";
 
   if (!session?.user?.id) {
     const { LandingPage: Landing } = await import("@/components/landing/LandingPage");
@@ -114,6 +116,8 @@ export default async function HomePage({
         currentUserId={session.user.id}
         plan={plan}
         pendingPlan={pendingPlan}
+        openAddModalOnMount={openAddModal}
+        openBlockedModalOnMount={openBlockedModal}
         userName={
           session.user.name?.trim() ||
           (session.user.email ? session.user.email.split("@")[0] : null) ||
