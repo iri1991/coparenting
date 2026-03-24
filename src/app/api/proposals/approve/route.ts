@@ -87,6 +87,7 @@ export async function POST() {
     const weekLabel = `${format(new Date(p.weekStart + "T12:00:00"), "d MMM", { locale: ro })} – ${format(new Date(weekEnd + "T12:00:00"), "d MMM yyyy", { locale: ro })}`;
     sendProposalAppliedNotification(memberIds, weekLabel).catch((e) => console.error("[proposals] notify applied", e));
     const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+    await logFamilyActivity(db, familyId, session.user.id, displayName, "proposal_approved", { weekLabel });
     await logFamilyActivity(db, familyId, session.user.id, displayName, "proposal_applied", { weekLabel });
     return NextResponse.json({ ok: true, applied: true });
   }
@@ -95,6 +96,10 @@ export async function POST() {
     { _id: p._id },
     { $set: { approvedBy, updatedAt: new Date() } }
   );
+  const weekEndForApproval = p.days.length > 0 ? p.days[p.days.length - 1].date : p.weekStart;
+  const weekLabelForApproval = `${format(new Date(p.weekStart + "T12:00:00"), "d MMM", { locale: ro })} – ${format(new Date(weekEndForApproval + "T12:00:00"), "d MMM yyyy", { locale: ro })}`;
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(db, familyId, session.user.id, displayName, "proposal_approved", { weekLabel: weekLabelForApproval });
 
   const otherUserId = memberIds.find((id) => id !== session.user.id);
   if (otherUserId) {

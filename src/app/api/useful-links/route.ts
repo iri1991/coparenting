@@ -3,6 +3,9 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
+import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
+import { sendUsefulLinkAddedNotification } from "@/lib/notify";
 
 async function getCurrentFamily(userId: string) {
   const db = await getDb();
@@ -74,6 +77,19 @@ export async function POST(request: Request) {
     createdAt: now,
     updatedAt: now,
   });
+  const displayName = await getParentDisplayName(ctx.db, ctx.familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(ctx.db, ctx.familyId, session.user.id, displayName, "useful_link_added", {
+    name: title,
+  });
+  const family = await ctx.db.collection("families").findOne(
+    { _id: ctx.familyId },
+    { projection: { memberIds: 1 } }
+  );
+  const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
+  const recipients = memberIds.filter((id) => id !== session.user.id);
+  sendUsefulLinkAddedNotification(recipients, displayName, title).catch((e) =>
+    console.error("[useful-links] push notify", e)
+  );
   return NextResponse.json({ ok: true });
 }
 
@@ -96,6 +112,8 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
   await ctx.db.collection("useful_links").deleteOne({ _id: oid, familyId: ctx.familyId });
+  const displayName = await getParentDisplayName(ctx.db, ctx.familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(ctx.db, ctx.familyId, session.user.id, displayName, "useful_link_deleted", {});
   return NextResponse.json({ ok: true });
 }
 

@@ -3,6 +3,9 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
+import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
+import { sendChildActivityAddedNotification } from "@/lib/notify";
 
 async function getCurrentFamilyContext(userId: string) {
   const db = await getDb();
@@ -110,6 +113,20 @@ export async function POST(request: Request) {
     { familyId: ctx.familyId, name: activityName },
     { $setOnInsert: { familyId: ctx.familyId, name: activityName, createdAt: now } },
     { upsert: true }
+  );
+  const displayName = await getParentDisplayName(ctx.db, ctx.familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(ctx.db, ctx.familyId, session.user.id, displayName, "child_activity_added", {
+    name: activityName,
+    date: periodEndDate,
+  });
+  const family = await ctx.db.collection("families").findOne(
+    { _id: ctx.familyId },
+    { projection: { memberIds: 1 } }
+  );
+  const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
+  const recipients = memberIds.filter((id) => id !== session.user.id);
+  sendChildActivityAddedNotification(recipients, displayName, activityName, periodEndDate).catch((e) =>
+    console.error("[child-activities] push notify", e)
   );
 
   return NextResponse.json({ ok: true });

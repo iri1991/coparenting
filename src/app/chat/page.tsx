@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ObjectId } from "mongodb";
 import { AppLogo } from "@/components/AppLogo";
 import { ChatClient, type ChatMessage } from "@/components/ChatClient";
+import { MobileQuickNav } from "@/components/MobileQuickNav";
 
 const MAX_MESSAGES = 100;
 
@@ -52,7 +53,15 @@ export default async function ChatPage() {
     <div className="h-screen max-h-[100dvh] flex flex-col bg-stone-100 dark:bg-stone-950 overflow-hidden">
       <header className="shrink-0 z-40 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
         <div className="flex items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
-          <AppLogo size={36} linkToHome className="h-9 w-9" />
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="sm:hidden inline-flex items-center justify-center h-9 px-2 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+            >
+              Înapoi
+            </Link>
+            <AppLogo size={36} linkToHome className="h-9 w-9" />
+          </div>
           <h1 className="text-lg font-semibold text-stone-800 dark:text-stone-100">Chat</h1>
           <div className="flex items-center gap-1">
             <Link
@@ -79,9 +88,10 @@ export default async function ChatPage() {
         </div>
       </header>
 
-      <main className="flex-1 min-h-0 flex flex-col max-w-2xl mx-auto w-full">
+      <main className="flex-1 min-h-0 flex flex-col max-w-2xl mx-auto w-full pb-16 sm:pb-0">
         <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
       </main>
+      <MobileQuickNav />
     </div>
   );
 }

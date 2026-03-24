@@ -13,6 +13,11 @@ export type ActivityAction =
   | "residence_deleted"
   | "family_updated"
   | "proposal_applied"
+  | "proposal_approved"
+  | "proposal_updated"
+  | "child_activity_added"
+  | "useful_link_added"
+  | "useful_link_deleted"
   | "member_joined"
   | "blocked_period_added"
   | "blocked_period_deleted";

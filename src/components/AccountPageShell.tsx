@@ -8,6 +8,7 @@ import { ConfigClient } from "@/components/ConfigClient";
 import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { SubscriptionSection } from "@/components/SubscriptionSection";
+import { MobileQuickNav } from "@/components/MobileQuickNav";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -58,6 +59,12 @@ export function AccountPageShell({
       >
         <div className="max-w-md mx-auto px-4 py-3">
           <div className="flex items-center gap-3 mb-3">
+            <Link
+              href="/"
+              className="sm:hidden inline-flex items-center justify-center h-8 px-2 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+            >
+              Înapoi
+            </Link>
             <AppLogo size={32} linkToHome className="h-8 w-8" />
             <div className="flex-1 min-w-0">
               <h1 className="text-lg font-semibold text-stone-800 dark:text-stone-100 truncate">
@@ -128,7 +135,7 @@ export function AccountPageShell({
         </div>
       </header>
 
-      <div className="max-w-md mx-auto px-4 py-6 pb-8">
+      <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-8">
         <main>
           {activeTab === "cont" && (
             <AccountClient
@@ -174,6 +181,7 @@ export function AccountPageShell({
           )}
         </main>
       </div>
+      <MobileQuickNav />
     </div>
   );
 }

@@ -129,6 +129,44 @@ export async function sendProposalAppliedNotification(
 }
 
 /**
+ * Notifică ceilalți membri ai familiei când se adaugă o activitate nouă a copilului.
+ */
+export async function sendChildActivityAddedNotification(
+  recipientUserIds: string[],
+  actorLabel: string,
+  activityName: string,
+  periodEndDate: string
+): Promise<void> {
+  if (recipientUserIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientUserIds);
+  if (subs.length === 0) return;
+  const dateLabel = format(new Date(periodEndDate + "T12:00:00"), "d MMM yyyy", { locale: ro });
+  await sendPushToSubscriptions(subs, {
+    title: "Activitate nouă adăugată",
+    body: `${actorLabel} a adăugat „${activityName}” (${dateLabel}).`,
+    url: "/",
+  });
+}
+
+/**
+ * Notifică ceilalți membri ai familiei când se adaugă un material util nou.
+ */
+export async function sendUsefulLinkAddedNotification(
+  recipientUserIds: string[],
+  actorLabel: string,
+  titleLabel: string
+): Promise<void> {
+  if (recipientUserIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientUserIds);
+  if (subs.length === 0) return;
+  await sendPushToSubscriptions(subs, {
+    title: "Material util nou",
+    body: `${actorLabel} a adăugat „${titleLabel}”.`,
+    url: "/",
+  });
+}
+
+/**
  * Notifică ceilalți membri ai familiei (push + email) când un eveniment este modificat
  * și mai sunt cel mult 3 zile până la data evenimentului.
  */

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ActivityEntry, ActivityAction } from "@/lib/activity";
-import { Calendar, UserPlus, Home, Users, FileText, Ban, CheckCircle } from "lucide-react";
+import { Calendar, UserPlus, Home, Users, FileText, Ban, CheckCircle, Link2, Pencil } from "lucide-react";
 
 /** Propoziție completă: [Cine] [acțiune] [detalii]. */
 function fullActionSentence(
@@ -50,6 +50,24 @@ function fullActionSentence(
       return `${who} a actualizat datele familiei.`;
     case "proposal_applied":
       return payload.weekLabel ? `${who} a aplicat programul pentru ${payload.weekLabel}.` : `${who} a aplicat programul săptămânii.`;
+    case "proposal_approved":
+      return payload.weekLabel ? `${who} a aprobat propunerea pentru ${payload.weekLabel}.` : `${who} a aprobat propunerea săptămânii.`;
+    case "proposal_updated":
+      return payload.weekLabel
+        ? `${who} a modificat propunerea pentru ${payload.weekLabel}.`
+        : `${who} a modificat propunerea săptămânii.`;
+    case "child_activity_added": {
+      const n = typeof payload.name === "string" ? payload.name : "activitate";
+      return payload.date
+        ? `${who} a adăugat activitatea „${n}" pentru ${payload.date}.`
+        : `${who} a adăugat activitatea „${n}".`;
+    }
+    case "useful_link_added": {
+      const n = typeof payload.name === "string" ? payload.name : "material";
+      return `${who} a adăugat materialul util „${n}".`;
+    }
+    case "useful_link_deleted":
+      return `${who} a șters un material util.`;
     case "member_joined":
       return `${who} s-a alăturat familiei.`;
     case "blocked_period_added":
@@ -79,7 +97,15 @@ function iconForAction(action: ActivityAction) {
     case "family_updated":
       return <FileText className="w-4 h-4 text-stone-600 dark:text-stone-400" />;
     case "proposal_applied":
+    case "proposal_approved":
       return <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />;
+    case "proposal_updated":
+      return <Pencil className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
+    case "child_activity_added":
+      return <Users className="w-4 h-4 text-violet-600 dark:text-violet-400" />;
+    case "useful_link_added":
+    case "useful_link_deleted":
+      return <Link2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />;
     case "member_joined":
       return <UserPlus className="w-4 h-4 text-green-600 dark:text-green-400" />;
     case "blocked_period_added":

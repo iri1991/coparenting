@@ -4,6 +4,10 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { getFamilyPlan, canUseWeeklyProposal } from "@/lib/plan";
+import { format } from "date-fns";
+import { ro } from "date-fns/locale";
+import { logFamilyActivity } from "@/lib/activity";
+import { getParentDisplayName } from "@/lib/parent-display-name";
 
 type EditableDay = { date: string; parent: "tata" | "mama" | "together"; location: "tunari" | "otopeni" | "other" };
 
@@ -87,6 +91,15 @@ export async function PATCH(request: Request) {
       },
     }
   );
+
+  const weekStart = sanitizedDays[0]?.date ?? "";
+  const weekEnd = sanitizedDays[sanitizedDays.length - 1]?.date ?? weekStart;
+  const weekLabel =
+    weekStart && weekEnd
+      ? `${format(new Date(weekStart + "T12:00:00"), "d MMM", { locale: ro })} – ${format(new Date(weekEnd + "T12:00:00"), "d MMM yyyy", { locale: ro })}`
+      : undefined;
+  const displayName = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
+  await logFamilyActivity(db, familyId, session.user.id, displayName, "proposal_updated", { weekLabel });
 
   return NextResponse.json({ ok: true });
 }
