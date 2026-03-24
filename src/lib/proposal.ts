@@ -18,7 +18,9 @@ function isDateInBlock(dateStr: string, startDate: string, endDate: string): boo
 /**
  * Generează propunerea de program pentru săptămâna care începe la weekStart (Luni),
  * pe baza zilelor blocate ale fiecărui părinte.
- * Reguli: dacă un părinte e blocat, celălalt primește ziua; dacă amândoi liberi, alternăm.
+ * Reguli:
+ * - dacă un părinte e blocat, celălalt primește ziua;
+ * - dacă ambii sunt liberi, alocăm în blocuri de 2-3 nopți/părinte (nu 1 cu 1).
  */
 export async function generateProposalForWeek(
   familyId: ObjectId,
@@ -70,6 +72,14 @@ export async function generateProposalForWeek(
     together: "other",
   };
 
+  // Heuristică stabilă pentru blocuri 2-3 nopți când ambii sunt disponibili.
+  const seed = Number(weekStart.slice(-1)) % 2;
+  let switchCount = 0;
+  const nextStreakTarget = () => (((seed + switchCount) % 2 === 0) ? 2 : 3);
+  let currentParent: ParentType | null = null;
+  let streakCount = 0;
+  let streakTarget = nextStreakTarget();
+
   for (let i = 0; i < 7; i++) {
     const d = addDays(new Date(weekStart + "T12:00:00"), i);
     const dateStr = format(d, "yyyy-MM-dd");
@@ -78,10 +88,35 @@ export async function generateProposalForWeek(
     const mamaBlocked = isBlocked(dateStr, "mama");
 
     let parent: ParentType;
-    if (tataBlocked && !mamaBlocked) parent = "mama";
-    else if (!tataBlocked && mamaBlocked) parent = "tata";
-    else if (tataBlocked && mamaBlocked) parent = i % 2 === 0 ? "tata" : "mama";
-    else parent = i % 2 === 0 ? "tata" : "mama";
+    if (tataBlocked && !mamaBlocked) {
+      parent = "mama";
+    } else if (!tataBlocked && mamaBlocked) {
+      parent = "tata";
+    } else if (tataBlocked && mamaBlocked) {
+      // Caz rar: amândoi blocați -> păstrăm continuitatea pe părintele curent dacă există.
+      parent = currentParent === "tata" || currentParent === "mama" ? currentParent : (i % 2 === 0 ? "tata" : "mama");
+    } else {
+      // Ambii disponibili: blocuri de 2-3 nopți înainte de switch.
+      if (currentParent !== "tata" && currentParent !== "mama") {
+        parent = i % 2 === 0 ? "tata" : "mama";
+        streakCount = 1;
+      } else if (streakCount >= streakTarget) {
+        parent = currentParent === "tata" ? "mama" : "tata";
+        switchCount += 1;
+        streakTarget = nextStreakTarget();
+        streakCount = 1;
+      } else {
+        parent = currentParent;
+        streakCount += 1;
+      }
+    }
+
+    if (parent !== currentParent) {
+      currentParent = parent;
+      // Dacă switch-ul vine din blocaje, țintim din nou blocuri 2-3 de aici înainte.
+      streakCount = 1;
+      streakTarget = nextStreakTarget();
+    }
 
     const location = defaultLocation[parent];
     days.push({ date: dateStr, parent, location });

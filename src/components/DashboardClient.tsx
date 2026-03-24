@@ -79,10 +79,13 @@ export function DashboardClient({
   const [activityCatalog, setActivityCatalog] = useState<string[]>([]);
   const [usefulLinks, setUsefulLinks] = useState<UsefulLinkEntry[]>([]);
   const [showEndPeriodModal, setShowEndPeriodModal] = useState(false);
+  const [activityModalDate, setActivityModalDate] = useState(() => format(new Date(), "yyyy-MM-dd"));
+  const [retroActivityDate, setRetroActivityDate] = useState(() => format(new Date(), "yyyy-MM-dd"));
   const [newLinkTitle, setNewLinkTitle] = useState("");
   const [newLinkUrl, setNewLinkUrl] = useState("");
   const [newLinkCategory, setNewLinkCategory] = useState("");
   const [linksSaving, setLinksSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"program" | "hub">("program");
   const [interruptModalOpen, setInterruptModalOpen] = useState(false);
   const [interruptTarget, setInterruptTarget] = useState<"otherParent" | "someoneElse">("otherParent");
   const [interruptCaretaker, setInterruptCaretaker] = useState("");
@@ -424,6 +427,7 @@ export function DashboardClient({
     if (!handoverEndedYesterday || !parentType) return;
     const key = `end-period-logged:${parentType}:${handoverEndedYesterday}`;
     if (localStorage.getItem(key) === "1") return;
+    setActivityModalDate(handoverEndedYesterday);
     setShowEndPeriodModal(true);
   }, [handoverEndedYesterday, parentType]);
 
@@ -468,6 +472,12 @@ export function DashboardClient({
     if (!confirm("Ștergi acest link?")) return;
     const res = await fetch(`/api/useful-links?id=${encodeURIComponent(id)}`, { method: "DELETE" });
     if (res.ok) fetchUsefulLinks();
+  }
+
+  function openRetroActivityModal() {
+    if (!retroActivityDate) return;
+    setActivityModalDate(retroActivityDate);
+    setShowEndPeriodModal(true);
   }
 
   function openInterruptModal() {
@@ -552,7 +562,31 @@ export function DashboardClient({
           <UpgradeCta variant="button" />
         </div>
       )}
-      <WeeklyProposalCard onApplied={fetchEvents} />
+      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 flex">
+        <button
+          type="button"
+          onClick={() => setActiveTab("program")}
+          className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+            activeTab === "program"
+              ? "bg-amber-500 text-white"
+              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+          }`}
+        >
+          Program
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("hub")}
+          className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition ${
+            activeTab === "hub"
+              ? "bg-amber-500 text-white"
+              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+          }`}
+        >
+          Rapoarte & resurse
+        </button>
+      </div>
+      {activeTab === "hub" && <WeeklyProposalCard onApplied={fetchEvents} />}
       {!profileLoading && !parentType && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
           <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
@@ -576,7 +610,7 @@ export function DashboardClient({
           </div>
         </div>
       )}
-      {greeting && (
+      {activeTab === "program" && greeting && (
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-stone-700 dark:text-stone-300 text-base font-medium leading-snug">
             {greeting}
@@ -592,6 +626,7 @@ export function DashboardClient({
           )}
         </div>
       )}
+      {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <div className="flex items-center justify-between gap-2 mb-2">
           <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Raport timp între părinți</h2>
@@ -631,6 +666,8 @@ export function DashboardClient({
           </>
         )}
       </section>
+      )}
+      {activeTab === "program" && (
       <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 overflow-hidden">
         <button
           type="button"
@@ -663,11 +700,15 @@ export function DashboardClient({
           </div>
         )}
       </div>
+      )}
+      {activeTab === "program" && (
       <WeekSummary
         events={events}
         onSelectDay={handleSelectDate}
         selectedDate={selectedDateForWeek}
       />
+      )}
+      {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <div className="flex items-center justify-between gap-2 mb-2">
           <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Activități făcute de copil</h2>
@@ -684,6 +725,22 @@ export function DashboardClient({
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
           Listă cumulată din perioadele anterioare, ca să evitați repetarea acelorași activități.
         </p>
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <input
+            type="date"
+            max={todayStr}
+            value={retroActivityDate}
+            onChange={(e) => setRetroActivityDate(e.target.value)}
+            className="rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+          />
+          <button
+            type="button"
+            onClick={openRetroActivityModal}
+            className="rounded-xl border border-amber-300 dark:border-amber-700 px-3 py-2 text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30"
+          >
+            Adaugă retroactiv
+          </button>
+        </div>
         {activitiesSummary.length === 0 ? (
           <p className="text-sm text-stone-500 dark:text-stone-400">Nu există activități înregistrate încă.</p>
         ) : (
@@ -699,6 +756,8 @@ export function DashboardClient({
           </ul>
         )}
       </section>
+      )}
+      {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-2">Materiale utile</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -759,6 +818,8 @@ export function DashboardClient({
           </ul>
         )}
       </section>
+      )}
+      {activeTab === "program" && (
       <div>
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">
@@ -812,6 +873,7 @@ export function DashboardClient({
           />
         )}
       </div>
+      )}
       <EventViewModal
         isOpen={!!viewEvent}
         onClose={() => setViewEvent(null)}
@@ -846,12 +908,12 @@ export function DashboardClient({
       <EndOfPeriodActivitiesModal
         isOpen={showEndPeriodModal}
         onClose={() => setShowEndPeriodModal(false)}
-        periodEndDate={handoverEndedYesterday ?? todayStr}
+        periodEndDate={activityModalDate}
         activityCatalog={activityCatalog}
         onSaved={async () => {
           await fetchActivities();
-          if (parentType && handoverEndedYesterday) {
-            localStorage.setItem(`end-period-logged:${parentType}:${handoverEndedYesterday}`, "1");
+          if (parentType && activityModalDate) {
+            localStorage.setItem(`end-period-logged:${parentType}:${activityModalDate}`, "1");
           }
         }}
       />

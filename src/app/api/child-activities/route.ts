@@ -77,6 +77,23 @@ export async function POST(request: Request) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(periodEndDate)) {
     return NextResponse.json({ error: "periodEndDate invalid." }, { status: 400 });
   }
+  const todayStr = new Date().toISOString().slice(0, 10);
+  if (periodEndDate > todayStr) {
+    return NextResponse.json({ error: "Poți adăuga activități doar pentru zile trecute sau azi." }, { status: 400 });
+  }
+
+  // Retroactiv: activitatea poate fi adăugată doar pe o zi în care copilul a fost la părintele curent (sau together).
+  const hasOwnershipOnDate = await ctx.db.collection("schedule_events").findOne({
+    familyId: ctx.familyId,
+    date: periodEndDate,
+    $or: [{ parent: ctx.parentType }, { parent: "together" }],
+  });
+  if (!hasOwnershipOnDate) {
+    return NextResponse.json(
+      { error: "Nu poți adăuga activități pentru o zi în care copilul nu a fost la tine." },
+      { status: 403 }
+    );
+  }
 
   const now = new Date();
   await ctx.db.collection("child_activities").insertOne({
