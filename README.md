@@ -32,7 +32,11 @@ Completează în `.env.local`:
 - **NEXTAUTH_SECRET** – secret pentru sesiuni (generează: `openssl rand -base64 32`)
 - **NEXTAUTH_URL** – în dev: `http://localhost:3000`, în producție: URL-ul aplicației
 - **VAPID_PUBLIC_KEY** și **VAPID_PRIVATE_KEY** – pentru notificări push (generează: `npx web-push generate-vapid-keys`)
-- **CRON_SECRET** – secret pentru apelul cron (generează: `openssl rand -hex 32`); pe Vercel e trimis automat la cron
+- **CRON_SECRET** – secret pentru apel manual al rutelor cron (generează: `openssl rand -hex 32`)
+- **INTERNAL_CRON_ENABLED** – implicit `true`; dacă îl pui `false`, scheduler-ul intern este oprit
+- **CRON_TIMEZONE** – implicit `Europe/Bucharest`
+- **EVENING_REMINDER_HOUR** – oră locală pentru reminder (implicit `21`)
+- **WEEKLY_PROPOSAL_HOUR** – oră locală pentru propunere duminicală (implicit `20`)
 
 ### 3. Pornire
 
@@ -57,8 +61,28 @@ Fiecare utilizator trebuie asociat cu rolul „Tata” sau „Mama” ca să apa
 ### 5. Notificări și calendar
 
 - **În aplicație**: modificările se reîncarcă la câteva secunde și la focus.
-- **Notificări push**: la prima deschidere (după login) browserul poate cere permisiunea pentru notificări; dacă accepți, primești push când se adaugă un eveniment nou și seara (ex. 21:00) cu programul de mâine. Cron-ul rulează pe Vercel la 21:00 ora României; setează `CRON_SECRET` în mediu.
+- **Notificări push**: la prima deschidere (după login) browserul poate cere permisiunea pentru notificări; dacă accepți, primești push când se adaugă un eveniment nou și seara (ex. 21:00) cu programul de mâine.
 - **Pe telefon/calendar**: folosește „Exportă calendar” (iconița de calendar în header), descarcă `.ics`, apoi adaugă-l în Google Calendar / Apple Calendar.
+
+### 6. Scheduler intern (Node.js, fără dependențe externe)
+
+Scheduler-ul cron rulează intern în procesul Node al aplicației și pornește automat la boot.
+
+Job-uri implicite:
+
+- reminder seară: zilnic la `21:00` (ora din `CRON_TIMEZONE`)
+- propunere săptămânală: duminică la `20:00` (ora din `CRON_TIMEZONE`)
+
+Poți ajusta orele din env:
+
+```bash
+INTERNAL_CRON_ENABLED=true
+CRON_TIMEZONE=Europe/Bucharest
+EVENING_REMINDER_HOUR=21
+WEEKLY_PROPOSAL_HOUR=20
+```
+
+Rutele cron (`/api/cron/evening-reminder`, `/api/cron/weekly-proposal`) rămân disponibile pentru trigger manual / debug.
 
 ## Tehnologii
 
