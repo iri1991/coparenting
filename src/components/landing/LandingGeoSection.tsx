@@ -20,8 +20,14 @@ export function LandingGeoSection() {
             id="geo-heading"
             className="text-xl font-bold text-stone-900 dark:text-stone-100 sm:text-2xl"
           >
-            Ce este HomeSplit?
+            HomeSplit pe scurt (pentru părinți ocupați)
           </h2>
+        </AnimateOnScroll>
+        <AnimateOnScroll delay={40}>
+          <p className="mt-3 text-stone-600 dark:text-stone-400">
+            Dacă simți că programul copilului vă consumă energie și discuții, HomeSplit este construit să readucă ordine,
+            calm și încredere între părinți.
+          </p>
         </AnimateOnScroll>
         <ul className="mt-6 space-y-4" role="list">
           {geoSummary.map((sentence, i) => (
@@ -33,6 +39,11 @@ export function LandingGeoSection() {
             </AnimateOnScroll>
           ))}
         </ul>
+        <AnimateOnScroll delay={260}>
+          <p className="mt-6 text-sm font-medium text-amber-700 dark:text-amber-300">
+            Începi gratuit. În câteva minute aveți un plan comun, clar și ușor de urmat.
+          </p>
+        </AnimateOnScroll>
       </div>
     </section>
   );

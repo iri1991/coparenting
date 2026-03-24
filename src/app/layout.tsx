@@ -1,9 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
 import { UpgradeModalProvider } from "@/contexts/UpgradeModalContext";
-import { siteUrl, defaultTitle, defaultDescription, keywords } from "@/lib/seo";
+import {
+  siteUrl,
+  defaultTitle,
+  defaultDescription,
+  keywords,
+  brandName,
+  ogImage,
+  serviceArea,
+} from "@/lib/seo";
 import { PwaRuntime } from "@/components/PwaRuntime";
 
 const geistSans = Geist({
@@ -18,35 +27,46 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: defaultTitle,
-    template: "%s | HomeSplit",
+    template: `%s | ${brandName}`,
   },
   description: defaultDescription,
   keywords: keywords,
-  authors: [{ name: "HomeSplit", url: siteUrl }],
-  creator: "HomeSplit",
+  category: "family",
+  authors: [{ name: brandName, url: siteUrl }],
+  creator: brandName,
+  publisher: brandName,
   openGraph: {
     type: "website",
     locale: "ro_RO",
     url: siteUrl,
-    siteName: "HomeSplit",
+    siteName: brandName,
     title: defaultTitle,
     description: defaultDescription,
     images: [
-      { url: "/logo.png", width: 512, height: 512, alt: "HomeSplit – Co-parenting fără stres" },
+      { url: ogImage, width: 512, height: 512, alt: "HomeSplit - co-parenting calm si clar" },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: ["/logo.png"],
+    images: [ogImage],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   manifest: "/manifest.json",
   appleWebApp: { capable: true, title: "HomeSplit" },
@@ -85,20 +105,75 @@ const jsonLd = {
     {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
-      name: "HomeSplit",
+      name: brandName,
       url: siteUrl,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` },
+      logo: { "@type": "ImageObject", url: `${siteUrl}${ogImage}` },
       description: defaultDescription,
+      areaServed: serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
+      sameAs: [siteUrl],
     },
     {
-      "@type": "WebApplication",
-      "@id": `${siteUrl}/#webapp`,
-      name: "HomeSplit",
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: brandName,
+      inLanguage: "ro-RO",
+      description: defaultDescription,
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#app`,
+      name: brandName,
       applicationCategory: "LifestyleApplication",
-      operatingSystem: "Any",
+      operatingSystem: "Web",
+      inLanguage: "ro-RO",
+      availableLanguage: ["ro-RO"],
       url: siteUrl,
       description: defaultDescription,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "RON" },
+      audience: {
+        "@type": "Audience",
+        audienceType: "Parinti separati sau divortati",
+      },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Free",
+          price: "0",
+          priceCurrency: "RON",
+          category: "trial",
+          url: `${siteUrl}/login`,
+        },
+        {
+          "@type": "Offer",
+          name: "Pro",
+          price: "39",
+          priceCurrency: "RON",
+          billingDuration: "P1M",
+          url: `${siteUrl}/login?plan=pro`,
+        },
+        {
+          "@type": "Offer",
+          name: "Family+",
+          price: "59",
+          priceCurrency: "RON",
+          billingDuration: "P1M",
+          url: `${siteUrl}/login?plan=family`,
+        },
+      ],
+      provider: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "Service",
+      "@id": `${siteUrl}/#service`,
+      name: "Planificare co-parenting",
+      serviceType: "Organizare program copil si handover",
+      provider: { "@id": `${siteUrl}/#organization` },
+      areaServed: serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
+      availableChannel: {
+        "@type": "ServiceChannel",
+        serviceUrl: siteUrl,
+      },
     },
   ],
 };
@@ -110,9 +185,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ro">
+      <head>
+        <Script id="gtm-script" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KL6M5FLZ');`}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KL6M5FLZ"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

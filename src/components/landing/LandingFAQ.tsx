@@ -14,11 +14,15 @@ const FAQ_ITEMS = [
   },
   {
     q: "Ce se întâmplă după trial?",
-    a: "Dacă nu activezi abonamentul, rămâi pe Free.",
+    a: "Dacă nu activezi abonamentul, rămâi pe Free. Poți face upgrade ulterior, fără să pierzi datele.",
   },
   {
     q: "Plătește fiecare părinte?",
     a: "Nu. Un singur abonament acoperă ambii părinți.",
+  },
+  {
+    q: "Este potrivită pentru părinți din România?",
+    a: "Da. HomeSplit este gândit în limba română, pentru realitatea locală, cu planuri în RON și flux simplu pentru familii din România.",
   },
   {
     q: "Cum funcționează „propunerea de duminică”?",
