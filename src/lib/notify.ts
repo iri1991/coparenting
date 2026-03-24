@@ -10,16 +10,20 @@ import type { ScheduleEvent } from "@/types/events";
 type Db = Awaited<ReturnType<typeof getDb>>;
 
 /**
- * Trimite notificare push tuturor utilizatorilor (în afară de creator) când se adaugă un eveniment nou.
+ * Trimite notificare push membrilor familiei (în afară de creator) când se adaugă un eveniment nou.
  * Nu aruncă erori – doar loghează; apelul nu blochează răspunsul API.
  */
-export async function sendNewEventNotification(event: ScheduleEvent): Promise<void> {
-  const db = await getDb();
-  const users = await db.collection("users").find({}).project({ _id: 1 }).toArray();
-  const creatorId = event.created_by;
-  const userIds = (users as { _id: unknown }[])
-    .filter((u) => String(u._id) !== creatorId)
-    .map((u) => String(u._id));
+export async function sendNewEventNotification(
+  db: Db,
+  familyId: ObjectId,
+  creatorId: string,
+  event: ScheduleEvent
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const userIds = memberIds.filter((id) => id !== creatorId);
   if (userIds.length === 0) return;
 
   const subs = await getSubscriptionsForUsers(userIds);

@@ -7,6 +7,10 @@ import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import { sendChildActivityAddedNotification } from "@/lib/notify";
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 async function getCurrentFamilyContext(userId: string) {
   const db = await getDb();
   const user = await db.collection("users").findOne(
@@ -110,7 +114,10 @@ export async function POST(request: Request) {
     updatedAt: now,
   });
   await ctx.db.collection("activity_catalog").updateOne(
-    { familyId: ctx.familyId, name: activityName },
+    {
+      familyId: ctx.familyId,
+      name: { $regex: `^${escapeRegExp(activityName)}$`, $options: "i" },
+    },
     { $setOnInsert: { familyId: ctx.familyId, name: activityName, createdAt: now } },
     { upsert: true }
   );

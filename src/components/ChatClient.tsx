@@ -8,6 +8,7 @@ export interface ChatMessage {
   senderLabel: string;
   text: string;
   createdAt: string;
+  seenByOther?: boolean;
 }
 
 const POLL_INTERVAL_MS = 8000;
@@ -46,6 +47,15 @@ export function ChatClient({
   }, [fetchMessages]);
 
   useEffect(() => {
+    const onOnline = () => {
+      fetchMessages();
+      fetch("/api/chat/read", { method: "POST" }).catch(() => {});
+    };
+    window.addEventListener("homesplit:online", onOnline as EventListener);
+    return () => window.removeEventListener("homesplit:online", onOnline as EventListener);
+  }, [fetchMessages]);
+
+  useEffect(() => {
     listEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -75,6 +85,7 @@ export function ChatClient({
           senderLabel: "", // will be filled on next poll, or we could show "Tu"
           text: data.text,
           createdAt: data.createdAt,
+          seenByOther: false,
         },
       ]);
       fetchMessages();
@@ -114,14 +125,21 @@ export function ChatClient({
               >
                 <p className="whitespace-pre-wrap break-words">{m.text}</p>
               </div>
-              <span className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">
-                {new Date(m.createdAt).toLocaleString("ro-RO", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-xs text-stone-400 dark:text-stone-500">
+                  {new Date(m.createdAt).toLocaleString("ro-RO", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+                {isMe && m.seenByOther && (
+                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                    Seen
+                  </span>
+                )}
+              </div>
             </div>
           );
         })}

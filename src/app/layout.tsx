@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
 import { UpgradeModalProvider } from "@/contexts/UpgradeModalContext";
 import { siteUrl, defaultTitle, defaultDescription, keywords } from "@/lib/seo";
+import { PwaRuntime } from "@/components/PwaRuntime";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,6 +72,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -110,7 +118,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <SessionProvider>
-          <UpgradeModalProvider>{children}</UpgradeModalProvider>
+          <UpgradeModalProvider>
+            <PwaRuntime />
+            {children}
+          </UpgradeModalProvider>
         </SessionProvider>
       </body>
     </html>

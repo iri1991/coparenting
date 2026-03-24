@@ -31,6 +31,15 @@ export async function GET() {
   const memberIds = family.memberIds ?? [];
   const parent1Name = (family as { parent1Name?: string }).parent1Name?.trim() || "Părinte 1";
   const parent2Name = (family as { parent2Name?: string }).parent2Name?.trim() || "Părinte 2";
+  const otherMemberId = memberIds.find((id) => id !== session.user.id) ?? null;
+  let otherLastReadAt: Date | null = null;
+  if (otherMemberId) {
+    const otherUser = await db.collection("users").findOne(
+      { _id: new ObjectId(otherMemberId) },
+      { projection: { chatLastReadAt: 1 } }
+    );
+    otherLastReadAt = (otherUser as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
+  }
 
   const docs = await db
     .collection("messages")
@@ -39,17 +48,24 @@ export async function GET() {
     .limit(MAX_MESSAGES)
     .toArray();
 
-  const messages = (docs as { _id: unknown; senderId: string; text: string; createdAt: Date }[]).map((d) => {
-    const senderIndex = memberIds.indexOf(d.senderId);
-    const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
-    return {
-      id: String(d._id),
-      senderId: d.senderId,
-      senderLabel,
-      text: d.text,
-      createdAt: d.createdAt.toISOString(),
-    };
-  });
+  const messages = (docs as { _id: unknown; senderId: string; text: string; createdAt: Date }[]).map(
+    (d) => {
+      const senderIndex = memberIds.indexOf(d.senderId);
+      const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
+      const seenByOther =
+        d.senderId === session.user.id &&
+        !!otherLastReadAt &&
+        d.createdAt.getTime() <= otherLastReadAt.getTime();
+      return {
+        id: String(d._id),
+        senderId: d.senderId,
+        senderLabel,
+        text: d.text,
+        createdAt: d.createdAt.toISOString(),
+        seenByOther,
+      };
+    }
+  );
 
   return NextResponse.json({ messages: messages.reverse() });
 }

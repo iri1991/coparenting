@@ -172,6 +172,17 @@ export function DashboardClient({
   }, []);
 
   useEffect(() => {
+    const onOnline = () => {
+      fetchEvents();
+      fetchBlockedPeriods();
+      fetchActivities();
+      fetchUsefulLinks();
+    };
+    window.addEventListener("homesplit:online", onOnline as EventListener);
+    return () => window.removeEventListener("homesplit:online", onOnline as EventListener);
+  }, [fetchEvents, fetchBlockedPeriods, fetchActivities, fetchUsefulLinks]);
+
+  useEffect(() => {
     fetchBlockedPeriods();
   }, [fetchBlockedPeriods]);
 

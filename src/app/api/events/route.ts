@@ -164,7 +164,7 @@ export async function POST(request: Request) {
   const doc = await db.collection("schedule_events").findOne({ _id: insertedId });
   const createdEvent = toEvent(doc as Parameters<typeof toEvent>[0]);
   try {
-    await sendNewEventNotification(createdEvent);
+    await sendNewEventNotification(db, familyId, session.user.id, createdEvent);
   } catch (_) {
     // nu blochează răspunsul dacă notificarea eșuează
   }

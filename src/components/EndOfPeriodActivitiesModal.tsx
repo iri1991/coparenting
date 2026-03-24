@@ -19,6 +19,7 @@ export function EndOfPeriodActivitiesModal({
 }: EndOfPeriodActivitiesModalProps) {
   const [activityName, setActivityName] = useState("");
   const [notes, setNotes] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,6 +34,25 @@ export function EndOfPeriodActivitiesModal({
       return periodEndDate;
     }
   }, [periodEndDate]);
+
+  const normalizedCatalog = useMemo(
+    () =>
+      activityCatalog
+        .map((x) => x.trim())
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b, "ro", { sensitivity: "base" })),
+    [activityCatalog]
+  );
+
+  const filteredSuggestions = useMemo(() => {
+    const q = activityName.trim().toLowerCase();
+    if (!q) return normalizedCatalog.slice(0, 8);
+    const starts = normalizedCatalog.filter((x) => x.toLowerCase().startsWith(q));
+    const contains = normalizedCatalog.filter(
+      (x) => !x.toLowerCase().startsWith(q) && x.toLowerCase().includes(q)
+    );
+    return [...starts, ...contains].slice(0, 8);
+  }, [activityName, normalizedCatalog]);
 
   async function handleSave() {
     if (!activityName.trim()) {
@@ -58,6 +78,7 @@ export function EndOfPeriodActivitiesModal({
       }
       setActivityName("");
       setNotes("");
+      setShowSuggestions(false);
       onSaved();
       onClose();
     } finally {
@@ -83,18 +104,43 @@ export function EndOfPeriodActivitiesModal({
         <div className="space-y-3">
           <div>
             <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Activitate</label>
-            <input
-              list="activity-catalog"
-              value={activityName}
-              onChange={(e) => setActivityName(e.target.value)}
-              placeholder="Ex. puzzle, desen, lego, parc"
-              className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
-            />
-            <datalist id="activity-catalog">
-              {activityCatalog.map((a) => (
-                <option key={a} value={a} />
-              ))}
-            </datalist>
+            <div className="relative">
+              <input
+                value={activityName}
+                onChange={(e) => {
+                  setActivityName(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => {
+                  // Let click on suggestion run before hiding.
+                  setTimeout(() => setShowSuggestions(false), 120);
+                }}
+                placeholder="Ex. puzzle, desen, lego, parc"
+                className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+              />
+              {showSuggestions && filteredSuggestions.length > 0 && (
+                <ul className="absolute z-20 mt-1 w-full max-h-52 overflow-auto rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-lg">
+                  {filteredSuggestions.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onMouseDown={() => {
+                          setActivityName(item);
+                          setShowSuggestions(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"
+                      >
+                        {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+              Selectează din activitățile anterioare sau scrie una nouă; dacă e nouă, se adaugă automat în nomenclator.
+            </p>
           </div>
           <div>
             <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Observații</label>

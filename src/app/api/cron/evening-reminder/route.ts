@@ -42,8 +42,8 @@ function toDisplayEvent(doc: {
 }
 
 /**
- * Cron: rulează seara (ex. 21:00 Romania) și trimite tuturor utilizatorilor
- * o notificare push cu evenimentele de mâine (preluare / program).
+ * Cron: rulează seara (ex. 21:00 Romania) și trimite notificări per familie
+ * cu evenimentele de mâine (preluare / program).
  * Protejat cu CRON_SECRET.
  */
 export async function GET(request: Request) {
@@ -68,43 +68,49 @@ export async function GET(request: Request) {
     .find({ date: tomorrowStr })
     .sort({ startTime: 1, date: 1 })
     .toArray();
+  const families = await db
+    .collection("families")
+    .find({}, { projection: { _id: 1, memberIds: 1 } })
+    .toArray();
 
-  const subs = await getSubscriptionsForUsers([]);
-  if (subs.length === 0) {
-    return NextResponse.json({
-      ok: true,
-      message: "Niciun abonament push – niciun mesaj trimis.",
-      date: tomorrowStr,
-    });
-  }
+  let pushSent = 0;
+  let familiesNotified = 0;
 
-  if (events.length === 0) {
+  for (const family of families as { _id: unknown; memberIds?: unknown[] }[]) {
+    const memberIds = (family.memberIds ?? []).map((id) => String(id)).filter(Boolean);
+    if (memberIds.length === 0) continue;
+
+    const familyEvents = events.filter((e) => String((e as { familyId?: unknown }).familyId) === String(family._id));
+    const subs = await getSubscriptionsForUsers(memberIds);
+    if (subs.length === 0) continue;
+
+    if (familyEvents.length === 0) {
+      await sendPushToSubscriptions(subs, {
+        title: `Mâine: ${tomorrowLabel}`,
+        body: "Niciun eveniment programat.",
+        url: "/",
+      });
+      pushSent += subs.length;
+      familiesNotified += 1;
+      continue;
+    }
+
+    const lines = familyEvents.map((doc) => toDisplayEvent(doc as Parameters<typeof toDisplayEvent>[0]));
+    const body = lines.join(" · ");
     await sendPushToSubscriptions(subs, {
       title: `Mâine: ${tomorrowLabel}`,
-      body: "Niciun eveniment programat.",
+      body,
       url: "/",
     });
-    return NextResponse.json({
-      ok: true,
-      date: tomorrowStr,
-      eventsCount: 0,
-      pushSent: subs.length,
-    });
+    pushSent += subs.length;
+    familiesNotified += 1;
   }
-
-  const lines = events.map((doc) => toDisplayEvent(doc as Parameters<typeof toDisplayEvent>[0]));
-  const body = lines.join(" · ");
-
-  await sendPushToSubscriptions(subs, {
-    title: `Mâine: ${tomorrowLabel}`,
-    body,
-    url: "/",
-  });
 
   return NextResponse.json({
     ok: true,
     date: tomorrowStr,
     eventsCount: events.length,
-    pushSent: subs.length,
+    familiesNotified,
+    pushSent,
   });
 }

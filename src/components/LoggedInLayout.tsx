@@ -96,7 +96,14 @@ export function LoggedInLayout({
       }
     };
     const interval = setInterval(poll, CHAT_UNREAD_POLL_MS);
-    return () => clearInterval(interval);
+    const onOnline = () => {
+      poll();
+    };
+    window.addEventListener("homesplit:online", onOnline as EventListener);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("homesplit:online", onOnline as EventListener);
+    };
   }, []);
 
   const registerOpenAddModal = useCallback((fn: (() => void) | null) => {
