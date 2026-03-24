@@ -25,6 +25,14 @@ const FAQ_ITEMS = [
     a: "Aplicația generează automat programul săptămânii viitoare din zile blocate + activități recurente (și reguli, dacă sunt setate).",
   },
   {
+    q: "Avem jurnal cu ce a făcut copilul?",
+    a: "Da. La final de perioadă apare un popup unde părintele adaugă activitățile făcute și observații. În dashboard există lista totală, ca să evitați repetițiile.",
+  },
+  {
+    q: "Putem salva materiale utile pentru copil?",
+    a: "Da. Există secțiunea „Materiale utile” unde adăugați link-uri către melodii, clipuri, cărți și alte resurse, accesibile ambilor părinți.",
+  },
+  {
     q: "Pot gestiona mai mulți copii?",
     a: "Da. Pro acoperă 1–3 copii, iar Family+ nelimitat.",
   },

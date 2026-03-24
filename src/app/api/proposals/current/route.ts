@@ -7,6 +7,7 @@ import { getFamilyPlan, canUseWeeklyProposal } from "@/lib/plan";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { WeekProposal } from "@/types/proposal";
+import { getNextMonday, generateProposalForWeek } from "@/lib/proposal";
 
 export async function GET() {
   const session = await auth();
@@ -30,9 +31,38 @@ export async function GET() {
   if (!canUseWeeklyProposal(plan)) {
     return NextResponse.json({ proposal: null, plan, upgradeMessage: "Propunerea automată de program este disponibilă în planul Pro." });
   }
-  const doc = await db
+  let doc = await db
     .collection("schedule_proposals")
     .findOne({ familyId, status: "pending" }, { sort: { createdAt: -1 } });
+
+  // Fallback: dacă cron-ul nu a rulat, generăm on-demand propunerea pentru săptămâna viitoare
+  // astfel încât utilizatorii Pro/Family+ să o vadă în UI.
+  if (!doc) {
+    const nextMonday = getNextMonday();
+    const weekStart = format(nextMonday, "yyyy-MM-dd");
+    const existingForWeek = await db
+      .collection("schedule_proposals")
+      .findOne({ familyId, weekStart, status: "pending" });
+
+    if (existingForWeek) {
+      doc = existingForWeek;
+    } else {
+      const days = await generateProposalForWeek(familyId, weekStart);
+      if (days.length > 0) {
+        const now = new Date();
+        const insert = await db.collection("schedule_proposals").insertOne({
+          familyId,
+          weekStart,
+          days,
+          approvedBy: {},
+          status: "pending",
+          createdAt: now,
+          updatedAt: now,
+        });
+        doc = await db.collection("schedule_proposals").findOne({ _id: insert.insertedId });
+      }
+    }
+  }
 
   if (!doc) {
     return NextResponse.json({ proposal: null, plan });

@@ -6,6 +6,8 @@ export function LandingSocialProof() {
   const badges = [
     "Planificare săptămânală automată",
     "Activități recurente + responsabil",
+    "Activități la final de perioadă + observații",
+    "Materiale utile partajate între părinți",
     "Alergii & documente la îndemână",
     "Istoric și trasabilitate",
   ];
@@ -78,6 +80,28 @@ const FEATURES = [
   {
     title: "Activități recurente",
     items: ["Ex: Balet – miercuri 16:00", "Locație, durată, reminders", "„Cine duce / cine ia” (fix sau alternant)"],
+  },
+  {
+    title: "Jurnal la final de perioadă",
+    items: [
+      "Popup la handover: ce activități a făcut copilul",
+      "Câmp de observații (text liber)",
+      "Activitățile intră automat în nomenclatorul familiei",
+    ],
+  },
+  {
+    title: "Istoric activități copil",
+    items: [
+      "Listă totală în dashboard (de câte ori, când ultima dată)",
+      "Ajută să evitați repetarea acelorași activități",
+    ],
+  },
+  {
+    title: "Materiale utile (bibliotecă comună)",
+    items: [
+      "Adăugați link-uri la melodii, clipuri, cărți",
+      "Categorie opțională + acces rapid pentru ambii părinți",
+    ],
   },
   {
     title: "Propunerea automată de duminică",
@@ -260,6 +284,9 @@ export function LandingWebApp() {
 const USE_CASES = [
   { quote: "Am deplasare marți–miercuri.", answer: "Blochezi zilele, aplicația propune automat ajustarea." },
   { quote: "Balet miercuri 16:00 — cine duce?", answer: "Activitatea e recurentă și are responsabil clar." },
+  { quote: "S-a încheiat perioada mea. Ce facem cu activitățile făcute?", answer: "Primești popup de handover și le salvezi rapid, cu observații." },
+  { quote: "Nu vreau să repetăm aceleași idei.", answer: "Vezi lista totală de activități deja făcute și alegi altceva." },
+  { quote: "Ce melodii/cărți îi plac acum?", answer: "Le țineți în „Materiale utile”, cu link-uri comune pentru ambii părinți." },
   { quote: "Schimbăm locul de predare.", answer: "Actualizezi locația, rămâne în calendar." },
   { quote: "Plecați în vacanță.", answer: "Ai documentele la îndemână + reminder la expirare." },
   { quote: "Copilul are alergie.", answer: "Informația e vizibilă imediat, fără căutat prin conversații." },
@@ -291,6 +318,7 @@ export function LandingUseCases() {
 
 const WHY_US = [
   { title: "Automatizare săptămânală", text: "Propunere de duminică bazată pe datele reale." },
+  { title: "Continuitate între părinți", text: "Activități + materiale utile, centralizate după fiecare handover." },
   { title: "Trasabilitate", text: "Istoric schimbări pentru claritate și responsabilitate." },
   { title: "Siguranță", text: "Alergii + documente + reminders, centralizate." },
 ];

@@ -43,16 +43,28 @@ function EventCard({
       onClick={onView ? () => onView(event) : undefined}
       onKeyDown={onView ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onView(event); } } : undefined}
       className={`
-        flex items-center gap-3 p-2.5 rounded-xl border
-        ${onView ? "cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation" : ""}
-        ${isTodayRow ? "border-amber-200/80 dark:border-amber-800/50 bg-white/80 dark:bg-stone-900/80" : "border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-sm"}
+        group flex items-center gap-3 p-3 rounded-2xl border backdrop-blur-[1px]
+        ${onView ? "cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.995] touch-manipulation" : ""}
+        ${
+          isTodayRow
+            ? "border-amber-300/80 dark:border-amber-700/70 bg-gradient-to-r from-amber-50 to-white dark:from-amber-950/30 dark:to-stone-900"
+            : "border-stone-200/80 dark:border-stone-700/70 bg-white/95 dark:bg-stone-900/95 shadow-sm"
+        }
       `}
     >
-      <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-800">
+      <span
+        className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${
+          isTodayRow
+            ? "bg-amber-100 dark:bg-amber-900/40 ring-1 ring-amber-300/70 dark:ring-amber-700/60"
+            : "bg-stone-100 dark:bg-stone-800"
+        }`}
+      >
         <ParentIcon parent={event.parent} size={18} aria-label={getDisplayLabel(event)} />
       </span>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-stone-800 dark:text-stone-100 truncate text-sm">{event.title || getDisplayLabel(event)}</p>
+        <p className="font-semibold text-stone-800 dark:text-stone-100 truncate text-sm tracking-tight">
+          {event.title || getDisplayLabel(event)}
+        </p>
         <p className="text-xs text-stone-500 dark:text-stone-400">
           {(event.startTime || event.endTime) && (
             <span className="font-medium text-stone-600 dark:text-stone-300">
@@ -63,9 +75,14 @@ function EventCard({
         </p>
       </div>
       {(onEdit || onDelete) && canEdit !== false && (
-        <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
+        <div className="flex gap-1 shrink-0 opacity-90 group-hover:opacity-100" onClick={(e) => e.stopPropagation()}>
           {onEdit && (
-            <button type="button" onClick={() => onEdit(event)} className="p-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800" aria-label="Editează">
+            <button
+              type="button"
+              onClick={() => onEdit(event)}
+              className="p-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+              aria-label="Editează"
+            >
               <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             </button>
           )}
@@ -170,7 +187,7 @@ export function MonthEventsTimeline({
         ref={isTodayRow ? todayRef : null}
         className={`relative flex gap-3 sm:gap-4 py-3 min-h-[52px] ${
           isTodayRow
-            ? "rounded-xl bg-amber-50/80 dark:bg-amber-950/30 ring-2 ring-amber-300/60 dark:ring-amber-500/40 ring-offset-2 ring-offset-white dark:ring-offset-stone-900 -mx-1 px-3 sm:px-4"
+            ? "rounded-2xl bg-gradient-to-r from-amber-50/90 to-amber-100/40 dark:from-amber-950/35 dark:to-stone-900/30 ring-2 ring-amber-300/70 dark:ring-amber-600/50 ring-offset-2 ring-offset-white dark:ring-offset-stone-900 -mx-1 px-3 sm:px-4 shadow-sm"
             : ""
         }`}
       >
@@ -178,11 +195,19 @@ export function MonthEventsTimeline({
           <button
             type="button"
             onClick={() => onSelectDate?.(day)}
-            className={`flex flex-col items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 transition ${
-              isTodayRow ? "border-amber-500 bg-amber-500 text-white font-bold shadow-md" : "border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:border-stone-300 dark:hover:border-stone-500"
+            className={`flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 transition ${
+              isTodayRow
+                ? "border-amber-500 bg-gradient-to-b from-amber-500 to-amber-600 text-white font-bold shadow-md"
+                : "border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:border-stone-300 dark:hover:border-stone-500"
             }`}
           >
-            <span className="text-xs font-medium uppercase tracking-wider text-stone-500 dark:text-stone-400 leading-tight">{format(day, "EEE", { locale: ro })}</span>
+            <span
+              className={`text-xs font-medium uppercase tracking-wider leading-tight ${
+                isTodayRow ? "text-amber-100" : "text-stone-500 dark:text-stone-400"
+              }`}
+            >
+              {format(day, "EEE", { locale: ro })}
+            </span>
             <span className={`text-sm font-semibold tabular-nums ${isTodayRow ? "text-white" : "text-stone-800 dark:text-stone-200"}`}>{format(day, "d")}</span>
           </button>
           {isTodayRow && <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">Azi</span>}
@@ -207,7 +232,7 @@ export function MonthEventsTimeline({
       <button
         type="button"
         onClick={onClick}
-        className="relative flex gap-3 sm:gap-4 py-3 w-full text-left items-center rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+        className="relative flex gap-3 sm:gap-4 py-3 w-full text-left items-center rounded-2xl border border-stone-200/80 dark:border-stone-700/80 bg-stone-50/80 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
       >
         <div className="shrink-0 flex items-center justify-center w-12 sm:w-14">
           <span className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-dashed border-stone-300 dark:border-stone-600 text-stone-400 dark:text-stone-500">
@@ -234,7 +259,10 @@ export function MonthEventsTimeline({
 
   return (
     <div className="relative">
-      <div className="absolute left-6 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700" aria-hidden />
+      <div
+        className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-stone-200 via-stone-200 to-stone-300 dark:from-stone-700 dark:via-stone-700 dark:to-stone-600"
+        aria-hidden
+      />
       <div className="space-y-0">
         {daysBeforeFocus.length > 0 && (
           <>
