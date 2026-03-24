@@ -23,6 +23,7 @@ export async function GET() {
     return NextResponse.json({ error: "Utilizator negăsit" }, { status: 404 });
   }
   return NextResponse.json({
+    id: session.user.id,
     name: user.name ?? null,
     email: user.email ?? null,
     parentType: user.parentType ?? null,

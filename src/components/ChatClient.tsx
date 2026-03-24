@@ -79,8 +79,7 @@ export function ChatClient({
     listEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  const sendMessage = useCallback(async () => {
     const text = input.trim();
     if (!text || sending) return;
     setSending(true);
@@ -124,7 +123,7 @@ export function ChatClient({
     } finally {
       setSending(false);
     }
-  }
+  }, [input, sending, replyTo, currentUserId]);
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-stone-100 dark:bg-stone-950">
@@ -197,9 +196,8 @@ export function ChatClient({
         <div ref={listEndRef} />
       </div>
 
-      {/* Bară de input fixă jos – tip iMessage */}
-      <form
-        onSubmit={handleSubmit}
+      {/* Fără <form>: pe iOS Safari, form + input + submit afișează bara de navigare între câmpuri deasupra tastaturii. */}
+      <div
         className="shrink-0 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-stone-100 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800"
       >
         {replyTo && (
@@ -228,17 +226,27 @@ export function ChatClient({
         <div className="flex gap-2 items-end">
           <input
             type="text"
+            enterKeyHint="send"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                void sendMessage();
+              }
+            }}
             placeholder="Mesaj"
             maxLength={2000}
             className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
             style={{ fontSize: "16px" }}
             disabled={sending}
             autoComplete="off"
+            autoCorrect="on"
+            autoCapitalize="sentences"
           />
           <button
-            type="submit"
+            type="button"
+            onClick={() => void sendMessage()}
             disabled={sending || !input.trim()}
             className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 disabled:pointer-events-none touch-manipulation"
             aria-label="Trimite"
@@ -248,7 +256,7 @@ export function ChatClient({
             </svg>
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

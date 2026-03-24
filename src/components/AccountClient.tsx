@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { User, Key, Download, FileJson, Calendar } from "lucide-react";
+import { User, Key, Download, FileJson, Calendar, LogOut } from "lucide-react";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -235,13 +235,20 @@ export function AccountClient({
         </div>
       </section>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         <Link
           href="/"
-          className="flex-1 py-3 text-center rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium"
+          className="flex-1 py-3 text-center rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
         >
           Înapoi la calendar
         </Link>
+        <a
+          href="/api/auth/signout"
+          className="flex-1 inline-flex items-center justify-center gap-2 py-3 text-center rounded-xl border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 font-medium hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+        >
+          <LogOut className="w-4 h-4 shrink-0" aria-hidden />
+          Deconectare
+        </a>
       </div>
     </div>
   );
