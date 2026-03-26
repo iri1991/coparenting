@@ -16,6 +16,7 @@ import type { ScheduleEvent } from "@/types/events";
 import { getEventColor } from "@/types/events";
 import type { BlockedPeriod } from "@/types/blocked";
 import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
+import type { ProposalDay } from "@/types/proposal";
 
 function isDateInBlock(dateStr: string, start: string, end: string): boolean {
   return dateStr >= start && dateStr <= end;
@@ -28,6 +29,7 @@ interface CalendarProps {
   onSelectDate: (date: Date) => void;
   selectedDate: Date | null;
   blockedPeriods?: BlockedPeriod[];
+  proposalPreviewDays?: ProposalDay[];
 }
 
 export function Calendar({
@@ -37,6 +39,7 @@ export function Calendar({
   onSelectDate,
   selectedDate,
   blockedPeriods = [],
+  proposalPreviewDays = [],
 }: CalendarProps) {
   const labels = useFamilyLabels();
   const monthStart = startOfMonth(currentDate);
@@ -58,6 +61,11 @@ export function Calendar({
   function getEventsForDay(date: Date) {
     const d = format(date, "yyyy-MM-dd");
     return events.filter((e) => e.date === d);
+  }
+
+  function getProposalForDay(date: Date): ProposalDay | null {
+    const d = format(date, "yyyy-MM-dd");
+    return proposalPreviewDays.find((p) => p.date === d) ?? null;
   }
 
   const isSelected = selectedDate ? (date: Date) => isSameDay(date, selectedDate) : () => false;
@@ -119,6 +127,7 @@ export function Calendar({
               const selected = isSelected(date);
               const today = isToday(date);
               const blockedLabels = getBlockedLabelsForDay(date);
+              const proposal = getProposalForDay(date);
               return (
                 <button
                   key={date.toISOString()}
@@ -144,6 +153,14 @@ export function Calendar({
                     ))}
                     {dayEvents.length > 2 && (
                       <span className="text-[10px] text-stone-400">+{dayEvents.length - 2}</span>
+                    )}
+                    {proposal && (
+                      <span
+                        className="text-[10px] font-semibold text-amber-700 dark:text-amber-300 px-1 rounded bg-amber-100 dark:bg-amber-900/40"
+                        title={`Propunere: ${labels.parentLabels[proposal.parent] ?? proposal.parent}`}
+                      >
+                        P
+                      </span>
                     )}
                     {blockedLabels.length > 0 && (
                       <span

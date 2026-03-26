@@ -18,6 +18,7 @@ import { UpgradeCta } from "@/components/UpgradeCta";
 import { EndOfPeriodActivitiesModal } from "@/components/EndOfPeriodActivitiesModal";
 import { ActivityRecommendationsTab } from "@/components/ActivityRecommendationsTab";
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
+import type { WeekProposal } from "@/types/proposal";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -100,6 +101,9 @@ export function DashboardClient({
   const [interruptCaretaker, setInterruptCaretaker] = useState("");
   const [interruptUntilDate, setInterruptUntilDate] = useState("");
   const [interruptSaving, setInterruptSaving] = useState(false);
+  const [proposalPreviewDays, setProposalPreviewDays] = useState<WeekProposal["days"]>([]);
+  const [proposalWeekLabel, setProposalWeekLabel] = useState<string | null>(null);
+  const [showProposalPreview, setShowProposalPreview] = useState(true);
 
   const modalOpen = modalOpenProp ?? internalModalOpen;
   const setModalOpen = setModalOpenProp ?? setInternalModalOpen;
@@ -645,7 +649,17 @@ export function DashboardClient({
           Idei
         </button>
       </div>
-      {activeTab === "hub" && <WeeklyProposalCard onApplied={fetchEvents} />}
+      {activeTab === "hub" && (
+        <WeeklyProposalCard
+          onApplied={fetchEvents}
+          onProposalLoaded={(proposal, weekLabel) => {
+            setProposalPreviewDays(proposal?.days ?? []);
+            setProposalWeekLabel(weekLabel ?? null);
+            if (!proposal) setShowProposalPreview(false);
+            if (proposal) setShowProposalPreview(true);
+          }}
+        />
+      )}
       {!profileLoading && !parentType && (
         <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
           <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
@@ -731,6 +745,29 @@ export function DashboardClient({
       )}
       {activeTab === "program" && (
       <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 overflow-hidden">
+        {proposalPreviewDays.length > 0 && (
+          <div className="px-4 py-2 border-b border-amber-200/70 dark:border-amber-800/60 bg-amber-50/60 dark:bg-amber-950/25 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <p className="text-xs font-medium text-amber-800 dark:text-amber-200">
+                Preview propunere în calendar
+              </p>
+              {proposalWeekLabel && (
+                <p className="text-[11px] text-amber-700 dark:text-amber-300">{proposalWeekLabel}</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowProposalPreview((v) => !v)}
+              className={`rounded-lg px-2.5 py-1 text-xs font-medium border transition ${
+                showProposalPreview
+                  ? "bg-amber-500 text-white border-amber-500"
+                  : "bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border-stone-300 dark:border-stone-600"
+              }`}
+            >
+              {showProposalPreview ? "Ascunde preview" : "Arată preview"}
+            </button>
+          </div>
+        )}
         <button
           type="button"
           onClick={() => setCalendarExpanded((e) => !e)}
@@ -758,6 +795,7 @@ export function DashboardClient({
               onSelectDate={handleSelectDate}
               selectedDate={selectedDate}
               blockedPeriods={blockedPeriods}
+              proposalPreviewDays={showProposalPreview ? proposalPreviewDays : []}
             />
           </div>
         )}

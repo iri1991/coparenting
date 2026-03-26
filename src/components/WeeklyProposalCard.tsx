@@ -19,9 +19,10 @@ interface ProposalResponse {
 
 interface WeeklyProposalCardProps {
   onApplied?: () => void;
+  onProposalLoaded?: (proposal: WeekProposal | null, weekLabel?: string) => void;
 }
 
-export function WeeklyProposalCard({ onApplied }: WeeklyProposalCardProps) {
+export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyProposalCardProps) {
   const [data, setData] = useState<ProposalResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [approving, setApproving] = useState(false);
@@ -35,15 +36,18 @@ export function WeeklyProposalCard({ onApplied }: WeeklyProposalCardProps) {
       if (res.ok) {
         const json = await res.json();
         setData(json);
+        onProposalLoaded?.(json.proposal ?? null, json.proposal?.weekLabel);
       } else {
         setData({ proposal: null });
+        onProposalLoaded?.(null);
       }
     } catch {
       setData({ proposal: null });
+      onProposalLoaded?.(null);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [onProposalLoaded]);
 
   useEffect(() => {
     fetchProposal();
