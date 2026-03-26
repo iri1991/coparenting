@@ -68,6 +68,25 @@ export function Calendar({
     return proposalPreviewDays.find((p) => p.date === d) ?? null;
   }
 
+  function getProposalBadge(proposal: ProposalDay): { label: string; cls: string } {
+    if (proposal.parent === "tata") {
+      return {
+        label: (labels.parent1Name || "P1").charAt(0).toUpperCase(),
+        cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+      };
+    }
+    if (proposal.parent === "mama") {
+      return {
+        label: (labels.parent2Name || "P2").charAt(0).toUpperCase(),
+        cls: "bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300",
+      };
+    }
+    return {
+      label: "Î",
+      cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+    };
+  }
+
   const isSelected = selectedDate ? (date: Date) => isSameDay(date, selectedDate) : () => false;
 
   /** Pentru o zi, returnează inițialele părinților care au blocat (ex. ["I"], ["A"], ["I","A"]) */
@@ -156,10 +175,10 @@ export function Calendar({
                     )}
                     {proposal && (
                       <span
-                        className="text-[10px] font-semibold text-amber-700 dark:text-amber-300 px-1 rounded bg-amber-100 dark:bg-amber-900/40"
-                        title={`Propunere: ${labels.parentLabels[proposal.parent] ?? proposal.parent}`}
+                        className={`text-[10px] font-semibold px-1 rounded ${getProposalBadge(proposal).cls}`}
+                        title={`Propunere: ${labels.parentLabels[proposal.parent] ?? proposal.parent} · ${labels.locationLabels[proposal.location] ?? proposal.location}`}
                       >
-                        P
+                        {getProposalBadge(proposal).label}
                       </span>
                     )}
                     {blockedLabels.length > 0 && (

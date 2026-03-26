@@ -754,6 +754,17 @@ export function DashboardClient({
               {proposalWeekLabel && (
                 <p className="text-[11px] text-amber-700 dark:text-amber-300">{proposalWeekLabel}</p>
               )}
+              <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
+                <span className="inline-flex items-center gap-1 rounded bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.5 text-blue-700 dark:text-blue-300">
+                  {parent1Name.charAt(0).toUpperCase()} · {parent1Name}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded bg-pink-100 dark:bg-pink-900/40 px-1.5 py-0.5 text-pink-700 dark:text-pink-300">
+                  {parent2Name.charAt(0).toUpperCase()} · {parent2Name}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded bg-amber-100 dark:bg-amber-900/40 px-1.5 py-0.5 text-amber-700 dark:text-amber-300">
+                  Î · Cu toții
+                </span>
+              </div>
             </div>
             <button
               type="button"
