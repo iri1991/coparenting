@@ -1,4 +1,4 @@
-import { runEveningReminderJob, runWeeklyProposalJob } from "@/lib/cron-jobs";
+import { runEveningReminderJob, runWeeklyProposalJob, runRitualReminderJob } from "@/lib/cron-jobs";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -49,6 +49,18 @@ export function startInternalCronScheduler() {
     const key = `${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}`;
     if (globalThis.__homesplitCronLastTickKey === key) return;
     globalThis.__homesplitCronLastTickKey = key;
+
+    const nowDate = `${now.year}-${now.month}-${now.day}`;
+    const nowTimeLabel = `${String(now.hour).padStart(2, "0")}:${String(now.minute).padStart(2, "0")}`;
+
+    try {
+      const result = await runRitualReminderJob(nowTimeLabel, nowDate);
+      if (result.remindersSent > 0) {
+        console.log("[cron] ritual-reminder ok", result);
+      }
+    } catch (e) {
+      console.error("[cron] ritual-reminder failed", e);
+    }
 
     if (now.minute !== 0) return;
 

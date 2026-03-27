@@ -37,6 +37,14 @@ const FAQ_ITEMS = [
     a: "Sugestii în română, generate cu AI, ținând cont de vreme, oraș și copil. Poți accepta o idee și se adaugă la activitățile cu copilul sau o poți refuza (rămâne marcat).",
   },
   {
+    q: "Putem avea ritualuri comune în toate locuințele?",
+    a: "Da. În tabul Hub ai „Ritualuri comune”: definești obiceiuri (ex. duș, dinți, rugăciune, somn) și le bifați pe zile. Astfel, copilul are aceeași rutină indiferent de locuință.",
+  },
+  {
+    q: "Primim notificări pentru ritualuri?",
+    a: "Da. Dacă activezi notificările push pe dispozitiv, HomeSplit trimite reminder la ora setată pentru ritual, către părintele responsabil (sau către amândoi, dacă alegi asta).",
+  },
+  {
     q: "Avem jurnal cu ce a făcut copilul?",
     a: "Da. La final de perioadă apare un popup unde părintele adaugă activitățile făcute și observații. În dashboard există lista totală, ca să evitați repetițiile.",
   },

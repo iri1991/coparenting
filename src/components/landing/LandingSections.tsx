@@ -106,6 +106,15 @@ const FEATURES = [
     items: ["Ex: Balet – miercuri 16:00", "Locație, durată, reminders", "„Cine duce / cine ia” (fix sau alternant)"],
   },
   {
+    title: "Ritualuri comune (toate locuințele)",
+    items: [
+      "Checklist comun pe zile: duș, dinți, rugăciune, somn la 19:30 etc.",
+      "Aceleași obiceiuri pentru copil, indiferent unde doarme în seara respectivă",
+      "Bifare simplă per zi + ordine ritualuri (sus/jos), ca rutină predictibilă",
+      "Reminder push la ora ritualului pentru părintele responsabil (sau pentru amândoi)",
+    ],
+  },
+  {
     title: "Jurnal la final de perioadă",
     items: [
       "Popup la handover: ce activități a făcut copilul",

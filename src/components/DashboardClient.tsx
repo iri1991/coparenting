@@ -19,6 +19,7 @@ import { EndOfPeriodActivitiesModal } from "@/components/EndOfPeriodActivitiesMo
 import { ActivityRecommendationsTab } from "@/components/ActivityRecommendationsTab";
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
 import type { WeekProposal } from "@/types/proposal";
+import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -701,6 +702,9 @@ export function DashboardClient({
       )}
       {activeTab === "idei" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
+      )}
+      {activeTab === "hub" && (
+      <SharedRitualsCard parent1Name={parent1Name} parent2Name={parent2Name} />
       )}
       {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
