@@ -17,7 +17,7 @@ export function LandingSocialProof() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-xl font-semibold text-stone-800 dark:text-stone-100 sm:text-2xl">
-            La fel de utilă când locuiți împreună ca și când împărțiți programul la distanță.
+            O casă sau două — aceeași claritate.
           </h2>
         </AnimateOnScroll>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -50,12 +50,12 @@ export function LandingProblemSolution() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Când planul e clar, energia voastră merge către copil, nu către conflicte.
+            Plan clar. Mai mult timp cu copilul.
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
           <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Fie că vă coordonați din aceeași casă sau de la distanță, haosul din mesaje obosește la fel. HomeSplit vă ajută să aveți același plan, aceleași date despre copil și același loc pentru activități și documente — mai puțină fricțiune, mai multă energie pentru copil.
+            Haosul din mesaje obosește la fel, indiferent dacă sunteți în aceeași casă sau la distanță. HomeSplit aduce același plan, aceleași date despre copil și un singur loc pentru activități și documente.
           </p>
         </AnimateOnScroll>
         <AnimateOnScroll delay={130}>
@@ -86,11 +86,11 @@ export function LandingProblemSolution() {
 
 const FEATURES = [
   {
-    title: "Familie împreună sau la distanță",
+    title: "O casă sau două adrese",
     items: [
-      "Același spațiu pentru timp petrecut cu copilul: activități, idei AI, materiale utile",
-      "La două adrese: handover, calendar și chat — fără să renunțați la claritate",
-      "Voi alegeți ce folosiți intens (ex. fără „predare” dacă nu e cazul)",
+      "Același hub: activități, idei AI, materiale utile",
+      "La două locuințe: handover, calendar și chat",
+      "Folosiți doar ce vi se potrivește (ex. fără predare dacă nu e cazul)",
     ],
   },
   {
@@ -159,7 +159,7 @@ const FEATURES = [
   {
     title: "Experiență mobilă",
     items: [
-      "Trei taburi pe Acasă: Program, Rapoarte & resurse, Idei (recomandări)",
+      "Patru taburi pe Acasă: Program, Rutine, Rapoarte & resurse, Idei (recomandări)",
       "Meniu fix jos: Acasă, Chat, Cont — mereu la îndemână",
       "Bară de sus compactă (adăugare rapidă, logo, zile blocate); se ascunde la scroll în jos",
     ],
@@ -172,12 +172,12 @@ export function LandingFeatures() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Tot ce vă ajută la organizare și timp cu copilul — într-un singur loc.
+            Ce poți face în app
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={60}>
           <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-stone-600 dark:text-stone-400">
-            Nu trebuie să fiți separați ca să folosiți HomeSplit: multe familii îl folosesc pentru claritate, activități și documente. Funcțiile de handover și propunere săptămânală sunt acolo când aveți nevoie de ele.
+            Nu e nevoie să fiți separați ca să folosiți HomeSplit. Handover și propunerea săptămânală sunt acolo când aveți două adrese; restul e la fel de util și într-o singură casă.
           </p>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -225,7 +225,7 @@ export function LandingHowItWorks() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Setare rapidă. Beneficii imediat.
+            Cum începi
           </h2>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -270,7 +270,7 @@ export function LandingWebApp() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            E web app — intri din browser. Dacă vrei, o pui pe ecran ca o aplicație.
+            Web app — fără instalare din store
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
@@ -359,7 +359,7 @@ export function LandingUseCases() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Pentru momentele când vreți claritate — acasă sau între două case.
+            Situații concrete
           </h2>
         </AnimateOnScroll>
         <div className="mt-12 space-y-4">
@@ -390,7 +390,7 @@ export function LandingWhyUs() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Nu e doar un calendar. E hub-ul vostru pentru copil — organizare, activități și informații.
+            De ce HomeSplit
           </h2>
         </AnimateOnScroll>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -113,7 +113,7 @@ export function DashboardClient({
   const [newLinkUrl, setNewLinkUrl] = useState("");
   const [newLinkCategory, setNewLinkCategory] = useState("");
   const [linksSaving, setLinksSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"program" | "hub" | "idei">(resolvedInitialTab);
+  const [activeTab, setActiveTab] = useState<HomeDashboardTab>(resolvedInitialTab);
   const [interruptModalOpen, setInterruptModalOpen] = useState(false);
   const [interruptTarget, setInterruptTarget] = useState<"otherParent" | "someoneElse">("otherParent");
   const [interruptCaretaker, setInterruptCaretaker] = useState("");
@@ -147,7 +147,7 @@ export function DashboardClient({
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 280);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [activeTab]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -631,7 +631,7 @@ export function DashboardClient({
         </div>
       )}
       <div
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 grid grid-cols-3 gap-1"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 grid grid-cols-4 gap-0.5 sm:gap-1"
         role="tablist"
         aria-label="Secțiuni acasă"
       >
@@ -640,7 +640,7 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "program"}
           onClick={() => setActiveTab("program")}
-          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
+          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
             activeTab === "program"
               ? "bg-amber-500 text-white"
               : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
@@ -651,9 +651,23 @@ export function DashboardClient({
         <button
           type="button"
           role="tab"
+          aria-selected={activeTab === "rutine"}
+          onClick={() => setActiveTab("rutine")}
+          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
+            activeTab === "rutine"
+              ? "bg-amber-500 text-white"
+              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+          }`}
+          title="Ritualuri comune și raport"
+        >
+          Rutine
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={activeTab === "hub"}
           onClick={() => setActiveTab("hub")}
-          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
+          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
             activeTab === "hub"
               ? "bg-amber-500 text-white"
               : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
@@ -668,7 +682,7 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "idei"}
           onClick={() => setActiveTab("idei")}
-          className={`rounded-xl py-2 sm:py-2.5 px-1 sm:px-2 text-xs sm:text-sm font-medium transition ${
+          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
             activeTab === "idei"
               ? "bg-amber-500 text-white"
               : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
@@ -728,7 +742,7 @@ export function DashboardClient({
           )}
         </div>
       )}
-      {activeTab === "program" && (
+      {activeTab === "rutine" && (
         <SharedRitualsCard parent1Name={parent1Name} parent2Name={parent2Name} />
       )}
       {activeTab === "idei" && !profileLoading && parentType && (

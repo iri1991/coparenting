@@ -20,7 +20,7 @@ export function LandingGeoSection() {
             id="geo-heading"
             className="text-xl font-bold text-stone-900 dark:text-stone-100 sm:text-2xl"
           >
-            HomeSplit pe scurt (familii cu copii)
+            Pe scurt
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={40}>

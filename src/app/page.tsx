@@ -53,7 +53,7 @@ function toEvent(doc: {
   };
 }
 
-const HOME_TABS = new Set(["program", "hub", "idei"]);
+const HOME_TABS = new Set(["program", "rutine", "hub", "idei"]);
 
 export default async function HomePage({
   searchParams,
@@ -67,7 +67,9 @@ export default async function HomePage({
   const openBlockedModal = params?.blocked === "1";
   const tabParam = params?.tab;
   const initialDashboardTab =
-    typeof tabParam === "string" && HOME_TABS.has(tabParam) ? (tabParam as "program" | "hub" | "idei") : undefined;
+    typeof tabParam === "string" && HOME_TABS.has(tabParam)
+      ? (tabParam as "program" | "rutine" | "hub" | "idei")
+      : undefined;
   const dateParam = params?.date;
   const initialCalendarDate =
     typeof dateParam === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateParam) ? dateParam : undefined;

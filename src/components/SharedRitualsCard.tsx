@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { endOfMonth, format, parse, startOfMonth } from "date-fns";
 import { Check, Plus, Trash2 } from "lucide-react";
 import type { FamilyRitual, RitualResponsibleParent } from "@/types/ritual";
 
@@ -21,6 +22,49 @@ function roDate(ymd: string): string {
   }
 }
 
+function ymBucharestNow(): string {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" }).slice(0, 7);
+}
+
+function monthYmToRange(ym: string): { from: string; to: string } | null {
+  if (!/^\d{4}-\d{2}$/.test(ym)) return null;
+  const base = parse(`${ym}-01`, "yyyy-MM-dd", new Date());
+  if (Number.isNaN(base.getTime())) return null;
+  return {
+    from: format(startOfMonth(base), "yyyy-MM-dd"),
+    to: format(endOfMonth(base), "yyyy-MM-dd"),
+  };
+}
+
+interface RitualReportCaretakerCell {
+  eligible: number;
+  done: number;
+  missed: number;
+}
+
+interface RitualReportRow {
+  ritualId: string;
+  title: string;
+  responsibleParent: RitualResponsibleParent;
+  active: boolean;
+  byCaretaker: {
+    tata: RitualReportCaretakerCell;
+    mama: RitualReportCaretakerCell;
+    together: RitualReportCaretakerCell;
+  };
+  totals: { eligible: number; done: number; missed: number };
+}
+
+function formatReportCell(s: RitualReportCaretakerCell): string {
+  if (s.eligible === 0) return "—";
+  return `${s.done}/${s.eligible}`;
+}
+
+function reportCellTitle(s: RitualReportCaretakerCell): string {
+  if (s.eligible === 0) return "Nicio zi eligibilă în această coloană";
+  return `Bifat: ${s.done} · Lipsă: ${s.missed} (din ${s.eligible} zile cu program)`;
+}
+
 const QUICK_TEMPLATES = [
   { title: "Duș de seară", timeLabel: "19:00", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 10 },
   { title: "Spălat pe dinți", timeLabel: "19:20", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 5 },
@@ -39,6 +83,38 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   const [newLeadMinutes, setNewLeadMinutes] = useState(10);
   const [selectedDate, setSelectedDate] = useState(() => todayBucharest());
   const [checkins, setCheckins] = useState<Record<string, string>>({});
+  const [reportMonth, setReportMonth] = useState(ymBucharestNow);
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportRows, setReportRows] = useState<RitualReportRow[] | null>(null);
+  const [reportDaysWithSchedule, setReportDaysWithSchedule] = useState<number | null>(null);
+
+  const loadReport = useCallback(async () => {
+    const range = monthYmToRange(reportMonth);
+    if (!range) return;
+    setReportLoading(true);
+    try {
+      const res = await fetch(
+        `/api/rituals/report?from=${encodeURIComponent(range.from)}&to=${encodeURIComponent(range.to)}`
+      );
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && Array.isArray(json.rows)) {
+        setReportRows(json.rows as RitualReportRow[]);
+        setReportDaysWithSchedule(typeof json.daysWithSchedule === "number" ? json.daysWithSchedule : null);
+      } else {
+        setReportRows([]);
+        setReportDaysWithSchedule(null);
+      }
+    } catch {
+      setReportRows([]);
+      setReportDaysWithSchedule(null);
+    } finally {
+      setReportLoading(false);
+    }
+  }, [reportMonth]);
+
+  useEffect(() => {
+    loadReport();
+  }, [loadReport]);
 
   const activeRituals = useMemo(
     () => rituals.filter((r) => r.active).sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, "ro")),
@@ -329,6 +405,111 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
           })}
         </ul>
       )}
+
+      <div className="rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/30 p-3 mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Raport ritualuri</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="text-xs text-stone-500 dark:text-stone-400">Lună:</label>
+            <input
+              type="month"
+              value={reportMonth}
+              onChange={(e) => setReportMonth(e.target.value)}
+              className="rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-2 py-1 text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => loadReport()}
+              disabled={reportLoading}
+              className="rounded-lg border border-stone-300 dark:border-stone-600 px-2 py-1 text-xs font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-50"
+            >
+              Reîncarcă
+            </button>
+          </div>
+        </div>
+        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-2 leading-relaxed">
+          Numărăm doar zilele cu program în calendar. O zi e „eligibilă” pentru un ritual dacă responsabilul setat
+          (sau „amândoi”) se potrivește cu cine e trecut cu copilul; la „împreună” ritualul cu un singur părinte
+          responsabil tot se numără. <strong className="text-stone-600 dark:text-stone-300">bifat / zile eligibile</strong>{" "}
+          = de câte ori ați bifat ritualul vs câte astfel de zile au fost.
+        </p>
+        {reportLoading && reportRows === null ? (
+          <p className="text-sm text-stone-500 dark:text-stone-400">Se încarcă raportul…</p>
+        ) : reportRows && reportRows.length === 0 ? (
+          <p className="text-sm text-stone-500 dark:text-stone-400">Nu există ritualuri de raportat.</p>
+        ) : reportRows && reportDaysWithSchedule === 0 ? (
+          <p className="text-sm text-stone-500 dark:text-stone-400">
+            Nu există zile cu program în calendar pentru luna selectată.
+          </p>
+        ) : reportRows ? (
+          <div className="overflow-x-auto -mx-1">
+            <table className="w-full min-w-[520px] text-xs text-left border-collapse">
+              <thead>
+                <tr className="border-b border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400">
+                  <th className="py-2 pr-2 font-medium">Ritual</th>
+                  <th className="py-2 px-1 font-medium text-center whitespace-nowrap" title={parent1Name}>
+                    {parent1Name.length > 12 ? `${parent1Name.slice(0, 11)}…` : parent1Name}
+                  </th>
+                  <th className="py-2 px-1 font-medium text-center whitespace-nowrap" title={parent2Name}>
+                    {parent2Name.length > 12 ? `${parent2Name.slice(0, 11)}…` : parent2Name}
+                  </th>
+                  <th className="py-2 px-1 font-medium text-center">Împreună</th>
+                  <th className="py-2 pl-1 font-medium text-center">Total</th>
+                </tr>
+                <tr className="border-b border-stone-200 dark:border-stone-600 text-[10px] text-stone-400 dark:text-stone-500">
+                  <th className="pb-2 pr-2 font-normal" />
+                  <th className="pb-2 px-1 font-normal text-center">bifat / eligibil</th>
+                  <th className="pb-2 px-1 font-normal text-center">bifat / eligibil</th>
+                  <th className="pb-2 px-1 font-normal text-center">bifat / eligibil</th>
+                  <th className="pb-2 pl-1 font-normal text-center">bifat / eligibil</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reportRows.map((row) => (
+                  <tr
+                    key={row.ritualId}
+                    className={`border-b border-stone-100 dark:border-stone-800 ${
+                      row.active ? "" : "opacity-60"
+                    }`}
+                  >
+                    <td className="py-2 pr-2 text-stone-800 dark:text-stone-200">
+                      <span className="font-medium">{row.title}</span>
+                      {!row.active && (
+                        <span className="ml-1 text-[10px] text-stone-400">(inactiv)</span>
+                      )}
+                      <span className="block text-[10px] text-stone-400 mt-0.5">
+                        Resp.:{" "}
+                        {row.responsibleParent === "both"
+                          ? "amândoi"
+                          : row.responsibleParent === "tata"
+                            ? parent1Name
+                            : parent2Name}
+                      </span>
+                    </td>
+                    <td className="py-2 px-1 text-center font-mono text-stone-700 dark:text-stone-300" title={reportCellTitle(row.byCaretaker.tata)}>
+                      {formatReportCell(row.byCaretaker.tata)}
+                    </td>
+                    <td className="py-2 px-1 text-center font-mono text-stone-700 dark:text-stone-300" title={reportCellTitle(row.byCaretaker.mama)}>
+                      {formatReportCell(row.byCaretaker.mama)}
+                    </td>
+                    <td className="py-2 px-1 text-center font-mono text-stone-700 dark:text-stone-300" title={reportCellTitle(row.byCaretaker.together)}>
+                      {formatReportCell(row.byCaretaker.together)}
+                    </td>
+                    <td className="py-2 pl-1 text-center font-mono font-medium text-amber-800 dark:text-amber-200" title={reportCellTitle({ eligible: row.totals.eligible, done: row.totals.done, missed: row.totals.missed })}>
+                      {row.totals.eligible === 0 ? "—" : `${row.totals.done}/${row.totals.eligible}`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
+        {reportDaysWithSchedule != null && reportDaysWithSchedule > 0 && (
+          <p className="mt-2 text-[11px] text-stone-400 dark:text-stone-500">
+            {reportDaysWithSchedule} zile cu program în calendar (în intervalul lunii).
+          </p>
+        )}
+      </div>
 
       <div className="rounded-xl border border-stone-200 dark:border-stone-700 p-3 mb-3">
         <p className="text-xs font-medium text-stone-600 dark:text-stone-300 mb-2">Adaugă ritual</p>

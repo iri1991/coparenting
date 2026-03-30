@@ -1,17 +1,38 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
-const BULLETS = [
-  "Potrivit și pentru familii care locuiesc împreună: activități, idei AI, documente — fără mesaje risipite",
-  "Știi din timp cine e cu copilul, unde și la ce oră (util și la două adrese)",
-  "Mai puțină încărcare mentală, același plan vizibil pentru amândoi",
-  "Tab Idei: recomandări AI pentru ieșit (vreme, oraș) — salvezi în activități sau refuzi",
-  "Activitățile copilului centralizate; la handover, notițe rapide despre ce a mers bine",
-  "Link-uri utile (melodii, povești, clipuri) la îndemână",
-  "Alergii, documente de familie și informații importante într-un loc sigur",
-];
+type HeroAudience = "two" | "together";
+
+const HERO_COPY: Record<
+  HeroAudience,
+  { label: string; subtitle: string; bullets: string[] }
+> = {
+  two: {
+    label: "Două adrese",
+    subtitle: "Calendar, handover și propuneri automate — la un loc, vizibil pentru amândoi.",
+    bullets: [
+      "Știi din timp cine e cu copilul, unde și la ce oră",
+      "Propunere săptămânală + aprobare în câțiva pași",
+      "Jurnal scurt la handover; activitățile intră în istoric",
+      "Zile blocate, activități recurente, responsabil clar",
+      "Chat lângă calendar — fără mesaje pierdute",
+    ],
+  },
+  together: {
+    label: "O casă",
+    subtitle: "Activități, idei AI, ritualuri și documente — același hub, fără liste risipite.",
+    bullets: [
+      "Idei AI pentru ieșit (vreme, oraș) — salvezi sau refuzi din tab Idei",
+      "Ritualuri comune + reminder la ora setată",
+      "Materiale utile: melodii, povești, link-uri la îndemână",
+      "Alergii, documente și note importante centralizate",
+      "Mai puțină încărcare mentală — un singur loc pentru amândoi",
+    ],
+  },
+};
 
 const BADGES = [
   { label: "Calm", sub: "mai puține fricțiuni zilnice" },
@@ -20,6 +41,9 @@ const BADGES = [
 ];
 
 export function LandingHero() {
+  const [audience, setAudience] = useState<HeroAudience>("two");
+  const copy = HERO_COPY[audience];
+
   return (
     <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-amber-50/80 via-stone-50/90 to-white dark:from-stone-950 dark:via-stone-900/95 dark:to-stone-950 pt-8 pb-20 sm:pt-12 sm:pb-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -27,22 +51,39 @@ export function LandingHero() {
           <div className="space-y-8">
             <AnimateOnScroll>
               <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl lg:text-5xl leading-tight">
-                Organizare pentru familie — împreună acasă sau la două adrese.
+                Co-parenting fără stres.
               </h1>
             </AnimateOnScroll>
+            <AnimateOnScroll delay={80}>
+              <div
+                className="inline-flex rounded-xl border border-stone-200 dark:border-stone-600 bg-white/90 dark:bg-stone-900/90 p-1 shadow-sm"
+                role="tablist"
+                aria-label="Situația ta"
+              >
+                {(["two", "together"] as const).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    role="tab"
+                    aria-selected={audience === key}
+                    onClick={() => setAudience(key)}
+                    className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                      audience === key
+                        ? "bg-amber-500 text-white shadow-sm"
+                        : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+                    }`}
+                  >
+                    {HERO_COPY[key].label}
+                  </button>
+                ))}
+              </div>
+            </AnimateOnScroll>
             <AnimateOnScroll delay={100}>
-              <p className="text-lg text-stone-600 dark:text-stone-400 max-w-xl">
-                Fie că vreți mai multă claritate și timp de calitate când stați în aceeași casă, fie că împărțiți programul copilului între două locuințe — HomeSplit pune calendarul, activitățile, ideile și documentele într-un singur loc, pentru amândoi părinții.
-              </p>
+              <p className="text-lg text-stone-600 dark:text-stone-400 max-w-xl">{copy.subtitle}</p>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={200}>
-              <p className="text-stone-700 dark:text-stone-300 font-medium">
-                Propunere săptămânală automată, recomandări AI pentru ieșit și tot ce ține de copil la îndemână — fără să vă pierdeți în chat-uri și foi volante.
-              </p>
-            </AnimateOnScroll>
-            <ul className="space-y-2">
-              {BULLETS.map((text, i) => (
-                <AnimateOnScroll key={text} delay={250 + i * 50} staggerIndex={i}>
+            <ul className="space-y-2" key={audience}>
+              {copy.bullets.map((text, i) => (
+                <AnimateOnScroll key={text} delay={180 + i * 45} staggerIndex={i}>
                   <li className="flex items-start gap-2 text-stone-600 dark:text-stone-400">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" aria-hidden />
                     <span>{text}</span>
@@ -81,7 +122,7 @@ export function LandingHero() {
                 Fără card. Setare rapidă.
               </p>
               <p className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
-                Mai puțin stres pentru voi. Mai multă liniște și predictibilitate pentru copil.
+                Mai puțin stres pentru voi, mai multă predictibilitate pentru copil.
               </p>
             </AnimateOnScroll>
           </div>
@@ -97,7 +138,7 @@ export function LandingHero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                   <p className="text-white text-sm sm:text-base font-medium">
-                    Un plan clar acasă înseamnă mai puține tensiuni și mai mult timp bun cu copilul.
+                    Plan clar = mai puține tensiuni, mai mult timp cu copilul.
                   </p>
                 </div>
               </div>

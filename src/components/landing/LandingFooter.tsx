@@ -86,7 +86,7 @@ export function LandingFooter() {
           </div>
         </div>
         <p className="mt-10 text-center text-xs text-stone-400 dark:text-stone-500">
-          © {new Date().getFullYear()} HomeSplit. Organizare pentru familie — împreună sau la două adrese.
+          © {new Date().getFullYear()} HomeSplit — co-parenting fără stres.
         </p>
       </div>
     </footer>

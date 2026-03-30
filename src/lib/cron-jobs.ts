@@ -221,7 +221,7 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
         lead > 0
           ? `În ${lead} min: „${ritual.title}” (programat la ${ritual.timeLabel}).`
           : `E timpul pentru „${ritual.title}” (${ritual.timeLabel}).`,
-      url: homeAppUrl({ tab: "program", hash: "rituals" }),
+      url: homeAppUrl({ tab: "rutine", hash: "rituals" }),
     });
     remindersSent += subs.length;
 

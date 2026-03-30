@@ -9,12 +9,12 @@ export function LandingFinalCTA() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
         <AnimateOnScroll>
           <h2 className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Un program clar reduce tensiunea. Copilul simte diferența.
+            Începe gratuit. Invită și celălalt părinte.
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll delay={100}>
           <p className="mt-4 text-stone-600 dark:text-stone-400">
-            Începe gratuit, invită celălalt părinte și vezi propunerea automată pentru săptămâna viitoare.
+            Propunere automată săptămânală (Pro), chat și calendar — într-un singur loc.
           </p>
         </AnimateOnScroll>
         <AnimateOnScroll delay={200}>
