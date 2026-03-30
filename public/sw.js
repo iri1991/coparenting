@@ -1,6 +1,6 @@
-const STATIC_CACHE = "homesplit-static-v4";
-const RUNTIME_CACHE = "homesplit-runtime-v4";
-const API_CACHE = "homesplit-api-v4";
+const STATIC_CACHE = "homesplit-static-v5";
+const RUNTIME_CACHE = "homesplit-runtime-v5";
+const API_CACHE = "homesplit-api-v5";
 /** Snapshot chat doar pentru offline — nu se folosește când există rețea. */
 const CHAT_OFFLINE_CACHE = "homesplit-chat-offline-v1";
 
@@ -214,16 +214,32 @@ self.addEventListener("push", function (event) {
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
-  const url = event.notification.data?.url || "/";
+  const raw = event.notification.data?.url || "/";
+  var targetUrl;
+  try {
+    targetUrl = new URL(raw, self.location.origin).href;
+  } catch (_) {
+    targetUrl = self.location.origin + (raw.startsWith("/") ? raw : "/" + raw);
+  }
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (clientList) {
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && "focus" in client) {
-          client.navigate(url);
-          return client.focus();
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url.indexOf(self.location.origin) === 0 && "focus" in client) {
+          if (typeof client.navigate === "function") {
+            return client
+              .navigate(targetUrl)
+              .then(function () {
+                return client.focus();
+              })
+              .catch(function () {
+                if (clients.openWindow) return clients.openWindow(targetUrl);
+              });
+          }
+          if (clients.openWindow) return clients.openWindow(targetUrl);
         }
       }
-      if (clients.openWindow) return clients.openWindow(url);
+      if (clients.openWindow) return clients.openWindow(targetUrl);
     })
   );
 });

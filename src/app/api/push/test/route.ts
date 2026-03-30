@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getSubscriptionsForUsers, isPushConfigured, sendPushToSubscriptions } from "@/lib/push";
+import { homeAppUrl } from "@/lib/deep-links";
 
 /**
  * Trimite o notificare de test utilizatorului curent (după ce activează notificările).
@@ -20,7 +21,7 @@ export async function POST() {
   await sendPushToSubscriptions(subs, {
     title: "HomeSplit",
     body: "Notificări activate. Vei primi alerte pentru evenimente, reminder seara și ritualuri.",
-    url: "/",
+    url: homeAppUrl({ tab: "program" }),
   });
   return NextResponse.json({ ok: true, sent: subs.length });
 }

@@ -6,6 +6,7 @@ import { getNextMonday, generateProposalForWeek } from "@/lib/proposal";
 import { sendWeeklyProposalCreatedNotification } from "@/lib/notify";
 import { getEventDisplayLabel } from "@/types/events";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
+import { homeAppUrl } from "@/lib/deep-links";
 import type { ParentType, LocationType } from "@/types/events";
 
 function deriveFromType(type: string): { parent: ParentType; location: LocationType } {
@@ -114,7 +115,7 @@ export async function runEveningReminderJob() {
       await sendPushToSubscriptions(subs, {
         title: `Mâine: ${tomorrowLabel}`,
         body: "Niciun eveniment programat.",
-        url: "/",
+        url: homeAppUrl({ tab: "program", date: tomorrowStr }),
       });
       pushSent += subs.length;
       familiesNotified += 1;
@@ -123,7 +124,11 @@ export async function runEveningReminderJob() {
 
     const lines = familyEvents.map((doc) => toDisplayEvent(doc as Parameters<typeof toDisplayEvent>[0]));
     const body = lines.join(" · ");
-    await sendPushToSubscriptions(subs, { title: `Mâine: ${tomorrowLabel}`, body, url: "/" });
+    await sendPushToSubscriptions(subs, {
+      title: `Mâine: ${tomorrowLabel}`,
+      body,
+      url: homeAppUrl({ tab: "program", date: tomorrowStr }),
+    });
     pushSent += subs.length;
     familiesNotified += 1;
   }
@@ -216,7 +221,7 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
         lead > 0
           ? `În ${lead} min: „${ritual.title}” (programat la ${ritual.timeLabel}).`
           : `E timpul pentru „${ritual.title}” (${ritual.timeLabel}).`,
-      url: "/",
+      url: homeAppUrl({ tab: "program", hash: "rituals" }),
     });
     remindersSent += subs.length;
 

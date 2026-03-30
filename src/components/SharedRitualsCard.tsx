@@ -212,7 +212,10 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   }
 
   return (
-    <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
+    <section
+      id="rituals"
+      className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4 scroll-mt-20"
+    >
       <div className="flex items-start justify-between gap-2 mb-2">
         <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Ritualuri comune</h2>
         <span className="text-[11px] text-stone-500 dark:text-stone-400">aceleași reguli în toate locuințele</span>

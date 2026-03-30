@@ -8,6 +8,7 @@ import { UpgradeCta } from "@/components/UpgradeCta";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import type { ScheduleEvent } from "@/types/events";
+import type { HomeDashboardTab } from "@/lib/deep-links";
 
 /** Modalul de adăugare se deschide doar după acest delay de la mount (evită deschidere la încărcare). */
 const ADD_MODAL_OPEN_DELAY_MS = 1200;
@@ -33,6 +34,10 @@ interface LoggedInLayoutProps {
   openBlockedModalOnMount?: boolean;
   /** Oraș familie (fallback pentru sugestii AI dacă nu e geolocație). */
   activityCity?: string;
+  /** Deep link din `/?tab=` */
+  initialDashboardTab?: HomeDashboardTab;
+  /** Deep link din `/?date=` (YYYY-MM-DD) — calendar pe luna acelei zile. */
+  initialCalendarDate?: string;
 }
 
 export function LoggedInLayout({
@@ -50,6 +55,8 @@ export function LoggedInLayout({
   openAddModalOnMount = false,
   openBlockedModalOnMount = false,
   activityCity,
+  initialDashboardTab,
+  initialCalendarDate,
 }: LoggedInLayoutProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingPlanHandled, setPendingPlanHandled] = useState(false);
@@ -232,6 +239,8 @@ export function LoggedInLayout({
           openAddModalOnMount={openAddModalOnMount}
           openBlockedModalOnMount={openBlockedModalOnMount}
           activityCity={activityCity}
+          initialDashboardTab={initialDashboardTab}
+          initialCalendarDate={initialCalendarDate}
         />
       </main>
       <MobileQuickNav />

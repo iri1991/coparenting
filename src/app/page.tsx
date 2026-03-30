@@ -53,16 +53,24 @@ function toEvent(doc: {
   };
 }
 
+const HOME_TABS = new Set(["program", "hub", "idei"]);
+
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ plan?: string; add?: string; blocked?: string }>;
+  searchParams: Promise<{ plan?: string; add?: string; blocked?: string; tab?: string; date?: string }>;
 }) {
   const session = await auth();
   const params = await searchParams;
   const planParam = params?.plan;
   const openAddModal = params?.add === "1";
   const openBlockedModal = params?.blocked === "1";
+  const tabParam = params?.tab;
+  const initialDashboardTab =
+    typeof tabParam === "string" && HOME_TABS.has(tabParam) ? (tabParam as "program" | "hub" | "idei") : undefined;
+  const dateParam = params?.date;
+  const initialCalendarDate =
+    typeof dateParam === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateParam) ? dateParam : undefined;
 
   if (!session?.user?.id) {
     const { LandingPage: Landing } = await import("@/components/landing/LandingPage");
@@ -131,6 +139,8 @@ export default async function HomePage({
         initialUnreadCount={chatUnreadCount}
         isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
         activityCity={activityCity}
+        initialDashboardTab={initialDashboardTab}
+        initialCalendarDate={initialCalendarDate}
       />
     </div>
   );

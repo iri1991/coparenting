@@ -4,6 +4,7 @@ import type { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { getEventDisplayLabel } from "@/types/events";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
+import { homeAppUrl } from "@/lib/deep-links";
 import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
 import type { ScheduleEvent } from "@/types/events";
 
@@ -40,7 +41,7 @@ export async function sendNewEventNotification(
   await sendPushToSubscriptions(subs, {
     title: `Eveniment nou: ${dateLabel}`,
     body,
-    url: "/",
+    url: homeAppUrl({ tab: "program", date: event.date }),
   });
 }
 
@@ -58,7 +59,7 @@ export async function sendBlockedDayAttemptNotification(
   await sendPushToSubscriptions(subs, {
     title: "Zi blocată",
     body: `${attemptedByParentLabel} a încercat să programeze cu copilul pe ${dateLabel}, dar ai acea zi blocată.`,
-    url: "/",
+    url: homeAppUrl({ tab: "program", blocked: true }),
   });
 }
 
@@ -94,7 +95,7 @@ export async function sendWeeklyProposalCreatedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Propunere program săptămână",
     body: `Programul pentru ${weekLabel} e gata. Deschide aplicația și aprobă.`,
-    url: "/",
+    url: homeAppUrl({ tab: "hub" }),
   });
 }
 
@@ -111,7 +112,7 @@ export async function sendProposalApprovedByOtherNotification(
   await sendPushToSubscriptions(subs, {
     title: "Program aprobat",
     body: `${approverLabel} a aprobat programul pentru ${weekLabel}. Dacă și tu aprobi, se aplică automat.`,
-    url: "/",
+    url: homeAppUrl({ tab: "hub" }),
   });
 }
 
@@ -128,7 +129,7 @@ export async function sendProposalAppliedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Program aplicat",
     body: `Programul pentru ${weekLabel} a fost aplicat. Verifică calendarul.`,
-    url: "/",
+    url: homeAppUrl({ tab: "program" }),
   });
 }
 
@@ -148,7 +149,7 @@ export async function sendChildActivityAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Activitate nouă adăugată",
     body: `${actorLabel} a adăugat „${activityName}” (${dateLabel}).`,
-    url: "/",
+    url: homeAppUrl({ tab: "hub" }),
   });
 }
 
@@ -166,7 +167,7 @@ export async function sendUsefulLinkAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Material util nou",
     body: `${actorLabel} a adăugat „${titleLabel}”.`,
-    url: "/",
+    url: homeAppUrl({ tab: "hub" }),
   });
 }
 
@@ -197,7 +198,7 @@ export async function sendEventUpdatedNotification(
 
   const subs = await getSubscriptionsForUsers(recipientIds);
   if (subs.length > 0) {
-    await sendPushToSubscriptions(subs, { title, body, url: "/" });
+    await sendPushToSubscriptions(subs, { title, body, url: homeAppUrl({ tab: "program", date: event.date }) });
   }
 
   const { ObjectId } = await import("mongodb");

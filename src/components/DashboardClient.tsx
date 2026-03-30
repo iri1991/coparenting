@@ -20,6 +20,7 @@ import { ActivityRecommendationsTab } from "@/components/ActivityRecommendations
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
 import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
+import type { HomeDashboardTab } from "@/lib/deep-links";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -51,6 +52,10 @@ interface DashboardClientProps {
   openBlockedModalOnMount?: boolean;
   /** Oraș din familie pentru sugestii AI (fallback fără GPS). */
   activityCity?: string;
+  /** Din `/?tab=` (deep link notificări). */
+  initialDashboardTab?: HomeDashboardTab;
+  /** Din `/?date=` — focalizare calendar pe acea zi. */
+  initialCalendarDate?: string;
 }
 
 function capitalize(s: string): string {
@@ -74,10 +79,20 @@ export function DashboardClient({
   openAddModalOnMount = false,
   openBlockedModalOnMount = false,
   activityCity,
+  initialDashboardTab,
+  initialCalendarDate,
 }: DashboardClientProps) {
+  function parseYmdLocal(ymd: string | undefined): Date | null {
+    if (!ymd || !/^\d{4}-\d{2}-\d{2}$/.test(ymd)) return null;
+    const [y, m, d] = ymd.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  const initialCalDate = parseYmdLocal(initialCalendarDate);
+  const resolvedInitialTab = initialDashboardTab ?? "program";
+
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [currentDate, setCurrentDate] = useState(() => initialCalDate ?? new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => initialCalDate);
   const [internalModalOpen, setInternalModalOpen] = useState(false);
   const [editEvent, setEditEvent] = useState<ScheduleEvent | null>(null);
   const [viewEvent, setViewEvent] = useState<ScheduleEvent | null>(null);
@@ -85,7 +100,9 @@ export function DashboardClient({
   const [profileLoading, setProfileLoading] = useState(true);
   const [blockedPeriods, setBlockedPeriods] = useState<BlockedPeriod[]>([]);
   const [internalBlockedDaysModalOpen, setInternalBlockedDaysModalOpen] = useState(false);
-  const [calendarExpanded, setCalendarExpanded] = useState(false);
+  const [calendarExpanded, setCalendarExpanded] = useState(
+    () => Boolean(initialCalDate && resolvedInitialTab === "program")
+  );
   const [activities, setActivities] = useState<ChildActivityEntry[]>([]);
   const [activityCatalog, setActivityCatalog] = useState<string[]>([]);
   const [usefulLinks, setUsefulLinks] = useState<UsefulLinkEntry[]>([]);
@@ -96,7 +113,7 @@ export function DashboardClient({
   const [newLinkUrl, setNewLinkUrl] = useState("");
   const [newLinkCategory, setNewLinkCategory] = useState("");
   const [linksSaving, setLinksSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"program" | "hub" | "idei">("program");
+  const [activeTab, setActiveTab] = useState<"program" | "hub" | "idei">(resolvedInitialTab);
   const [interruptModalOpen, setInterruptModalOpen] = useState(false);
   const [interruptTarget, setInterruptTarget] = useState<"otherParent" | "someoneElse">("otherParent");
   const [interruptCaretaker, setInterruptCaretaker] = useState("");
@@ -120,6 +137,17 @@ export function DashboardClient({
       setModalOpen(false);
     }
   }, [openAddModalOnMount, openBlockedModalOnMount]);
+
+  /** Deep link fragment (#rituals etc.) după randare (push / navigare). */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const id = window.location.hash?.replace(/^#/, "");
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 280);
+    return () => window.clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -700,11 +728,11 @@ export function DashboardClient({
           )}
         </div>
       )}
+      {activeTab === "program" && (
+        <SharedRitualsCard parent1Name={parent1Name} parent2Name={parent2Name} />
+      )}
       {activeTab === "idei" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
-      )}
-      {activeTab === "hub" && (
-      <SharedRitualsCard parent1Name={parent1Name} parent2Name={parent2Name} />
       )}
       {activeTab === "hub" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
