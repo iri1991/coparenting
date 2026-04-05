@@ -9,6 +9,7 @@ import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { PARENT_LABELS } from "@/types/events";
 import { getEventDisplayLabel } from "@/types/events";
+import { LOCATION_LABELS } from "@/types/events";
 
 function deriveFromType(
   type: string
@@ -55,6 +56,36 @@ function toEvent(doc: {
     created_by: doc.created_by ?? "",
     created_at: doc.created_at.toISOString(),
   };
+}
+
+function displayLocation(location: LocationType, locationLabel?: string | null): string {
+  if (location === "other" && locationLabel?.trim()) return locationLabel.trim();
+  return LOCATION_LABELS[location] ?? location;
+}
+
+function computeEventChanges(before: ScheduleEvent, after: ScheduleEvent): string[] {
+  const changes: string[] = [];
+  if (before.date !== after.date) changes.push(`Data: ${before.date} → ${after.date}`);
+  if (before.parent !== after.parent) {
+    changes.push(
+      `Cu cine: ${PARENT_LABELS[before.parent] ?? before.parent} → ${PARENT_LABELS[after.parent] ?? after.parent}`
+    );
+  }
+  const oldLocation = displayLocation(before.location, before.locationLabel);
+  const newLocation = displayLocation(after.location, after.locationLabel);
+  if (oldLocation !== newLocation) changes.push(`Locație: ${oldLocation} → ${newLocation}`);
+  if ((before.title ?? "") !== (after.title ?? "")) {
+    changes.push(`Titlu: ${before.title?.trim() || "—"} → ${after.title?.trim() || "—"}`);
+  }
+  if ((before.startTime ?? "") !== (after.startTime ?? "") || (before.endTime ?? "") !== (after.endTime ?? "")) {
+    const oldTime = [before.startTime, before.endTime].filter(Boolean).join(" – ") || "—";
+    const newTime = [after.startTime, after.endTime].filter(Boolean).join(" – ") || "—";
+    changes.push(`Orar: ${oldTime} → ${newTime}`);
+  }
+  if ((before.notes ?? "") !== (after.notes ?? "")) {
+    changes.push("Note actualizate");
+  }
+  return changes;
 }
 
 export async function GET() {
@@ -182,7 +213,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
   const body = await request.json();
-  const { id, date, parent, location, locationLabel, title, notes, startTime, endTime } = body;
+  const { id, date, parent, location, locationLabel, title, notes, startTime, endTime, allowPastEdit, pastEditReason } = body;
   if (!id) {
     return NextResponse.json({ error: "ID lipsă." }, { status: 400 });
   }
@@ -202,16 +233,19 @@ export async function PATCH(request: Request) {
   if (!current) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
-  const cur = current as unknown as { date: string; parent: string };
+  const cur = current as unknown as Parameters<typeof toEvent>[0];
+  const currentEvent = toEvent(cur);
   const todayStr = new Date().toISOString().slice(0, 10);
-  if (cur.date < todayStr) {
+  const isPastEvent = currentEvent.date < todayStr;
+  const normalizedPastReason = typeof pastEditReason === "string" ? pastEditReason.trim() : "";
+  if (isPastEvent && (!allowPastEdit || normalizedPastReason.length < 8)) {
     return NextResponse.json(
-      { error: "Evenimentele din trecut nu pot fi modificate." },
+      { error: "Eveniment din trecut: bifează modificarea excepțională și completează motivul (minim 8 caractere)." },
       { status: 403 }
     );
   }
-  const finalDate = date != null ? String(date).slice(0, 10) : cur.date;
-  const finalParent = (parent != null ? parent : cur.parent) as ParentType;
+  const finalDate = date != null ? String(date).slice(0, 10) : currentEvent.date;
+  const finalParent = (parent != null ? parent : currentEvent.parent) as ParentType;
 
   const blocks = await db.collection("blocked_periods").find({ familyId }).toArray();
   const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
@@ -254,11 +288,16 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
   const updatedEvent = toEvent(result as Parameters<typeof toEvent>[0]);
+  const changeSummary = computeEventChanges(currentEvent, updatedEvent);
   const threeDaysLater = addDays(new Date(), 3).toISOString().slice(0, 10);
   const editorLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
-  if (finalDate >= todayStr && finalDate <= threeDaysLater) {
+  if ((finalDate >= todayStr && finalDate <= threeDaysLater) || isPastEvent) {
     try {
-      await sendEventUpdatedNotification(db, familyId, updatedEvent, session.user.id, editorLabel);
+      await sendEventUpdatedNotification(db, familyId, updatedEvent, session.user.id, editorLabel, {
+        changes: changeSummary,
+        isPastEdit: isPastEvent,
+        reason: isPastEvent ? normalizedPastReason : null,
+      });
     } catch (_) {
       // nu blochează răspunsul
     }
@@ -266,6 +305,9 @@ export async function PATCH(request: Request) {
   await logFamilyActivity(db, familyId, session.user.id, editorLabel, "event_updated", {
     date: finalDate,
     label: getEventDisplayLabel(updatedEvent),
+    changes: changeSummary,
+    wasPastEvent: isPastEvent,
+    reason: isPastEvent ? normalizedPastReason : null,
   });
   return NextResponse.json(updatedEvent);
 }
