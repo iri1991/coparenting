@@ -180,7 +180,12 @@ export async function sendEventUpdatedNotification(
   familyId: ObjectId,
   event: ScheduleEvent,
   editorUserId: string,
-  editorLabel: string
+  editorLabel: string,
+  options?: {
+    changes?: string[];
+    isPastEdit?: boolean;
+    reason?: string | null;
+  }
 ): Promise<void> {
   const family = await db.collection("families").findOne({ _id: familyId }, { projection: { memberIds: 1 } });
   const memberIds = (family as { memberIds?: unknown[] } | null)?.memberIds ?? [];
@@ -192,13 +197,26 @@ export async function sendEventUpdatedNotification(
   const time =
     event.startTime || event.endTime ? [event.startTime, event.endTime].filter(Boolean).join(" – ") : null;
   const body = time ? `${label} (${time})` : label;
-  const title = `Eveniment modificat: ${dateLabel}`;
+  const title = options?.isPastEdit
+    ? `Eveniment din trecut modificat: ${dateLabel}`
+    : `Eveniment modificat: ${dateLabel}`;
   const who = editorLabel.trim() || "Un părinte";
-  const actionSentence = `${who} a modificat evenimentul de ${dateLabel}: ${body}.`;
+  const changeList = (options?.changes ?? []).slice(0, 5);
+  const changesText =
+    changeList.length > 0 ? ` Modificări: ${changeList.join("; ")}.` : "";
+  const reasonText =
+    options?.isPastEdit && options.reason?.trim()
+      ? ` Motiv declarat: ${options.reason.trim()}.`
+      : "";
+  const actionSentence = `${who} a modificat evenimentul de ${dateLabel}: ${body}.${changesText}${reasonText}`;
+  const pushBody =
+    changeList.length > 0
+      ? `${changeList[0]}${changeList.length > 1 ? ` (+${changeList.length - 1})` : ""}`
+      : body;
 
   const subs = await getSubscriptionsForUsers(recipientIds);
   if (subs.length > 0) {
-    await sendPushToSubscriptions(subs, { title, body, url: homeAppUrl({ tab: "program", date: event.date }) });
+    await sendPushToSubscriptions(subs, { title, body: pushBody, url: homeAppUrl({ tab: "program", date: event.date }) });
   }
 
   const { ObjectId } = await import("mongodb");

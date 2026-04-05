@@ -6,7 +6,10 @@ import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
 import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
 
-type EventPayload = Omit<ScheduleEvent, "id" | "created_at">;
+type EventPayload = Omit<ScheduleEvent, "id" | "created_at"> & {
+  allowPastEdit?: boolean;
+  pastEditReason?: string;
+};
 
 interface AddEventModalProps {
   isOpen: boolean;
@@ -37,6 +40,8 @@ export function AddEventModal({
   const [notes, setNotes] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [allowPastEdit, setAllowPastEdit] = useState(false);
+  const [pastEditReason, setPastEditReason] = useState("");
 
   useEffect(() => {
     if (editEvent) {
@@ -49,6 +54,8 @@ export function AddEventModal({
       setNotes(editEvent.notes || "");
       setStartTime(editEvent.startTime || "");
       setEndTime(editEvent.endTime || "");
+      setAllowPastEdit(false);
+      setPastEditReason("");
     } else if (initialDate) {
       setDate(format(initialDate, "yyyy-MM-dd"));
       setEndDate("");
@@ -59,6 +66,8 @@ export function AddEventModal({
       setNotes("");
       setStartTime("");
       setEndTime("");
+      setAllowPastEdit(false);
+      setPastEditReason("");
     } else {
       setDate(format(new Date(), "yyyy-MM-dd"));
       setEndDate("");
@@ -69,6 +78,8 @@ export function AddEventModal({
       setNotes("");
       setStartTime("");
       setEndTime("");
+      setAllowPastEdit(false);
+      setPastEditReason("");
     }
   }, [editEvent, initialDate, isOpen]);
 
@@ -84,6 +95,8 @@ export function AddEventModal({
     },
     labels
   );
+  const todayStr = format(new Date(), "yyyy-MM-dd");
+  const isEditingPastEvent = Boolean(editEvent && editEvent.date < todayStr);
 
   if (!isOpen) return null;
 
@@ -101,6 +114,7 @@ export function AddEventModal({
         startTime: startTime.trim() || undefined,
         endTime: endTime.trim() || undefined,
         created_by: currentUserId || "",
+        ...(isEditingPastEvent ? { allowPastEdit, pastEditReason: pastEditReason.trim() || undefined } : {}),
         ...(endDateVal && endDateVal >= date ? { endDate: endDateVal } : {}),
       },
       editEvent?.id
@@ -267,6 +281,37 @@ export function AddEventModal({
               className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 resize-none"
             />
           </div>
+          {isEditingPastEvent && (
+            <div className="rounded-xl border border-amber-300/80 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700/70 p-3 space-y-2">
+              <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
+                Modificare excepțională pentru eveniment din trecut
+              </p>
+              <label className="flex items-start gap-2 text-sm text-stone-700 dark:text-stone-300">
+                <input
+                  type="checkbox"
+                  checked={allowPastEdit}
+                  onChange={(e) => setAllowPastEdit(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 accent-amber-500"
+                  required
+                />
+                Confirm că această modificare este necesară și va fi notificat celălalt părinte.
+              </label>
+              <div>
+                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+                  Motiv (obligatoriu)
+                </label>
+                <textarea
+                  value={pastEditReason}
+                  onChange={(e) => setPastEditReason(e.target.value)}
+                  placeholder="Ex: corecție pentru raportul medical / eroare introdusă accidental"
+                  required
+                  minLength={8}
+                  rows={2}
+                  className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
+                />
+              </div>
+            </div>
+          )}
           <div className="flex gap-3 pt-2">
             <button
               type="button"

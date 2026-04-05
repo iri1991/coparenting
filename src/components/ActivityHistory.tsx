@@ -20,7 +20,14 @@ function fullActionSentence(
     }
     case "event_updated": {
       const d = payload.date && payload.label ? `${payload.date} – ${payload.label}` : payload.date || payload.label || "eveniment";
-      return `${who} a modificat evenimentul: ${d}.`;
+      const changes = Array.isArray(payload.changes)
+        ? payload.changes.filter((c): c is string => typeof c === "string" && c.trim().length > 0)
+        : [];
+      const reason = typeof payload.reason === "string" ? payload.reason.trim() : "";
+      const pastTag = payload.wasPastEvent ? " (din trecut)" : "";
+      const changeText = changes.length > 0 ? ` Modificări: ${changes.join("; ")}.` : "";
+      const reasonText = reason ? ` Motiv: ${reason}.` : "";
+      return `${who} a modificat evenimentul${pastTag}: ${d}.${changeText}${reasonText}`;
     }
     case "event_deleted": {
       const d = payload.date || payload.label || "eveniment";

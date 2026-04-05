@@ -289,7 +289,12 @@ export function DashboardClient({
 
   const handleSave = useCallback(
     async (
-      payload: Omit<ScheduleEvent, "id" | "created_at"> & { created_by: string; endDate?: string },
+      payload: Omit<ScheduleEvent, "id" | "created_at"> & {
+        created_by: string;
+        endDate?: string;
+        allowPastEdit?: boolean;
+        pastEditReason?: string;
+      },
       existingId?: string
     ) => {
       if (existingId) {
@@ -306,6 +311,8 @@ export function DashboardClient({
             notes: payload.notes ?? null,
             startTime: payload.startTime ?? null,
             endTime: payload.endTime ?? null,
+            allowPastEdit: payload.allowPastEdit ?? false,
+            pastEditReason: payload.pastEditReason ?? null,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -1035,7 +1042,7 @@ export function DashboardClient({
         isOpen={!!viewEvent}
         onClose={() => setViewEvent(null)}
         event={viewEvent}
-        canEdit={viewEvent != null && viewEvent.date >= todayStr}
+        canEdit={viewEvent != null}
         blockedPeriods={blockedPeriods}
         onEdit={(e) => {
           setEditEvent(e);
