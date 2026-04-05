@@ -149,6 +149,27 @@ export async function runEveningReminderJob() {
 export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string) {
   const db = await getDb();
 
+  function deriveFromType(type: string): "tata" | "mama" | "together" {
+    switch (type) {
+      case "tunari":
+        return "tata";
+      case "otopeni":
+        return "mama";
+      case "together":
+        return "together";
+      default:
+        return "tata";
+    }
+  }
+
+  function eventParentFromDoc(doc: { type?: string | null; parent?: string | null }): "tata" | "mama" | "together" | null {
+    if (doc.parent != null) {
+      if (doc.parent === "tata" || doc.parent === "mama" || doc.parent === "together") return doc.parent;
+      return null;
+    }
+    return deriveFromType(doc.type ?? "other");
+  }
+
   function triggerAt(timeLabel: string, leadMinutes: number): string {
     const [hh, mm] = timeLabel.split(":").map((x) => Number(x));
     const total = hh * 60 + mm - Math.max(0, leadMinutes);
@@ -183,18 +204,33 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
     const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
     if (memberIds.length === 0) continue;
 
+    const users = await db
+      .collection("users")
+      .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
+      .project({ _id: 1, parentType: 1 })
+      .toArray();
+    const usersByParentType = new Map<"tata" | "mama", string[]>();
+    for (const user of users as { _id: ObjectId; parentType?: string }[]) {
+      if (user.parentType !== "tata" && user.parentType !== "mama") continue;
+      const list = usersByParentType.get(user.parentType) ?? [];
+      list.push(String(user._id));
+      usersByParentType.set(user.parentType, list);
+    }
+
+    const eventNow = await db.collection("schedule_events").findOne(
+      { familyId: ritual.familyId, date: nowDate },
+      {
+        projection: { parent: 1, type: 1, createdAt: 1 },
+        sort: { createdAt: -1, _id: -1 },
+      }
+    );
+    const caretakerNow = eventParentFromDoc((eventNow as { parent?: string | null; type?: string | null } | null) ?? {});
+
     let recipientUserIds: string[] = [];
-    if (ritual.responsibleParent === "tata" || ritual.responsibleParent === "mama") {
-      const users = await db
-        .collection("users")
-        .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
-        .project({ _id: 1, parentType: 1 })
-        .toArray();
-      recipientUserIds = (users as { _id: ObjectId; parentType?: string }[])
-        .filter((u) => u.parentType === ritual.responsibleParent)
-        .map((u) => String(u._id));
-    } else {
+    if (caretakerNow === "together") {
       recipientUserIds = memberIds;
+    } else if (caretakerNow === "tata" || caretakerNow === "mama") {
+      recipientUserIds = usersByParentType.get(caretakerNow) ?? [];
     }
     if (recipientUserIds.length === 0) continue;
 
