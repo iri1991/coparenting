@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -38,7 +39,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       url: `${siteUrl}${canonicalPath}`,
       title: article.title,
       description: article.summary,
-      images: [{ url: ogImage, width: 512, height: 512, alt: article.title }],
+      images: [
+        {
+          url: `${siteUrl}${article.image?.src ?? ogImage}`,
+          width: 1200,
+          height: 720,
+          alt: article.image?.alt ?? article.title,
+        },
+      ],
       publishedTime: article.publishedAt,
       authors: [brandName],
     },
@@ -46,7 +54,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       card: "summary_large_image",
       title: article.title,
       description: article.summary,
-      images: [ogImage],
+      images: [`${siteUrl}${article.image?.src ?? ogImage}`],
     },
   };
 }
@@ -85,7 +93,7 @@ export default async function BlogArticlePage({ params }: ArticlePageProps) {
     },
     articleSection: article.category.title,
     url: `${siteUrl}/blog/${article.slug}`,
-    image: `${siteUrl}${ogImage}`,
+    image: `${siteUrl}${article.image?.src ?? ogImage}`,
     citation: article.sources.map((source) => source.url),
     isAccessibleForFree: true,
   };
@@ -118,6 +126,20 @@ export default async function BlogArticlePage({ params }: ArticlePageProps) {
                   <span>{article.readingTimeMinutes} min de citit</span>
                 </div>
               </div>
+
+              {article.image ? (
+                <div className="border-y border-[#efe3d6] bg-[#fcf8f2] p-4 sm:p-6">
+                  <div className="overflow-hidden rounded-[1.75rem]">
+                    <Image
+                      src={article.image.src}
+                      alt={article.image.alt}
+                      width={1200}
+                      height={720}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
+                </div>
+              ) : null}
 
               <div className="px-6 py-8 sm:px-8">
                 <p className="text-base leading-8 text-stone-700">{article.intro}</p>
