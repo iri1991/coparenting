@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { format, addDays, startOfMonth, endOfMonth, isToday, isBefore, isAfter } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ScheduleEvent } from "@/types/events";
@@ -104,7 +104,6 @@ export function MonthEventsTimeline({
   onSelectDate,
   emptyMessage = "Niciun eveniment în această lună.",
 }: MonthEventsTimelineProps) {
-  const todayRef = useRef<HTMLDivElement>(null);
   const labels = useFamilyLabels();
   const getDisplayLabel = (event: ScheduleEvent) => getEventDisplayLabelWithLabels(event, labels);
 
@@ -163,13 +162,6 @@ export function MonthEventsTimeline({
     return map;
   }, [events]);
 
-  useEffect(() => {
-    const el = todayRef.current;
-    if (!el) return;
-    const t = setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-    return () => clearTimeout(t);
-  }, [currentDate]);
-
   if (daysInMonth.length === 0) {
     return <p className="rounded-[1.6rem] border border-dashed border-[#ddc9b4] bg-white/55 px-4 py-8 text-center text-sm text-stone-500">{emptyMessage}</p>;
   }
@@ -181,7 +173,6 @@ export function MonthEventsTimeline({
     return (
       <div
         key={dateStr}
-        ref={isTodayRow ? todayRef : null}
         className={`relative flex min-h-[52px] gap-3 py-3 sm:gap-4 ${
           isTodayRow
             ? "rounded-[1.8rem] bg-gradient-to-r from-[#fff5eb] to-[#fffaf5] ring-2 ring-[#efcfb6] ring-offset-2 ring-offset-[#f7f1e9] -mx-1 px-3 shadow-[0_16px_34px_rgba(184,92,62,0.08)] sm:px-4"
