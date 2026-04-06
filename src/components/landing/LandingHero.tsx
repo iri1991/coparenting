@@ -27,6 +27,12 @@ const HERO_COPY: Record<
     boardRows: { day: string; owner: string; tone: string }[];
     insightTitle: string;
     insightText: string;
+    mainImage: string;
+    secondaryImage: string;
+    mainAlt: string;
+    secondaryAlt: string;
+    mainPosition?: string;
+    secondaryPosition?: string;
   }
 > = {
   two: {
@@ -50,6 +56,14 @@ const HERO_COPY: Record<
     insightTitle: "Actualizare excepțională",
     insightText:
       "Dacă un eveniment din trecut se schimbă, amândoi vedeți ce s-a modificat, de ce și cine a făcut actualizarea.",
+    mainImage:
+      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=80",
+    mainAlt: "Părinte și copil într-un moment calm afară",
+    secondaryAlt: "Părinte și copil într-un moment cald acasă",
+    mainPosition: "object-center",
+    secondaryPosition: "object-center",
   },
   together: {
     label: "O casă",
@@ -72,6 +86,14 @@ const HERO_COPY: Record<
     insightTitle: "Ritual de seară",
     insightText:
       "Checklist simplu pentru duș, dinți, poveste și somn. Același ritm, fără să mai țineți totul în cap.",
+    mainImage:
+      "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1600&q=80",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80",
+    mainAlt: "Părinte și copil într-un moment liniștit acasă",
+    secondaryAlt: "Copil într-un moment relaxat de joacă",
+    mainPosition: "object-center",
+    secondaryPosition: "object-center",
   },
 };
 
@@ -187,62 +209,81 @@ export function LandingHero() {
           </div>
 
           <AnimateOnScroll delay={260} className="relative">
-            <div className="relative isolate mx-auto max-w-[34rem]">
+            <div className="relative isolate mx-auto max-w-[38rem]">
               <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[#99c6be]/25 blur-3xl" />
               <div className="absolute -right-4 bottom-12 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
 
-              <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
-                <div className="relative overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
-                  <img
-                    src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80"
-                    alt="Părinte și copil într-un moment calm în natură"
-                    className="h-[24rem] w-full object-cover sm:h-[31rem]"
-                    loading="eager"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.04)_0%,rgba(14,12,10,0.42)_100%)]" />
-                  <div className="absolute left-5 top-5 rounded-full bg-white/86 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
-                    copilul simte claritatea
-                  </div>
-                  <div className="absolute bottom-5 left-5 right-5 rounded-[1.8rem] bg-[#1f3a36]/88 p-5 text-white shadow-[0_20px_36px_rgba(16,24,40,0.24)] backdrop-blur">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/65">spațiu comun</p>
-                        <p className="landing-display mt-2 text-3xl leading-none">Program cu ritm.</p>
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.64fr)_minmax(0,0.36fr)]">
+                <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
+                  <div className="relative h-full overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
+                    <img
+                      src={copy.mainImage}
+                      alt={copy.mainAlt}
+                      className={`h-[25rem] w-full object-cover sm:h-[34rem] ${copy.mainPosition ?? "object-center"}`}
+                      loading="eager"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.45)_100%)]" />
+                    <div className="absolute left-5 top-5 rounded-full bg-white/86 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
+                      copilul simte claritatea
+                    </div>
+                    <div className="absolute bottom-5 left-5 right-5 rounded-[1.8rem] bg-[#1f3a36]/88 p-5 text-white shadow-[0_20px_36px_rgba(16,24,40,0.24)] backdrop-blur">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.2em] text-white/65">spațiu comun</p>
+                          <p className="landing-display mt-2 text-3xl leading-none">Program cu ritm.</p>
+                        </div>
+                        <BellRing className="mt-1 h-5 w-5 text-[#f8c89f]" />
                       </div>
-                      <BellRing className="mt-1 h-5 w-5 text-[#f8c89f]" />
+                      <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
+                        Schimbările importante nu se pierd. Sunt logate, explicate și văzute de amândoi.
+                      </p>
                     </div>
-                    <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
-                      Schimbările importante nu se pierd. Sunt logate, explicate și văzute de amândoi.
-                    </p>
                   </div>
                 </div>
-              </div>
 
-              <div className="landing-card-float absolute -left-5 top-10 w-[15rem] rounded-[1.8rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur sm:w-[16.5rem]">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
-                  {copy.boardTitle}
-                </div>
-                <div className="mt-4 space-y-3">
-                  {copy.boardRows.map((row) => (
-                    <div key={row.day} className="flex items-center justify-between rounded-[1.1rem] bg-[#faf3ec] px-3 py-2.5">
-                      <span className="text-sm font-semibold text-stone-500">{row.day}</span>
-                      <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.tone}`}>
-                        {row.owner}
-                      </span>
+                <div className="grid gap-4">
+                  <div className="rounded-[1.8rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                      <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
+                      {copy.boardTitle}
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div className="mt-4 space-y-3">
+                      {copy.boardRows.map((row) => (
+                        <div key={row.day} className="flex items-center justify-between rounded-[1.1rem] bg-[#faf3ec] px-3 py-2.5">
+                          <span className="text-sm font-semibold text-stone-500">{row.day}</span>
+                          <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.tone}`}>
+                            {row.owner}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-              <div className="landing-card-float absolute -bottom-5 right-0 w-[16rem] rounded-[1.8rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur [animation-delay:1.2s] sm:w-[18rem]">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
-                  {copy.insightTitle}
-                </div>
-                <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
-                <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
-                  istoric vizibil + notificare către celălalt părinte
+                  <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/78 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
+                    <div className="relative">
+                      <img
+                        src={copy.secondaryImage}
+                        alt={copy.secondaryAlt}
+                        className={`h-52 w-full object-cover ${copy.secondaryPosition ?? "object-center"}`}
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.35)_100%)]" />
+                      <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
+                        mai puțin haos, mai multă prezență
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.8rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                      <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
+                      {copy.insightTitle}
+                    </div>
+                    <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
+                    <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
+                      istoric vizibil + notificare către celălalt părinte
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

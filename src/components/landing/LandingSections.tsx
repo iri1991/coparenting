@@ -58,12 +58,24 @@ function IconBadge({
   );
 }
 
+const STOCK_IMAGES = {
+  warmHome:
+    "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1400&q=80",
+  outsideCalm:
+    "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1400&q=80",
+  childFocus:
+    "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1400&q=80",
+};
+
 const SOCIAL_SCENES: Array<{
   icon: LucideIcon;
   title: string;
   text: string;
   accent: string;
   iconTone: string;
+  image: string;
+  alt: string;
+  position?: string;
 }> = [
   {
     icon: House,
@@ -71,6 +83,8 @@ const SOCIAL_SCENES: Array<{
     text: "Nu mai există „credeam că rămâne altfel”. Programul și schimbările sensibile rămân sincronizate.",
     accent: "from-[#fff4e8] to-[#fffdf9]",
     iconTone: "bg-[#f6dcc0] text-[#8a4b2d]",
+    image: STOCK_IMAGES.outsideCalm,
+    alt: "Părinte și copil într-un moment calm afară",
   },
   {
     icon: MoonStar,
@@ -78,6 +92,8 @@ const SOCIAL_SCENES: Array<{
     text: "Ritualurile, activitățile, documentele și ideile utile stau împreună, într-un spațiu care respiră.",
     accent: "from-[#edf6f3] to-[#fffdf9]",
     iconTone: "bg-[#d9eee8] text-[#1f5a4e]",
+    image: STOCK_IMAGES.warmHome,
+    alt: "Părinte și copil într-un moment cald acasă",
   },
   {
     icon: ShieldCheck,
@@ -85,6 +101,9 @@ const SOCIAL_SCENES: Array<{
     text: "Ce s-a mutat, cine a editat și când a fost notificat celălalt părinte nu mai rămân ambigue.",
     accent: "from-[#f9f0da] to-[#fffdf9]",
     iconTone: "bg-[#f4e3b2] text-[#7a5620]",
+    image: STOCK_IMAGES.childFocus,
+    alt: "Copil atent într-un moment de joacă",
+    position: "object-center",
   },
 ];
 
@@ -95,10 +114,20 @@ export function LandingSocialProof() {
         <div className="grid gap-4 lg:grid-cols-3">
           {SOCIAL_SCENES.map((scene, index) => (
             <AnimateOnScroll key={scene.title} delay={index * 90}>
-              <div className={`h-full rounded-[2rem] border border-white/70 bg-gradient-to-br ${scene.accent} p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
-                <IconBadge icon={scene.icon} colorClass={scene.iconTone} />
-                <h3 className="mt-5 text-xl font-extrabold text-stone-900">{scene.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-stone-600">{scene.text}</p>
+              <div className={`h-full overflow-hidden rounded-[2rem] border border-white/70 bg-gradient-to-br ${scene.accent} p-4 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
+                <div className="overflow-hidden rounded-[1.6rem]">
+                  <img
+                    src={scene.image}
+                    alt={scene.alt}
+                    className={`h-56 w-full object-cover transition-transform duration-700 hover:scale-[1.04] ${scene.position ?? "object-center"}`}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="px-2 pb-2 pt-5">
+                  <IconBadge icon={scene.icon} colorClass={scene.iconTone} />
+                  <h3 className="mt-5 text-xl font-extrabold text-stone-900">{scene.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-600">{scene.text}</p>
+                </div>
               </div>
             </AnimateOnScroll>
           ))}
@@ -135,7 +164,22 @@ export function LandingProblemSolution() {
             align="left"
           />
 
-          <div className="mt-8 rounded-[2rem] bg-[#1f3a36] p-7 text-white shadow-[0_28px_70px_rgba(31,58,54,0.18)]">
+          <div className="mt-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 shadow-[0_22px_56px_rgba(28,25,23,0.08)]">
+            <div className="relative">
+              <img
+                src={STOCK_IMAGES.warmHome}
+                alt="Părinte și copil într-un moment liniștit acasă"
+                className="h-[18rem] w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.3)_100%)]" />
+              <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
+                claritatea schimbă atmosfera
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-[2rem] bg-[#1f3a36] p-7 text-white shadow-[0_28px_70px_rgba(31,58,54,0.18)]">
             <p className="text-xs uppercase tracking-[0.24em] text-white/60">ce se simte diferit</p>
             <p className="landing-display mt-4 text-4xl leading-tight">Din reacție, în ritm.</p>
             <p className="mt-4 max-w-sm text-sm leading-7 text-white/78">
@@ -198,6 +242,23 @@ export function LandingProblemSolution() {
     </section>
   );
 }
+
+const FEATURE_GALLERY = [
+  {
+    title: "Ritmul serii",
+    text: "Ritualuri care rămân recognoscibile și ușor de urmat.",
+    image: STOCK_IMAGES.warmHome,
+    alt: "Părinte și copil într-un moment de seară acasă",
+    className: "md:col-span-2",
+  },
+  {
+    title: "Mobil, dar cald",
+    text: "Produsul trebuie să arate bine exact unde este folosit cel mai des.",
+    image: STOCK_IMAGES.childFocus,
+    alt: "Copil într-un moment calm și concentrat",
+    className: "",
+  },
+];
 
 const FEATURE_CARDS: Array<{
   icon: LucideIcon;
@@ -276,7 +337,29 @@ export function LandingFeatures() {
           />
         </AnimateOnScroll>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {FEATURE_GALLERY.map((item, index) => (
+            <AnimateOnScroll key={item.title} delay={index * 80}>
+              <div className={`overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 shadow-[0_20px_45px_rgba(28,25,23,0.06)] ${item.className}`}>
+                <div className="relative">
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    className="h-64 w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.03)_0%,rgba(14,12,10,0.38)_100%)]" />
+                  <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] bg-white/88 p-4 backdrop-blur">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{item.title}</p>
+                    <p className="mt-2 text-sm leading-7 text-stone-700">{item.text}</p>
+                  </div>
+                </div>
+              </div>
+            </AnimateOnScroll>
+          ))}
+        </div>
+
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
           {FEATURE_CARDS.map((card, index) => (
             <AnimateOnScroll key={card.title} delay={index * 70}>
               <div className={`h-full rounded-[2rem] border border-white/70 ${card.tone} p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)] ${card.className}`}>
