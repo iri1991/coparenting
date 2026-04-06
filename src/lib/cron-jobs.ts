@@ -8,6 +8,7 @@ import { getEventDisplayLabel } from "@/types/events";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
 import { homeAppUrl } from "@/lib/deep-links";
 import type { ParentType, LocationType } from "@/types/events";
+import { addDaysToDateString } from "@/lib/date-bucharest";
 
 function deriveFromType(type: string): { parent: ParentType; location: LocationType } {
   switch (type) {
@@ -179,12 +180,25 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
     return `${h2}:${m2}`;
   }
 
+  function ritualDateAtNotificationTime(nowDateValue: string, ritualTimeLabel: string, leadMinutes: number): string {
+    const [ritualHh, ritualMm] = ritualTimeLabel.split(":").map((x) => Number(x));
+    const ritualTotal = ritualHh * 60 + ritualMm;
+    const triggerTotal = ritualTotal - Math.max(0, leadMinutes);
+    if (triggerTotal < 0) return addDaysToDateString(nowDateValue, 1);
+    return nowDateValue;
+  }
+
   const rituals = await db
     .collection("family_rituals")
     .find({ active: { $ne: false }, timeLabel: { $type: "string", $ne: "" } })
     .toArray();
 
   let remindersSent = 0;
+  const familyMembersCache = new Map<
+    string,
+    { memberIds: string[]; usersByParentType: Map<"tata" | "mama", string[]> }
+  >();
+  const caretakerByFamilyAndDateCache = new Map<string, "tata" | "mama" | "together" | null>();
   for (const ritual of rituals as {
     _id: ObjectId;
     familyId: ObjectId;
@@ -198,33 +212,46 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
     const whenToSend = triggerAt(ritual.timeLabel, lead);
     if (whenToSend !== nowTimeLabel) continue;
 
-    const family = await db
-      .collection("families")
-      .findOne({ _id: ritual.familyId }, { projection: { memberIds: 1 } });
-    const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
-    if (memberIds.length === 0) continue;
-
-    const users = await db
-      .collection("users")
-      .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
-      .project({ _id: 1, parentType: 1 })
-      .toArray();
-    const usersByParentType = new Map<"tata" | "mama", string[]>();
-    for (const user of users as { _id: ObjectId; parentType?: string }[]) {
-      if (user.parentType !== "tata" && user.parentType !== "mama") continue;
-      const list = usersByParentType.get(user.parentType) ?? [];
-      list.push(String(user._id));
-      usersByParentType.set(user.parentType, list);
+    const ritualDate = ritualDateAtNotificationTime(nowDate, ritual.timeLabel, lead);
+    const familyKey = String(ritual.familyId);
+    let familyEntry = familyMembersCache.get(familyKey);
+    if (!familyEntry) {
+      const family = await db
+        .collection("families")
+        .findOne({ _id: ritual.familyId }, { projection: { memberIds: 1 } });
+      const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
+      const users = await db
+        .collection("users")
+        .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
+        .project({ _id: 1, parentType: 1 })
+        .toArray();
+      const usersByParentType = new Map<"tata" | "mama", string[]>();
+      for (const user of users as { _id: ObjectId; parentType?: string }[]) {
+        if (user.parentType !== "tata" && user.parentType !== "mama") continue;
+        const list = usersByParentType.get(user.parentType) ?? [];
+        list.push(String(user._id));
+        usersByParentType.set(user.parentType, list);
+      }
+      familyEntry = { memberIds, usersByParentType };
+      familyMembersCache.set(familyKey, familyEntry);
     }
 
-    const eventNow = await db.collection("schedule_events").findOne(
-      { familyId: ritual.familyId, date: nowDate },
-      {
-        projection: { parent: 1, type: 1, createdAt: 1 },
-        sort: { createdAt: -1, _id: -1 },
-      }
-    );
-    const caretakerNow = eventParentFromDoc((eventNow as { parent?: string | null; type?: string | null } | null) ?? {});
+    const { memberIds, usersByParentType } = familyEntry;
+    if (memberIds.length === 0) continue;
+
+    const caretakerCacheKey = `${familyKey}|${ritualDate}`;
+    let caretakerNow = caretakerByFamilyAndDateCache.get(caretakerCacheKey);
+    if (caretakerNow === undefined) {
+      const eventNow = await db.collection("schedule_events").findOne(
+        { familyId: ritual.familyId, date: ritualDate },
+        {
+          projection: { parent: 1, type: 1, createdAt: 1 },
+          sort: { createdAt: -1, _id: -1 },
+        }
+      );
+      caretakerNow = eventParentFromDoc((eventNow as { parent?: string | null; type?: string | null } | null) ?? {});
+      caretakerByFamilyAndDateCache.set(caretakerCacheKey, caretakerNow);
+    }
 
     let recipientUserIds: string[] = [];
     if (caretakerNow === "together") {
@@ -241,7 +268,7 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
         familyId: ritual.familyId,
         ritualId: ritual._id,
         userId: uid,
-        date: nowDate,
+        date: ritualDate,
         timeLabel: nowTimeLabel,
       });
       if (!already) pendingRecipients.push(uid);
@@ -268,7 +295,7 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
           familyId: ritual.familyId,
           ritualId: ritual._id,
           userId: uid,
-          date: nowDate,
+          date: ritualDate,
           timeLabel: nowTimeLabel,
           createdAt: now,
         }))

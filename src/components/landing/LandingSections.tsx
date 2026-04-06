@@ -1,80 +1,104 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
+import {
+  BellRing,
+  BookOpen,
+  CalendarDays,
+  Check,
+  Clock3,
+  FileText,
+  House,
+  MessageSquare,
+  MonitorSmartphone,
+  MoonStar,
+  Repeat2,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+} from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
-export function LandingSocialProof() {
-  const badges = [
-    "Familii împreună sau la două adrese",
-    "Timp de calitate, fără haos în mesaje",
-    "Mai multă previzibilitate pentru copil",
-    "Plan clar pentru ambii părinți",
-    "Continuitate între locuri (când e cazul)",
-    "Documente și idei, la un loc",
-    "Rutină calmă, săptămână după săptămână",
-  ];
+function SectionHeading({
+  eyebrow,
+  title,
+  text,
+  align = "center",
+}: {
+  eyebrow: string;
+  title: string;
+  text: string;
+  align?: "center" | "left";
+}) {
+  const alignment =
+    align === "center" ? "mx-auto text-center items-center" : "text-left items-start";
+
   return (
-    <section className="border-y border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/50 py-12 sm:py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateOnScroll>
-          <h2 className="text-center text-xl font-semibold text-stone-800 dark:text-stone-100 sm:text-2xl">
-            O casă sau două — aceeași claritate.
-          </h2>
-        </AnimateOnScroll>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          {badges.map((label, i) => (
-            <AnimateOnScroll key={label} delay={i * 80}>
-              <span className="rounded-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-4 py-2 text-sm font-medium text-stone-700 dark:text-stone-300 shadow-sm">
-                {label}
-              </span>
-            </AnimateOnScroll>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className={`flex max-w-3xl flex-col gap-4 ${alignment}`}>
+      <span className="inline-flex rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+        {eyebrow}
+      </span>
+      <h2 className="landing-display text-4xl leading-tight text-stone-900 sm:text-5xl">{title}</h2>
+      <p className="max-w-2xl text-base leading-8 text-stone-600 sm:text-lg">{text}</p>
+    </div>
   );
 }
 
-export function LandingProblemSolution() {
-  const cards = [
-    { pain: "Mesaje infinite", fix: "Plan centralizat", detail: "Programul e într-un singur loc, vizibil pentru amândoi — acasă sau între două case." },
-    { pain: "„Cine se ocupă azi de…”", fix: "Responsabilități clare", detail: "Activități cu responsabil (fix sau alternativ) — util la școală, hobby-uri sau handover." },
-    { pain: "Informații risipite", fix: "Profil & documente", detail: "Alergii, medic, școală, pașapoarte, acorduri — la îndemână pentru orice familie." },
-    {
-      pain: "Vrem idei, nu încă o listă în cap",
-      fix: "Idei AI + materiale",
-      detail: "Recomandări de ieșit și link-uri utile (melodii, cărți) — perfect și pentru weekend-uri împreună.",
-    },
-  ];
+function IconBadge({
+  icon: Icon,
+  colorClass,
+}: {
+  icon: LucideIcon;
+  colorClass: string;
+}) {
   return (
-    <section id="problema" className="py-16 sm:py-24">
+    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${colorClass}`}>
+      <Icon className="h-5 w-5" />
+    </div>
+  );
+}
+
+const SOCIAL_SCENES: Array<{
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  accent: string;
+  iconTone: string;
+}> = [
+  {
+    icon: House,
+    title: "Două case, aceeași versiune a programului",
+    text: "Nu mai există „credeam că rămâne altfel”. Programul și schimbările sensibile rămân sincronizate.",
+    accent: "from-[#fff4e8] to-[#fffdf9]",
+    iconTone: "bg-[#f6dcc0] text-[#8a4b2d]",
+  },
+  {
+    icon: MoonStar,
+    title: "O casă, dar fără liste risipite prin cap",
+    text: "Ritualurile, activitățile, documentele și ideile utile stau împreună, într-un spațiu care respiră.",
+    accent: "from-[#edf6f3] to-[#fffdf9]",
+    iconTone: "bg-[#d9eee8] text-[#1f5a4e]",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Schimbările importante au memorie",
+    text: "Ce s-a mutat, cine a editat și când a fost notificat celălalt părinte nu mai rămân ambigue.",
+    accent: "from-[#f9f0da] to-[#fffdf9]",
+    iconTone: "bg-[#f4e3b2] text-[#7a5620]",
+  },
+];
+
+export function LandingSocialProof() {
+  return (
+    <section className="py-10 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Plan clar. Mai mult timp cu copilul.
-          </h2>
-        </AnimateOnScroll>
-        <AnimateOnScroll delay={100}>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Haosul din mesaje obosește la fel, indiferent dacă sunteți în aceeași casă sau la distanță. HomeSplit aduce același plan, aceleași date despre copil și un singur loc pentru activități și documente.
-          </p>
-        </AnimateOnScroll>
-        <AnimateOnScroll delay={130}>
-          <div className="mt-8 overflow-hidden rounded-3xl border border-stone-200 dark:border-stone-700 shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80"
-              alt="Familie într-un moment calm în natură"
-              className="h-56 w-full object-cover sm:h-72"
-              loading="lazy"
-            />
-          </div>
-        </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map((card, i) => (
-            <AnimateOnScroll key={card.fix} delay={150 + i * 100}>
-              <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 shadow-sm">
-                <p className="text-sm font-medium text-stone-400 dark:text-stone-500">{card.pain}</p>
-                <p className="mt-1 text-lg font-semibold text-amber-700 dark:text-amber-300">→ {card.fix}</p>
-                <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">{card.detail}</p>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {SOCIAL_SCENES.map((scene, index) => (
+            <AnimateOnScroll key={scene.title} delay={index * 90}>
+              <div className={`h-full rounded-[2rem] border border-white/70 bg-gradient-to-br ${scene.accent} p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
+                <IconBadge icon={scene.icon} colorClass={scene.iconTone} />
+                <h3 className="mt-5 text-xl font-extrabold text-stone-900">{scene.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-stone-600">{scene.text}</p>
               </div>
             </AnimateOnScroll>
           ))}
@@ -84,139 +108,218 @@ export function LandingProblemSolution() {
   );
 }
 
-const FEATURES = [
+const TRANSITIONS = [
   {
-    title: "O casă sau două adrese",
-    items: [
-      "Același hub: activități, idei AI, materiale utile",
-      "La două locuințe: handover, calendar și chat",
-      "Folosiți doar ce vi se potrivește (ex. fără predare dacă nu e cazul)",
-    ],
+    problem: "Detalii pierdute în conversații",
+    solution: "Calendar, note și schimbări logate într-un singur spațiu",
   },
   {
-    title: "Program & calendar",
-    items: ["Calendar săptămânal/lunar pentru timpul copilului", "Handover: ore, locații, note (când copilul merge între locuri)"],
+    problem: "Încărcare mentală pe umerii unuia dintre părinți",
+    solution: "Ritualuri, documente și informații utile vizibile pentru amândoi",
   },
   {
-    title: "Zile blocate & disponibilitate",
-    items: ["Blochezi zile/intervale când nu poți", "Repetare (recurring) + motive (opțional)"],
+    problem: "Schimbări sensibile rămase neclare după ce au trecut",
+    solution: "Istoric, motiv și notificare clară când se editează ceva important",
+  },
+];
+
+export function LandingProblemSolution() {
+  return (
+    <section className="py-16 sm:py-24">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+        <AnimateOnScroll className="lg:sticky lg:top-28">
+          <SectionHeading
+            eyebrow="Atmosferă, nu doar funcții"
+            title="Când coordonarea iese din haos, casa se simte altfel."
+            text="HomeSplit nu încearcă să vă facă mai ocupați. Mută informația într-un loc calm, clar și suficient de bine gândit încât să reducă fricțiunea zilnică."
+            align="left"
+          />
+
+          <div className="mt-8 rounded-[2rem] bg-[#1f3a36] p-7 text-white shadow-[0_28px_70px_rgba(31,58,54,0.18)]">
+            <p className="text-xs uppercase tracking-[0.24em] text-white/60">ce se simte diferit</p>
+            <p className="landing-display mt-4 text-4xl leading-tight">Din reacție, în ritm.</p>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/78">
+              Programul nu mai este “ce mai rezolvăm azi?”, ci o imagine comună despre ce urmează, ce s-a schimbat și ce trebuie ținut minte.
+            </p>
+          </div>
+        </AnimateOnScroll>
+
+        <div className="grid gap-5">
+          {TRANSITIONS.map((item, index) => (
+            <AnimateOnScroll key={item.problem} delay={index * 100}>
+              <div className="rounded-[2rem] border border-[#ead9c8] bg-white/85 p-6 shadow-[0_18px_40px_rgba(28,25,23,0.06)]">
+                <div className="grid gap-4 md:grid-cols-[0.9fr_auto_1.1fr] md:items-center">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-400">înainte</p>
+                    <p className="mt-2 text-lg font-semibold leading-7 text-stone-800">{item.problem}</p>
+                  </div>
+                  <div className="hidden justify-center md:flex">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#fff1e5] text-[#b85c3e]">
+                      <Repeat2 className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="rounded-[1.4rem] bg-[#f8f3ec] p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-400">după</p>
+                    <p className="mt-2 text-lg font-semibold leading-7 text-stone-900">{item.solution}</p>
+                  </div>
+                </div>
+              </div>
+            </AnimateOnScroll>
+          ))}
+
+          <AnimateOnScroll delay={320}>
+            <div className="grid gap-5 rounded-[2.2rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fff3e7_0%,#fffdf9_55%,#edf6f3_100%)] p-6 shadow-[0_22px_50px_rgba(28,25,23,0.06)] sm:grid-cols-[1.15fr_0.85fr] sm:items-center">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">micro-story</p>
+                <p className="landing-display mt-4 text-3xl leading-tight text-stone-900">
+                  Un loc pentru program. Un loc pentru context. Un loc pentru liniște.
+                </p>
+                <p className="mt-4 text-sm leading-7 text-stone-600">
+                  Nu arată ca un spreadsheet. Arată ca un produs care înțelege că familia are ritm, nu doar deadline-uri.
+                </p>
+              </div>
+              <div className="rounded-[1.8rem] bg-white/80 p-5 shadow-[0_16px_32px_rgba(28,25,23,0.06)]">
+                <div className="space-y-3">
+                  <div className="rounded-[1rem] bg-[#fff4e8] px-4 py-3 text-sm font-semibold text-[#8a4b2d]">
+                    Programul săptămânii este deja clar
+                  </div>
+                  <div className="rounded-[1rem] bg-[#edf6f3] px-4 py-3 text-sm font-semibold text-[#1f5a4e]">
+                    Handover-ul vine cu locație, oră și notițe
+                  </div>
+                  <div className="rounded-[1rem] bg-[#f8f1dc] px-4 py-3 text-sm font-semibold text-[#7a5620]">
+                    Schimbările sensibile rămân explicate și notificabile
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AnimateOnScroll>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const FEATURE_CARDS: Array<{
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  bullets: string[];
+  className: string;
+  tone: string;
+  iconTone: string;
+}> = [
+  {
+    icon: CalendarDays,
+    title: "Calendar care nu se discută de la zero în fiecare zi",
+    text: "Vezi rapid cine, unde și când, cu ore, locații și handover acolo unde contează.",
+    bullets: ["săptămână și lună", "predare cu context", "editări clar vizibile"],
+    className: "md:col-span-2",
+    tone: "bg-[linear-gradient(135deg,#fff6ed_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#f6dcc0] text-[#8a4b2d]",
   },
   {
-    title: "Activități recurente",
-    items: ["Ex: Balet – miercuri 16:00", "Locație, durată, reminders", "„Cine duce / cine ia” (fix sau alternant)"],
+    icon: MoonStar,
+    title: "Ritualuri comune",
+    text: "Copilul păstrează același ritm, indiferent unde adoarme în seara respectivă.",
+    bullets: ["checklist simplu", "ordine clară", "reminder la ora potrivită"],
+    className: "",
+    tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#d9eee8] text-[#1f5a4e]",
   },
   {
-    title: "Ritualuri comune (toate locuințele)",
-    items: [
-      "Checklist comun pe zile: duș, dinți, rugăciune, somn la 19:30 etc.",
-      "Aceleași obiceiuri pentru copil, indiferent unde doarme în seara respectivă",
-      "Bifare simplă per zi + ordine ritualuri (sus/jos), ca rutină predictibilă",
-      "Reminder push la ora ritualului pentru părintele responsabil (sau pentru amândoi)",
-    ],
+    icon: Sparkles,
+    title: "Idei și jurnal de activități",
+    text: "Ai inspirație pentru weekend și memorie pentru ce ați făcut deja.",
+    bullets: ["recomandări AI", "accept sau refuz", "istoric util pentru data viitoare"],
+    className: "",
+    tone: "bg-[linear-gradient(135deg,#fff4e8_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#f6e7c7] text-[#7a5620]",
   },
   {
-    title: "Jurnal la final de perioadă",
-    items: [
-      "Popup la handover: ce activități a făcut copilul",
-      "Câmp de observații (text liber)",
-      "Activitățile intră automat în nomenclatorul familiei",
-    ],
+    icon: FileText,
+    title: "Documente și informații sensibile, la îndemână",
+    text: "Alergii, acte, note importante și expirări nu mai stau împrăștiate prin mesaje sau foldere.",
+    bullets: ["profil copil", "acte și remindere", "acces comun în familie"],
+    className: "",
+    tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#dde8f6] text-[#365d89]",
   },
   {
-    title: "Istoric activități copil",
-    items: [
-      "Listă totală în dashboard (de câte ori, când ultima dată)",
-      "Ajută să evitați repetarea acelorași activități",
-    ],
+    icon: MessageSquare,
+    title: "Context lângă calendar",
+    text: "Mesajele importante trăiesc în aceeași zonă cu programul, nu în alt univers.",
+    bullets: ["mai puțin forward", "mai puține interpretări", "mai puțin ping-pong"],
+    className: "",
+    tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#f5dfbe] text-[#8a6330]",
   },
   {
-    title: "Materiale utile (bibliotecă comună)",
-    items: [
-      "Adăugați link-uri la melodii, clipuri, cărți",
-      "Categorie opțională + acces rapid pentru ambii părinți",
-    ],
-  },
-  {
-    title: "Propunerea automată de duminică",
-    items: ["Generează programul săptămânii viitoare", "Ține cont de: zile blocate, activități recurente, reguli", "Acceptă / ajustează / propune schimb"],
-  },
-  {
-    title: "Recomandări AI (tab Idei)",
-    items: [
-      "Sugestii de ieșit în română: vreme locală, oraș, vârsta copilului și programul tău",
-      "Acceptă o idee → intră automat la activitățile cu copilul; Refuză → rămâne marcat",
-      "Oraș salvat în familie sau geolocație; alergii din profil sunt luate în seamă",
-    ],
-  },
-  {
-    title: "Profil copil (1+ copii)",
-    items: ["Alergii + ce trebuie evitat", "Medicație / instrucțiuni", "Contacte utile (pediatru, școală, urgențe)"],
-  },
-  {
-    title: "Documente & călătorie",
-    items: ["Pașaport/CI, asigurare, acord de călătorie", "Încărcare + expirare + reminders"],
-  },
-  {
-    title: "Experiență mobilă",
-    items: [
-      "Patru taburi pe Acasă: Program, Rutine, Rapoarte & resurse, Idei (recomandări)",
-      "Meniu fix jos: Acasă, Chat, Cont — mereu la îndemână",
-      "Bară de sus compactă (adăugare rapidă, logo, zile blocate); se ascunde la scroll în jos",
-    ],
+    icon: BellRing,
+    title: "Automatizare și notificări care ajută",
+    text: "Propuneri săptămânale, remindere și notificări utile când există o schimbare relevantă.",
+    bullets: ["ritualuri la oră fixă", "propunere de duminică", "notificări pentru modificări"],
+    className: "md:col-span-2",
+    tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fff3e7_100%)]",
+    iconTone: "bg-[#d9eee8] text-[#1f5a4e]",
   },
 ];
 
 export function LandingFeatures() {
   return (
-    <section id="functionalitati" className="bg-stone-50/50 dark:bg-stone-900/30 py-16 sm:py-24">
+    <section id="functionalitati" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Ce poți face în app
-          </h2>
+          <SectionHeading
+            eyebrow="Ce face produsul"
+            title="Mai puține blocuri de text. Mai multe momente în care totul are sens."
+            text="Am păstrat funcțiile care chiar reduc stresul și le-am așezat într-un flow care se vede rapid: program, ritualuri, documente, idei și istoric clar."
+          />
         </AnimateOnScroll>
-        <AnimateOnScroll delay={60}>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-stone-600 dark:text-stone-400">
-            Nu e nevoie să fiți separați ca să folosiți HomeSplit. Handover și propunerea săptămânală sunt acolo când aveți două adrese; restul e la fel de util și într-o singură casă.
-          </p>
-        </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((f, i) => (
-            <AnimateOnScroll key={f.title} delay={i * 60}>
-              <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 shadow-sm">
-                <h3 className="font-semibold text-stone-900 dark:text-stone-100">{f.title}</h3>
-                <ul className="mt-3 space-y-1 text-sm text-stone-600 dark:text-stone-400">
-                  {f.items.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="text-amber-500">·</span>
-                      {item}
-                    </li>
+
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
+          {FEATURE_CARDS.map((card, index) => (
+            <AnimateOnScroll key={card.title} delay={index * 70}>
+              <div className={`h-full rounded-[2rem] border border-white/70 ${card.tone} p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)] ${card.className}`}>
+                <IconBadge icon={card.icon} colorClass={card.iconTone} />
+                <h3 className="mt-5 text-2xl font-extrabold text-stone-900">{card.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-stone-600">{card.text}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {card.bullets.map((bullet) => (
+                    <span key={bullet} className="rounded-full border border-[#ead9c8] bg-white/75 px-3 py-1.5 text-xs font-semibold text-stone-600">
+                      {bullet}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
             </AnimateOnScroll>
           ))}
         </div>
-        <AnimateOnScroll delay={400}>
-          <div className="mt-10 text-center">
-            <a
-              href="/register?plan=pro"
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition"
-            >
-              Încearcă Pro 14 zile (fără card)
-            </a>
-          </div>
-        </AnimateOnScroll>
       </div>
     </section>
   );
 }
 
-const STEPS = [
-  { title: "Pasul 1 — Creezi familia", text: "Adaugi copilul/copiii; inviți celălalt părinte când sunteți gata (sau începeți doar voi, în aceeași casă)." },
-  { title: "Pasul 2 — Pui lucrurile importante", text: "Activități, zile blocate dacă e nevoie, documente — adaptat situației voastre." },
-  { title: "Pasul 3 — Duminică: propunere automată", text: "Unde e cazul, aplicația propune programul săptămânii următoare din regulile voastre." },
-  { title: "Pasul 4 — Ajustați și folosiți", text: "Editați în câteva minute; restul — idei AI, jurnal, chat — rămân mereu la îndemână." },
+const STEPS: Array<{ icon: LucideIcon; title: string; text: string }> = [
+  {
+    icon: House,
+    title: "Creezi familia",
+    text: "Adaugi copilul și inviți celălalt părinte atunci când sunteți gata.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Pui ritmul de bază",
+    text: "Calendar, activități, zile blocate, documente și ritualuri comune.",
+  },
+  {
+    icon: Repeat2,
+    title: "Aplicația înțelege repetiția",
+    text: "Ce se repetă și ce e excepție nu mai trebuie reinventat săptămânal.",
+  },
+  {
+    icon: BellRing,
+    title: "Folosiți, ajustați, continuați",
+    text: "Programul trăiește cu voi și notifică atunci când chiar contează.",
+  },
 ];
 
 export function LandingHowItWorks() {
@@ -224,150 +327,86 @@ export function LandingHowItWorks() {
     <section id="cum-functioneaza" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Cum începi
-          </h2>
+          <SectionHeading
+            eyebrow="Cum începe"
+            title="Onboarding scurt. Claritate care rămâne."
+            text="Nu trebuie să înveți un sistem greoi. Primii pași sunt puțini, iar valoarea apare imediat ce programul începe să aibă o singură sursă."
+          />
         </AnimateOnScroll>
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((step, i) => (
-            <AnimateOnScroll key={step.title} delay={i * 100}>
-              <div className="relative">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 font-semibold">
-                  {i + 1}
-                </span>
-                <h3 className="mt-4 font-semibold text-stone-900 dark:text-stone-100">{step.title}</h3>
-                <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">{step.text}</p>
-                {i < STEPS.length - 1 && (
-                  <span className="absolute -right-4 top-5 hidden text-stone-300 dark:text-stone-600 lg:inline" aria-hidden>→</span>
-                )}
-              </div>
-            </AnimateOnScroll>
-          ))}
-        </div>
-        <AnimateOnScroll delay={500}>
-          <div className="mt-10 text-center">
-            <a href="/register" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
-              Creează cont gratuit
-            </a>
-          </div>
-        </AnimateOnScroll>
-      </div>
-    </section>
-  );
-}
 
-export function LandingWebApp() {
-  const benefits = [
-    { title: "Acces instant", sub: "link → login → gata" },
-    { title: "Funcționează peste tot", sub: "iOS, Android, Windows, macOS" },
-    { title: "Icon pe ecran", sub: "se comportă ca o aplicație (shortcut)" },
-  ];
-  const iosSteps = ["Deschide aplicația în Safari", "Apasă Share (pătratul cu săgeată)", "Alege Add to Home Screen / Adaugă pe ecranul principal", "Confirmă Add"];
-  const androidSteps = ["Deschide în Chrome", "Apasă meniul ⋮ (dreapta sus)", "Alege Add to Home screen", "Confirmă"];
-  const desktopSteps = ["Deschide în browser", "Apasă icon Install din bara de adresă sau ⋮ → More tools → Create shortcut", "Bifează Open as window (opțional) și confirmă"];
-  return (
-    <section id="web-app" className="bg-stone-50/50 dark:bg-stone-900/30 py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Web app — fără instalare din store
-          </h2>
-        </AnimateOnScroll>
-        <AnimateOnScroll delay={100}>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600 dark:text-stone-400">
-            Funcționează pe telefon, tabletă și laptop. Fie că lucrați din aceeași casă sau de la distanță — fiecare părinte intră rapid, fără instalări și fără update-uri.
-          </p>
-        </AnimateOnScroll>
-        <div className="mt-10 flex flex-wrap justify-center gap-6">
-          {benefits.map((b, i) => (
-            <AnimateOnScroll key={b.title} delay={150 + i * 80}>
-              <div className="rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 px-5 py-3 text-center">
-                <p className="font-medium text-stone-800 dark:text-stone-200">{b.title}</p>
-                <p className="text-sm text-stone-500 dark:text-stone-400">{b.sub}</p>
+        <div className="relative mt-14 grid gap-5 lg:grid-cols-4">
+          <div className="absolute left-8 right-8 top-9 hidden border-t border-dashed border-[#d8c2ad] lg:block" />
+          {STEPS.map((step, index) => (
+            <AnimateOnScroll key={step.title} delay={index * 90}>
+              <div className="relative h-full rounded-[2rem] border border-[#ead9c8] bg-white/85 p-6 shadow-[0_18px_40px_rgba(28,25,23,0.06)]">
+                <div className="flex items-center justify-between">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
+                    <step.icon className="h-6 w-6" />
+                  </div>
+                  <span className="landing-display text-4xl text-[#d4b39a]">{index + 1}</span>
+                </div>
+                <h3 className="mt-6 text-xl font-extrabold text-stone-900">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-stone-600">{step.text}</p>
               </div>
             </AnimateOnScroll>
           ))}
         </div>
-        <div className="mt-12 grid gap-8 sm:grid-cols-3">
-          <AnimateOnScroll delay={400}>
-            <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5">
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">iPhone / iPad (Safari)</h4>
-              <ol className="mt-3 list-decimal list-inside space-y-1 text-sm text-stone-600 dark:text-stone-400">
-                {iosSteps.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ol>
-            </div>
-          </AnimateOnScroll>
-          <AnimateOnScroll delay={500}>
-            <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5">
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Android (Chrome)</h4>
-              <ol className="mt-3 list-decimal list-inside space-y-1 text-sm text-stone-600 dark:text-stone-400">
-                {androidSteps.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ol>
-            </div>
-          </AnimateOnScroll>
-          <AnimateOnScroll delay={600}>
-            <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5">
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Desktop (Chrome / Edge)</h4>
-              <ol className="mt-3 list-decimal list-inside space-y-1 text-sm text-stone-600 dark:text-stone-400">
-                {desktopSteps.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ol>
-            </div>
-          </AnimateOnScroll>
-        </div>
-        <AnimateOnScroll delay={700}>
-          <p className="mt-6 text-center text-sm text-stone-500 dark:text-stone-400">
-            În 10 secunde ai un icon pe ecran și intri ca într-o aplicație.
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <a href="/register" className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-medium text-white hover:bg-amber-600 transition">
-              Creează cont
-            </a>
-            <a
-              href="/login"
-              className="inline-flex items-center justify-center rounded-xl border border-stone-300 dark:border-stone-600 px-6 py-3 font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
-            >
-              Conectare
-            </a>
-          </div>
-        </AnimateOnScroll>
       </div>
     </section>
   );
 }
 
 const USE_CASES = [
-  { quote: "Weekendul vrem idei, nu să căutăm în șase aplicații.", answer: "Tab Idei + materiale utile: propuneri și link-uri la un loc." },
-  { quote: "Am deplasare marți–miercuri.", answer: "Blochezi zilele, aplicația propune automat ajustarea." },
-  { quote: "Balet miercuri 16:00 — cine duce?", answer: "Activitatea e recurentă și are responsabil clar." },
-  { quote: "S-a încheiat perioada mea. Ce facem cu activitățile făcute?", answer: "Primești popup de handover și le salvezi rapid, cu observații." },
-  { quote: "Nu vreau să repetăm aceleași idei.", answer: "Vezi lista totală de activități deja făcute și alegi altceva." },
-  { quote: "Ce melodii/cărți îi plac acum?", answer: "Le țineți în „Materiale utile”, cu link-uri comune pentru ambii părinți." },
-  { quote: "Schimbăm locul de predare.", answer: "Actualizezi locația, rămâne în calendar." },
-  { quote: "Plecați în vacanță.", answer: "Ai documentele la îndemână + reminder la expirare." },
-  { quote: "Copilul are alergie.", answer: "Informația e vizibilă imediat, fără căutat prin conversații." },
+  {
+    quote: "“Pleci marți dimineață și trebuie mutat programul de handover.”",
+    answer: "Modifici, motivezi, iar celălalt părinte vede exact schimbarea.",
+    tone: "bg-[#fff3e7]",
+  },
+  {
+    quote: "“Nu vrem să uităm duș, dinți, poveste și somn devreme.”",
+    answer: "Ritualul devine vizibil și repetabil, nu încă o promisiune verbală.",
+    tone: "bg-[#edf6f3]",
+  },
+  {
+    quote: "“Ce facem în weekend fără să repetăm același mall?”",
+    answer: "Tab-ul Idei propune opțiuni și jurnalul păstrează memoria activităților.",
+    tone: "bg-[#f8f1dc]",
+  },
+  {
+    quote: "“Unde e acordul de călătorie?”",
+    answer: "În hub-ul comun, alături de celelalte documente importante.",
+    tone: "bg-[#eef4fb]",
+  },
+  {
+    quote: "“Copilul are alergie și bunicii trebuie să știe imediat.”",
+    answer: "Informația nu mai stă ascunsă într-un mesaj vechi.",
+    tone: "bg-[#fff5eb]",
+  },
+  {
+    quote: "“Ce s-a schimbat săptămâna trecută?”",
+    answer: "Istoricul oferă context, responsabilitate și memorie comună.",
+    tone: "bg-[#f6efe6]",
+  },
 ];
 
 export function LandingUseCases() {
   return (
-    <section className="py-16 sm:py-24">
+    <section id="scenarii" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Situații concrete
-          </h2>
+          <SectionHeading
+            eyebrow="Scenarii reale"
+            title="Viața de familie nu vine în bullet points perfecte."
+            text="Tocmai de aceea designul și funcțiile trebuie să răspundă la situații concrete: mutări, rutină, vacanțe, alergii, schimbări sensibile și serile care trebuie să curgă mai calm."
+          />
         </AnimateOnScroll>
-        <div className="mt-12 space-y-4">
-          {USE_CASES.map((uc, i) => (
-            <AnimateOnScroll key={uc.quote} delay={i * 80}>
-              <div className="flex flex-col gap-2 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="font-medium text-stone-800 dark:text-stone-200">&bdquo;{uc.quote}&rdquo;</p>
-                <p className="text-sm text-amber-700 dark:text-amber-300 sm:text-right">{uc.answer}</p>
+
+        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {USE_CASES.map((item, index) => (
+            <AnimateOnScroll key={item.quote} delay={index * 80}>
+              <div className={`h-full rounded-[2rem] border border-white/70 ${item.tone} p-6 shadow-[0_18px_40px_rgba(28,25,23,0.05)]`}>
+                <p className="landing-display text-2xl leading-tight text-stone-900">{item.quote}</p>
+                <p className="mt-4 text-sm leading-7 text-stone-600">{item.answer}</p>
               </div>
             </AnimateOnScroll>
           ))}
@@ -377,67 +416,201 @@ export function LandingUseCases() {
   );
 }
 
-const WHY_US = [
-  { title: "Automatizare săptămânală", text: "Propunere de duminică bazată pe datele reale — utilă și când împărțiți programul." },
-  { title: "Un singur hub pentru copil", text: "Activități, idei AI, materiale utile — la fel de valoroase acasă ca la handover." },
-  { title: "Trasabilitate", text: "Istoric schimbări pentru claritate și responsabilitate." },
-  { title: "Siguranță", text: "Alergii + documente de familie + reminders, centralizate." },
+const PRINCIPLES: Array<{ icon: LucideIcon; title: string; text: string }> = [
+  {
+    icon: Clock3,
+    title: "Reduce zgomotul zilnic",
+    text: "Nu te obligă să citești mult ca să înțelegi repede ce urmează.",
+  },
+  {
+    icon: Smartphone,
+    title: "Arată bine pe telefon",
+    text: "Pentru că acolo sunt luate cele mai multe decizii din mers.",
+  },
+  {
+    icon: BookOpen,
+    title: "Păstrează contextul",
+    text: "Nu doar programul, ci și informațiile care îl fac ușor de urmat.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Respectă sensibilitatea datelor",
+    text: "Datele despre copil trebuie tratate cu grijă, nu doar stocate.",
+  },
 ];
 
 export function LandingWhyUs() {
   return (
-    <section id="diferentiator" className="bg-stone-50/50 dark:bg-stone-900/30 py-16 sm:py-24">
+    <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            De ce HomeSplit
-          </h2>
-        </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {WHY_US.map((item, i) => (
-            <AnimateOnScroll key={item.title} delay={i * 100}>
-              <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center">
-                <h3 className="font-semibold text-stone-900 dark:text-stone-100">{item.title}</h3>
-                <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">{item.text}</p>
+          <div className="overflow-hidden rounded-[2.6rem] bg-[#1f3a36] px-6 py-10 text-white shadow-[0_30px_80px_rgba(31,58,54,0.2)] sm:px-10">
+            <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-white/55">De ce se simte diferit</p>
+                <h2 className="landing-display mt-4 text-4xl leading-tight sm:text-5xl">
+                  HomeSplit nu arată ca un proces rece. Arată ca un spațiu de familie.
+                </h2>
+                <p className="mt-5 max-w-xl text-sm leading-8 text-white/75 sm:text-base">
+                  Direcția de produs și direcția vizuală spun același lucru: claritatea nu trebuie să fie austeră. Poate fi caldă, memorabilă și foarte practică în același timp.
+                </p>
               </div>
-            </AnimateOnScroll>
-          ))}
+              <div className="grid gap-4 sm:grid-cols-2">
+                {PRINCIPLES.map((item, index) => (
+                  <AnimateOnScroll key={item.title} delay={index * 80}>
+                    <div className="h-full rounded-[1.8rem] border border-white/10 bg-white/8 p-5 backdrop-blur">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#f8c89f]">
+                        <item.icon className="h-5 w-5" />
+                      </div>
+                      <h3 className="mt-4 text-lg font-extrabold text-white">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-7 text-white/72">{item.text}</p>
+                    </div>
+                  </AnimateOnScroll>
+                ))}
+              </div>
+            </div>
+          </div>
+        </AnimateOnScroll>
+      </div>
+    </section>
+  );
+}
+
+const WEB_APP_COLUMNS: Array<{
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  steps: string[];
+}> = [
+  {
+    icon: Smartphone,
+    title: "iPhone și Android",
+    text: "Se deschide direct în browser și poate fi salvat pe ecran ca icon.",
+    steps: ["deschizi linkul", "adaugi pe home screen", "intri ca într-o aplicație"],
+  },
+  {
+    icon: MonitorSmartphone,
+    title: "Laptop și desktop",
+    text: "Folosești exact același spațiu atunci când e mai comod să vezi totul pe ecran mare.",
+    steps: ["deschizi în browser", "instalezi shortcut-ul", "revii rapid oricând"],
+  },
+  {
+    icon: BellRing,
+    title: "Fără App Store, fără fricțiune",
+    text: "Important pentru familii: acces imediat, fără pași complicați sau update-uri care blochează.",
+    steps: ["fără conturi suplimentare", "fără instalări greoaie", "fără așteptare inutilă"],
+  },
+];
+
+export function LandingWebApp() {
+  return (
+    <section id="web-app" className="py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <AnimateOnScroll>
+          <SectionHeading
+            eyebrow="Web app"
+            title="Arată premium, dar intri instant."
+            text="Landing-ul poate fi emoțional și produsul poate rămâne extrem de practic. HomeSplit merge pe telefon, tabletă și laptop, fără instalare din store."
+          />
+        </AnimateOnScroll>
+
+        <div className="mt-12 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <AnimateOnScroll>
+            <div className="rounded-[2.4rem] border border-white/70 bg-[linear-gradient(135deg,#fff3e7_0%,#edf6f3_100%)] p-5 shadow-[0_22px_50px_rgba(28,25,23,0.06)]">
+              <div className="rounded-[2rem] bg-white/85 p-5 shadow-[0_12px_26px_rgba(28,25,23,0.06)]">
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-full bg-[#f7a072]" />
+                  <span className="h-3 w-3 rounded-full bg-[#f6d365]" />
+                  <span className="h-3 w-3 rounded-full bg-[#89c2b0]" />
+                </div>
+                <div className="mt-6 grid gap-4 md:grid-cols-[0.48fr_0.52fr] md:items-end">
+                  <div className="mx-auto w-full max-w-[15rem] rounded-[2rem] bg-[#1f3a36] p-3 text-white shadow-[0_18px_40px_rgba(31,58,54,0.18)]">
+                    <div className="rounded-[1.6rem] bg-[#102523] p-4">
+                      <p className="text-xs uppercase tracking-[0.18em] text-white/60">telefon</p>
+                      <div className="mt-4 space-y-3">
+                        <div className="rounded-[1rem] bg-white/10 px-3 py-3 text-sm">Programul săptămânii</div>
+                        <div className="rounded-[1rem] bg-white/10 px-3 py-3 text-sm">Ritual de seară 19:30</div>
+                        <div className="rounded-[1rem] bg-[#f8c89f] px-3 py-3 text-sm text-[#1f3a36]">
+                          notificare importantă
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="rounded-[1.8rem] bg-[#fff8f1] p-5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-stone-400">ce contează aici</p>
+                    <p className="landing-display mt-4 text-3xl leading-tight text-stone-900">
+                      Același acces simplu pentru ambii părinți.
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-stone-600">
+                      Fără bariere inutile la intrare. Când ai nevoie de program, documente sau context, intri imediat.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AnimateOnScroll>
+
+          <div className="grid gap-5">
+            {WEB_APP_COLUMNS.map((item, index) => (
+              <AnimateOnScroll key={item.title} delay={index * 90}>
+                <div className="rounded-[2rem] border border-[#ead9c8] bg-white/85 p-6 shadow-[0_18px_40px_rgba(28,25,23,0.06)]">
+                  <IconBadge icon={item.icon} colorClass="bg-[#eef5f3] text-[#1f5a4e]" />
+                  <h3 className="mt-4 text-xl font-extrabold text-stone-900">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-600">{item.text}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {item.steps.map((step) => (
+                      <span key={step} className="rounded-full bg-[#f7f0e7] px-3 py-1.5 text-xs font-semibold text-stone-600">
+                        {step}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </AnimateOnScroll>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+const SECURITY_POINTS = [
+  "Acces doar pe invitație",
+  "Date sensibile tratate cu respect",
+  "Export și control asupra propriilor informații",
+  "Fără vânzare de date către terți",
+];
+
 export function LandingSecurity() {
-  const points = [
-    "Acces doar pe bază de invitație",
-    "Control asupra datelor (export / ștergere cont)",
-    "Nu vindem date. Niciodată.",
-  ];
   return (
     <section id="siguranta" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Datele copilului sunt sensibile. Noi le tratăm ca atare.
-          </h2>
-        </AnimateOnScroll>
-        <ul className="mx-auto mt-8 max-w-xl space-y-3">
-          {points.map((p, i) => (
-            <AnimateOnScroll key={p} delay={i * 80}>
-              <li className="flex items-center gap-3 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 px-5 py-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                </span>
-                <span className="text-stone-700 dark:text-stone-300">{p}</span>
-              </li>
-            </AnimateOnScroll>
-          ))}
-        </ul>
-        <AnimateOnScroll delay={400}>
-          <p className="mt-8 text-center font-medium text-stone-600 dark:text-stone-400">
-            Confidențialitatea nu e un feature. E standardul.
-          </p>
+          <div className="grid gap-6 rounded-[2.6rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fffaf4_0%,#f7f1e9_100%)] p-6 shadow-[0_22px_50px_rgba(28,25,23,0.06)] lg:grid-cols-[0.85fr_1.15fr] lg:items-center sm:p-8">
+            <div className="rounded-[2rem] bg-[#1f3a36] p-7 text-white">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-[#f8c89f]">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <p className="landing-display mt-5 text-4xl leading-tight">
+                Datele copilului nu sunt un simplu “asset”.
+              </p>
+              <p className="mt-4 text-sm leading-7 text-white/78">
+                Dacă produsul promite claritate, trebuie să livreze și responsabilitate. Mai ales când vorbim despre informații sensibile.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {SECURITY_POINTS.map((point, index) => (
+                <AnimateOnScroll key={point} delay={index * 70}>
+                  <div className="rounded-[1.6rem] bg-white/85 p-5">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#edf6f3] text-[#1f5a4e]">
+                      <Check className="h-4 w-4" />
+                    </div>
+                    <p className="mt-4 text-base font-semibold leading-7 text-stone-800">{point}</p>
+                  </div>
+                </AnimateOnScroll>
+              ))}
+            </div>
+          </div>
         </AnimateOnScroll>
       </div>
     </section>

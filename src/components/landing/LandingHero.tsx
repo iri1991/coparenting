@@ -2,42 +2,83 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  ArrowRight,
+  BellRing,
+  CalendarHeart,
+  HeartHandshake,
+  MapPinned,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
 type HeroAudience = "two" | "together";
 
 const HERO_COPY: Record<
   HeroAudience,
-  { label: string; subtitle: string; bullets: string[] }
+  {
+    label: string;
+    eyebrow: string;
+    subtitle: string;
+    chips: string[];
+    quote: string;
+    boardTitle: string;
+    boardRows: { day: string; owner: string; tone: string }[];
+    insightTitle: string;
+    insightText: string;
+  }
 > = {
   two: {
     label: "Două adrese",
-    subtitle: "Calendar, handover și propuneri automate — la un loc, vizibil pentru amândoi.",
-    bullets: [
-      "Știi din timp cine e cu copilul, unde și la ce oră",
-      "Propunere săptămânală + aprobare în câțiva pași",
-      "Jurnal scurt la handover; activitățile intră în istoric",
-      "Zile blocate, activități recurente, responsabil clar",
-      "Chat lângă calendar — fără mesaje pierdute",
+    eyebrow: "Pentru familii care coordonează între două locuințe",
+    subtitle:
+      "Calendarul, handover-ul, schimbările sensibile și notificările importante rămân într-un loc comun. Mai puțină tensiune, mai multă predictibilitate pentru copil.",
+    chips: [
+      "handover cu detalii clare",
+      "istoric complet al schimbărilor",
+      "notificări când se modifică ceva important",
     ],
+    quote:
+      "„Nu mai căutăm în conversații. Vedem exact ce s-a decis și când s-a schimbat.”",
+    boardTitle: "Săptămâna copilului",
+    boardRows: [
+      { day: "Lun", owner: "acasă la mama", tone: "bg-[#f6d7bf] text-[#8a4b2d]" },
+      { day: "Mie", owner: "balet + handover 18:30", tone: "bg-[#d6ebe5] text-[#1f5a4e]" },
+      { day: "Vin", owner: "acasă la tata", tone: "bg-[#f6e7c7] text-[#7a5620]" },
+    ],
+    insightTitle: "Actualizare excepțională",
+    insightText:
+      "Dacă un eveniment din trecut se schimbă, amândoi vedeți ce s-a modificat, de ce și cine a făcut actualizarea.",
   },
   together: {
     label: "O casă",
-    subtitle: "Activități, idei AI, ritualuri și documente — același hub, fără liste risipite.",
-    bullets: [
-      "Idei AI pentru ieșit (vreme, oraș) — salvezi sau refuzi din tab Idei",
-      "Ritualuri comune + reminder la ora setată",
-      "Materiale utile: melodii, povești, link-uri la îndemână",
-      "Alergii, documente și note importante centralizate",
-      "Mai puțină încărcare mentală — un singur loc pentru amândoi",
+    eyebrow: "Pentru familii care vor mai puțină încărcare mentală acasă",
+    subtitle:
+      "Ritualuri, activități, idei, documente și notificări trăiesc într-un spațiu calm, gândit pentru viața reală de familie, nu pentru task-uri sterile.",
+    chips: [
+      "ritualuri comune care se repetă natural",
+      "idei de ieșit și jurnal de activități",
+      "documente și informații utile la îndemână",
     ],
+    quote:
+      "„Pare mai mult un spațiu de familie decât o aplicație. Exact asta aveam nevoie.”",
+    boardTitle: "Săptămâna voastră",
+    boardRows: [
+      { day: "Mar", owner: "înot 17:00", tone: "bg-[#f6d7bf] text-[#8a4b2d]" },
+      { day: "Joi", owner: "tema + pian", tone: "bg-[#d6ebe5] text-[#1f5a4e]" },
+      { day: "Dum", owner: "parc + bunici", tone: "bg-[#f6e7c7] text-[#7a5620]" },
+    ],
+    insightTitle: "Ritual de seară",
+    insightText:
+      "Checklist simplu pentru duș, dinți, poveste și somn. Același ritm, fără să mai țineți totul în cap.",
   },
 };
 
-const BADGES = [
-  { label: "Calm", sub: "mai puține fricțiuni zilnice" },
-  { label: "Clar", sub: "plan vizibil pentru amândoi" },
-  { label: "Sigur", sub: "date private, doar în familie" },
+const VALUE_POINTS = [
+  { icon: CalendarHeart, label: "Calendar viu", sub: "programul e clar fără negocieri repetitive" },
+  { icon: HeartHandshake, label: "Handover calm", sub: "predarea vine cu context, nu cu stres" },
+  { icon: ShieldCheck, label: "Trasabilitate", sub: "schimbările importante rămân logate" },
 ];
 
 export function LandingHero() {
@@ -45,18 +86,20 @@ export function LandingHero() {
   const copy = HERO_COPY[audience];
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-amber-50/80 via-stone-50/90 to-white dark:from-stone-950 dark:via-stone-900/95 dark:to-stone-950 pt-8 pb-20 sm:pt-12 sm:pb-28">
+    <section id="hero" className="relative overflow-hidden pb-18 pt-6 sm:pb-24 sm:pt-10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)] lg:items-center">
           <div className="space-y-8">
             <AnimateOnScroll>
-              <h1 className="text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl lg:text-5xl leading-tight">
-                Co-parenting fără stres.
-              </h1>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 shadow-[0_12px_30px_rgba(28,25,23,0.08)] backdrop-blur">
+                <Sparkles className="h-3.5 w-3.5 text-[#b85c3e]" />
+                {copy.eyebrow}
+              </div>
             </AnimateOnScroll>
+
             <AnimateOnScroll delay={80}>
               <div
-                className="inline-flex rounded-xl border border-stone-200 dark:border-stone-600 bg-white/90 dark:bg-stone-900/90 p-1 shadow-sm"
+                className="inline-flex rounded-full border border-[#ead9c8] bg-[#fff5eb]/90 p-1 shadow-[0_12px_30px_rgba(28,25,23,0.05)]"
                 role="tablist"
                 aria-label="Situația ta"
               >
@@ -67,10 +110,10 @@ export function LandingHero() {
                     role="tab"
                     aria-selected={audience === key}
                     onClick={() => setAudience(key)}
-                    className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                       audience === key
-                        ? "bg-amber-500 text-white shadow-sm"
-                        : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+                        ? "bg-[#1f3a36] text-white shadow-[0_12px_26px_rgba(31,58,54,0.22)]"
+                        : "text-stone-600 hover:bg-white"
                     }`}
                   >
                     {HERO_COPY[key].label}
@@ -78,92 +121,129 @@ export function LandingHero() {
                 ))}
               </div>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={100}>
-              <p className="text-lg text-stone-600 dark:text-stone-400 max-w-xl">{copy.subtitle}</p>
-            </AnimateOnScroll>
-            <ul className="space-y-2" key={audience}>
-              {copy.bullets.map((text, i) => (
-                <AnimateOnScroll key={text} delay={180 + i * 45} staggerIndex={i}>
-                  <li className="flex items-start gap-2 text-stone-600 dark:text-stone-400">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" aria-hidden />
-                    <span>{text}</span>
-                  </li>
-                </AnimateOnScroll>
-              ))}
-            </ul>
-            <AnimateOnScroll delay={600}>
-              <div className="flex flex-wrap gap-3 rounded-2xl bg-stone-100/80 dark:bg-stone-800/50 p-4">
-                {BADGES.map((b) => (
-                  <div key={b.label} className="flex flex-col">
-                    <span className="font-medium text-stone-800 dark:text-stone-200 text-sm">{b.label}</span>
-                    <span className="text-xs text-stone-500 dark:text-stone-400">{b.sub}</span>
-                  </div>
-                ))}
+
+            <AnimateOnScroll delay={120}>
+              <div className="max-w-2xl space-y-5">
+                <h1 className="landing-display text-5xl leading-[0.95] text-stone-900 sm:text-6xl lg:text-7xl">
+                  Face loc pentru copil.
+                  <span className="mt-2 block text-[#b85c3e]">Nu pentru încă un șir de mesaje.</span>
+                </h1>
+                <p className="max-w-xl text-lg leading-8 text-stone-600">{copy.subtitle}</p>
               </div>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={700}>
-              <div className="flex flex-wrap gap-3">
+
+            <div className="flex flex-wrap gap-3" key={audience}>
+              {copy.chips.map((text, index) => (
+                <AnimateOnScroll key={text} delay={180 + index * 55} staggerIndex={index}>
+                  <div className="rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-sm font-semibold text-stone-700 shadow-[0_10px_24px_rgba(28,25,23,0.05)] backdrop-blur">
+                    {text}
+                  </div>
+                </AnimateOnScroll>
+              ))}
+            </div>
+
+            <AnimateOnScroll delay={320}>
+              <div className="rounded-[2rem] border border-[#ead9c8] bg-white/72 p-5 shadow-[0_20px_50px_rgba(28,25,23,0.08)] backdrop-blur">
+                <p className="text-sm leading-7 text-stone-600">{copy.quote}</p>
+                <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                  {VALUE_POINTS.map(({ icon: Icon, label, sub }) => (
+                    <div key={label} className="rounded-[1.4rem] bg-[#fff7f0] p-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f6dcc0] text-[#8a4b2d]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <p className="mt-3 text-sm font-extrabold text-stone-900">{label}</p>
+                      <p className="mt-1 text-sm leading-6 text-stone-600">{sub}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </AnimateOnScroll>
+
+            <AnimateOnScroll delay={480}>
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/register"
-                  className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-amber-600 active:scale-[0.98] transition"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1f3a36] px-7 py-3.5 text-base font-semibold text-white shadow-[0_18px_40px_rgba(31,58,54,0.22)] transition hover:bg-[#172c2a] active:scale-[0.98]"
                 >
-                  Creează cont gratuit
+                  Începe gratuit
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
-                  href="#cum-functioneaza"
-                  className="inline-flex items-center justify-center rounded-xl border border-stone-300 dark:border-stone-600 px-6 py-3 text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition"
+                  href="#functionalitati"
+                  className="inline-flex items-center justify-center rounded-full border border-[#d8c2ad] px-7 py-3.5 text-base font-semibold text-stone-700 transition hover:bg-white/70"
                 >
-                  Vezi cum funcționează
+                  Vezi experiența
                 </a>
               </div>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={800}>
-              <p className="text-sm text-stone-500 dark:text-stone-400">
-                Fără card. Setare rapidă.
-              </p>
-              <p className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
-                Mai puțin stres pentru voi, mai multă predictibilitate pentru copil.
-              </p>
+
+            <AnimateOnScroll delay={600}>
+              <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-stone-500">
+                <span>14 zile Pro gratuit</span>
+                <span>fără card</span>
+                <span>un singur abonament pe familie</span>
+              </div>
             </AnimateOnScroll>
           </div>
-          <AnimateOnScroll delay={300} className="relative">
-            <div className="space-y-4">
-              <div className="relative overflow-hidden rounded-3xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-2xl shadow-stone-200/50 dark:shadow-black/20">
-                <img
-                  src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1400&q=80"
-                  alt="Părinte și copil într-un moment liniștit acasă"
-                  className="h-64 w-full object-cover sm:h-72"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                  <p className="text-white text-sm sm:text-base font-medium">
-                    Plan clar = mai puține tensiuni, mai mult timp cu copilul.
-                  </p>
+
+          <AnimateOnScroll delay={260} className="relative">
+            <div className="relative isolate mx-auto max-w-[34rem]">
+              <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[#99c6be]/25 blur-3xl" />
+              <div className="absolute -right-4 bottom-12 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
+
+              <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
+                <div className="relative overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
+                  <img
+                    src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80"
+                    alt="Părinte și copil într-un moment calm în natură"
+                    className="h-[24rem] w-full object-cover sm:h-[31rem]"
+                    loading="eager"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.04)_0%,rgba(14,12,10,0.42)_100%)]" />
+                  <div className="absolute left-5 top-5 rounded-full bg-white/86 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
+                    copilul simte claritatea
+                  </div>
+                  <div className="absolute bottom-5 left-5 right-5 rounded-[1.8rem] bg-[#1f3a36]/88 p-5 text-white shadow-[0_20px_36px_rgba(16,24,40,0.24)] backdrop-blur">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-white/65">spațiu comun</p>
+                        <p className="landing-display mt-2 text-3xl leading-none">Program cu ritm.</p>
+                      </div>
+                      <BellRing className="mt-1 h-5 w-5 text-[#f8c89f]" />
+                    </div>
+                    <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
+                      Schimbările importante nu se pierd. Sunt logate, explicate și văzute de amândoi.
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="relative rounded-3xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-xl p-5">
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
-                    <span className="font-medium text-stone-500 dark:text-stone-400">Săptămâna următoare</span>
-                    <span className="rounded-full bg-amber-100 dark:bg-amber-900/30 px-2 py-0.5 text-amber-800 dark:text-amber-200 text-xs font-medium">Clar și confirmat</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
-                    <span>Luni - Marți</span>
-                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 1</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
-                    <span>Miercuri - Joi</span>
-                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 2</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 text-stone-600 dark:text-stone-400">
-                    <span>Vineri - Duminică</span>
-                    <span className="text-amber-700 dark:text-amber-300 font-medium">Părinte 1</span>
-                  </div>
+
+              <div className="landing-card-float absolute -left-5 top-10 w-[15rem] rounded-[1.8rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur sm:w-[16.5rem]">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
+                  {copy.boardTitle}
                 </div>
-                <p className="mt-3 text-xs text-stone-500 dark:text-stone-400">
-                  Funcționalitățile sunt gândite ca să reducă fricțiunea, nu să adauge complexitate.
-                </p>
+                <div className="mt-4 space-y-3">
+                  {copy.boardRows.map((row) => (
+                    <div key={row.day} className="flex items-center justify-between rounded-[1.1rem] bg-[#faf3ec] px-3 py-2.5">
+                      <span className="text-sm font-semibold text-stone-500">{row.day}</span>
+                      <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.tone}`}>
+                        {row.owner}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="landing-card-float absolute -bottom-5 right-0 w-[16rem] rounded-[1.8rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur [animation-delay:1.2s] sm:w-[18rem]">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
+                  {copy.insightTitle}
+                </div>
+                <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
+                <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
+                  istoric vizibil + notificare către celălalt părinte
+                </div>
               </div>
             </div>
           </AnimateOnScroll>

@@ -1,136 +1,159 @@
 "use client";
 
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
 const PLANS = [
   {
     name: "Free",
-    price: "0 lei",
+    price: "0",
     period: "lună",
-    badge: null,
+    badge: "intrare ușoară",
+    summary: "Perfect ca să intri rapid în ritmul produsului.",
     features: [
       "1 copil",
-      "Calendar săptămânal (program & handover basic)",
-      "Tab Idei: recomandări AI pentru activități (vreme, oraș, copil)",
-      "Activități recurente: până la 3",
-      "Zile blocate: până la 5 / lună",
-      "1 locație implicită de predare",
-    ],
-    limits: [
-      "Fără propunerea automată de duminică",
-      "Fără documente & reminders expirare",
-      "Fără jurnal activități la final de perioadă",
-      "Fără bibliotecă de materiale utile",
-      "Istoric limitat",
+      "calendar și handover basic",
+      "tab Idei cu recomandări AI",
+      "până la 3 activități recurente",
+      "până la 5 zile blocate / lună",
     ],
     cta: "Începe gratuit",
-    ctaPrimary: false,
+    href: "/register",
+    primary: false,
   },
   {
     name: "Pro",
-    price: "39 lei",
+    price: "39",
     period: "lună",
-    priceAlt: "sau 299 lei / an (~25 lei/lună)",
-    badge: "Cel mai bun raport preț/valoare",
+    priceAlt: "sau 299 lei / an",
+    badge: "cel mai bun raport valoare",
+    summary: "Experiența completă pentru familiile care vor claritate fără compromis.",
     features: [
       "1–3 copii",
-      "Tab Idei: recomandări AI — accept → intră în jurnalul de activități",
-      "Activități recurente nelimitat + „cine duce / cine ia”",
-      "Zile blocate nelimitat",
-      "Locații multiple + note handover",
-      "Propunerea automată de duminică",
-      "Jurnal activități la final de perioadă + observații",
-      "Listă totală activități (eviți repetiții)",
-      "Materiale utile (link-uri melodii/clipuri/cărți)",
-      "Profil copil: alergii/medicație/contacte",
-      "Documente + reminders expirare",
-      "Istoric schimbări (trasabilitate)",
+      "activități recurente nelimitat",
+      "ritualuri, jurnal și istoric complet",
+      "documente, profil copil și remindere",
+      "propunerea automată de duminică",
+      "notificări și trasabilitate extinsă",
     ],
-    limits: [],
     cta: "Încearcă Pro 14 zile",
-    ctaPrimary: true,
+    href: "/register?plan=pro",
+    primary: true,
   },
   {
     name: "Family+",
-    price: "59 lei",
+    price: "59",
     period: "lună",
     priceAlt: "sau 449 lei / an",
-    badge: null,
+    badge: "pentru familii extinse",
+    summary: "Pentru mai mulți copii și mai mulți oameni implicați în coordonare.",
     features: [
-      "Copii nelimitat",
-      "Recomandări AI (tab Idei) + jurnal activități",
-      "Jurnal activități + materiale utile",
-      "Acces îngrijitori (bonă/bunici) cu roluri",
-      "Export / share program (PDF)",
-      "Suport prioritar",
+      "copii nelimitat",
+      "acces îngrijitori și bunici",
+      "export și share program",
+      "jurnal + materiale utile",
+      "suport prioritar",
     ],
-    limits: [],
     cta: "Alege Family+",
-    ctaPrimary: false,
+    href: "/register?plan=family",
+    primary: false,
   },
 ];
 
 export function LandingPricing() {
   return (
-    <section id="preturi" className="bg-stone-50/50 dark:bg-stone-900/30 py-16 sm:py-24">
+    <section id="preturi" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
-          <h2 className="text-center text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-            Preț simplu. Un abonament pe familie.
-          </h2>
+          <div className="overflow-hidden rounded-[2.8rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fff3e7_0%,#fffdf9_58%,#edf6f3_100%)] p-6 shadow-[0_24px_60px_rgba(28,25,23,0.06)] sm:p-8">
+            <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+              <div>
+                <span className="inline-flex rounded-full border border-[#ead9c8] bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  Preț simplu
+                </span>
+                <h2 className="landing-display mt-5 text-4xl leading-tight text-stone-900 sm:text-5xl">
+                  Un abonament pe familie. Fără surprize. Fără card la trial.
+                </h2>
+                <p className="mt-4 max-w-xl text-base leading-8 text-stone-600">
+                  Nu plătiți separat pentru fiecare părinte. Începeți cu Free sau intrați direct în Pro timp de 14 zile, fără card.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="rounded-[1.8rem] bg-white/85 p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">trial</p>
+                  <p className="mt-3 text-3xl font-extrabold text-stone-900">14 zile</p>
+                  <p className="mt-2 text-sm leading-7 text-stone-600">Pro complet, fără card, fără presiune.</p>
+                </div>
+                <div className="rounded-[1.8rem] bg-white/85 p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">familie</p>
+                  <p className="mt-3 text-3xl font-extrabold text-stone-900">2 părinți</p>
+                  <p className="mt-2 text-sm leading-7 text-stone-600">Același abonament, aceeași sursă de adevăr.</p>
+                </div>
+                <div className="rounded-[1.8rem] bg-[#1f3a36] p-5 text-white">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/60">upgrade</p>
+                  <p className="mt-3 text-3xl font-extrabold">oricând</p>
+                  <p className="mt-2 text-sm leading-7 text-white/75">Treci la planul potrivit fără să pierzi datele.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </AnimateOnScroll>
-        <AnimateOnScroll delay={100}>
-          <p className="mx-auto mt-4 max-w-xl text-center text-stone-600 dark:text-stone-400">
-            Include ambii părinți. Începi gratuit și poți face upgrade oricând.
-          </p>
-        </AnimateOnScroll>
-        <AnimateOnScroll delay={150}>
-          <p className="mt-2 text-center font-medium text-amber-700 dark:text-amber-300">
-            14 zile Pro gratuit, fără card.
-          </p>
-        </AnimateOnScroll>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {PLANS.map((plan, i) => (
-            <AnimateOnScroll key={plan.name} delay={200 + i * 100}>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {PLANS.map((plan, index) => (
+            <AnimateOnScroll key={plan.name} delay={140 + index * 90}>
               <div
-                className={`relative flex flex-col rounded-3xl border p-6 sm:p-8 ${
-                  plan.ctaPrimary
-                    ? "border-amber-300 dark:border-amber-600 bg-amber-50/50 dark:bg-stone-900 shadow-lg ring-2 ring-amber-200/50 dark:ring-amber-800/30"
-                    : "border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900"
+                className={`relative flex h-full flex-col rounded-[2.2rem] border p-6 shadow-[0_20px_50px_rgba(28,25,23,0.06)] sm:p-7 ${
+                  plan.primary
+                    ? "border-[#d7b596] bg-[#1f3a36] text-white shadow-[0_26px_70px_rgba(31,58,54,0.18)]"
+                    : "border-[#ead9c8] bg-white/85 text-stone-900"
                 }`}
               >
-                {plan.badge && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white">
-                    {plan.badge}
+                <span
+                  className={`inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] ${
+                    plan.primary ? "bg-white/10 text-[#f8c89f]" : "bg-[#fff3e7] text-stone-600"
+                  }`}
+                >
+                  {plan.badge}
+                </span>
+                <h3 className="mt-5 text-2xl font-extrabold">{plan.name}</h3>
+                <div className="mt-3 flex items-end gap-1">
+                  <span className="landing-display text-5xl leading-none">{plan.price}</span>
+                  <span className={`${plan.primary ? "text-white/70" : "text-stone-500"} mb-1 text-sm font-semibold`}>
+                    lei / {plan.period}
                   </span>
-                )}
-                <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100">{plan.name}</h3>
-                <p className="mt-2 flex items-baseline gap-1">
-                  <span className="text-2xl font-bold text-stone-900 dark:text-stone-100">{plan.price}</span>
-                  <span className="text-stone-500 dark:text-stone-400">/ {plan.period}</span>
+                </div>
+                {plan.priceAlt ? (
+                  <p className={`mt-2 text-sm ${plan.primary ? "text-white/68" : "text-stone-500"}`}>{plan.priceAlt}</p>
+                ) : null}
+                <p className={`mt-5 text-sm leading-7 ${plan.primary ? "text-white/78" : "text-stone-600"}`}>
+                  {plan.summary}
                 </p>
-                {plan.priceAlt && <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">{plan.priceAlt}</p>}
-                <ul className="mt-6 flex-1 space-y-2 text-sm text-stone-600 dark:text-stone-400">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex gap-2">
-                      <span className="text-amber-500">✓</span>
-                      {f}
-                    </li>
+
+                <div className="mt-6 flex-1 space-y-3">
+                  {plan.features.map((feature) => (
+                    <div key={feature} className="flex items-start gap-3">
+                      <div
+                        className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+                          plan.primary ? "bg-white/12 text-[#f8c89f]" : "bg-[#edf6f3] text-[#1f5a4e]"
+                        }`}
+                      >
+                        <Check className="h-3.5 w-3.5" />
+                      </div>
+                      <span className={`text-sm leading-7 ${plan.primary ? "text-white/82" : "text-stone-600"}`}>
+                        {feature}
+                      </span>
+                    </div>
                   ))}
-                  {plan.limits.map((l) => (
-                    <li key={l} className="flex gap-2 text-stone-400 dark:text-stone-500">
-                      <span aria-hidden>·</span>
-                      {l}
-                    </li>
-                  ))}
-                </ul>
+                </div>
+
                 <Link
-                  href={plan.name === "Free" ? "/register" : plan.name === "Pro" ? "/register?plan=pro" : "/register?plan=family"}
-                  className={`mt-6 block w-full rounded-xl py-3 text-center font-medium transition ${
-                    plan.ctaPrimary
-                      ? "bg-amber-500 text-white hover:bg-amber-600"
-                      : "border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"
+                  href={plan.href}
+                  className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ${
+                    plan.primary
+                      ? "bg-white text-[#1f3a36] hover:bg-[#fff4e8]"
+                      : "border border-[#d8c2ad] text-stone-800 hover:bg-[#fff7f0]"
                   }`}
                 >
                   {plan.cta}
@@ -139,11 +162,6 @@ export function LandingPricing() {
             </AnimateOnScroll>
           ))}
         </div>
-        <AnimateOnScroll delay={600}>
-          <p className="mt-8 text-center text-sm text-stone-500 dark:text-stone-400">
-            Un singur abonament pe familie (include ambii părinți). Trial fără card. Schimbi planul oricând.
-          </p>
-        </AnimateOnScroll>
       </div>
     </section>
   );

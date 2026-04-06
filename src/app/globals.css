@@ -29,6 +29,15 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+.landing-display {
+  font-family: var(--font-landing-display), "Iowan Old Style", "Palatino Linotype", serif;
+  letter-spacing: -0.04em;
+}
+
+.landing-sans {
+  font-family: var(--font-landing-sans), var(--font-geist-sans), sans-serif;
+}
+
 /* Landing: calm scroll animations */
 @keyframes fade-in-up {
   from {
@@ -83,4 +92,32 @@ body {
 
 .animate-splash-pulse {
   animation: splash-pulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes landing-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0) scale(1.04);
+  }
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.landing-orb {
+  animation: landing-drift 18s ease-in-out infinite;
+}
+
+.landing-card-float {
+  animation: landing-float 6s ease-in-out infinite;
 }

@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "#functionalitati", label: "Funcționalități" },
-  { href: "#cum-functioneaza", label: "Cum funcționează" },
+  { href: "#functionalitati", label: "Funcții" },
+  { href: "#cum-functioneaza", label: "Cum merge" },
+  { href: "#scenarii", label: "Scenarii" },
   { href: "#web-app", label: "Web app" },
-  { href: "#siguranta", label: "Siguranță" },
   { href: "#preturi", label: "Prețuri" },
   { href: "#intrebari", label: "Întrebări" },
 ];
@@ -26,21 +26,28 @@ export function LandingHeader() {
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled ? "bg-white/95 dark:bg-stone-950/95 shadow-sm backdrop-blur" : "bg-transparent"
+        scrolled
+          ? "border-b border-white/60 bg-[#fffaf5]/80 shadow-[0_12px_40px_rgba(28,25,23,0.08)] backdrop-blur-xl"
+          : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 rounded-xl hover:opacity-90 transition-opacity">
-          <Image src="/logo.png" alt="HomeSplit" width={40} height={40} className="rounded-xl object-contain" />
-          <span className="font-semibold text-stone-800 dark:text-stone-100 hidden sm:inline">HomeSplit</span>
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <Link href="/" className="flex items-center gap-3 rounded-xl transition-opacity hover:opacity-90">
+          <Image src="/logo.png" alt="HomeSplit" width={42} height={42} className="rounded-2xl object-contain" />
+          <div className="hidden sm:block">
+            <span className="landing-display block text-lg font-semibold text-stone-900">HomeSplit</span>
+            <span className="block text-[11px] uppercase tracking-[0.24em] text-stone-500">
+              calm pentru familie
+            </span>
+          </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden items-center gap-1 rounded-full border border-white/70 bg-white/65 px-2 py-2 shadow-[0_10px_30px_rgba(28,25,23,0.08)] backdrop-blur md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="px-3 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+              className="rounded-full px-3 py-2 text-sm font-semibold text-stone-600 transition-colors hover:bg-[#f6ede3] hover:text-stone-900"
             >
               {link.label}
             </a>
@@ -50,46 +57,60 @@ export function LandingHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/login"
-            className="hidden sm:inline-flex px-4 py-2 rounded-xl text-sm font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+            className="hidden rounded-full px-4 py-2 text-sm font-semibold text-stone-700 transition-colors hover:bg-white/70 sm:inline-flex"
           >
             Conectare
           </Link>
           <Link
             href="/register"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 active:scale-[0.98] transition"
+            className="inline-flex items-center justify-center rounded-full bg-[#1f3a36] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(31,58,54,0.24)] transition hover:bg-[#172c2a] active:scale-[0.98]"
           >
-            Creează cont
+            Începe gratuit
           </Link>
           <button
             type="button"
-            onClick={() => setMobileOpen((o) => !o)}
-            className="md:hidden p-2 rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+            onClick={() => setMobileOpen((open) => !open)}
+            className="rounded-full p-2 text-stone-700 hover:bg-white/70 md:hidden"
             aria-label="Meniu"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
             </svg>
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-4 py-3 space-y-1">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
+        <div className="border-t border-[#ead9c8] bg-[#fffaf5]/95 px-4 py-4 shadow-[0_18px_36px_rgba(28,25,23,0.08)] backdrop-blur md:hidden">
+          <div className="space-y-1">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="block rounded-2xl px-4 py-3 text-sm font-semibold text-stone-700 transition-colors hover:bg-[#f4ebdf]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="mt-3 flex flex-col gap-2 border-t border-[#ead9c8] pt-3">
+            <Link
+              href="/register"
+              className="block rounded-2xl bg-[#1f3a36] px-4 py-3 text-center text-sm font-semibold text-white"
               onClick={() => setMobileOpen(false)}
-              className="block px-3 py-2 rounded-lg text-stone-700 dark:text-stone-300 font-medium"
             >
-              {link.label}
-            </a>
-          ))}
-          <div className="flex flex-col gap-1 pt-2 border-t border-stone-200 dark:border-stone-700">
-            <Link href="/register" className="block px-3 py-2 rounded-lg bg-amber-500 text-white text-center font-medium" onClick={() => setMobileOpen(false)}>
-              Creează cont
+              Începe gratuit
             </Link>
-            <Link href="/login" className="block px-3 py-2 rounded-lg text-amber-600 dark:text-amber-400 font-medium text-center" onClick={() => setMobileOpen(false)}>
+            <Link
+              href="/login"
+              className="block rounded-2xl px-4 py-3 text-center text-sm font-semibold text-stone-700"
+              onClick={() => setMobileOpen(false)}
+            >
               Conectare
             </Link>
           </div>

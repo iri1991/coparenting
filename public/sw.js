@@ -225,19 +225,21 @@ self.addEventListener("notificationclick", function (event) {
     clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (clientList) {
       for (var i = 0; i < clientList.length; i++) {
         var client = clientList[i];
-        if (client.url.indexOf(self.location.origin) === 0 && "focus" in client) {
-          if (typeof client.navigate === "function") {
-            return client
-              .navigate(targetUrl)
-              .then(function () {
-                return client.focus();
-              })
-              .catch(function () {
+        if (client.url.indexOf(self.location.origin) !== 0 || !("focus" in client)) continue;
+        return client
+          .focus()
+          .then(function () {
+            client.postMessage({ type: "homesplit:navigate", url: targetUrl });
+            if (typeof client.navigate === "function") {
+              return client.navigate(targetUrl).catch(function () {
                 if (clients.openWindow) return clients.openWindow(targetUrl);
               });
-          }
-          if (clients.openWindow) return clients.openWindow(targetUrl);
-        }
+            }
+            if (clients.openWindow) return clients.openWindow(targetUrl);
+          })
+          .catch(function () {
+            if (clients.openWindow) return clients.openWindow(targetUrl);
+          });
       }
       if (clients.openWindow) return clients.openWindow(targetUrl);
     })

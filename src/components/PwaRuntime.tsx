@@ -15,6 +15,26 @@ export function PwaRuntime() {
     navigator.serviceWorker.register("/sw.js").catch(() => {
       // noop
     });
+
+    const onSwMessage = (event: MessageEvent) => {
+      const data = event.data as { type?: string; url?: string } | undefined;
+      if (!data || data.type !== "homesplit:navigate" || !data.url || typeof window === "undefined") return;
+      try {
+        const nextUrl = new URL(data.url, window.location.origin).href;
+        if (window.location.href !== nextUrl) {
+          window.location.assign(nextUrl);
+        } else if (window.location.hash) {
+          const id = window.location.hash.replace(/^#/, "");
+          if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } catch {
+        // ignore invalid URL payload
+      }
+    };
+    navigator.serviceWorker.addEventListener("message", onSwMessage);
+    return () => {
+      navigator.serviceWorker.removeEventListener("message", onSwMessage);
+    };
   }, []);
 
   useEffect(() => {
