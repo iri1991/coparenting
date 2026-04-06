@@ -157,7 +157,7 @@ export function AddEventModal({
           </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4 p-4">
-          <div className={`grid gap-3 ${!editEvent ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
+          <div className={`grid gap-2.5 ${!editEvent ? "grid-cols-2" : "grid-cols-1"}`}>
             <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                 De la data
@@ -167,7 +167,7 @@ export function AddEventModal({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="app-native-input app-native-picker w-full min-w-0 px-4 py-3 text-sm"
+                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
               />
             </div>
             {!editEvent && (
@@ -180,7 +180,7 @@ export function AddEventModal({
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   min={date}
-                  className="app-native-input app-native-picker w-full min-w-0 px-4 py-3 text-sm"
+                  className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
                 />
                 {endDate && endDate >= date && (
                   <p className="mt-1 text-xs text-stone-500">
@@ -190,7 +190,7 @@ export function AddEventModal({
               </div>
             )}
           </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-2.5">
             <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                 Ora start
@@ -199,7 +199,7 @@ export function AddEventModal({
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="app-native-input app-native-picker w-full min-w-0 px-4 py-3 text-sm"
+                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
               />
             </div>
             <div className="min-w-0">
@@ -210,7 +210,7 @@ export function AddEventModal({
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="app-native-input app-native-picker w-full min-w-0 px-4 py-3 text-sm"
+                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
               />
             </div>
           </div>

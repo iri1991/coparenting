@@ -6,9 +6,7 @@ import {
   ArrowRight,
   BellRing,
   CalendarHeart,
-  HeartHandshake,
   MapPinned,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
@@ -97,12 +95,6 @@ const HERO_COPY: Record<
   },
 };
 
-const VALUE_POINTS = [
-  { icon: CalendarHeart, label: "Calendar viu", sub: "programul e clar fără negocieri repetitive" },
-  { icon: HeartHandshake, label: "Handover calm", sub: "predarea vine cu context, nu cu stres" },
-  { icon: ShieldCheck, label: "Trasabilitate", sub: "schimbările importante rămân logate" },
-];
-
 export function LandingHero() {
   const [audience, setAudience] = useState<HeroAudience>("two");
   const copy = HERO_COPY[audience];
@@ -165,23 +157,12 @@ export function LandingHero() {
             </div>
 
             <AnimateOnScroll delay={320}>
-              <div className="rounded-[2rem] border border-[#ead9c8] bg-white/72 p-5 shadow-[0_20px_50px_rgba(28,25,23,0.08)] backdrop-blur">
+              <div className="max-w-xl rounded-[1.8rem] border border-[#ead9c8] bg-white/74 px-5 py-4 shadow-[0_18px_40px_rgba(28,25,23,0.06)] backdrop-blur">
                 <p className="text-sm leading-7 text-stone-600">{copy.quote}</p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                  {VALUE_POINTS.map(({ icon: Icon, label, sub }) => (
-                    <div key={label} className="rounded-[1.4rem] bg-[#fff7f0] p-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f6dcc0] text-[#8a4b2d]">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <p className="mt-3 text-sm font-extrabold text-stone-900">{label}</p>
-                      <p className="mt-1 text-sm leading-6 text-stone-600">{sub}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll delay={480}>
+            <AnimateOnScroll delay={420}>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/register"
@@ -199,7 +180,7 @@ export function LandingHero() {
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll delay={600}>
+            <AnimateOnScroll delay={520}>
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-stone-500">
                 <span>14 zile Pro gratuit</span>
                 <span>fără card</span>
@@ -213,7 +194,7 @@ export function LandingHero() {
               <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[#99c6be]/25 blur-3xl" />
               <div className="absolute -right-4 bottom-12 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
 
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,0.32fr)]">
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.7fr)_minmax(17rem,0.3fr)] lg:items-start">
                 <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
                   <div className="relative h-full overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
                     <img
@@ -241,7 +222,7 @@ export function LandingHero() {
                   </div>
                 </div>
 
-                <div className="grid gap-4">
+                <div className="space-y-4 lg:pt-4">
                   <div className="rounded-[1.8rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
                     <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
                       <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
@@ -258,32 +239,29 @@ export function LandingHero() {
                       ))}
                     </div>
                   </div>
-                </div>
 
-                <div className="grid gap-4 md:grid-cols-2 lg:col-span-2 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]">
-                  <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/78 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
+                  <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/82 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
                     <div className="relative">
                       <img
                         src={copy.secondaryImage}
                         alt={copy.secondaryAlt}
-                        className={`h-56 w-full object-cover md:h-full lg:h-60 ${copy.secondaryPosition ?? "object-center"}`}
+                        className={`h-40 w-full object-cover ${copy.secondaryPosition ?? "object-center"}`}
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.35)_100%)]" />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.32)_100%)]" />
                       <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
                         mai puțin haos, mai multă prezență
                       </div>
                     </div>
-                  </div>
-
-                  <div className="rounded-[1.8rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
-                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                      <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
-                      {copy.insightTitle}
-                    </div>
-                    <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
-                    <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
-                      istoric vizibil + notificare către celălalt părinte
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                        <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
+                        {copy.insightTitle}
+                      </div>
+                      <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
+                      <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
+                        istoric vizibil + notificare către celălalt părinte
+                      </div>
                     </div>
                   </div>
                 </div>

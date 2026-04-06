@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.json",
-  appleWebApp: { capable: true, title: "HomeSplit" },
+  appleWebApp: { capable: true, title: "HomeSplit", statusBarStyle: "default" },
   icons: {
     icon: [
       { url: "/logo.png", type: "image/png", sizes: "any" },
@@ -81,9 +81,7 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    "theme-color": "#f59e0b",
     "apple-mobile-web-app-capable": "yes",
-    "apple-mobile-web-app-status-bar-style": "default",
   },
   verification: {
     // optional: add when you have them
@@ -97,6 +95,9 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#f6efe6",
+  colorScheme: "light",
 };
 
 const jsonLd = {
