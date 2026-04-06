@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Sparkles, MapPin, Loader2, Check, X, Trash2, Info } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, MapPin, Loader2, Check, X, Trash2, Info, BookOpen } from "lucide-react";
 import { normalizeSuggestionTitleKey } from "@/lib/suggestion-title";
 import { ActivityIdeaDetailModal } from "@/components/ActivityIdeaDetailModal";
 
@@ -38,6 +39,15 @@ type IdeaBoard = {
   notRelevantNote?: string;
   items: IdeaItem[];
   meta?: ApiOk["meta"];
+};
+
+type BlogReferenceItem = {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  publishedLabel: string;
+  readingTimeMinutes: number;
 };
 
 function todayBucharest(): string {
@@ -96,6 +106,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [detailOpen, setDetailOpen] = useState(false);
   const [detailTitle, setDetailTitle] = useState("");
+  const [blogArticles, setBlogArticles] = useState<BlogReferenceItem[]>([]);
   /** Zi aleasă pentru salvare la Accept (per idee). */
   const [acceptDayByItemId, setAcceptDayByItemId] = useState<Record<string, string>>({});
 
@@ -134,6 +145,23 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         /* ignore */
       } finally {
         if (!cancelled) setHydrated(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/blog/reference");
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || cancelled) return;
+        setBlogArticles(Array.isArray(json.articles) ? (json.articles as BlogReferenceItem[]) : []);
+      } catch {
+        /* ignore */
       }
     })();
     return () => {
@@ -394,6 +422,43 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
           {error}
         </p>
       )}
+
+      <div className="mt-3 rounded-xl border border-stone-200/80 dark:border-stone-700 bg-white/70 dark:bg-stone-950/40 p-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="inline-flex items-center gap-2 text-sm font-semibold text-stone-800 dark:text-stone-100">
+              <BookOpen className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+              Referințe din blog
+            </p>
+            <p className="mt-1 text-xs text-stone-600 dark:text-stone-400">
+              Articole practice de co-parenting, disponibile direct în aplicație.
+            </p>
+          </div>
+          <Link
+            href="/blog"
+            className="shrink-0 rounded-lg border border-violet-200 dark:border-violet-700 px-3 py-1.5 text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-50/70 dark:hover:bg-violet-900/30"
+          >
+            Vezi tot blogul
+          </Link>
+        </div>
+        {blogArticles.length > 0 ? (
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+            {blogArticles.map((article) => (
+              <li key={article.slug} className="rounded-lg border border-stone-200/80 dark:border-stone-700 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-wide text-stone-500 dark:text-stone-400">
+                  {article.category} · {article.publishedLabel} · {article.readingTimeMinutes} min
+                </p>
+                <Link href={`/blog/${article.slug}`} className="mt-1 block text-sm font-medium text-stone-900 dark:text-stone-100 hover:underline">
+                  {article.title}
+                </Link>
+                <p className="mt-1 text-xs text-stone-600 dark:text-stone-400">{article.summary}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-xs text-stone-500 dark:text-stone-400">Nu am putut încărca articolele momentan.</p>
+        )}
+      </div>
 
       {hasBoard && board!.meta && (board!.meta.temperatureC != null || board!.meta.weatherLabelRo) && (
         <p className="mt-3 text-xs text-stone-600 dark:text-stone-400">
