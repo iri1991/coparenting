@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { BlogArticleWithCategory, formatBlogDate } from "@/content/blog";
 
@@ -13,9 +14,27 @@ export function BlogArticleCard({ article, large = false }: BlogArticleCardProps
         large ? "p-8 sm:p-10" : "p-6"
       }`}
     >
-      <div
-        className={`pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-br ${article.category.surfaceClassName} opacity-90`}
-      />
+      {article.image ? (
+        <div
+          className={`relative overflow-hidden ${
+            large ? "-mx-8 -mt-8 mb-8 sm:-mx-10 sm:-mt-10 sm:mb-10" : "-mx-6 -mt-6 mb-6"
+          }`}
+        >
+          <div className={`absolute inset-0 bg-gradient-to-br ${article.category.surfaceClassName} opacity-70`} />
+          <div className={`absolute inset-x-0 top-0 h-full bg-gradient-to-b ${article.category.surfaceClassName} opacity-60`} />
+          <Image
+            src={article.image.src}
+            alt={article.image.alt}
+            width={1200}
+            height={720}
+            className={`h-56 w-full object-cover ${large ? "sm:h-72" : ""}`}
+          />
+        </div>
+      ) : (
+        <div
+          className={`pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-br ${article.category.surfaceClassName} opacity-90`}
+        />
+      )}
       <div className="relative">
         <div className="flex flex-wrap items-center gap-3">
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${article.category.badgeClassName}`}>

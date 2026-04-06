@@ -24,6 +24,10 @@ export type BlogArticle = {
   title: string;
   summary: string;
   intro: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
   categorySlug: string;
   publishedAt: string;
   readingTimeMinutes: number;
@@ -74,6 +78,77 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "copilul-explodeaza-dupa-schimbarea-de-casa",
+    title: "Când copilul explodează după schimbarea de casă",
+    summary:
+      "Iritarea, plânsul sau opoziția de după handover nu cer mai întâi corectare, ci un adult care încetinește ritmul și co-reglează.",
+    intro:
+      "Unii părinți se sperie sau se enervează când copilul ajunge din cealaltă casă și pare brusc dificil: răspunde tăios, plânge din nimic, refuză reguli simple sau caută conflict. Reacția firească este să corectezi imediat comportamentul. Dar de multe ori nu vezi lipsă de respect, ci un sistem nervos deja încărcat de schimbare. În acele momente, copilul are nevoie întâi de co-reglare, apoi de limite și conversație.",
+    image: {
+      src: "/blog/child-after-handover.svg",
+      alt: "Părinte și copil care se așază împreună după o tranziție între două case",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-06",
+    readingTimeMinutes: 6,
+    featured: true,
+    sections: [
+      {
+        title: "De ce apare descărcarea tocmai după sosire",
+        paragraphs: [
+          "Schimbarea de casă poate cere multă adaptare internă chiar și atunci când programul este bun și relația cu ambii părinți contează. Copilul a schimbat ritm, reguli, stimulare, poate și felul în care s-a ținut tare pe parcursul zilei. Când ajunge într-un loc sigur, tensiunea strânsă poate ieși la suprafață.",
+          "Child Mind Institute explică faptul că reglarea emoțională se învață treptat și că, în momentele de supraîncărcare, copilul împrumută din calmul adultului apropiat. Cu alte cuvinte, reacția părintelui nu este decorul scenei, ci una dintre piesele care mută situația spre escaladare sau spre liniștire.",
+        ],
+      },
+      {
+        title: "Ce faci în primele minute",
+        paragraphs: [
+          "Înainte să corectezi tonul sau să ceri explicații, verifică-ți propriul corp. Dacă intri și tu în alertă, copilul primește încă un semnal de pericol. Primul pas este să încetinești.",
+          "Nu ai nevoie de un discurs lung. Ajută mai mult o prezență calmă, puține cuvinte și o invitație simplă spre reglare.",
+        ],
+        bullets: [
+          "Coboară fizic la nivelul copilului în loc să vorbești din picioare peste el.",
+          "Numește ce vezi fără judecată: pari foarte tensionat sau cred că ți-a fost mult.",
+          "Vorbește mai încet și mai jos decât îți vine natural în momentul acela.",
+          "Oferă o punte scurtă: apă, duș, schimbat hainele, stat lipiți pe canapea, câteva respirații împreună.",
+        ],
+      },
+      {
+        title: "Co-reglare nu înseamnă lipsă de limite",
+        paragraphs: [
+          "Validarea emoției nu înseamnă că orice comportament devine acceptabil. Poți transmite simultan două lucruri: te ajut să te liniștești și nu te las să lovești, să jignești sau să strici lucruri.",
+          "Ordinea contează. Când copilul este puternic activat, explicațiile lungi și lecțiile morale intră greu. Întâi reduci intensitatea, apoi revii la limită și la reparație: ce facem acum, cum reparăm, ce putem încerca data viitoare.",
+        ],
+      },
+      {
+        title: "Semne că ai intrat prea repede pe corectare",
+        paragraphs: [
+          "Dacă vezi că volumul crește după ce pui multe întrebări, ceri imediat recunoștință sau compari cu cealaltă casă, probabil copilul nu era încă disponibil pentru conversație. Uneori părintele interpretează greșit descărcarea ca pe o alegere conștientă de a provoca.",
+          "Un reper util este acesta: dacă după 10-20 de minute de calm, rutină și contact reacția scade, cel mai probabil ai avut în față o problemă de reglare, nu una care se rezolvă prin presiune.",
+        ],
+      },
+      {
+        title: "Când merită cerut ajutor suplimentar",
+        paragraphs: [
+          "Dacă după aproape fiecare schimb de casă apar izbucniri foarte intense, somn dereglat, frică persistentă, autoînvinovățire, refuz puternic al tranziției sau regres clar, merită discutat cu un psiholog de copii ori cu pediatrul. Scopul nu este să alegi vinovați, ci să înțelegi mai repede de unde vine supraîncărcarea și ce sprijin concret ajută copilul.",
+        ],
+      },
+    ],
+    takeaways: [
+      "După handover, comportamentul dificil poate fi o descărcare de stres, nu o provocare calculată.",
+      "Mai întâi reglezi ritmul și relația, apoi corectezi comportamentul.",
+      "Poți valida emoția și păstra limita în același timp.",
+    ],
+    sources: [
+      {
+        title: "What Is Co-Regulation?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/what-is-co-regulation/",
+        note: "Explică de ce calmul adultului influențează reglarea copilului și oferă pași concreți: nivelul ochilor, numirea emoției, ton calm și exerciții de liniștire. Ultima actualizare indicată pe pagină: 21 ianuarie 2026.",
+      },
+    ],
+  },
+  {
     slug: "tranzitii-intre-doua-case-mai-putin-stres",
     title: "Cum faci tranzițiile între două case mai puțin stresante pentru copil",
     summary:
@@ -83,7 +158,6 @@ const blogArticles: BlogArticle[] = [
     categorySlug: "rutine-si-tranzitii",
     publishedAt: "2026-04-06",
     readingTimeMinutes: 6,
-    featured: true,
     sections: [
       {
         title: "De ce tranzițiile consumă atât de mult",
