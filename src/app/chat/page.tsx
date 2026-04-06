@@ -93,21 +93,24 @@ export default async function ChatPage() {
   });
 
   return (
-    <div className="h-screen max-h-[100dvh] flex flex-col bg-stone-100 dark:bg-stone-950 overflow-hidden">
+    <div className="app-native-shell h-screen max-h-[100dvh] overflow-hidden">
       <MobileAppTopBar hideOnScroll={false} />
-      <header className="hidden sm:flex shrink-0 z-40 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 safe-area-inset-top">
-        <div className="flex w-full items-center justify-between gap-2 px-4 py-3 max-w-2xl mx-auto">
+      <header className="safe-area-inset-top hidden shrink-0 px-4 pt-4 sm:flex">
+        <div className="app-native-glass mx-auto flex w-full max-w-3xl items-center justify-between gap-2 rounded-[30px] px-4 py-3">
           <Link
             href="/"
-            className="text-sm font-medium text-stone-600 dark:text-stone-400 hover:underline"
+            className="app-native-secondary-button px-4 py-2 text-sm font-semibold text-stone-700"
           >
             Acasă
           </Link>
-          <h1 className="text-lg font-semibold text-stone-800 dark:text-stone-100">Chat</h1>
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Mesagerie</p>
+            <h1 className="text-lg font-semibold text-stone-900">Chat</h1>
+          </div>
           <div className="flex items-center gap-1">
             <Link
               href="/account"
-              className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
+              className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 touch-manipulation"
               title="Cont"
               aria-label="Cont"
             >
@@ -117,7 +120,7 @@ export default async function ChatPage() {
             </Link>
             <a
               href="/api/auth/signout"
-              className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400 touch-manipulation"
+              className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 touch-manipulation"
               title="Ieșire"
               aria-label="Ieșire"
             >
@@ -129,7 +132,7 @@ export default async function ChatPage() {
         </div>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col pt-12 sm:pt-0 max-w-2xl mx-auto w-full pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-0">
+      <main className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-12 sm:pb-0 sm:pt-4">
         <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
       </main>
       <MobileQuickNav />

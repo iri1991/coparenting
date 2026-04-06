@@ -37,16 +37,21 @@ export function WeekSummary({
   }
 
   return (
-    <div className="bg-white dark:bg-stone-900 rounded-2xl shadow-sm border border-stone-200 dark:border-stone-700 overflow-hidden">
-      <div className="px-4 py-3.5 border-b border-stone-100 dark:border-stone-800">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 tracking-tight">
+    <section className="app-native-surface overflow-hidden rounded-[2rem] p-4 sm:p-5">
+      <div className="flex items-end justify-between gap-3 border-b border-[#ead9c8] pb-3">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
+            Snapshot
+          </p>
+          <h2 className="mt-1 text-base font-semibold tracking-tight text-stone-900">
           Săptămâna în curs
-        </h2>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+          </h2>
+        </div>
+        <p className="text-xs text-stone-500">
           {format(weekStart, "d MMM", { locale: ro })} – {format(weekEnd, "d MMM yyyy", { locale: ro })}
         </p>
       </div>
-      <div className="p-3 grid grid-cols-4 sm:grid-cols-7 gap-2 min-h-0">
+      <div className="mt-4 grid min-h-0 grid-cols-4 gap-2.5 sm:grid-cols-7">
         {days.map((day) => {
           const dayEvents = getEventsForDay(day);
           const eventsWithNotes = getEventsWithNotes(day);
@@ -60,41 +65,40 @@ export function WeekSummary({
                 type="button"
                 onClick={() => onSelectDay?.(day)}
                 className={`
-                  w-full min-h-[88px] rounded-xl flex flex-col items-center
-                  touch-manipulation active:scale-[0.98] transition border-2
-                  ${isSelected ? "border-amber-400 bg-amber-50/80 dark:bg-amber-950/30 dark:border-amber-500" : "border-transparent hover:bg-stone-50 dark:hover:bg-stone-800/50"}
-                  ${today && !isSelected ? "bg-stone-50 dark:bg-stone-800/30" : ""}
-                  ${hasNotes ? "ring-2 ring-amber-300/60 dark:ring-amber-500/40 ring-offset-1 ring-offset-white dark:ring-offset-stone-900 rounded-xl" : ""}
+                  w-full min-h-[102px] rounded-[1.5rem] border px-2.5 transition touch-manipulation active:scale-[0.985]
+                  ${isSelected ? "border-[#c87a5c] bg-[linear-gradient(180deg,rgba(255,245,236,0.95)_0%,rgba(255,251,246,0.9)_100%)] shadow-[0_18px_34px_rgba(184,92,62,0.12)]" : "border-white/70 bg-white/72 hover:bg-white/86"}
+                  ${today && !isSelected ? "ring-2 ring-[#d9b89d]/60" : ""}
+                  ${hasNotes ? "shadow-[0_12px_28px_rgba(28,25,23,0.08)]" : "shadow-[0_10px_24px_rgba(28,25,23,0.05)]"}
                 `}
               >
-                <div className="pt-2.5 pb-1 flex flex-col items-center gap-0.5 relative">
+                <div className="relative flex flex-col items-center gap-0.5 pb-1 pt-3">
                   {hasNotes && (
                     <span
-                      className="absolute -top-0.5 -right-0.5 w-4 h-4 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400"
+                      className="absolute -right-1 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-[#fff1df] text-[#b85c3e]"
                       title="Are comentarii"
                     >
                       <MessageSquare size={10} strokeWidth={2.5} />
                     </span>
                   )}
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-stone-400 dark:text-stone-500">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400">
                     {WEEKDAY_LETTERS[day.getDay() === 0 ? 6 : day.getDay() - 1]}
                   </span>
                   <span
                     className={`
                       text-lg font-semibold tabular-nums
-                      ${today ? "text-amber-600 dark:text-amber-400" : "text-stone-700 dark:text-stone-300"}
+                      ${today ? "text-[#b85c3e]" : "text-stone-800"}
                     `}
                   >
                     {format(day, "d")}
                   </span>
                 </div>
-                <div className="flex-1 w-full px-1.5 pb-2.5 flex flex-col items-center justify-center min-h-[44px]">
+                <div className="flex min-h-[52px] w-full flex-1 flex-col items-center justify-center px-1.5 pb-3">
                   {first ? (
                     <>
-                      <span className="mb-1 flex items-center justify-center">
+                      <span className="mb-1 flex items-center justify-center rounded-2xl bg-[#f7f1e9] px-2 py-1">
                         <ParentIcon parent={first.parent} size={20} aria-label={getShortLabel(first)} />
                       </span>
-                      <span className="text-[11px] leading-snug text-stone-600 dark:text-stone-300 text-center font-medium line-clamp-2 break-words w-full px-0.5">
+                      <span className="line-clamp-2 w-full break-words px-0.5 text-center text-[11px] font-medium leading-snug text-stone-700">
                         {first.title ? (
                           first.title
                         ) : (
@@ -102,13 +106,13 @@ export function WeekSummary({
                         )}
                       </span>
                       {dayEvents.length > 1 && (
-                        <span className="text-[10px] text-stone-400 mt-0.5 font-medium">
+                        <span className="mt-1 rounded-full bg-[#f5eee6] px-2 py-0.5 text-[10px] font-semibold text-stone-500">
                           +{dayEvents.length - 1}
                         </span>
                       )}
                     </>
                   ) : (
-                    <span className="text-[11px] text-stone-300 dark:text-stone-500">—</span>
+                    <span className="rounded-full bg-[#f7f1e9] px-2 py-0.5 text-[11px] text-stone-400">liber</span>
                   )}
                 </div>
               </button>
@@ -116,6 +120,6 @@ export function WeekSummary({
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

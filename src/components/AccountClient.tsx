@@ -90,41 +90,54 @@ export function AccountClient({
   }
 
   return (
-    <div className="space-y-8">
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 flex items-center gap-2">
-          <User className="w-4 h-4" />
-          Profil
-        </h2>
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Email</label>
-            <p className="px-4 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-sm">
-              {initialEmail}
-            </p>
-            <p className="text-xs text-stone-400 mt-1">Emailul nu poate fi schimbat.</p>
+    <div className="space-y-5">
+      <section className="app-native-surface-strong rounded-[2rem] p-5">
+        <div className="flex items-start gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[1.4rem] bg-[#fff1df] text-[#b85c3e]">
+            <User className="h-5 w-5" />
           </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Profil</p>
+            <h2 className="mt-1 text-lg font-semibold text-stone-900">Identitate în aplicație</h2>
+            <p className="mt-1 text-sm leading-6 text-stone-500">
+              Numele afișat și rolul tău sunt folosite în program, notificări și istoric.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-4">
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Nume afișat (opțional)</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Email</label>
+            <p className="app-native-input px-4 py-3 text-sm text-stone-700">{initialEmail}</p>
+            <p className="mt-1 text-xs text-stone-400">Emailul nu poate fi schimbat.</p>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
+              Nume afișat
+            </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={() => (name !== initialName || parentType !== initialParentType) && saveProfile(undefined)}
               placeholder="Ex. Irinel"
-              className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+              className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
+
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Ești în calendar</label>
-            <div className="flex gap-2">
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
+              Ești în calendar
+            </label>
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => saveProfile("tata")}
-                className={`flex-1 py-2.5 px-4 rounded-xl border-2 font-medium transition ${
+                className={`rounded-[1.3rem] px-4 py-3 text-sm font-semibold transition ${
                   parentType === "tata"
-                    ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300"
-                    : "border-stone-200 dark:border-stone-600 hover:border-stone-300 text-stone-600 dark:text-stone-400"
+                    ? "bg-[#1f3a36] text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+                    : "app-native-secondary-button text-stone-700"
                 }`}
               >
                 Tata
@@ -132,121 +145,136 @@ export function AccountClient({
               <button
                 type="button"
                 onClick={() => saveProfile("mama")}
-                className={`flex-1 py-2.5 px-4 rounded-xl border-2 font-medium transition ${
+                className={`rounded-[1.3rem] px-4 py-3 text-sm font-semibold transition ${
                   parentType === "mama"
-                    ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300"
-                    : "border-stone-200 dark:border-stone-600 hover:border-stone-300 text-stone-600 dark:text-stone-400"
+                    ? "bg-[#1f3a36] text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+                    : "app-native-secondary-button text-stone-700"
                 }`}
               >
                 Mama
               </button>
             </div>
-            <p className="text-xs text-stone-400 mt-1">Folosit pentru salut și zile blocate.</p>
+            <p className="mt-1 text-xs text-stone-400">Folosit pentru salut, blocaje și alocări rapide.</p>
           </div>
         </div>
+
         {message && (
-          <p className={`mt-2 text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-600"}`}>
+          <p className={`mt-3 text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-700"}`}>
             {message.text}
           </p>
         )}
         {saving && <p className="mt-2 text-sm text-stone-500">Se salvează…</p>}
       </section>
 
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 flex items-center gap-2">
-          <Key className="w-4 h-4" />
-          Schimbă parola
-        </h2>
-        <form onSubmit={handleChangePassword} className="space-y-3">
+      <section className="app-native-surface rounded-[2rem] p-5">
+        <div className="flex items-start gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[1.4rem] bg-[#edf6f3] text-[#1f5a4e]">
+            <Key className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Securitate</p>
+            <h2 className="mt-1 text-lg font-semibold text-stone-900">Schimbă parola</h2>
+          </div>
+        </div>
+
+        <form onSubmit={handleChangePassword} className="mt-5 space-y-3">
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Parola curentă</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Parola curentă</label>
             <input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
+              className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Parolă nouă (min. 6 caractere)</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Parolă nouă</label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
+              className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Confirmă parola nouă</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Confirmă parola nouă</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
+              className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
+
           {passwordMessage && (
-            <p className={`text-sm ${passwordMessage.type === "error" ? "text-red-600" : "text-emerald-600"}`}>
+            <p className={`text-sm ${passwordMessage.type === "error" ? "text-red-600" : "text-emerald-700"}`}>
               {passwordMessage.text}
             </p>
           )}
+
           <button
             type="submit"
             disabled={passwordSaving}
-            className="w-full py-2.5 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button w-full px-4 py-3 text-sm font-semibold disabled:opacity-50"
           >
             {passwordSaving ? "Se actualizează…" : "Schimbă parola"}
           </button>
         </form>
       </section>
 
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 flex items-center gap-2">
-          <Download className="w-4 h-4" />
-          Exportă datele
-        </h2>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-          Descarcă evenimentele familiei tale ca backup sau pentru import în altă aplicație.
-        </p>
-        <div className="flex flex-wrap gap-2">
+      <section className="app-native-surface rounded-[2rem] p-5">
+        <div className="flex items-start gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[1.4rem] bg-[#f7f0e7] text-[#8a6330]">
+            <Download className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Export</p>
+            <h2 className="mt-1 text-lg font-semibold text-stone-900">Descarcă datele familiei</h2>
+            <p className="mt-1 text-sm leading-6 text-stone-500">
+              Pentru backup, transparență sau migrare în altă aplicație.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
           <Link
             href="/api/calendar/ics"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-600 hover:bg-stone-50 dark:hover:bg-stone-800 font-medium text-stone-700 dark:text-stone-300"
+            className="app-native-secondary-button inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold text-stone-700"
           >
-            <Calendar className="w-4 h-4" />
+            <Calendar className="h-4 w-4" />
             Calendar (.ics)
           </Link>
           <Link
             href="/api/user/export-json"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-600 hover:bg-stone-50 dark:hover:bg-stone-800 font-medium text-stone-700 dark:text-stone-300"
+            className="app-native-secondary-button inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold text-stone-700"
           >
-            <FileJson className="w-4 h-4" />
+            <FileJson className="h-4 w-4" />
             Evenimente (JSON)
           </Link>
         </div>
       </section>
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Link
           href="/"
-          className="flex-1 py-3 text-center rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
+          className="app-native-secondary-button inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-stone-700"
         >
           Înapoi la calendar
         </Link>
         <a
           href="/api/auth/signout"
-          className="flex-1 inline-flex items-center justify-center gap-2 py-3 text-center rounded-xl border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 font-medium hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-red-100 bg-white/76 px-4 py-3 text-sm font-semibold text-red-700 shadow-[0_12px_28px_rgba(28,25,23,0.06)]"
         >
-          <LogOut className="w-4 h-4 shrink-0" aria-hidden />
+          <LogOut className="h-4 w-4 shrink-0" aria-hidden />
           Deconectare
         </a>
       </div>

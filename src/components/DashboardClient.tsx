@@ -21,6 +21,7 @@ import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity
 import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
+import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -628,17 +629,73 @@ export function DashboardClient({
       childName={childName}
       residenceNames={residenceNames}
     >
-    <div className="space-y-6">
+    <div className="space-y-5">
       {plan === "free" && (
-        <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-          <p className="text-sm text-stone-700 dark:text-stone-300">
+        <div className="app-native-surface rounded-[2rem] border-[#ecd8c5] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b85c3e]">Plan Free</p>
+            <p className="mt-1 text-sm text-stone-700">
             Deblochează Pro: propunere automată, documente, mai mulți copii și locații.
-          </p>
+            </p>
+          </div>
           <UpgradeCta variant="button" />
         </div>
       )}
+      {!profileLoading && parentType && activeTab === "program" && (
+        <div className="app-native-surface-strong overflow-hidden rounded-[2.3rem] p-5 sm:p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+                <Sparkles className="h-3.5 w-3.5 text-[#b85c3e]" />
+                experiență nativă pentru programul familiei
+              </div>
+              <h1 className="mt-4 text-2xl font-semibold tracking-tight text-stone-900 sm:text-[2rem]">
+                {greeting ?? `Salut ${greetingName}.`}
+              </h1>
+              <p className="mt-2 max-w-xl text-sm leading-7 text-stone-600">
+                Ai într-un singur loc programul, schimbările, rutinele și semnalele importante pentru {childName}.
+              </p>
+            </div>
+            {todayEventForLoggedParent && currentParentPeriod && (
+              <button
+                type="button"
+                onClick={openInterruptModal}
+                className="inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+              >
+                Întrerupe perioada
+              </button>
+            )}
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[1.5rem] bg-white/74 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
+                <CalendarRange className="h-5 w-5" />
+              </div>
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Săptămâna ta</p>
+              <p className="mt-1 text-2xl font-semibold text-stone-900">{daysThisWeekWithEvents}</p>
+              <p className="text-sm text-stone-600">{daysLabel} cu timp programat</p>
+            </div>
+            <div className="rounded-[1.5rem] bg-white/74 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#edf6f3] text-[#1f5a4e]">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Memorie comună</p>
+              <p className="mt-1 text-2xl font-semibold text-stone-900">{activitiesSummary.length}</p>
+              <p className="text-sm text-stone-600">activități distincte deja în jurnal</p>
+            </div>
+            <div className="rounded-[1.5rem] bg-white/74 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f7f0e7] text-[#8a6330]">
+                <LockKeyhole className="h-5 w-5" />
+              </div>
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Disponibilitate</p>
+              <p className="mt-1 text-2xl font-semibold text-stone-900">{blockedPeriods.length}</p>
+              <p className="text-sm text-stone-600">intervale blocate configurate</p>
+            </div>
+          </div>
+        </div>
+      )}
       <div
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-1 grid grid-cols-4 gap-0.5 sm:gap-1"
+        className="app-native-surface rounded-[2rem] p-1.5 grid grid-cols-4 gap-1"
         role="tablist"
         aria-label="Secțiuni acasă"
       >
@@ -647,10 +704,10 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "program"}
           onClick={() => setActiveTab("program")}
-          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
+          className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "program"
-              ? "bg-amber-500 text-white"
-              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              : "text-stone-600 hover:bg-white/80"
           }`}
         >
           Program
@@ -660,10 +717,10 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "rutine"}
           onClick={() => setActiveTab("rutine")}
-          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
+          className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "rutine"
-              ? "bg-amber-500 text-white"
-              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              : "text-stone-600 hover:bg-white/80"
           }`}
           title="Ritualuri comune și raport"
         >
@@ -674,10 +731,10 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "hub"}
           onClick={() => setActiveTab("hub")}
-          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
+          className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "hub"
-              ? "bg-amber-500 text-white"
-              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              : "text-stone-600 hover:bg-white/80"
           }`}
           title="Rapoarte și resurse"
         >
@@ -689,10 +746,10 @@ export function DashboardClient({
           role="tab"
           aria-selected={activeTab === "idei"}
           onClick={() => setActiveTab("idei")}
-          className={`rounded-xl py-2 sm:py-2.5 px-0.5 sm:px-2 text-[11px] sm:text-sm font-medium transition ${
+          className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "idei"
-              ? "bg-amber-500 text-white"
-              : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              : "text-stone-600 hover:bg-white/80"
           }`}
           title="Recomandări AI"
         >
@@ -711,42 +768,26 @@ export function DashboardClient({
         />
       )}
       {!profileLoading && !parentType && (
-        <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
-          <p className="text-sm font-medium text-stone-800 dark:text-stone-200 mb-3">
+        <div className="app-native-surface rounded-[2rem] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] p-4">
+          <p className="text-sm font-semibold text-stone-800 mb-3">
             Ești {parent1Name} sau {parent2Name}?
           </p>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => setParentType("tata")}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-[0.98] touch-manipulation"
+              className="flex-1 rounded-[1.2rem] bg-[#1f3a36] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(31,58,54,0.16)]"
             >
               {parent1Name}
             </button>
             <button
               type="button"
               onClick={() => setParentType("mama")}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-pink-500 text-white font-medium hover:bg-pink-600 active:scale-[0.98] touch-manipulation"
+              className="flex-1 rounded-[1.2rem] bg-white px-4 py-3 text-sm font-semibold text-stone-800 shadow-[0_12px_24px_rgba(28,25,23,0.08)]"
             >
               {parent2Name}
             </button>
           </div>
-        </div>
-      )}
-      {activeTab === "program" && greeting && (
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-stone-700 dark:text-stone-300 text-base font-medium leading-snug">
-            {greeting}
-          </p>
-          {todayEventForLoggedParent && currentParentPeriod && (
-            <button
-              type="button"
-              onClick={openInterruptModal}
-              className="rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30 px-3 py-2 text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40"
-            >
-              Întrerupe perioada
-            </button>
-          )}
         </div>
       )}
       {activeTab === "rutine" && (
@@ -756,39 +797,39 @@ export function DashboardClient({
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
       )}
       {activeTab === "hub" && (
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Raport timp între părinți</h2>
-          <span className="text-xs text-stone-500 dark:text-stone-400 capitalize">{parentTimeReport.monthLabel}</span>
+          <h2 className="text-base font-semibold text-stone-800">Raport timp între părinți</h2>
+          <span className="text-xs text-stone-500 capitalize">{parentTimeReport.monthLabel}</span>
         </div>
         {parentTimeReport.totalTrackedDays === 0 ? (
-          <p className="text-sm text-stone-500 dark:text-stone-400">
+          <p className="text-sm text-stone-500">
             Nu există încă zile planificate în luna selectată.
           </p>
         ) : (
           <>
-            <div className="h-3 w-full rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden mb-3">
+            <div className="mb-3 h-3 w-full overflow-hidden rounded-full bg-stone-100">
               <div className="h-full bg-blue-500 float-left" style={{ width: `${parentTimeReport.tataPct}%` }} />
               <div className="h-full bg-pink-500 float-left" style={{ width: `${parentTimeReport.mamaPct}%` }} />
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-xl bg-stone-50 dark:bg-stone-800/50 px-3 py-2">
-                <p className="text-stone-500 dark:text-stone-400">Timp {parent1Name}</p>
-                <p className="font-semibold text-stone-800 dark:text-stone-100">
+              <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
+                <p className="text-stone-500">Timp {parent1Name}</p>
+                <p className="font-semibold text-stone-800">
                   {parentTimeReport.tataDays} zile
-                  <span className="text-stone-500 dark:text-stone-400 font-medium"> · {parentTimeReport.tataPct}%</span>
+                  <span className="font-medium text-stone-500"> · {parentTimeReport.tataPct}%</span>
                 </p>
               </div>
-              <div className="rounded-xl bg-stone-50 dark:bg-stone-800/50 px-3 py-2">
-                <p className="text-stone-500 dark:text-stone-400">Timp {parent2Name}</p>
-                <p className="font-semibold text-stone-800 dark:text-stone-100">
+              <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
+                <p className="text-stone-500">Timp {parent2Name}</p>
+                <p className="font-semibold text-stone-800">
                   {parentTimeReport.mamaDays} zile
-                  <span className="text-stone-500 dark:text-stone-400 font-medium"> · {parentTimeReport.mamaPct}%</span>
+                  <span className="font-medium text-stone-500"> · {parentTimeReport.mamaPct}%</span>
                 </p>
               </div>
             </div>
             {parentTimeReport.togetherDays > 0 && (
-              <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">
+              <p className="mt-2 text-xs text-stone-500">
                 Zile „cu toții”: {parentTimeReport.togetherDays} (împărțite 50/50 în procente).
               </p>
             )}
@@ -797,24 +838,24 @@ export function DashboardClient({
       </section>
       )}
       {activeTab === "program" && (
-      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 overflow-hidden">
+      <div className="app-native-surface overflow-hidden rounded-[2rem]">
         {proposalPreviewDays.length > 0 && (
-          <div className="px-4 py-2 border-b border-amber-200/70 dark:border-amber-800/60 bg-amber-50/60 dark:bg-amber-950/25 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#ecd8c5] bg-[#fff5eb] px-4 py-3">
             <div>
-              <p className="text-xs font-medium text-amber-800 dark:text-amber-200">
+              <p className="text-xs font-medium text-amber-800">
                 Preview propunere în calendar
               </p>
               {proposalWeekLabel && (
-                <p className="text-[11px] text-amber-700 dark:text-amber-300">{proposalWeekLabel}</p>
+                <p className="text-[11px] text-amber-700">{proposalWeekLabel}</p>
               )}
               <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
-                <span className="inline-flex items-center gap-1 rounded bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.5 text-blue-700 dark:text-blue-300">
+                <span className="inline-flex items-center gap-1 rounded bg-blue-100 px-1.5 py-0.5 text-blue-700">
                   {parent1Name.charAt(0).toUpperCase()} · {parent1Name}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded bg-pink-100 dark:bg-pink-900/40 px-1.5 py-0.5 text-pink-700 dark:text-pink-300">
+                <span className="inline-flex items-center gap-1 rounded bg-pink-100 px-1.5 py-0.5 text-pink-700">
                   {parent2Name.charAt(0).toUpperCase()} · {parent2Name}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded bg-amber-100 dark:bg-amber-900/40 px-1.5 py-0.5 text-amber-700 dark:text-amber-300">
+                <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
                   Î · Cu toții
                 </span>
               </div>
@@ -822,10 +863,10 @@ export function DashboardClient({
             <button
               type="button"
               onClick={() => setShowProposalPreview((v) => !v)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-medium border transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold border transition ${
                 showProposalPreview
-                  ? "bg-amber-500 text-white border-amber-500"
-                  : "bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border-stone-300 dark:border-stone-600"
+                  ? "bg-[#1f3a36] text-white border-[#1f3a36]"
+                  : "bg-white text-stone-700 border-[#d7c3af]"
               }`}
             >
               {showProposalPreview ? "Ascunde preview" : "Arată preview"}
@@ -835,10 +876,10 @@ export function DashboardClient({
         <button
           type="button"
           onClick={() => setCalendarExpanded((e) => !e)}
-          className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left hover:bg-stone-50 dark:hover:bg-stone-800/50 touch-manipulation"
+          className="w-full flex items-center justify-between gap-2 px-4 py-4 text-left hover:bg-white/40 touch-manipulation"
           aria-expanded={calendarExpanded}
         >
-          <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">
+          <span className="text-sm font-semibold text-stone-800">
             Calendar – {format(currentDate, "MMMM yyyy", { locale: ro })}
           </span>
           <svg
@@ -851,7 +892,7 @@ export function DashboardClient({
           </svg>
         </button>
         {calendarExpanded && (
-          <div className="border-t border-stone-200 dark:border-stone-700">
+          <div className="border-t border-[#ead9c8]">
             <Calendar
               currentDate={currentDate}
               onMonthChange={setCurrentDate}
@@ -873,20 +914,20 @@ export function DashboardClient({
       />
       )}
       {activeTab === "hub" && (
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Activități făcute de copil</h2>
+          <h2 className="text-base font-semibold text-stone-800">Activități făcute de copil</h2>
           {handoverEndedYesterday && (
             <button
               type="button"
               onClick={() => setShowEndPeriodModal(true)}
-              className="text-sm text-amber-600 dark:text-amber-400 font-medium hover:underline"
+              className="text-sm text-amber-700 font-medium hover:underline"
             >
               Adaugă activitate
             </button>
           )}
         </div>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+        <p className="text-xs text-stone-500 mb-3">
           Listă cumulată din perioadele anterioare, ca să evitați repetarea acelorași activități.
         </p>
         <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -895,24 +936,24 @@ export function DashboardClient({
             max={todayStr}
             value={retroActivityDate}
             onChange={(e) => setRetroActivityDate(e.target.value)}
-            className="rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+            className="app-native-input px-3 py-2 text-sm"
           />
           <button
             type="button"
             onClick={openRetroActivityModal}
-            className="rounded-xl border border-amber-300 dark:border-amber-700 px-3 py-2 text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30"
+            className="app-native-secondary-button px-4 py-2.5 text-sm font-semibold text-stone-700"
           >
             Adaugă retroactiv
           </button>
         </div>
         {activitiesSummary.length === 0 ? (
-          <p className="text-sm text-stone-500 dark:text-stone-400">Nu există activități înregistrate încă.</p>
+          <p className="text-sm text-stone-500">Nu există activități înregistrate încă.</p>
         ) : (
           <ul className="space-y-2">
             {activitiesSummary.map((a) => (
-              <li key={a.name} className="rounded-xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-700 px-3 py-2">
-                <p className="text-sm font-medium text-stone-800 dark:text-stone-200 capitalize">{a.name}</p>
-                <p className="text-xs text-stone-500 dark:text-stone-400">
+              <li key={a.name} className="rounded-[1.3rem] bg-white/82 border border-white/70 px-3 py-3">
+                <p className="text-sm font-medium text-stone-800 capitalize">{a.name}</p>
+                <p className="text-xs text-stone-500">
                   de {a.count} ori · ultima dată: {new Date(a.lastDate + "T12:00:00").toLocaleDateString("ro-RO")}
                 </p>
               </li>
@@ -922,9 +963,9 @@ export function DashboardClient({
       </section>
       )}
       {activeTab === "hub" && (
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-2">Materiale utile</h2>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
+        <h2 className="text-base font-semibold text-stone-800 mb-2">Materiale utile</h2>
+        <p className="text-xs text-stone-500 mb-3">
           Link-uri utile pentru continuitate între părinți (melodii, clipuri, cărți etc.).
         </p>
         <div className="grid gap-2 sm:grid-cols-3 mb-3">
@@ -933,42 +974,42 @@ export function DashboardClient({
             value={newLinkTitle}
             onChange={(e) => setNewLinkTitle(e.target.value)}
             placeholder="Titlu"
-            className="rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+            className="app-native-input px-3 py-2 text-sm"
           />
           <input
             type="url"
             value={newLinkUrl}
             onChange={(e) => setNewLinkUrl(e.target.value)}
             placeholder="https://..."
-            className="rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+            className="app-native-input px-3 py-2 text-sm"
           />
           <input
             type="text"
             value={newLinkCategory}
             onChange={(e) => setNewLinkCategory(e.target.value)}
             placeholder="Categorie (opțional)"
-            className="rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+            className="app-native-input px-3 py-2 text-sm"
           />
         </div>
         <button
           type="button"
           onClick={handleSaveLink}
           disabled={linksSaving || !newLinkTitle.trim() || !newLinkUrl.trim()}
-          className="mb-3 rounded-xl bg-amber-500 text-white px-4 py-2 text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
+          className="app-native-primary-button mb-3 px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
         >
           {linksSaving ? "Se salvează..." : "Adaugă link"}
         </button>
         {usefulLinks.length === 0 ? (
-          <p className="text-sm text-stone-500 dark:text-stone-400">Nu există materiale utile încă.</p>
+          <p className="text-sm text-stone-500">Nu există materiale utile încă.</p>
         ) : (
           <ul className="space-y-2">
             {usefulLinks.map((l) => (
-              <li key={l.id} className="rounded-xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-700 px-3 py-2 flex items-start justify-between gap-2">
+              <li key={l.id} className="rounded-[1.3rem] bg-white/82 border border-white/70 px-3 py-3 flex items-start justify-between gap-2">
                 <div>
-                  <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-amber-700 dark:text-amber-300 hover:underline">
+                  <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#1f3a36] hover:underline">
                     {l.title}
                   </a>
-                  {l.category && <p className="text-xs text-stone-500 dark:text-stone-400">{l.category}</p>}
+                  {l.category && <p className="text-xs text-stone-500">{l.category}</p>}
                 </div>
                 <button
                   type="button"
@@ -984,16 +1025,19 @@ export function DashboardClient({
       </section>
       )}
       {activeTab === "program" && (
-      <div>
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-          <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Calendar extins</p>
+            <h2 className="text-base font-semibold text-stone-800">
             {listTitle}
-          </h2>
+            </h2>
+          </div>
           {selectedDate && (
             <button
               type="button"
               onClick={() => setSelectedDate(null)}
-              className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline touch-manipulation"
+              className="app-native-secondary-button px-4 py-2 text-sm font-semibold text-stone-700 touch-manipulation"
             >
               Arată luna
             </button>
@@ -1036,7 +1080,7 @@ export function DashboardClient({
             emptyMessage="Niciun eveniment în această lună."
           />
         )}
-      </div>
+      </section>
       )}
       <EventViewModal
         isOpen={!!viewEvent}
@@ -1087,13 +1131,14 @@ export function DashboardClient({
           onClick={() => setInterruptModalOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-xl p-4"
+            className="app-native-surface-strong w-full max-w-md rounded-[2rem] p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400 mb-1">Situație excepțională</p>
+            <h3 className="text-base font-semibold text-stone-900 mb-1">
               Întrerupe perioada curentă
             </h3>
-            <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">
+            <p className="text-sm text-stone-500 mb-3">
               Aplicăm schimbarea din {new Date(currentParentPeriod.startDate + "T12:00:00").toLocaleDateString("ro-RO")} până la:
             </p>
             <input
@@ -1102,11 +1147,11 @@ export function DashboardClient({
               min={currentParentPeriod.startDate}
               max={currentParentPeriod.endDate}
               onChange={(e) => setInterruptUntilDate(e.target.value)}
-              className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm mb-3"
+              className="app-native-input mb-3 w-full px-3 py-2 text-sm"
             />
 
             <div className="space-y-2 mb-3">
-              <label className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300">
+              <label className="flex items-center gap-2 text-sm text-stone-700">
                 <input
                   type="radio"
                   name="interrupt-target"
@@ -1115,7 +1160,7 @@ export function DashboardClient({
                 />
                 Preia celălalt părinte
               </label>
-              <label className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300">
+              <label className="flex items-center gap-2 text-sm text-stone-700">
                 <input
                   type="radio"
                   name="interrupt-target"
@@ -1131,7 +1176,7 @@ export function DashboardClient({
                 value={interruptCaretaker}
                 onChange={(e) => setInterruptCaretaker(e.target.value)}
                 placeholder="Cine preia copilul?"
-                className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm mb-3"
+                className="app-native-input mb-3 w-full px-3 py-2 text-sm"
               />
             )}
 
@@ -1139,7 +1184,7 @@ export function DashboardClient({
               <button
                 type="button"
                 onClick={() => setInterruptModalOpen(false)}
-                className="flex-1 rounded-xl border border-stone-300 dark:border-stone-600 py-2 text-sm"
+                className="app-native-secondary-button flex-1 px-4 py-2.5 text-sm font-semibold text-stone-700"
               >
                 Renunță
               </button>
@@ -1147,7 +1192,7 @@ export function DashboardClient({
                 type="button"
                 onClick={handleInterruptPeriod}
                 disabled={interruptSaving}
-                className="flex-1 rounded-xl bg-amber-500 text-white py-2 text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
+                className="app-native-primary-button flex-1 px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
               >
                 {interruptSaving ? "Se aplică..." : "Aplică"}
               </button>

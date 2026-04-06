@@ -5,11 +5,12 @@ import Link from "next/link";
 
 const FOOTER_LINKS = {
   produs: [
-    { label: "Funcții", href: "#functionalitati" },
-    { label: "Cum merge", href: "#cum-functioneaza" },
-    { label: "Scenarii", href: "#scenarii" },
-    { label: "Prețuri", href: "#preturi" },
-    { label: "FAQ", href: "#intrebari" },
+    { label: "Funcții", href: "/#functionalitati" },
+    { label: "Cum merge", href: "/#cum-functioneaza" },
+    { label: "Scenarii", href: "/#scenarii" },
+    { label: "Blog", href: "/blog" },
+    { label: "Prețuri", href: "/#preturi" },
+    { label: "FAQ", href: "/#intrebari" },
   ],
   legal: [
     { label: "Termeni", href: "/terms" },
@@ -46,9 +47,9 @@ export function LandingFooter() {
               <ul className="mt-4 space-y-3">
                 {FOOTER_LINKS.produs.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
+                    <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

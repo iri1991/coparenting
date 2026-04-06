@@ -131,28 +131,35 @@ export function AddEventModal({
       aria-labelledby="modal-title"
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-stone-900 rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom duration-200"
+        className="app-native-surface-strong max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-[2rem] shadow-xl animate-in slide-in-from-bottom duration-200 sm:rounded-[2rem]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-700 px-4 py-3 flex items-center justify-between">
-          <h2 id="modal-title" className="text-lg font-semibold text-stone-800 dark:text-stone-100">
-            {editEvent ? "Editează eveniment" : "Adaugă eveniment"}
-          </h2>
+        <div className="sticky top-0 z-10 border-b border-[#ead9c8] bg-[rgba(255,249,243,0.92)] px-4 py-4 backdrop-blur">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
+                {editEvent ? "Actualizare" : "Program nou"}
+              </p>
+              <h2 id="modal-title" className="mt-1 text-lg font-semibold text-stone-900">
+                {editEvent ? "Editează eveniment" : "Adaugă eveniment"}
+              </h2>
+            </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 -m-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
+              className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 touch-manipulation"
             aria-label="Închide"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-4">
           <div className={`grid gap-3 ${!editEvent ? "grid-cols-1 min-[400px]:grid-cols-2" : "grid-cols-1"}`}>
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                 De la data
               </label>
               <input
@@ -160,12 +167,12 @@ export function AddEventModal({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="app-native-input w-full min-w-0 px-4 py-3 text-sm"
               />
             </div>
             {!editEvent && (
               <div className="min-w-0">
-                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                   Până la (opțional)
                 </label>
                 <input
@@ -173,10 +180,10 @@ export function AddEventModal({
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   min={date}
-                  className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                  className="app-native-input w-full min-w-0 px-4 py-3 text-sm"
                 />
                 {endDate && endDate >= date && (
-                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                  <p className="mt-1 text-xs text-stone-500">
                     Se creează evenimente pentru fiecare zi din interval.
                   </p>
                 )}
@@ -185,30 +192,30 @@ export function AddEventModal({
           </div>
           <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3">
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                 Ora start
               </label>
               <input
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="app-native-input w-full min-w-0 px-4 py-3 text-sm"
               />
             </div>
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                 Ora sfârșit
               </label>
               <input
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full min-w-0 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                className="app-native-input w-full min-w-0 px-4 py-3 text-sm"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               Cu cine e {labels.childName}
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -219,8 +226,8 @@ export function AddEventModal({
                   onClick={() => setParent(p)}
                   aria-label={labels.parentLabels[p]}
                   className={`
-                    flex items-center justify-center p-4 rounded-xl border-2 transition touch-manipulation
-                    ${parent === p ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40" : "border-stone-200 dark:border-stone-600 hover:border-stone-300"}
+                    flex items-center justify-center rounded-[1.3rem] border p-4 transition touch-manipulation
+                    ${parent === p ? "border-[#c87a5c] bg-[#fff4e9] shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 hover:bg-white/86"}
                   `}
                 >
                   <ParentIcon parent={p} size={28} />
@@ -229,7 +236,7 @@ export function AddEventModal({
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               Locație
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -239,8 +246,8 @@ export function AddEventModal({
                   type="button"
                   onClick={() => setLocation(loc)}
                   className={`
-                    px-3 py-2.5 rounded-xl border-2 text-center transition touch-manipulation text-sm font-medium
-                    ${location === loc ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-stone-800 dark:text-stone-200" : "border-stone-200 dark:border-stone-600 hover:border-stone-300 text-stone-600 dark:text-stone-400"}
+                    rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation
+                    ${location === loc ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
                   `}
                 >
                   {labels.locationLabels[loc]}
@@ -253,12 +260,12 @@ export function AddEventModal({
                 value={locationLabel}
                 onChange={(e) => setLocationLabel(e.target.value)}
                 placeholder="Ex: vacanță, bunici..."
-                className="mt-2 w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
+                className="app-native-input mt-2 w-full px-4 py-3 text-sm"
               />
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               Titlu (opțional)
             </label>
             <input
@@ -266,11 +273,11 @@ export function AddEventModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={displayLabel}
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
+              className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               Note (opțional)
             </label>
             <textarea
@@ -278,15 +285,15 @@ export function AddEventModal({
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
               placeholder="Detalii, ore, etc."
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 resize-none"
+              className="app-native-input w-full resize-none px-4 py-3 text-sm"
             />
           </div>
           {isEditingPastEvent && (
-            <div className="rounded-xl border border-amber-300/80 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700/70 p-3 space-y-2">
-              <p className="text-sm font-medium text-amber-900 dark:text-amber-300">
+            <div className="space-y-2 rounded-[1.5rem] border border-[#efcfb6] bg-[#fff5eb] p-4">
+              <p className="text-sm font-semibold text-[#9f5a40]">
                 Modificare excepțională pentru eveniment din trecut
               </p>
-              <label className="flex items-start gap-2 text-sm text-stone-700 dark:text-stone-300">
+              <label className="flex items-start gap-2 text-sm text-stone-700">
                 <input
                   type="checkbox"
                   checked={allowPastEdit}
@@ -297,7 +304,7 @@ export function AddEventModal({
                 Confirm că această modificare este necesară și va fi notificat celălalt părinte.
               </label>
               <div>
-                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
                   Motiv (obligatoriu)
                 </label>
                 <textarea
@@ -307,7 +314,7 @@ export function AddEventModal({
                   required
                   minLength={8}
                   rows={2}
-                  className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
+                  className="app-native-input w-full px-3 py-2 text-sm"
                 />
               </div>
             </div>
@@ -316,13 +323,13 @@ export function AddEventModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 rounded-xl border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-50 dark:hover:bg-stone-800 touch-manipulation"
+              className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 touch-manipulation"
             >
               Anulare
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 active:scale-[0.98] touch-manipulation"
+              className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold active:scale-[0.98] touch-manipulation"
             >
               {editEvent ? "Salvează" : "Adaugă"}
             </button>

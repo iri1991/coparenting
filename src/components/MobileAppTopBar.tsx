@@ -4,14 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AppLogo } from "@/components/AppLogo";
-import { Plus, Lock } from "lucide-react";
+import { ArrowLeft, Lock, Plus } from "lucide-react";
 
 interface MobileAppTopBarProps {
-  /** Pe `/` folosește butoane; în rest, link către `/?add=1` și `/?blocked=1`. */
   onAddClick?: () => void;
   onLockClick?: () => void;
-  /** Implicit: ascunde bara la scroll în jos (ca Instagram). Dezactivat pe chat (scroll intern). */
   hideOnScroll?: boolean;
+}
+
+function getTitle(pathname: string): { title: string; subtitle: string } {
+  if (pathname === "/chat") return { title: "Chat", subtitle: "Conversația voastră" };
+  if (pathname === "/account") return { title: "Cont", subtitle: "Date și configurare" };
+  return { title: "HomeSplit", subtitle: "spațiul familiei" };
 }
 
 export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }: MobileAppTopBarProps) {
@@ -20,9 +24,10 @@ export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }
   const [collapsed, setCollapsed] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+  const { title, subtitle } = getTitle(pathname);
 
   useEffect(() => {
-    if (!hideOnScroll) {
+    if (!hideOnScroll || !isHome) {
       setCollapsed(false);
       return;
     }
@@ -51,58 +56,66 @@ export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }
     lastScrollY.current = window.scrollY;
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [hideOnScroll]);
+  }, [hideOnScroll, isHome]);
 
-  const addButton = isHome && onAddClick ? (
-    <button
-      type="button"
-      onClick={onAddClick}
-      className="flex h-10 w-10 items-center justify-center rounded-xl text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
-      aria-label="Adaugă eveniment"
-    >
-      <Plus className="h-7 w-7 stroke-[2.5]" />
-    </button>
-  ) : (
-    <Link
-      href="/?add=1"
-      className="flex h-10 w-10 items-center justify-center rounded-xl text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
-      aria-label="Adaugă eveniment"
-    >
-      <Plus className="h-7 w-7 stroke-[2.5]" />
-    </Link>
-  );
+  const addButton =
+    isHome && onAddClick ? (
+      <button
+        type="button"
+        onClick={onAddClick}
+        className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1f3a36] text-white shadow-[0_14px_32px_rgba(31,58,54,0.18)] touch-manipulation"
+        aria-label="Adaugă eveniment"
+      >
+        <Plus className="h-5 w-5 stroke-[2.6]" />
+      </button>
+    ) : null;
 
-  const lockButton = isHome && onLockClick ? (
-    <button
-      type="button"
-      onClick={onLockClick}
-      className="flex h-10 w-10 items-center justify-center rounded-xl text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
-      aria-label="Zile blocate"
-    >
-      <Lock className="h-6 w-6 stroke-[2.5]" />
-    </button>
-  ) : (
-    <Link
-      href="/?blocked=1"
-      className="flex h-10 w-10 items-center justify-center rounded-xl text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 touch-manipulation"
-      aria-label="Zile blocate"
-    >
-      <Lock className="h-6 w-6 stroke-[2.5]" />
-    </Link>
-  );
+  const lockButton =
+    isHome && onLockClick ? (
+      <button
+        type="button"
+        onClick={onLockClick}
+        className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700 shadow-[0_12px_28px_rgba(28,25,23,0.08)] backdrop-blur touch-manipulation"
+        aria-label="Zile blocate"
+      >
+        <Lock className="h-5 w-5 stroke-[2.4]" />
+      </button>
+    ) : null;
 
   return (
     <header
-      className={`sm:hidden fixed left-0 right-0 top-0 z-[45] border-b border-stone-200/90 dark:border-stone-800/90 bg-white/92 dark:bg-stone-950/92 backdrop-blur-md safe-area-inset-top transition-transform duration-300 ease-out ${
+      className={`sm:hidden fixed inset-x-0 top-0 z-[45] px-4 pt-[max(0.75rem,env(safe-area-inset-top))] transition-transform duration-300 ease-out ${
         hideOnScroll && collapsed ? "-translate-y-full pointer-events-none" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-2">
-        <div className="flex w-14 shrink-0 justify-start">{addButton}</div>
-        <div className="flex flex-1 justify-center">
-          <AppLogo size={36} linkToHome className="h-9 w-9" />
+      <div className="mx-auto max-w-md">
+        <div className="app-native-glass flex items-center justify-between gap-3 rounded-[28px] px-3 py-2.5">
+          <div className="flex min-w-[2.75rem] justify-start">
+            {isHome ? (
+              lockButton ?? <div className="h-11 w-11" />
+            ) : (
+              <Link
+                href="/"
+                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700 shadow-[0_12px_28px_rgba(28,25,23,0.08)] backdrop-blur touch-manipulation"
+                aria-label="Înapoi acasă"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+            )}
+          </div>
+
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-3">
+            <AppLogo size={36} linkToHome={isHome} className="h-10 w-10 shrink-0" />
+            <div className="min-w-0 text-center">
+              <p className="truncate text-[15px] font-semibold tracking-tight text-stone-900">{title}</p>
+              <p className="truncate text-[11px] uppercase tracking-[0.18em] text-stone-500">{subtitle}</p>
+            </div>
+          </div>
+
+          <div className="flex min-w-[2.75rem] justify-end">
+            {isHome ? addButton ?? <div className="h-11 w-11" /> : <div className="h-11 w-11" />}
+          </div>
         </div>
-        <div className="flex w-14 shrink-0 justify-end">{lockButton}</div>
       </div>
     </header>
   );

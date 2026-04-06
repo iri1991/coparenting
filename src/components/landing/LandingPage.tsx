@@ -1,5 +1,3 @@
-"use client";
-
 import { LandingHeader } from "./LandingHeader";
 import { LandingHero } from "./LandingHero";
 import {
@@ -14,6 +12,7 @@ import {
 } from "./LandingSections";
 import { LandingGeoSection } from "./LandingGeoSection";
 import { LandingPricing } from "./LandingPricing";
+import { LandingBlogPreview } from "./LandingBlogPreview";
 import { LandingFAQ } from "./LandingFAQ";
 import { LandingFinalCTA } from "./LandingFinalCTA";
 import { LandingFooter } from "./LandingFooter";
@@ -42,6 +41,7 @@ export function LandingPage() {
         <LandingWhyUs />
         <LandingWebApp />
         <LandingSecurity />
+        <LandingBlogPreview />
         <LandingPricing />
         <LandingFAQ />
         <LandingGeoSection />

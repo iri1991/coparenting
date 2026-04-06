@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { CheckCheck, Reply, SendHorizontal } from "lucide-react";
 
 export interface ChatMessage {
   id: string;
@@ -126,135 +127,142 @@ export function ChatClient({
   }, [input, sending, replyTo, currentUserId]);
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-stone-100 dark:bg-stone-950">
-      {/* Listă scrollabilă – ocupă tot spațiul rămas */}
+    <div className="flex min-h-0 flex-1 flex-col">
       <div
-        className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain px-3 py-3 space-y-3"
+        className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-4 pb-4 pt-3"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
-        {messages.length === 0 && (
-          <p className="text-center text-stone-500 dark:text-stone-400 text-sm py-8">
-            Niciun mesaj încă. Scrie un mesaj pentru a începe conversația cu celălalt părinte.
-          </p>
-        )}
-        {messages.map((m) => {
-          const isMe = m.senderId === currentUserId;
-          return (
-            <div
-              key={m.id}
-              className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}
-            >
-              <span className="text-xs text-stone-500 dark:text-stone-400 mb-0.5">
-                {isMe ? "Tu" : m.senderLabel}
-              </span>
-              <div
-                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[15px] leading-snug ${
-                  isMe
-                    ? "bg-amber-500 text-white rounded-br-md"
-                    : "bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-bl-md shadow-sm border border-stone-100 dark:border-stone-700"
-                }`}
-              >
-                {m.replyTo && (
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+          {messages.length === 0 && (
+            <div className="app-native-surface mx-auto max-w-md rounded-[2rem] px-5 py-8 text-center">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Conversație</p>
+              <p className="mt-2 text-base font-semibold text-stone-900">Niciun mesaj încă</p>
+              <p className="mt-1 text-sm leading-6 text-stone-500">
+                Scrie primul mesaj ca să rămâneți aliniați fără telefoane sau explicații repetate.
+              </p>
+            </div>
+          )}
+
+          {messages.map((m) => {
+            const isMe = m.senderId === currentUserId;
+            return (
+              <div key={m.id} className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}>
+                <div className={`max-w-[88%] sm:max-w-[78%] ${isMe ? "items-end" : "items-start"} flex flex-col`}>
+                  <span className="mb-1 px-1 text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
+                    {isMe ? "Tu" : m.senderLabel}
+                  </span>
                   <div
-                    className={`mb-1.5 rounded-lg px-2.5 py-1.5 text-xs border ${
+                    className={`rounded-[1.8rem] px-4 py-3 shadow-[0_14px_32px_rgba(28,25,23,0.07)] ${
                       isMe
-                        ? "bg-white/20 border-white/30 text-white/90"
-                        : "bg-stone-50 dark:bg-stone-700/60 border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-300"
+                        ? "bg-[linear-gradient(180deg,#22453f_0%,#19332f_100%)] text-white rounded-br-[0.7rem]"
+                        : "app-native-surface text-stone-900 rounded-bl-[0.7rem]"
                     }`}
                   >
-                    <p className="font-semibold">{m.replyTo.senderId === currentUserId ? "Tu" : m.replyTo.senderLabel}</p>
-                    <p className="max-h-10 overflow-hidden whitespace-pre-wrap break-words">{m.replyTo.text}</p>
+                    {m.replyTo && (
+                      <div
+                        className={`mb-2 rounded-[1rem] border px-3 py-2 text-xs ${
+                          isMe
+                            ? "border-white/18 bg-white/12 text-white/85"
+                            : "border-[#ecd8c5] bg-[#f8f1e8] text-stone-600"
+                        }`}
+                      >
+                        <p className="font-semibold">{m.replyTo.senderId === currentUserId ? "Tu" : m.replyTo.senderLabel}</p>
+                        <p className="max-h-10 overflow-hidden whitespace-pre-wrap break-words">{m.replyTo.text}</p>
+                      </div>
+                    )}
+                    <p className="whitespace-pre-wrap break-words text-[15px] leading-6">{m.text}</p>
                   </div>
-                )}
-                <p className="whitespace-pre-wrap break-words">{m.text}</p>
+
+                  <div className="mt-1.5 flex items-center gap-2 px-1">
+                    <button
+                      type="button"
+                      onClick={() => setReplyTo(m)}
+                      className="inline-flex items-center gap-1 rounded-full bg-white/60 px-2.5 py-1 text-[11px] font-semibold text-stone-500 shadow-[0_8px_20px_rgba(28,25,23,0.05)]"
+                    >
+                      <Reply className="h-3.5 w-3.5" />
+                      Răspunde
+                    </button>
+                    <span className="text-xs text-stone-400">
+                      {new Date(m.createdAt).toLocaleString("ro-RO", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                    {isMe && m.seenByOther && (
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
+                        <CheckCheck className="h-3.5 w-3.5" />
+                        Văzut
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setReplyTo(m)}
-                className="mt-1 text-[11px] text-stone-500 dark:text-stone-400 hover:underline"
-              >
-                Reply
-              </button>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-xs text-stone-400 dark:text-stone-500">
-                  {new Date(m.createdAt).toLocaleString("ro-RO", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-                {isMe && m.seenByOther && (
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                    Seen
-                  </span>
-                )}
-              </div>
-            </div>
-          );
-        })}
-        <div ref={listEndRef} />
+            );
+          })}
+          <div ref={listEndRef} />
+        </div>
       </div>
 
-      {/* Fără <form>: pe iOS Safari, form + input + submit afișează bara de navigare între câmpuri deasupra tastaturii. */}
-      <div
-        className="shrink-0 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-stone-100 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800"
-      >
-        {replyTo && (
-          <div className="mb-2 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2 flex items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold text-amber-700 dark:text-amber-300">
-                Reply către {replyTo.senderId === currentUserId ? "tine" : replyTo.senderLabel}
-              </p>
-              <p className="text-xs text-stone-700 dark:text-stone-300 max-h-10 overflow-hidden whitespace-pre-wrap break-words">
-                {replyTo.text}
-              </p>
+      <div className="shrink-0 px-4 pb-[max(0.85rem,env(safe-area-inset-bottom))] pt-2">
+        <div className="mx-auto w-full max-w-3xl">
+          <div className="app-native-glass rounded-[2rem] p-3">
+            {replyTo && (
+              <div className="mb-3 flex items-start justify-between gap-2 rounded-[1.35rem] border border-[#ecd8c5] bg-[#fff5eb] px-3 py-2.5">
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#b85c3e]">
+                    Răspuns către {replyTo.senderId === currentUserId ? "tine" : replyTo.senderLabel}
+                  </p>
+                  <p className="mt-1 max-h-10 overflow-hidden whitespace-pre-wrap break-words text-sm text-stone-600">
+                    {replyTo.text}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setReplyTo(null)}
+                  className="rounded-full bg-white/80 px-2 py-1 text-xs font-semibold text-stone-500"
+                  aria-label="Anulează reply"
+                >
+                  Închide
+                </button>
+              </div>
+            )}
+
+            {error && <p className="mb-2 text-xs text-red-600">{error}</p>}
+
+            <div className="flex items-end gap-2">
+              <input
+                type="text"
+                enterKeyHint="send"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    void sendMessage();
+                  }
+                }}
+                placeholder="Scrie un mesaj clar și scurt"
+                maxLength={2000}
+                className="app-native-input flex-1 min-w-0 px-4 py-3 text-base"
+                style={{ fontSize: "16px" }}
+                disabled={sending}
+                autoComplete="off"
+                autoCorrect="on"
+                autoCapitalize="sentences"
+              />
+              <button
+                type="button"
+                onClick={() => void sendMessage()}
+                disabled={sending || !input.trim()}
+                className="app-native-primary-button flex h-12 w-12 shrink-0 items-center justify-center disabled:opacity-50 disabled:pointer-events-none"
+                aria-label="Trimite"
+              >
+                <SendHorizontal className="h-5 w-5" />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => setReplyTo(null)}
-              className="text-xs text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-              aria-label="Anulează reply"
-            >
-              ✕
-            </button>
           </div>
-        )}
-        {error && (
-          <p className="text-red-600 dark:text-red-400 text-xs mb-2">{error}</p>
-        )}
-        <div className="flex gap-2 items-end">
-          <input
-            type="text"
-            enterKeyHint="send"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                void sendMessage();
-              }
-            }}
-            placeholder="Mesaj"
-            maxLength={2000}
-            className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 text-base focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
-            style={{ fontSize: "16px" }}
-            disabled={sending}
-            autoComplete="off"
-            autoCorrect="on"
-            autoCapitalize="sentences"
-          />
-          <button
-            type="button"
-            onClick={() => void sendMessage()}
-            disabled={sending || !input.trim()}
-            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 disabled:pointer-events-none touch-manipulation"
-            aria-label="Trimite"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-          </button>
         </div>
       </div>
     </div>

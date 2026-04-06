@@ -118,10 +118,11 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
   const proposal = data.proposal;
   if (!proposal && data.upgradeMessage) {
     return (
-      <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 p-4">
-        <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1">Propunere program săptămână</h3>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mb-2">{data.upgradeMessage}</p>
-        <p className="text-xs text-stone-500 dark:text-stone-500 mb-3">Planul Pro include propunerea automată în fiecare duminică.</p>
+      <div className="app-native-surface rounded-[2rem] p-4 sm:p-5">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">Plan Pro</p>
+        <h3 className="mt-2 text-base font-semibold text-stone-900">Propunere program săptămână</h3>
+        <p className="mt-2 text-sm text-stone-600">{data.upgradeMessage}</p>
+        <p className="mb-3 mt-1 text-xs text-stone-500">Planul Pro include propunerea automată în fiecare duminică.</p>
         <UpgradeCta variant="button" />
       </div>
     );
@@ -132,25 +133,28 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
   const renderDays = editing ? editableDays : days;
 
   return (
-    <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 p-4">
-      <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1">
-        Propunere program săptămâna următoare
-      </h3>
-      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">{weekLabel}</p>
-      <ul className="space-y-1.5 mb-4">
+    <div className="app-native-surface-strong rounded-[2rem] p-4 sm:p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">Propunere automată</p>
+          <h3 className="mt-1 text-base font-semibold text-stone-900">Program pentru săptămâna următoare</h3>
+        </div>
+        <span className="rounded-full bg-white/70 px-3 py-1 text-[11px] font-medium text-stone-500">{weekLabel}</span>
+      </div>
+      <ul className="mb-4 mt-4 space-y-2">
         {renderDays.map((day, idx) => (
           <li
             key={day.date}
-            className="flex items-center justify-between text-sm text-stone-700 dark:text-stone-300"
+            className="flex items-center justify-between gap-3 rounded-[1.2rem] bg-white/76 px-3 py-3 text-sm text-stone-700"
           >
-            <span className="font-medium">
+            <span className="font-medium text-stone-800">
               {format(new Date(day.date + "T12:00:00"), "EEEE, d MMM", { locale: ro })}
             </span>
             {editing ? (
               <button
                 type="button"
                 onClick={() => cycleParent(idx)}
-                className="rounded-lg border border-stone-300 dark:border-stone-600 px-2 py-1 text-xs font-medium hover:bg-stone-100 dark:hover:bg-stone-800"
+                className="app-native-secondary-button px-3 py-1.5 text-xs font-semibold text-stone-700"
                 title="Apasă pentru a schimba: tata → mama → cu toții"
               >
                 {parentLabels[day.parent] ?? day.parent}
@@ -167,7 +171,7 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             type="button"
             onClick={cancelEdit}
             disabled={savingEdit}
-            className="flex-1 py-2.5 px-4 rounded-xl border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-50"
+            className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
           >
             Renunță
           </button>
@@ -175,13 +179,13 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             type="button"
             onClick={saveEdit}
             disabled={savingEdit}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 text-white font-medium text-sm hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50"
           >
             {savingEdit ? "Se salvează…" : "Salvează modificarea"}
           </button>
         </div>
       ) : myApproved ? (
-        <p className="text-sm text-amber-700 dark:text-amber-300">
+        <p className="rounded-[1.2rem] bg-[#fff4e9] px-3 py-3 text-sm text-[#9f5a40]">
           {otherApproved
             ? "Ambele aprobări au fost înregistrate. Programul se aplică automat."
             : "Ai aprobat. Așteptăm aprobarea celuilalt părinte."}
@@ -192,7 +196,7 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             type="button"
             onClick={startEdit}
             disabled={approving}
-            className="flex-1 py-2.5 px-4 rounded-xl border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium text-sm hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-50"
+            className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
           >
             Modifică propunerea
           </button>
@@ -200,7 +204,7 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             type="button"
             onClick={handleApprove}
             disabled={approving}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 text-white font-medium text-sm hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50"
           >
             {approving ? "Se înregistrează…" : "Aprob programul"}
           </button>

@@ -104,25 +104,28 @@ export function Calendar({
   }
 
   return (
-    <div className="bg-white dark:bg-stone-900 rounded-2xl shadow-lg border border-stone-200 dark:border-stone-700 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-700">
+    <div className="px-4 py-4 sm:px-5 sm:py-5">
+      <div className="flex items-center justify-between gap-3 border-b border-[#ead9c8] pb-4">
         <button
           type="button"
           onClick={() => onMonthChange(addDays(currentDate, -30))}
-          className="p-2 -m-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 touch-manipulation"
+          className="app-native-icon-button flex h-11 w-11 items-center justify-center rounded-2xl text-stone-600 active:scale-95 touch-manipulation"
           aria-label="Luna anterioară"
         >
           <svg className="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 capitalize">
-          {format(currentDate, "MMMM yyyy", { locale: ro })}
-        </h2>
+        <div className="min-w-0 flex-1 text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Calendar</p>
+          <h2 className="truncate text-lg font-semibold capitalize tracking-tight text-stone-900">
+            {format(currentDate, "MMMM yyyy", { locale: ro })}
+          </h2>
+        </div>
         <button
           type="button"
           onClick={() => onMonthChange(addDays(currentDate, 30))}
-          className="p-2 -m-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 touch-manipulation"
+          className="app-native-icon-button flex h-11 w-11 items-center justify-center rounded-2xl text-stone-600 active:scale-95 touch-manipulation"
           aria-label="Luna următoare"
         >
           <svg className="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,15 +133,15 @@ export function Calendar({
           </svg>
         </button>
       </div>
-      <div className="p-2">
-        <div className="grid grid-cols-7 gap-0.5 text-center text-xs font-medium text-stone-500 dark:text-stone-400 mb-1">
+      <div className="mt-4">
+        <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
           {["Lu", "Ma", "Mi", "Jo", "Vi", "Sâ", "Du"].map((d) => (
             <div key={d} className="py-1">
               {d}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-0.5">
+        <div className="grid grid-cols-7 gap-1.5">
           {weeks.flatMap((week) =>
             week.map((date) => {
               const dayEvents = getEventsForDay(date);
@@ -153,29 +156,30 @@ export function Calendar({
                   type="button"
                   onClick={() => onSelectDate(date)}
                   className={`
-                    min-h-[44px] sm:min-h-[52px] rounded-xl flex flex-col items-center justify-center gap-0.5
-                    touch-manipulation active:scale-95 transition
-                    ${!inMonth ? "text-stone-300 dark:text-stone-600" : "text-stone-800 dark:text-stone-200"}
-                    ${selected ? "ring-2 ring-amber-500 bg-amber-100 dark:bg-amber-900/40" : "hover:bg-stone-100 dark:hover:bg-stone-800"}
-                    ${today && !selected ? "bg-amber-100/50 dark:bg-amber-900/20 font-semibold" : ""}
+                    min-h-[64px] rounded-[1.25rem] border px-1 py-2
+                    flex flex-col items-center justify-center gap-1 touch-manipulation transition active:scale-[0.97]
+                    ${!inMonth ? "border-transparent bg-white/28 text-stone-300" : "border-white/70 bg-white/74 text-stone-800 shadow-[0_10px_22px_rgba(28,25,23,0.05)]"}
+                    ${selected ? "border-[#c87a5c] bg-[linear-gradient(180deg,rgba(255,243,231,0.96)_0%,rgba(255,251,247,0.92)_100%)] shadow-[0_16px_34px_rgba(184,92,62,0.12)]" : ""}
+                    ${today && !selected ? "ring-2 ring-[#d9b89d]/60" : ""}
+                    ${!selected && inMonth ? "hover:bg-white/88" : ""}
                   `}
                 >
-                  <span className="text-sm">{format(date, "d")}</span>
-                  <div className="flex gap-0.5 flex-wrap justify-center max-w-full items-center">
+                  <span className={`text-sm font-semibold ${today ? "text-[#b85c3e]" : ""}`}>{format(date, "d")}</span>
+                  <div className="flex max-w-full flex-wrap items-center justify-center gap-0.5">
                     {dayEvents.slice(0, 2).map((e) => (
                       <span
                         key={e.id}
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
+                        className="h-1.5 w-1.5 shrink-0 rounded-full"
                         style={{ backgroundColor: getEventColor(e) }}
                         title={e.title || getEventDisplayLabelWithLabels(e, labels)}
                       />
                     ))}
                     {dayEvents.length > 2 && (
-                      <span className="text-[10px] text-stone-400">+{dayEvents.length - 2}</span>
+                      <span className="text-[10px] font-semibold text-stone-400">+{dayEvents.length - 2}</span>
                     )}
                     {proposal && (
                       <span
-                        className={`text-[10px] font-semibold px-1 rounded ${getProposalBadge(proposal).cls}`}
+                        className={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${getProposalBadge(proposal).cls}`}
                         title={`Propunere: ${labels.parentLabels[proposal.parent] ?? proposal.parent} · ${labels.locationLabels[proposal.location] ?? proposal.location}`}
                       >
                         {getProposalBadge(proposal).label}
@@ -183,7 +187,7 @@ export function Calendar({
                     )}
                     {blockedLabels.length > 0 && (
                       <span
-                        className="text-[10px] font-medium text-stone-400 dark:text-stone-500 px-1"
+                        className="px-1 text-[10px] font-medium text-stone-400"
                         title={`Blocat: ${blockedLabels.join(", ")}`}
                       >
                         🔒 {blockedLabels.join("")}

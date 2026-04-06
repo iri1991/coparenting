@@ -15,7 +15,6 @@ interface EventListProps {
   onView?: (event: ScheduleEvent) => void;
   onEdit?: (event: ScheduleEvent) => void;
   onDelete?: (event: ScheduleEvent) => void;
-  /** Dacă e fals pentru un eveniment, butoanele Editează/Șterge sunt ascunse (evenimente din trecut). */
   canEditEvent?: (event: ScheduleEvent) => boolean;
   emptyMessage?: string;
 }
@@ -35,9 +34,7 @@ export function EventList({
   const sorted = [...events].sort((a, b) => {
     const d = new Date(a.date).getTime() - new Date(b.date).getTime();
     if (d !== 0) return d;
-    const aTime = a.startTime ?? "";
-    const bTime = b.startTime ?? "";
-    return aTime.localeCompare(bTime);
+    return (a.startTime ?? "").localeCompare(b.startTime ?? "");
   });
 
   const visible = sorted.slice(0, visibleCount);
@@ -46,7 +43,7 @@ export function EventList({
 
   if (sorted.length === 0) {
     return (
-      <p className="text-stone-500 dark:text-stone-400 text-center py-8 text-sm">
+      <p className="rounded-[1.6rem] border border-dashed border-[#ddc9b4] bg-white/55 px-4 py-8 text-center text-sm text-stone-500">
         {emptyMessage}
       </p>
     );
@@ -54,88 +51,91 @@ export function EventList({
 
   return (
     <div className="space-y-3">
-      <ul className="space-y-2">
-      {visible.map((event) => (
-        <li
-          key={event.id}
-          role={onView ? "button" : undefined}
-          tabIndex={onView ? 0 : undefined}
-          onClick={onView ? () => onView(event) : undefined}
-          onKeyDown={
-            onView
-              ? (e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    onView(event);
+      <ul className="space-y-2.5">
+        {visible.map((event) => (
+          <li
+            key={event.id}
+            role={onView ? "button" : undefined}
+            tabIndex={onView ? 0 : undefined}
+            onClick={onView ? () => onView(event) : undefined}
+            onKeyDown={
+              onView
+                ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onView(event);
+                    }
                   }
-                }
-              : undefined
-          }
-          className={`flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm ${onView ? "cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation" : ""}`}
-        >
-          <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-800">
-            <ParentIcon parent={event.parent} size={20} aria-label={getDisplayLabel(event)} />
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-stone-800 dark:text-stone-100 truncate">
-              {event.title || getDisplayLabel(event)}
-            </p>
-            <p className="text-sm text-stone-500 dark:text-stone-400">
-              {format(parseISO(event.date), "EEEE, d MMMM", { locale: ro })}
-              {(event.startTime || event.endTime) && (
-                <span className="ml-1 font-medium text-stone-600 dark:text-stone-300">
-                  {event.startTime && event.endTime
-                    ? ` • ${event.startTime} – ${event.endTime}`
-                    : event.startTime
-                      ? ` • ${event.startTime}`
-                      : event.endTime
-                        ? ` – ${event.endTime}`
-                        : ""}
-                </span>
-              )}
-            </p>
-            {event.notes && (
-              <p className="text-sm text-stone-600 dark:text-stone-300 mt-1 line-clamp-2">
-                {event.notes}
+                : undefined
+            }
+            className={`app-native-surface flex items-center gap-3 rounded-[1.6rem] p-3.5 ${
+              onView ? "cursor-pointer hover:bg-white/90 active:scale-[0.99] touch-manipulation" : ""
+            }`}
+          >
+            <span className="shrink-0 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f6eee5]">
+              <ParentIcon parent={event.parent} size={20} aria-label={getDisplayLabel(event)} />
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-semibold text-stone-900">
+                {event.title || getDisplayLabel(event)}
               </p>
-            )}
-          </div>
-          {(onEdit || onDelete) && (canEditEvent == null || canEditEvent(event)) && (
-            <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
-              {onEdit && (
-                <button
-                  type="button"
-                  onClick={() => onEdit(event)}
-                  className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 touch-manipulation"
-                  aria-label="Editează"
-                >
-                  <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-              )}
-              {onDelete && (
-                <button
-                  type="button"
-                  onClick={() => onDelete(event)}
-                  className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 active:scale-95 touch-manipulation"
-                  aria-label="Șterge"
-                >
-                  <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
+              <p className="text-sm text-stone-500">
+                {format(parseISO(event.date), "EEEE, d MMMM", { locale: ro })}
+                {(event.startTime || event.endTime) && (
+                  <span className="ml-1 font-medium text-stone-700">
+                    {event.startTime && event.endTime
+                      ? ` • ${event.startTime} – ${event.endTime}`
+                      : event.startTime
+                        ? ` • ${event.startTime}`
+                        : event.endTime
+                          ? ` – ${event.endTime}`
+                          : ""}
+                  </span>
+                )}
+              </p>
+              {event.notes && (
+                <p className="mt-1 line-clamp-2 text-sm text-stone-600">{event.notes}</p>
               )}
             </div>
-          )}
-        </li>
-      ))}
-    </ul>
+
+            {(onEdit || onDelete) && (canEditEvent == null || canEditEvent(event)) && (
+              <div className="shrink-0 flex gap-1" onClick={(e) => e.stopPropagation()}>
+                {onEdit && (
+                  <button
+                    type="button"
+                    onClick={() => onEdit(event)}
+                    className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 active:scale-95 touch-manipulation"
+                    aria-label="Editează"
+                  >
+                    <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    type="button"
+                    onClick={() => onDelete(event)}
+                    className="rounded-2xl border border-red-100 bg-white/72 p-2.5 text-red-600 shadow-[0_12px_28px_rgba(28,25,23,0.06)] active:scale-95 touch-manipulation"
+                    aria-label="Șterge"
+                  >
+                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+
       {hasMore && (
         <button
           type="button"
           onClick={() => setVisibleCount((c) => Math.min(c + EXPAND_BY, sorted.length))}
-          className="w-full py-2.5 px-4 rounded-xl border border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-400 text-sm font-medium hover:bg-stone-50 dark:hover:bg-stone-800/50 active:scale-[0.99] touch-manipulation"
+          className="app-native-secondary-button w-full px-4 py-3 text-sm font-semibold text-stone-700 active:scale-[0.99] touch-manipulation"
         >
           Arată mai multe {remaining > 0 ? `(+${Math.min(EXPAND_BY, remaining)})` : ""}
         </button>

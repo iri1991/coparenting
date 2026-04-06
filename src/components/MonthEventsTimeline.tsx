@@ -13,7 +13,6 @@ interface MonthEventsTimelineProps {
   onView?: (event: ScheduleEvent) => void;
   onEdit?: (event: ScheduleEvent) => void;
   onDelete?: (event: ScheduleEvent) => void;
-  /** Dacă e fals pentru un eveniment, butoanele Editează/Șterge sunt ascunse (evenimente din trecut). */
   canEditEvent?: (event: ScheduleEvent) => boolean;
   onSelectDate?: (date: Date) => void;
   emptyMessage?: string;
@@ -43,31 +42,29 @@ function EventCard({
       onClick={onView ? () => onView(event) : undefined}
       onKeyDown={onView ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onView(event); } } : undefined}
       className={`
-        group flex items-center gap-3 p-3 rounded-2xl border backdrop-blur-[1px]
+        group flex items-center gap-3 rounded-[1.5rem] border p-3 backdrop-blur-[1px]
         ${onView ? "cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.995] touch-manipulation" : ""}
         ${
           isTodayRow
-            ? "border-amber-300/80 dark:border-amber-700/70 bg-gradient-to-r from-amber-50 to-white dark:from-amber-950/30 dark:to-stone-900"
-            : "border-stone-200/80 dark:border-stone-700/70 bg-white/95 dark:bg-stone-900/95 shadow-sm"
+            ? "border-[#efcfb6] bg-gradient-to-r from-[#fff5eb] to-white"
+            : "border-white/70 bg-white/78 shadow-[0_12px_26px_rgba(28,25,23,0.05)]"
         }
       `}
     >
       <span
-        className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${
-          isTodayRow
-            ? "bg-amber-100 dark:bg-amber-900/40 ring-1 ring-amber-300/70 dark:ring-amber-700/60"
-            : "bg-stone-100 dark:bg-stone-800"
+        className={`shrink-0 flex h-9 w-9 items-center justify-center rounded-xl ${
+          isTodayRow ? "bg-[#fff1df] ring-1 ring-[#efcfb6]" : "bg-[#f6eee5]"
         }`}
       >
         <ParentIcon parent={event.parent} size={18} aria-label={getDisplayLabel(event)} />
       </span>
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold text-stone-800 dark:text-stone-100 truncate text-sm tracking-tight">
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-semibold tracking-tight text-stone-900">
           {event.title || getDisplayLabel(event)}
         </p>
-        <p className="text-xs text-stone-500 dark:text-stone-400">
+        <p className="text-xs text-stone-500">
           {(event.startTime || event.endTime) && (
-            <span className="font-medium text-stone-600 dark:text-stone-300">
+            <span className="font-medium text-stone-700">
               {event.startTime && event.endTime ? `${event.startTime} – ${event.endTime}` : event.startTime || event.endTime || ""}
             </span>
           )}
@@ -75,19 +72,19 @@ function EventCard({
         </p>
       </div>
       {(onEdit || onDelete) && canEdit !== false && (
-        <div className="flex gap-1 shrink-0 opacity-90 group-hover:opacity-100" onClick={(e) => e.stopPropagation()}>
+        <div className="shrink-0 flex gap-1 opacity-90 group-hover:opacity-100" onClick={(e) => e.stopPropagation()}>
           {onEdit && (
             <button
               type="button"
               onClick={() => onEdit(event)}
-              className="p-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+              className="app-native-icon-button rounded-xl p-1.5 transition"
               aria-label="Editează"
             >
               <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             </button>
           )}
           {onDelete && (
-            <button type="button" onClick={() => onDelete(event)} className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30" aria-label="Șterge">
+            <button type="button" onClick={() => onDelete(event)} className="rounded-xl border border-red-100 bg-white/80 p-1.5" aria-label="Șterge">
               <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
             </button>
           )}
@@ -174,10 +171,10 @@ export function MonthEventsTimeline({
   }, [currentDate]);
 
   if (daysInMonth.length === 0) {
-    return <p className="text-stone-500 dark:text-stone-400 text-center py-8 text-sm">{emptyMessage}</p>;
+    return <p className="rounded-[1.6rem] border border-dashed border-[#ddc9b4] bg-white/55 px-4 py-8 text-center text-sm text-stone-500">{emptyMessage}</p>;
   }
 
-  function renderDayRow(day: Date, isFocus: boolean) {
+  function renderDayRow(day: Date) {
     const dateStr = format(day, "yyyy-MM-dd");
     const dayEvents = eventsByDate.get(dateStr) ?? [];
     const isTodayRow = isToday(day);
@@ -185,40 +182,45 @@ export function MonthEventsTimeline({
       <div
         key={dateStr}
         ref={isTodayRow ? todayRef : null}
-        className={`relative flex gap-3 sm:gap-4 py-3 min-h-[52px] ${
+        className={`relative flex min-h-[52px] gap-3 py-3 sm:gap-4 ${
           isTodayRow
-            ? "rounded-2xl bg-gradient-to-r from-amber-50/90 to-amber-100/40 dark:from-amber-950/35 dark:to-stone-900/30 ring-2 ring-amber-300/70 dark:ring-amber-600/50 ring-offset-2 ring-offset-white dark:ring-offset-stone-900 -mx-1 px-3 sm:px-4 shadow-sm"
+            ? "rounded-[1.8rem] bg-gradient-to-r from-[#fff5eb] to-[#fffaf5] ring-2 ring-[#efcfb6] ring-offset-2 ring-offset-[#f7f1e9] -mx-1 px-3 shadow-[0_16px_34px_rgba(184,92,62,0.08)] sm:px-4"
             : ""
         }`}
       >
-        <div className="shrink-0 flex flex-col items-center w-12 sm:w-14 pt-0.5">
+        <div className="w-12 shrink-0 pt-0.5 sm:w-14">
           <button
             type="button"
             onClick={() => onSelectDate?.(day)}
-            className={`flex flex-col items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 transition ${
+            className={`flex h-11 w-11 flex-col items-center justify-center rounded-full border-2 transition sm:h-12 sm:w-12 ${
               isTodayRow
-                ? "border-amber-500 bg-gradient-to-b from-amber-500 to-amber-600 text-white font-bold shadow-md"
-                : "border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:border-stone-300 dark:hover:border-stone-500"
+                ? "border-[#b85c3e] bg-gradient-to-b from-[#c87a5c] to-[#b85c3e] font-bold text-white shadow-md"
+                : "border-white/70 bg-white/82 hover:border-[#ddc9b4]"
             }`}
           >
-            <span
-              className={`text-xs font-medium uppercase tracking-wider leading-tight ${
-                isTodayRow ? "text-amber-100" : "text-stone-500 dark:text-stone-400"
-              }`}
-            >
+            <span className={`text-xs font-medium uppercase tracking-wider leading-tight ${isTodayRow ? "text-amber-100" : "text-stone-500"}`}>
               {format(day, "EEE", { locale: ro })}
             </span>
-            <span className={`text-sm font-semibold tabular-nums ${isTodayRow ? "text-white" : "text-stone-800 dark:text-stone-200"}`}>{format(day, "d")}</span>
+            <span className={`text-sm font-semibold tabular-nums ${isTodayRow ? "text-white" : "text-stone-800"}`}>{format(day, "d")}</span>
           </button>
-          {isTodayRow && <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">Azi</span>}
+          {isTodayRow && <span className="mt-1 block text-center text-[10px] font-semibold uppercase tracking-wider text-[#b85c3e]">Azi</span>}
         </div>
-        <div className="flex-1 min-w-0 pt-1">
+        <div className="min-w-0 flex-1 pt-1">
           {dayEvents.length === 0 ? (
-            <div className="text-stone-400 dark:text-stone-500 text-sm py-1">—</div>
+            <div className="py-1 text-sm text-stone-400">—</div>
           ) : (
             <ul className="space-y-2">
               {dayEvents.map((event) => (
-                <EventCard key={event.id} event={event} isTodayRow={isTodayRow} onView={onView} onEdit={onEdit} onDelete={onDelete} canEdit={canEditEvent ? canEditEvent(event) : true} getDisplayLabel={getDisplayLabel} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  isTodayRow={isTodayRow}
+                  onView={onView}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  canEdit={canEditEvent ? canEditEvent(event) : true}
+                  getDisplayLabel={getDisplayLabel}
+                />
               ))}
             </ul>
           )}
@@ -232,17 +234,17 @@ export function MonthEventsTimeline({
       <button
         type="button"
         onClick={onClick}
-        className="relative flex gap-3 sm:gap-4 py-3 w-full text-left items-center rounded-2xl border border-stone-200/80 dark:border-stone-700/80 bg-stone-50/80 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+        className="relative flex w-full items-center gap-3 rounded-[1.6rem] border border-white/70 bg-white/72 py-3 text-left shadow-[0_10px_24px_rgba(28,25,23,0.04)] transition"
       >
-        <div className="shrink-0 flex items-center justify-center w-12 sm:w-14">
-          <span className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-dashed border-stone-300 dark:border-stone-600 text-stone-400 dark:text-stone-500">
+        <div className="flex w-12 shrink-0 items-center justify-center sm:w-14">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-dashed border-[#ddc9b4] text-stone-400">
             <svg className={`w-5 h-5 transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </span>
         </div>
-        <div className="flex-1 min-w-0">
-          <span className="text-sm font-medium text-stone-600 dark:text-stone-400">{label}</span>
+        <div className="min-w-0 flex-1">
+          <span className="text-sm font-medium text-stone-600">{label}</span>
         </div>
       </button>
     );
@@ -260,21 +262,21 @@ export function MonthEventsTimeline({
   return (
     <div className="relative">
       <div
-        className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-stone-200 via-stone-200 to-stone-300 dark:from-stone-700 dark:via-stone-700 dark:to-stone-600"
+        className="absolute bottom-0 left-6 top-0 w-px bg-gradient-to-b from-[#e6d4c2] via-[#e6d4c2] to-[#d8c1ab]"
         aria-hidden
       />
       <div className="space-y-0">
         {daysBeforeFocus.length > 0 && (
           <>
             {renderCollapsedBlock(labelBefore, () => setExpandedBefore((b) => !b), expandedBefore)}
-            {expandedBefore && daysBeforeFocus.map((day) => renderDayRow(day, false))}
+            {expandedBefore && daysBeforeFocus.map((day) => renderDayRow(day))}
           </>
         )}
-        {focusDates.map((day) => renderDayRow(day, true))}
+        {focusDates.map((day) => renderDayRow(day))}
         {daysAfterFocus.length > 0 && (
           <>
             {renderCollapsedBlock(labelAfter, () => setExpandedAfter((b) => !b), expandedAfter)}
-            {expandedAfter && daysAfterFocus.map((day) => renderDayRow(day, false))}
+            {expandedAfter && daysAfterFocus.map((day) => renderDayRow(day))}
           </>
         )}
       </div>

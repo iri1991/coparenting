@@ -5,12 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "#functionalitati", label: "Funcții" },
-  { href: "#cum-functioneaza", label: "Cum merge" },
-  { href: "#scenarii", label: "Scenarii" },
-  { href: "#web-app", label: "Web app" },
-  { href: "#preturi", label: "Prețuri" },
-  { href: "#intrebari", label: "Întrebări" },
+  { href: "/#functionalitati", label: "Funcții" },
+  { href: "/#cum-functioneaza", label: "Cum merge" },
+  { href: "/#scenarii", label: "Scenarii" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#web-app", label: "Web app" },
+  { href: "/#preturi", label: "Prețuri" },
+  { href: "/#intrebari", label: "Întrebări" },
 ];
 
 export function LandingHeader() {
@@ -44,13 +45,13 @@ export function LandingHeader() {
 
         <nav className="hidden items-center gap-1 rounded-full border border-white/70 bg-white/65 px-2 py-2 shadow-[0_10px_30px_rgba(28,25,23,0.08)] backdrop-blur md:flex">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="rounded-full px-3 py-2 text-sm font-semibold text-stone-600 transition-colors hover:bg-[#f6ede3] hover:text-stone-900"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -88,14 +89,14 @@ export function LandingHeader() {
         <div className="border-t border-[#ead9c8] bg-[#fffaf5]/95 px-4 py-4 shadow-[0_18px_36px_rgba(28,25,23,0.08)] backdrop-blur md:hidden">
           <div className="space-y-1">
             {NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className="block rounded-2xl px-4 py-3 text-sm font-semibold text-stone-700 transition-colors hover:bg-[#f4ebdf]"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="mt-3 flex flex-col gap-2 border-t border-[#ead9c8] pt-3">
