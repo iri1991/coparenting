@@ -23,9 +23,6 @@ export function PwaRuntime() {
         const nextUrl = new URL(data.url, window.location.origin).href;
         if (window.location.href !== nextUrl) {
           window.location.assign(nextUrl);
-        } else if (window.location.hash) {
-          const id = window.location.hash.replace(/^#/, "");
-          if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       } catch {
         // ignore invalid URL payload

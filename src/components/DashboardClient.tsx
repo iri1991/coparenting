@@ -139,17 +139,6 @@ export function DashboardClient({
     }
   }, [openAddModalOnMount, openBlockedModalOnMount]);
 
-  /** Deep link fragment (#rituals etc.) după randare (push / navigare). */
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const id = window.location.hash?.replace(/^#/, "");
-    if (!id) return;
-    const t = window.setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 280);
-    return () => window.clearTimeout(t);
-  }, [activeTab]);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (openAddModalOnMount) {
