@@ -107,7 +107,7 @@ export function AccountPageShell({
     <div className="app-native-shell min-h-screen">
       <MobileAppTopBar />
 
-      <div className="sm:hidden pt-14">
+      <div className="sm:hidden pt-[calc(5.5rem+env(safe-area-inset-top))]">
         <div className="max-w-md mx-auto px-4 pb-3">{tabList}</div>
       </div>
 

@@ -213,7 +213,7 @@ export function LandingHero() {
               <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[#99c6be]/25 blur-3xl" />
               <div className="absolute -right-4 bottom-12 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
 
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.64fr)_minmax(0,0.36fr)]">
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,0.32fr)]">
                 <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
                   <div className="relative h-full overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
                     <img
@@ -258,13 +258,15 @@ export function LandingHero() {
                       ))}
                     </div>
                   </div>
+                </div>
 
+                <div className="grid gap-4 md:grid-cols-2 lg:col-span-2 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]">
                   <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/78 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
                     <div className="relative">
                       <img
                         src={copy.secondaryImage}
                         alt={copy.secondaryAlt}
-                        className={`h-52 w-full object-cover ${copy.secondaryPosition ?? "object-center"}`}
+                        className={`h-56 w-full object-cover md:h-full lg:h-60 ${copy.secondaryPosition ?? "object-center"}`}
                         loading="lazy"
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.35)_100%)]" />
