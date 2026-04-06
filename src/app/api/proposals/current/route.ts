@@ -42,10 +42,13 @@ export async function GET() {
     const weekStart = format(nextMonday, "yyyy-MM-dd");
     const existingForWeek = await db
       .collection("schedule_proposals")
-      .findOne({ familyId, weekStart, status: "pending" });
+      .findOne({ familyId, weekStart }, { sort: { createdAt: -1 } });
 
     if (existingForWeek) {
-      doc = existingForWeek;
+      const existingStatus = (existingForWeek as { status?: string }).status ?? "pending";
+      if (existingStatus === "pending") {
+        doc = existingForWeek;
+      }
     } else {
       const days = await generateProposalForWeek(familyId, weekStart);
       if (days.length > 0) {
