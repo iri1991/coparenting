@@ -155,7 +155,7 @@ export function LoggedInLayout({
                   e.stopPropagation();
                   triggerAdd();
                 }}
-                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1f3a36] text-white shadow-[0_14px_30px_rgba(31,58,54,0.18)]"
+                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_14px_30px_rgba(191,106,75,0.22)]"
                 title="Adaugă eveniment"
                 aria-label="Adaugă eveniment"
               >

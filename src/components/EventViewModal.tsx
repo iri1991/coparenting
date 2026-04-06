@@ -110,7 +110,7 @@ export function EventViewModal({
 
           {hasTime && (
             <div className="flex items-center gap-3 rounded-[1.35rem] bg-white/72 px-3 py-3 text-stone-700">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#edf6f3] text-[#1f5a4e]">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f8e4da] text-[#b96a4b]">
                 <Clock className="w-4 h-4" />
               </span>
               <div>

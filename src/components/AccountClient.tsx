@@ -136,7 +136,7 @@ export function AccountClient({
                 onClick={() => saveProfile("tata")}
                 className={`rounded-[1.3rem] px-4 py-3 text-sm font-semibold transition ${
                   parentType === "tata"
-                    ? "bg-[#1f3a36] text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+                    ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_14px_28px_rgba(191,106,75,0.22)]"
                     : "app-native-secondary-button text-stone-700"
                 }`}
               >
@@ -147,7 +147,7 @@ export function AccountClient({
                 onClick={() => saveProfile("mama")}
                 className={`rounded-[1.3rem] px-4 py-3 text-sm font-semibold transition ${
                   parentType === "mama"
-                    ? "bg-[#1f3a36] text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+                    ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_14px_28px_rgba(191,106,75,0.22)]"
                     : "app-native-secondary-button text-stone-700"
                 }`}
               >
@@ -168,7 +168,7 @@ export function AccountClient({
 
       <section className="app-native-surface rounded-[2rem] p-5">
         <div className="flex items-start gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-[1.4rem] bg-[#edf6f3] text-[#1f5a4e]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[1.4rem] bg-[#f8e4da] text-[#b96a4b]">
             <Key className="h-5 w-5" />
           </div>
           <div className="min-w-0 flex-1">

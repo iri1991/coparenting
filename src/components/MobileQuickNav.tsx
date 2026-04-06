@@ -31,7 +31,7 @@ export function MobileQuickNav() {
                   href={href}
                   className={`relative flex flex-col items-center justify-center gap-1.5 rounded-[22px] px-2 py-2.5 transition-all duration-200 active:scale-95 ${
                     active
-                      ? "bg-[#1f3a36] text-white shadow-[0_16px_30px_rgba(31,58,54,0.22)]"
+                      ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_16px_30px_rgba(191,106,75,0.22)]"
                       : "text-stone-600 hover:bg-white/55"
                   }`}
                 >

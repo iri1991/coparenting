@@ -154,7 +154,7 @@ export function ChatClient({
                   <div
                     className={`rounded-[1.8rem] px-4 py-3 shadow-[0_14px_32px_rgba(28,25,23,0.07)] ${
                       isMe
-                        ? "bg-[linear-gradient(180deg,#22453f_0%,#19332f_100%)] text-white rounded-br-[0.7rem]"
+                        ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white rounded-br-[0.7rem]"
                         : "app-native-surface text-stone-900 rounded-bl-[0.7rem]"
                     }`}
                   >

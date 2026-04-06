@@ -72,13 +72,13 @@ export function Calendar({
     if (proposal.parent === "tata") {
       return {
         label: (labels.parent1Name || "P1").charAt(0).toUpperCase(),
-        cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+        cls: "bg-[#f6ddd2] text-[#b66347]",
       };
     }
     if (proposal.parent === "mama") {
       return {
         label: (labels.parent2Name || "P2").charAt(0).toUpperCase(),
-        cls: "bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300",
+        cls: "bg-[#fde9d6] text-[#a56a3d]",
       };
     }
     return {

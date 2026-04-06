@@ -61,7 +61,7 @@ export function AccountPageShell({
         onClick={() => setActiveTab("cont")}
         className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
           activeTab === "cont"
-            ? "bg-[#1f3a36] text-white shadow-[0_12px_24px_rgba(31,58,54,0.18)]"
+            ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
             : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
         }`}
       >
@@ -76,7 +76,7 @@ export function AccountPageShell({
           onClick={() => setActiveTab("config")}
           className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
             activeTab === "config"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_24px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
           }`}
         >
@@ -92,7 +92,7 @@ export function AccountPageShell({
           onClick={() => setActiveTab("istoric")}
           className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
             activeTab === "istoric"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_24px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
           }`}
         >

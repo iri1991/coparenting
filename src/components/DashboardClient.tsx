@@ -660,37 +660,11 @@ export function DashboardClient({
               <button
                 type="button"
                 onClick={openInterruptModal}
-                className="inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(31,58,54,0.18)]"
+                className="inline-flex items-center rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(191,106,75,0.22)]"
               >
                 Întrerupe perioada
               </button>
             )}
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[1.5rem] bg-white/74 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
-                <CalendarRange className="h-5 w-5" />
-              </div>
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Săptămâna ta</p>
-              <p className="mt-1 text-2xl font-semibold text-stone-900">{daysThisWeekWithEvents}</p>
-              <p className="text-sm text-stone-600">{daysLabel} cu timp programat</p>
-            </div>
-            <div className="rounded-[1.5rem] bg-white/74 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#edf6f3] text-[#1f5a4e]">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Memorie comună</p>
-              <p className="mt-1 text-2xl font-semibold text-stone-900">{activitiesSummary.length}</p>
-              <p className="text-sm text-stone-600">activități distincte deja în jurnal</p>
-            </div>
-            <div className="rounded-[1.5rem] bg-white/74 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f7f0e7] text-[#8a6330]">
-                <LockKeyhole className="h-5 w-5" />
-              </div>
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Disponibilitate</p>
-              <p className="mt-1 text-2xl font-semibold text-stone-900">{blockedPeriods.length}</p>
-              <p className="text-sm text-stone-600">intervale blocate configurate</p>
-            </div>
           </div>
         </div>
       )}
@@ -706,7 +680,7 @@ export function DashboardClient({
           onClick={() => setActiveTab("program")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "program"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
@@ -719,7 +693,7 @@ export function DashboardClient({
           onClick={() => setActiveTab("rutine")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "rutine"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
           title="Ritualuri comune și raport"
@@ -733,7 +707,7 @@ export function DashboardClient({
           onClick={() => setActiveTab("hub")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "hub"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
           title="Rapoarte și resurse"
@@ -748,7 +722,7 @@ export function DashboardClient({
           onClick={() => setActiveTab("idei")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
             activeTab === "idei"
-              ? "bg-[#1f3a36] text-white shadow-[0_12px_22px_rgba(31,58,54,0.18)]"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
           title="Recomandări AI"
@@ -767,6 +741,55 @@ export function DashboardClient({
           }}
         />
       )}
+      {activeTab === "hub" && !profileLoading && parentType && (
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Panou rapid</p>
+            <h2 className="text-base font-semibold text-stone-800">Indicatori utili</h2>
+          </div>
+          <span className="text-xs text-stone-500">mutați din ecranul principal</span>
+        </div>
+        <div className="grid gap-2.5 sm:grid-cols-3">
+          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
+                <CalendarRange className="h-4.5 w-4.5" />
+              </span>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Săptămâna ta</p>
+                <p className="text-lg font-semibold text-stone-900">{daysThisWeekWithEvents}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-stone-600">{daysLabel} cu timp programat</p>
+          </div>
+          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#f8e4da] text-[#b96a4b]">
+                <Sparkles className="h-4.5 w-4.5" />
+              </span>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Memorie comună</p>
+                <p className="text-lg font-semibold text-stone-900">{activitiesSummary.length}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-stone-600">activități distincte deja în jurnal</p>
+          </div>
+          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#f7f0e7] text-[#8a6330]">
+                <LockKeyhole className="h-4.5 w-4.5" />
+              </span>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Disponibilitate</p>
+                <p className="text-lg font-semibold text-stone-900">{blockedPeriods.length}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-stone-600">intervale blocate configurate</p>
+          </div>
+        </div>
+      </section>
+      )}
       {!profileLoading && !parentType && (
         <div className="app-native-surface rounded-[2rem] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] p-4">
           <p className="text-sm font-semibold text-stone-800 mb-3">
@@ -776,7 +799,7 @@ export function DashboardClient({
             <button
               type="button"
               onClick={() => setParentType("tata")}
-              className="flex-1 rounded-[1.2rem] bg-[#1f3a36] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(31,58,54,0.16)]"
+              className="flex-1 rounded-[1.2rem] bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(191,106,75,0.2)]"
             >
               {parent1Name}
             </button>
@@ -809,8 +832,8 @@ export function DashboardClient({
         ) : (
           <>
             <div className="mb-3 h-3 w-full overflow-hidden rounded-full bg-stone-100">
-              <div className="h-full bg-blue-500 float-left" style={{ width: `${parentTimeReport.tataPct}%` }} />
-              <div className="h-full bg-pink-500 float-left" style={{ width: `${parentTimeReport.mamaPct}%` }} />
+              <div className="float-left h-full bg-[#cb7757]" style={{ width: `${parentTimeReport.tataPct}%` }} />
+              <div className="float-left h-full bg-[#e5b18d]" style={{ width: `${parentTimeReport.mamaPct}%` }} />
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
@@ -842,17 +865,17 @@ export function DashboardClient({
         {proposalPreviewDays.length > 0 && (
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#ecd8c5] bg-[#fff5eb] px-4 py-3">
             <div>
-              <p className="text-xs font-medium text-amber-800">
+              <p className="text-xs font-medium text-[#9f5a40]">
                 Preview propunere în calendar
               </p>
               {proposalWeekLabel && (
-                <p className="text-[11px] text-amber-700">{proposalWeekLabel}</p>
+                <p className="text-[11px] text-[#b86a4b]">{proposalWeekLabel}</p>
               )}
               <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
-                <span className="inline-flex items-center gap-1 rounded bg-blue-100 px-1.5 py-0.5 text-blue-700">
+                <span className="inline-flex items-center gap-1 rounded bg-[#f6ddd2] px-1.5 py-0.5 text-[#b66347]">
                   {parent1Name.charAt(0).toUpperCase()} · {parent1Name}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded bg-pink-100 px-1.5 py-0.5 text-pink-700">
+                <span className="inline-flex items-center gap-1 rounded bg-[#fde9d6] px-1.5 py-0.5 text-[#a56a3d]">
                   {parent2Name.charAt(0).toUpperCase()} · {parent2Name}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
@@ -865,7 +888,7 @@ export function DashboardClient({
               onClick={() => setShowProposalPreview((v) => !v)}
               className={`rounded-full px-3 py-1.5 text-xs font-semibold border transition ${
                 showProposalPreview
-                  ? "bg-[#1f3a36] text-white border-[#1f3a36]"
+                  ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white border-[#bf6a4b]"
                   : "bg-white text-stone-700 border-[#d7c3af]"
               }`}
             >
@@ -1006,7 +1029,7 @@ export function DashboardClient({
             {usefulLinks.map((l) => (
               <li key={l.id} className="rounded-[1.3rem] bg-white/82 border border-white/70 px-3 py-3 flex items-start justify-between gap-2">
                 <div>
-                  <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#1f3a36] hover:underline">
+                  <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#b66347] hover:underline">
                     {l.title}
                   </a>
                   {l.category && <p className="text-xs text-stone-500">{l.category}</p>}

@@ -63,7 +63,7 @@ export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }
       <button
         type="button"
         onClick={onAddClick}
-        className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1f3a36] text-white shadow-[0_14px_32px_rgba(31,58,54,0.18)] touch-manipulation"
+        className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_14px_32px_rgba(191,106,75,0.22)] touch-manipulation"
         aria-label="Adaugă eveniment"
       >
         <Plus className="h-5 w-5 stroke-[2.6]" />
