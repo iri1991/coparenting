@@ -25,6 +25,10 @@ const HERO_COPY: Record<
     boardRows: { day: string; owner: string; tone: string }[];
     insightTitle: string;
     insightText: string;
+    visualTag: string;
+    visualTitle: string;
+    visualText: string;
+    secondaryCaption: string;
     mainImage: string;
     secondaryImage: string;
     mainAlt: string;
@@ -54,6 +58,11 @@ const HERO_COPY: Record<
     insightTitle: "Actualizare excepțională",
     insightText:
       "Dacă un eveniment din trecut se schimbă, amândoi vedeți ce s-a modificat, de ce și cine a făcut actualizarea.",
+    visualTag: "copilul simte claritatea",
+    visualTitle: "Program clar, fără negocieri.",
+    visualText:
+      "Schimbările importante nu se pierd. Sunt explicate, logate și văzute de amândoi.",
+    secondaryCaption: "mai puțin haos, mai multă prezență",
     mainImage:
       "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&q=80",
     secondaryImage:
@@ -84,6 +93,11 @@ const HERO_COPY: Record<
     insightTitle: "Ritual de seară",
     insightText:
       "Checklist simplu pentru duș, dinți, poveste și somn. Același ritm, fără să mai țineți totul în cap.",
+    visualTag: "casa are ritm",
+    visualTitle: "Tot ce contează stă împreună.",
+    visualText:
+      "Rutinele, ideile și informațiile utile sunt ușor de găsit, fără liste pierdute și fără stres.",
+    secondaryCaption: "mai puțină aglomerație mentală",
     mainImage:
       "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1600&q=80",
     secondaryImage:
@@ -95,15 +109,108 @@ const HERO_COPY: Record<
   },
 };
 
+type HeroCopy = (typeof HERO_COPY)[HeroAudience];
+
+function HeroVisual({ copy, compact = false }: { copy: HeroCopy; compact?: boolean }) {
+  return (
+    <div className="relative">
+      <div className="absolute -left-4 top-10 h-28 w-28 rounded-full bg-[#99c6be]/20 blur-3xl" />
+      <div className="absolute -right-6 bottom-16 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
+
+      <div className={`grid gap-4 ${compact ? "" : "lg:grid-cols-[minmax(0,1fr)_18.5rem]"}`}>
+        <div className="overflow-hidden rounded-[2.6rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
+          <div className="relative overflow-hidden rounded-[2.1rem] bg-[#f2e5d8]">
+            <img
+              src={copy.mainImage}
+              alt={copy.mainAlt}
+              className={`h-[22rem] w-full object-cover sm:h-[26rem] lg:h-[34rem] ${
+                copy.mainPosition ?? "object-center"
+              }`}
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.03)_0%,rgba(14,12,10,0.48)_100%)]" />
+            <div className="absolute left-4 top-4 rounded-full bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur sm:left-5 sm:top-5 sm:text-xs">
+              {copy.visualTag}
+            </div>
+            <div className="absolute bottom-4 left-4 right-4 max-w-[24rem] rounded-[1.7rem] bg-[#2f4b46]/88 p-4 text-white shadow-[0_20px_36px_rgba(16,24,40,0.24)] backdrop-blur sm:bottom-5 sm:left-5 sm:right-5 sm:p-5 lg:rounded-[1.9rem]">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/65 sm:text-xs">
+                    spațiu comun
+                  </p>
+                  <p className="landing-display mt-2 text-[1.9rem] leading-[0.95] sm:text-[2.1rem] lg:text-[2.2rem]">
+                    {copy.visualTitle}
+                  </p>
+                </div>
+                <BellRing className="mt-1 h-5 w-5 text-[#f8c89f]" />
+              </div>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-white/82">{copy.visualText}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:pt-3">
+          <div className="rounded-[1.9rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
+              {copy.boardTitle}
+            </div>
+            <div className="mt-4 space-y-3">
+              {copy.boardRows.map((row) => (
+                <div
+                  key={row.day}
+                  className="flex items-center justify-between rounded-[1.1rem] bg-[#faf3ec] px-3 py-2.5"
+                >
+                  <span className="text-sm font-semibold text-stone-500">{row.day}</span>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.tone}`}>
+                    {row.owner}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-[1.9rem] border border-white/70 bg-white/82 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
+            <div className="relative">
+              <img
+                src={copy.secondaryImage}
+                alt={copy.secondaryAlt}
+                className={`h-44 w-full object-cover ${copy.secondaryPosition ?? "object-center"}`}
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.03)_0%,rgba(14,12,10,0.35)_100%)]" />
+              <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
+                {copy.secondaryCaption}
+              </div>
+            </div>
+            <div className="p-4">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                <MapPinned className="h-4 w-4 text-[#b96a4b]" />
+                {copy.insightTitle}
+              </div>
+              <p className="mt-3 text-base font-semibold leading-6 text-stone-900">
+                {copy.insightText}
+              </p>
+              <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
+                istoric vizibil + notificare către celălalt părinte
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function LandingHero() {
   const [audience, setAudience] = useState<HeroAudience>("two");
   const copy = HERO_COPY[audience];
 
   return (
     <section id="hero" className="relative overflow-hidden pb-18 pt-6 sm:pb-24 sm:pt-10">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)] lg:items-center">
-          <div className="space-y-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14">
+          <div className="space-y-7 lg:max-w-xl">
             <AnimateOnScroll>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 shadow-[0_12px_30px_rgba(28,25,23,0.08)] backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5 text-[#b85c3e]" />
@@ -111,7 +218,7 @@ export function LandingHero() {
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll delay={80}>
+            <AnimateOnScroll delay={70}>
               <div
                 className="inline-flex rounded-full border border-[#ead9c8] bg-[#fff5eb]/90 p-1 shadow-[0_12px_30px_rgba(28,25,23,0.05)]"
                 role="tablist"
@@ -126,7 +233,7 @@ export function LandingHero() {
                     onClick={() => setAudience(key)}
                     className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                       audience === key
-                        ? "bg-[#1f3a36] text-white shadow-[0_12px_26px_rgba(31,58,54,0.22)]"
+                        ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_26px_rgba(191,106,75,0.22)]"
                         : "text-stone-600 hover:bg-white"
                     }`}
                   >
@@ -137,8 +244,8 @@ export function LandingHero() {
             </AnimateOnScroll>
 
             <AnimateOnScroll delay={120}>
-              <div className="max-w-2xl space-y-5">
-                <h1 className="landing-display text-5xl leading-[0.95] text-stone-900 sm:text-6xl lg:text-7xl">
+              <div className="space-y-5">
+                <h1 className="landing-display text-5xl leading-[0.94] text-stone-900 sm:text-6xl lg:text-[5.4rem]">
                   Face loc pentru copil.
                   <span className="mt-2 block text-[#b85c3e]">Nu pentru încă un șir de mesaje.</span>
                 </h1>
@@ -146,27 +253,11 @@ export function LandingHero() {
               </div>
             </AnimateOnScroll>
 
-            <div className="flex flex-wrap gap-3" key={audience}>
-              {copy.chips.map((text, index) => (
-                <AnimateOnScroll key={text} delay={180 + index * 55} staggerIndex={index}>
-                  <div className="rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-sm font-semibold text-stone-700 shadow-[0_10px_24px_rgba(28,25,23,0.05)] backdrop-blur">
-                    {text}
-                  </div>
-                </AnimateOnScroll>
-              ))}
-            </div>
-
             <AnimateOnScroll delay={320}>
-              <div className="max-w-xl rounded-[1.8rem] border border-[#ead9c8] bg-white/74 px-5 py-4 shadow-[0_18px_40px_rgba(28,25,23,0.06)] backdrop-blur">
-                <p className="text-sm leading-7 text-stone-600">{copy.quote}</p>
-              </div>
-            </AnimateOnScroll>
-
-            <AnimateOnScroll delay={420}>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/register"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1f3a36] px-7 py-3.5 text-base font-semibold text-white shadow-[0_18px_40px_rgba(31,58,54,0.22)] transition hover:bg-[#172c2a] active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-7 py-3.5 text-base font-semibold text-white shadow-[0_18px_40px_rgba(191,106,75,0.22)] transition hover:brightness-[1.02] active:scale-[0.98]"
                 >
                   Începe gratuit
                   <ArrowRight className="h-4 w-4" />
@@ -180,93 +271,37 @@ export function LandingHero() {
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll delay={520}>
+            <AnimateOnScroll delay={390}>
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-stone-500">
                 <span>14 zile Pro gratuit</span>
                 <span>fără card</span>
                 <span>un singur abonament pe familie</span>
               </div>
             </AnimateOnScroll>
+
+            <AnimateOnScroll delay={440} className="lg:hidden">
+              <HeroVisual copy={copy} compact />
+            </AnimateOnScroll>
+
+            <div className="flex flex-wrap gap-3">
+              {copy.chips.map((text, index) => (
+                <AnimateOnScroll key={text} delay={500 + index * 45} staggerIndex={index}>
+                  <div className="rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-sm font-semibold text-stone-700 shadow-[0_10px_24px_rgba(28,25,23,0.05)] backdrop-blur">
+                    {text}
+                  </div>
+                </AnimateOnScroll>
+              ))}
+            </div>
+
+            <AnimateOnScroll delay={620}>
+              <div className="max-w-xl rounded-[1.8rem] border border-[#ead9c8] bg-white/74 px-5 py-4 shadow-[0_18px_40px_rgba(28,25,23,0.06)] backdrop-blur">
+                <p className="text-sm leading-7 text-stone-600">{copy.quote}</p>
+              </div>
+            </AnimateOnScroll>
           </div>
 
-          <AnimateOnScroll delay={260} className="relative">
-            <div className="relative isolate mx-auto max-w-[38rem]">
-              <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[#99c6be]/25 blur-3xl" />
-              <div className="absolute -right-4 bottom-12 h-24 w-24 rounded-full bg-[#f6b28b]/35 blur-3xl" />
-
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.7fr)_minmax(17rem,0.3fr)] lg:items-start">
-                <div className="overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/72 p-3 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur">
-                  <div className="relative h-full overflow-hidden rounded-[2rem] bg-[#f2e5d8]">
-                    <img
-                      src={copy.mainImage}
-                      alt={copy.mainAlt}
-                      className={`h-[25rem] w-full object-cover sm:h-[34rem] ${copy.mainPosition ?? "object-center"}`}
-                      loading="eager"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.45)_100%)]" />
-                    <div className="absolute left-5 top-5 rounded-full bg-white/86 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
-                      copilul simte claritatea
-                    </div>
-                    <div className="absolute bottom-5 left-5 right-5 rounded-[1.8rem] bg-[#1f3a36]/88 p-5 text-white shadow-[0_20px_36px_rgba(16,24,40,0.24)] backdrop-blur">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="text-xs uppercase tracking-[0.2em] text-white/65">spațiu comun</p>
-                          <p className="landing-display mt-2 text-3xl leading-none">Program cu ritm.</p>
-                        </div>
-                        <BellRing className="mt-1 h-5 w-5 text-[#f8c89f]" />
-                      </div>
-                      <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
-                        Schimbările importante nu se pierd. Sunt logate, explicate și văzute de amândoi.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4 lg:pt-4">
-                  <div className="rounded-[1.8rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_40px_rgba(28,25,23,0.12)] backdrop-blur">
-                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                      <CalendarHeart className="h-4 w-4 text-[#b85c3e]" />
-                      {copy.boardTitle}
-                    </div>
-                    <div className="mt-4 space-y-3">
-                      {copy.boardRows.map((row) => (
-                        <div key={row.day} className="flex items-center justify-between rounded-[1.1rem] bg-[#faf3ec] px-3 py-2.5">
-                          <span className="text-sm font-semibold text-stone-500">{row.day}</span>
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.tone}`}>
-                            {row.owner}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/82 shadow-[0_20px_40px_rgba(28,25,23,0.1)] backdrop-blur">
-                    <div className="relative">
-                      <img
-                        src={copy.secondaryImage}
-                        alt={copy.secondaryAlt}
-                        className={`h-40 w-full object-cover ${copy.secondaryPosition ?? "object-center"}`}
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.32)_100%)]" />
-                      <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
-                        mai puțin haos, mai multă prezență
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                        <MapPinned className="h-4 w-4 text-[#1f5a4e]" />
-                        {copy.insightTitle}
-                      </div>
-                      <p className="mt-3 text-base font-semibold leading-6 text-stone-900">{copy.insightText}</p>
-                      <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
-                        istoric vizibil + notificare către celălalt părinte
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <AnimateOnScroll delay={220} className="relative hidden lg:block">
+            <HeroVisual copy={copy} />
           </AnimateOnScroll>
         </div>
       </div>
