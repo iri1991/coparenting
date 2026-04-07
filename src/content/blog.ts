@@ -78,6 +78,88 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cum-prezinti-copilului-un-nou-partener-dupa-separare",
+    title: "Cum îi prezinți copilului un nou partener după separare",
+    summary:
+      "Copilul are nevoie de timp, claritate și lipsă de presiune când apare un nou partener în viața unuia dintre părinți.",
+    intro:
+      "Pentru un adult, o relație nouă poate însemna speranță și stabilizare. Pentru copil, aceeași veste poate veni la pachet cu gelozie, teamă că pierde timp cu părintele sau cu reactivarea fanteziei că mama și tata s-ar putea împăca. De aceea, graba strică mult mai des decât ajută. O introducere bună nu începe cu prezentarea în sine, ci cu întrebarea dacă viața copilului este deja suficient de așezată încât să ducă încă o schimbare.",
+    image: {
+      src: "/blog/new-partner-introduction.svg",
+      alt: "Părinte și copil discutând calm înainte de a cunoaște un nou partener",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-07",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce vestea poate fi mai grea pentru copil decât pare",
+        paragraphs: [
+          "HealthyChildren explică faptul că, pentru mulți copii de vârstă școlară, apariția unui nou partener nu este doar o informație despre viața adultului, ci și un semn că împăcarea părinților nu mai este probabilă. Asta poate aduce tristețe, gelozie sau retragere, chiar dacă noua relație este sănătoasă.",
+          "În plus, copilul poate simți că trebuie să împartă și mai mult din timpul deja redus cu părintele la care nu stă permanent. Dacă adultul interpretează repede reacția ca obraznicie sau lipsă de maturitate, ratează exact partea importantă: copilul încearcă să înțeleagă unde mai încape el în noua configurație.",
+        ],
+      },
+      {
+        title: "Când nu e momentul potrivit pentru prezentare",
+        paragraphs: [
+          "Nu orice relație nouă trebuie adusă repede în viața copilului. HealthyChildren recomandă să nu prezinți copilului fiecare persoană cu care te întâlnești, ci doar un partener care a devenit suficient de important și stabil încât să merite acest pas.",
+          "Dacă separarea este încă foarte proaspătă, programul dintre case abia se așază sau copilul trece deja prin tranziții grele, încă o noutate poate crește încărcarea în loc să o reducă.",
+        ],
+        bullets: [
+          "Amână prezentarea dacă relația este încă incertă sau foarte recentă.",
+          "Nu folosi timpul cu copilul ca spațiu principal pentru viața de dating.",
+          "Nu transforma noutatea într-un secret pe care copilul trebuie să îl țină față de celălalt părinte.",
+          "Nu grăbi lucrurile doar pentru că adultul se simte pregătit; copilul poate avea alt ritm.",
+        ],
+      },
+      {
+        title: "Cum pregătești prima întâlnire",
+        paragraphs: [
+          "HealthyChildren sugerează o pregătire simplă și onestă: îi spui copilului cine este persoana, de ce contează pentru tine și îl lași să-și exprime reacția. Nu ai nevoie de discurs solemn. Ai nevoie de claritate și de spațiu pentru emoțiile lui.",
+          "Prima întâlnire merge mai bine când are miză mică. Scopul nu este să se placă imediat, ci doar să facă cunoștință fără presiune.",
+        ],
+        bullets: [
+          "Anunță din timp, nu pe fugă, cine vine și în ce context.",
+          "Propune o întâlnire scurtă și neutră: o ieșire la masă, o plimbare, o cafea cu desert.",
+          "Întreabă copilul ce l-ar face să se simtă mai în largul lui la prima întâlnire.",
+          "Pregătește și partenerul: fără glume insistente, fără apropiere forțată, fără rol parental din prima zi.",
+        ],
+      },
+      {
+        title: "Ce e important după întâlnire",
+        paragraphs: [
+          "Dacă prima întâlnire a fost rece sau stângace, asta nu înseamnă că ai o problemă mare. HealthyChildren insistă că relația dintre copil și noul partener se construiește lent. Presiunea de a-i vedea imediat apropiați poate înrăutăți exact lucrurile pe care vrei să le repari.",
+          "Mai util este să revii cu o conversație simplă: cum a fost pentru tine, ce ți-a plăcut, ce ți-a fost greu. Apoi păstrezi timp separat doar pentru copil, astfel încât să nu simtă că noua relație îi consumă locul.",
+        ],
+      },
+      {
+        title: "Semne că merită încetinit sau cerut sprijin",
+        paragraphs: [
+          "Merită să reduci ritmul dacă apar gelozie intensă, anxietate, izbucniri repetate înainte de vizite, refuz constant de a merge în casa unde este prezent noul partener sau dacă adultul începe să ceară copilului validare pentru relația lui. Dacă tensiunea persistă, poate ajuta un psiholog de copii sau un specialist în familie care înțelege dinamica post-separare.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Nu copilul trebuie să țină pasul cu relația adultului; adultul adaptează ritmul.",
+      "Prima întâlnire ar trebui să fie scurtă, clară și fără presiune de apropiere.",
+      "Păstrarea timpului unu-la-unu cu copilul reduce gelozia și nesiguranța.",
+    ],
+    sources: [
+      {
+        title: "Dating After Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/dating-after-divorce.aspx",
+        note: "Sursă AAP actualizată la 16 decembrie 2025, cu recomandări concrete despre momentul potrivit, prima întâlnire, gelozia copilului și evitarea secretelor sau a apropierii forțate.",
+      },
+      {
+        title: "What Your Child is Experiencing When You Remarry",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/What-Your-Child-is-Experiencing-When-You-Remarry.aspx?form=HealthyChildren",
+        note: "Completează perspectiva despre loialitate, pierdere și ritmul lent în care se construiește relația cu un stepparent.",
+      },
+    ],
+  },
+  {
     slug: "copilul-explodeaza-dupa-schimbarea-de-casa",
     title: "Când copilul explodează după schimbarea de casă",
     summary:
