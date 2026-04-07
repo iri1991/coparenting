@@ -420,6 +420,36 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
   const orphanActivePlans = plans.filter((p) => !p.conditionId && p.active && (!p.endDate || p.endDate >= today));
   const orphanReports = reports.filter((r) => !r.conditionId);
 
+  async function stopOrphanPlan(planId: string) {
+    await fetch("/api/children/health/plans", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: planId, endDate: today, active: false }),
+    });
+    reload();
+  }
+
+  async function associatePlan(planId: string, conditionId: string) {
+    await fetch("/api/children/health/plans", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: planId, conditionId }),
+    });
+    reload();
+  }
+
+  async function associateReport(reportId: string, conditionId: string) {
+    const form = new FormData();
+    form.set("id", reportId);
+    form.set("conditionId", conditionId);
+    await fetch("/api/children/health/reports", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: reportId, conditionId }),
+    });
+    reload();
+  }
+
   async function addCondition() {
     if (!conditionTitle.trim()) return;
     setSavingCondition(true);
@@ -535,15 +565,59 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         <section className="rounded-[1.2rem] border border-stone-200 bg-white p-3 space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">Medicamente fără boală asociată</p>
           {orphanActivePlans.map((p) => (
-            <div key={p.id} className="rounded-[0.9rem] bg-stone-50 px-3 py-2">
-              <p className="text-sm font-medium text-stone-700">{p.medicationName} · {p.dosage}</p>
-              <p className="text-xs text-stone-400">{p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"}</p>
+            <div key={p.id} className="rounded-[0.9rem] bg-stone-50 px-3 py-2 space-y-1.5">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-stone-700">{p.medicationName} · {p.dosage}</p>
+                  <p className="text-xs text-stone-400">{p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"} · din {p.startDate}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => stopOrphanPlan(p.id)}
+                  className="rounded-full border border-stone-300 px-2 py-0.5 text-[11px] font-semibold text-stone-500 hover:border-red-300 hover:text-red-600 transition shrink-0"
+                >
+                  Oprește
+                </button>
+              </div>
+              {conditions.length > 0 ? (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] text-stone-400 shrink-0">Asociază la:</span>
+                  <select
+                    defaultValue=""
+                    onChange={(e) => { if (e.target.value) associatePlan(p.id, e.target.value); }}
+                    className="app-native-input px-2 py-0.5 text-xs flex-1"
+                  >
+                    <option value="">— alege boală —</option>
+                    {conditions.map((c) => (
+                      <option key={c.id} value={c.id}>{c.title} {c.status === "resolved" ? "(încheiată)" : ""}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
             </div>
           ))}
           {orphanReports.map((r) => (
-            <div key={r.id} className="flex items-center gap-2 rounded-[0.9rem] bg-stone-50 px-3 py-2">
-              <FileText className="w-3.5 h-3.5 shrink-0 text-stone-400" />
-              <a className="text-sm text-[#b66347] hover:underline truncate" href={`/api/children/health/reports/${r.id}`} target="_blank" rel="noopener noreferrer">{r.name}</a>
+            <div key={r.id} className="rounded-[0.9rem] bg-stone-50 px-3 py-2 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <FileText className="w-3.5 h-3.5 shrink-0 text-stone-400" />
+                <a className="text-sm text-[#b66347] hover:underline truncate flex-1" href={`/api/children/health/reports/${r.id}`} target="_blank" rel="noopener noreferrer">{r.name}</a>
+                <span className="text-[11px] text-stone-400 shrink-0">{new Date(r.createdAt).toLocaleDateString("ro-RO")}</span>
+              </div>
+              {conditions.length > 0 ? (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] text-stone-400 shrink-0">Asociază la:</span>
+                  <select
+                    defaultValue=""
+                    onChange={(e) => { if (e.target.value) associateReport(r.id, e.target.value); }}
+                    className="app-native-input px-2 py-0.5 text-xs flex-1"
+                  >
+                    <option value="">— alege boală —</option>
+                    {conditions.map((c) => (
+                      <option key={c.id} value={c.id}>{c.title} {c.status === "resolved" ? "(încheiată)" : ""}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
             </div>
           ))}
           {showAddOrphanPlan ? (
