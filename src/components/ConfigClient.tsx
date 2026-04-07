@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
@@ -229,7 +227,6 @@ export function ConfigClient({
 }: ConfigClientProps) {
   type ConfigTab = "general" | "child" | "health" | "residences" | "other";
   const canUseDocuments = plan === "pro" || plan === "family";
-  const router = useRouter();
   const [family, setFamily] = useState(initialFamily);
   const [children, setChildren] = useState(initialChildren);
   const [residences, setResidences] = useState(initialResidences);
@@ -249,6 +246,7 @@ export function ConfigClient({
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<ConfigTab>("general");
+  const [healthStatsByChildId, setHealthStatsByChildId] = useState<Record<string, { activeConditions: number; dueToday: number; lastAdministrationLabel: string }>>({});
   const canSharePdf = plan === "pro" || plan === "family";
 
   useEffect(() => {
@@ -267,6 +265,76 @@ export function ConfigClient({
       cancelled = true;
     };
   }, [canSharePdf]);
+
+  useEffect(() => {
+    if (activeTab !== "health" || children.length === 0) return;
+    let cancelled = false;
+    const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
+
+    (async () => {
+      const pairs = await Promise.all(
+        children.map(async (child) => {
+          try {
+            const res = await fetch(`/api/children/health/summary?childId=${encodeURIComponent(child.id)}`);
+            const json = await res.json().catch(() => ({}));
+            if (!res.ok) return [child.id, { activeConditions: 0, dueToday: 0, lastAdministrationLabel: "fără istoric" }] as const;
+            const conditions = Array.isArray(json.conditions) ? json.conditions : [];
+            const plans = Array.isArray(json.plans) ? json.plans : [];
+            const administrations = Array.isArray(json.administrations) ? json.administrations : [];
+            const activeConditions = conditions.filter((c: { status?: string }) => c.status !== "resolved").length;
+            const dueToday = plans.reduce((acc: number, p: {
+              id?: string;
+              active?: boolean;
+              startDate?: string;
+              endDate?: string;
+              recurrenceType?: "daily" | "interval";
+              recurrenceIntervalDays?: number;
+              times?: string[];
+            }) => {
+              if (!p.active) return acc;
+              if (!p.startDate || p.startDate > today) return acc;
+              if (p.endDate && p.endDate < today) return acc;
+              if (p.recurrenceType === "interval") {
+                const start = new Date(`${p.startDate}T00:00:00`).getTime();
+                const current = new Date(`${today}T00:00:00`).getTime();
+                const interval = Math.max(1, p.recurrenceIntervalDays ?? 1);
+                const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
+                if (days < 0 || days % interval !== 0) return acc;
+              }
+              const times = Array.isArray(p.times) ? p.times : [];
+              const doneCount = times.filter((t) =>
+                administrations.some(
+                  (a: { planId?: string; date?: string; timeLabel?: string; status?: string }) =>
+                    a.planId === p.id && a.date === today && a.timeLabel === t && a.status === "done"
+                )
+              ).length;
+              const remaining = Math.max(0, times.length - doneCount);
+              return acc + remaining;
+            }, 0);
+            const latestDone = administrations
+              .filter((a: { status?: string }) => a.status === "done")
+              .sort((a: { date?: string; timeLabel?: string }, b: { date?: string; timeLabel?: string }) => {
+                const ad = a.date ?? "";
+                const bd = b.date ?? "";
+                if (ad !== bd) return bd.localeCompare(ad);
+                return (b.timeLabel ?? "").localeCompare(a.timeLabel ?? "");
+              })[0] as { date?: string; timeLabel?: string } | undefined;
+            const lastAdministrationLabel = latestDone?.date
+              ? `${latestDone.date}${latestDone.timeLabel ? ` ${latestDone.timeLabel}` : ""}`
+              : "fără istoric";
+            return [child.id, { activeConditions, dueToday, lastAdministrationLabel }] as const;
+          } catch {
+            return [child.id, { activeConditions: 0, dueToday: 0, lastAdministrationLabel: "fără istoric" }] as const;
+          }
+        })
+      );
+      if (!cancelled) setHealthStatsByChildId(Object.fromEntries(pairs));
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab, children]);
 
   async function saveFamily() {
     setSaving(true);
@@ -457,11 +525,6 @@ export function ConfigClient({
     }
   }
 
-  function handleDone() {
-    router.push(embedInAccount ? "/" : (returnToHref ?? "/"));
-    router.refresh();
-  }
-
   async function saveChildDetails(childId: string, data: { allergies?: string; notes?: string; birthDate?: string | null }) {
     setSaving(true);
     setMessage(null);
@@ -488,6 +551,9 @@ export function ConfigClient({
   return (
     <div className="space-y-8">
       {currentUserId && <NotificationSettingsSection currentUserId={currentUserId} />}
+      <div className="rounded-xl border border-[#ead9c8] bg-[#fff7ee] px-3 py-2 text-xs text-stone-600">
+        Modificările se salvează automat în această pagină.
+      </div>
       <div
         className="app-native-surface rounded-[1.6rem] p-1 grid grid-cols-5 gap-1"
         role="tablist"
@@ -782,8 +848,21 @@ export function ConfigClient({
                   className="w-full flex items-center justify-between gap-2 py-3 px-3 text-left"
                   aria-expanded={expandedHealthChildId === c.id}
                 >
-                  <span className="font-medium text-stone-800 dark:text-stone-200">{c.name}</span>
-                  <span className="text-xs text-stone-500">{expandedHealthChildId === c.id ? "Ascunde" : "Deschide"}</span>
+                  <div className="min-w-0">
+                    <span className="font-medium text-stone-800 dark:text-stone-200">{c.name}</span>
+                    <div className="mt-1 flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-[#fff4e8] px-2 py-0.5 text-[11px] font-semibold text-[#8a4b2d]">
+                        Boli active: {healthStatsByChildId[c.id]?.activeConditions ?? 0}
+                      </span>
+                      <span className="rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
+                        Doze azi: {healthStatsByChildId[c.id]?.dueToday ?? 0}
+                      </span>
+                      <span className="rounded-full bg-[#f8f1dc] px-2 py-0.5 text-[11px] font-semibold text-[#7a5620]">
+                        Ultima administrare: {healthStatsByChildId[c.id]?.lastAdministrationLabel ?? "fără istoric"}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-500 shrink-0">{expandedHealthChildId === c.id ? "Ascunde" : "Deschide"}</span>
                 </button>
                 {expandedHealthChildId === c.id ? (
                   <div className="px-3 pb-3">
@@ -1081,21 +1160,6 @@ export function ConfigClient({
         <p className={`text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-600"}`}>{message.text}</p>
       )}
 
-      <div className="flex gap-3">
-        <Link
-          href={embedInAccount ? "/account" : (returnToHref ?? "/")}
-          className="flex-1 py-3 text-center rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium"
-        >
-          {embedInAccount ? "Înapoi la cont" : "Înapoi"}
-        </Link>
-        <button
-          type="button"
-          onClick={handleDone}
-          className="flex-1 py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600"
-        >
-          {embedInAccount ? "Merg la calendar" : "Gata, merg la calendar"}
-        </button>
-      </div>
     </div>
   );
 }
