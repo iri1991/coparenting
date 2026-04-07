@@ -6,7 +6,6 @@ import { AccountClient } from "@/components/AccountClient";
 import { ConfigClient } from "@/components/ConfigClient";
 import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
-import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 
@@ -49,8 +48,8 @@ export function AccountPageShell({
   }, []);
 
   const tabList = (
-    <div
-      className="app-native-surface flex rounded-[1.4rem] p-1.5"
+    <nav
+      className="flex border-b border-[#ead9c8] bg-transparent"
       role="tablist"
       aria-label="Secțiuni cont"
     >
@@ -59,13 +58,13 @@ export function AccountPageShell({
         role="tab"
         aria-selected={activeTab === "cont"}
         onClick={() => setActiveTab("cont")}
-        className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
+        className={`flex min-h-[3rem] flex-1 items-center justify-center gap-2 px-2 py-2 text-sm font-semibold transition-colors ${
           activeTab === "cont"
-            ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
-            : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
+            ? "border-b-2 border-[#bf6a4b] text-stone-900"
+            : "border-b-2 border-transparent text-stone-500 hover:text-stone-800"
         }`}
       >
-        <User className="w-4 h-4 shrink-0" />
+        <User className="h-4 w-4 shrink-0" aria-hidden />
         Cont
       </button>
       {configData && (
@@ -74,13 +73,13 @@ export function AccountPageShell({
           role="tab"
           aria-selected={activeTab === "config"}
           onClick={() => setActiveTab("config")}
-          className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex min-h-[3rem] flex-1 items-center justify-center gap-2 px-2 py-2 text-sm font-semibold transition-colors ${
             activeTab === "config"
-              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
-              : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
+              ? "border-b-2 border-[#bf6a4b] text-stone-900"
+              : "border-b-2 border-transparent text-stone-500 hover:text-stone-800"
           }`}
         >
-          <Settings className="w-4 h-4 shrink-0" />
+          <Settings className="h-4 w-4 shrink-0" aria-hidden />
           Configurare
         </button>
       )}
@@ -90,17 +89,17 @@ export function AccountPageShell({
           role="tab"
           aria-selected={activeTab === "istoric"}
           onClick={() => setActiveTab("istoric")}
-          className={`flex-1 flex items-center justify-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex min-h-[3rem] flex-1 items-center justify-center gap-2 px-2 py-2 text-sm font-semibold transition-colors ${
             activeTab === "istoric"
-              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_24px_rgba(191,106,75,0.2)]"
-              : "text-stone-600 hover:bg-white/72 hover:text-stone-800"
+              ? "border-b-2 border-[#bf6a4b] text-stone-900"
+              : "border-b-2 border-transparent text-stone-500 hover:text-stone-800"
           }`}
         >
-          <History className="w-4 h-4 shrink-0" />
+          <History className="h-4 w-4 shrink-0" aria-hidden />
           Istoric
         </button>
       )}
-    </div>
+    </nav>
   );
 
   return (
@@ -108,7 +107,7 @@ export function AccountPageShell({
       <MobileAppTopBar />
 
       <div className="sm:hidden pt-[calc(5.5rem+env(safe-area-inset-top))]">
-        <div className="max-w-md mx-auto px-4 pb-3">{tabList}</div>
+        <div className="mx-auto max-w-md px-4 pb-3">{tabList}</div>
       </div>
 
       <header
@@ -118,10 +117,10 @@ export function AccountPageShell({
             : "opacity-100"
         }`}
       >
-        <div className="app-native-glass max-w-3xl mx-auto rounded-[30px] px-4 py-3">
+        <div className="app-native-glass mx-auto max-w-3xl rounded-[30px] px-4 py-3">
           <div className="mb-3 flex items-center gap-3">
             <AppLogo size={32} linkToHome className="h-8 w-8" />
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
                 Setări familie
               </p>
@@ -152,20 +151,10 @@ export function AccountPageShell({
           )}
           {activeTab === "config" && configData && (
             <div className="animate-in fade-in duration-200">
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center rounded-full bg-[#fff2e3] px-3 py-1.5 text-xs font-semibold text-[#b85c3e]">
-                  Plan: {configData.plan === "pro" ? "Pro" : configData.plan === "family" ? "Family+" : "Free"}
-                </span>
-                <p className="text-sm text-stone-500">
-                  Nume părinți, copii, locuințe, invitații. Modificările sunt notificate pe email tuturor membrilor.
-                </p>
-              </div>
-              <SubscriptionSection
-                plan={configData.plan}
-                stripeConfigured={configData.stripeConfigured ?? false}
-                currentPeriodEnd={configData.currentPeriodEnd}
-                subscriptionStatus={configData.subscriptionStatus}
-              />
+              <p className="mb-4 text-sm text-stone-500">
+                Nume părinți, copii, locuințe, invitații. Modificările sunt notificate pe email tuturor membrilor. Abonamentul și
+                notificările push sunt în tab-ul „Altele”.
+              </p>
               <ConfigClient
                 initialFamily={configData.initialFamily}
                 initialChildren={configData.initialChildren}
@@ -174,6 +163,9 @@ export function AccountPageShell({
                 embedInAccount
                 currentUserId={currentUserId}
                 plan={configData.plan}
+                stripeConfigured={configData.stripeConfigured ?? false}
+                subscriptionStatus={configData.subscriptionStatus}
+                currentPeriodEnd={configData.currentPeriodEnd}
               />
             </div>
           )}

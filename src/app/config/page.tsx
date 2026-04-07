@@ -3,7 +3,6 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ConfigClient } from "@/components/ConfigClient";
-import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { getDb } from "@/lib/mongodb";
@@ -78,16 +77,10 @@ export default async function ConfigPage({
           <h1 className="text-xl font-bold text-stone-800 dark:text-stone-100">
             Configurare familie
           </h1>
-          <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
-            Nume copii, nume părinți, locuințe. Doar membrii familiei văd aceste date.
+            <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
+            Nume copii, nume părinți, locuințe. Abonament și notificări push: tab-ul „Altele”. Doar membrii familiei văd aceste date.
           </p>
         </div>
-        <SubscriptionSection
-          plan={plan}
-          stripeConfigured={stripeConfigured}
-          currentPeriodEnd={currentPeriodEnd}
-          subscriptionStatus={subscriptionStatus}
-        />
         <ConfigClient
           initialFamily={familyData}
           initialChildren={childrenData}
@@ -95,6 +88,9 @@ export default async function ConfigPage({
           memberCount={memberCount}
           currentUserId={session.user.id}
           plan={plan}
+          stripeConfigured={stripeConfigured}
+          subscriptionStatus={subscriptionStatus}
+          currentPeriodEnd={currentPeriodEnd}
           returnToHref={pendingPlan ? `/?plan=${pendingPlan}` : "/"}
         />
       </div>

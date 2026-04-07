@@ -71,7 +71,7 @@ export function SubscriptionSection({
   const hasPaidSubscription = plan === "pro" || plan === "family";
 
   return (
-    <div className="rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4 mb-6">
+    <div className="rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
       <div className="flex items-center gap-2 mb-3">
         <CreditCard className="w-5 h-5 text-stone-500 dark:text-stone-400" />
         <h3 className="font-semibold text-stone-800 dark:text-stone-100">Abonament</h3>

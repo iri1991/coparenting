@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
+import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
 import type { FamilyHouseholdMode } from "@/types/family";
 import { resolveHouseholdMode } from "@/lib/household-mode";
@@ -211,6 +212,10 @@ interface ConfigClientProps {
   currentUserId?: string;
   /** Plan familie: Free nu are documente. */
   plan?: "free" | "pro" | "family";
+  /** Stripe / abonament (afișat în tab-ul „Altele”). */
+  stripeConfigured?: boolean;
+  subscriptionStatus?: string | null;
+  currentPeriodEnd?: string | null;
   /** Link pentru „Înapoi” / „Merg la calendar” (ex. /?plan=pro după setup cu plan). */
   returnToHref?: string;
 }
@@ -223,6 +228,9 @@ export function ConfigClient({
   embedInAccount = false,
   currentUserId,
   plan = "free",
+  stripeConfigured = false,
+  subscriptionStatus = null,
+  currentPeriodEnd = null,
   returnToHref,
 }: ConfigClientProps) {
   type ConfigTab = "general" | "child" | "health" | "residences" | "other";
@@ -550,21 +558,20 @@ export function ConfigClient({
 
   return (
     <div className="space-y-8">
-      {currentUserId && <NotificationSettingsSection currentUserId={currentUserId} />}
       <div className="rounded-xl border border-[#ead9c8] bg-[#fff7ee] px-3 py-2 text-xs text-stone-600">
         Modificările se salvează automat în această pagină.
       </div>
       <div
-        className="app-native-surface rounded-[1.6rem] p-1 grid grid-cols-5 gap-1"
+        className="app-native-surface rounded-[1.6rem] p-1 flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
-        aria-label="Tab-uri configurări"
+        aria-label="Secțiuni configurare familie"
       >
         <button
           type="button"
           role="tab"
           aria-selected={activeTab === "general"}
           onClick={() => setActiveTab("general")}
-          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
             activeTab === "general"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
               : "text-stone-600 hover:bg-white/80"
@@ -577,7 +584,7 @@ export function ConfigClient({
           role="tab"
           aria-selected={activeTab === "child"}
           onClick={() => setActiveTab("child")}
-          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
             activeTab === "child"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
               : "text-stone-600 hover:bg-white/80"
@@ -590,7 +597,7 @@ export function ConfigClient({
           role="tab"
           aria-selected={activeTab === "residences"}
           onClick={() => setActiveTab("residences")}
-          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
             activeTab === "residences"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
               : "text-stone-600 hover:bg-white/80"
@@ -603,7 +610,7 @@ export function ConfigClient({
           role="tab"
           aria-selected={activeTab === "health"}
           onClick={() => setActiveTab("health")}
-          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
             activeTab === "health"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
               : "text-stone-600 hover:bg-white/80"
@@ -616,7 +623,7 @@ export function ConfigClient({
           role="tab"
           aria-selected={activeTab === "other"}
           onClick={() => setActiveTab("other")}
-          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
             activeTab === "other"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
               : "text-stone-600 hover:bg-white/80"
@@ -940,7 +947,16 @@ export function ConfigClient({
       </section>
       )}
 
-      {activeTab === "other" && !canSharePdf && (
+      {activeTab === "other" && (
+        <div className="space-y-6">
+          <SubscriptionSection
+            plan={plan}
+            stripeConfigured={stripeConfigured}
+            currentPeriodEnd={currentPeriodEnd}
+            subscriptionStatus={subscriptionStatus}
+          />
+          {currentUserId ? <NotificationSettingsSection currentUserId={currentUserId} /> : null}
+          {!canSharePdf ? (
         <section className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -953,8 +969,8 @@ export function ConfigClient({
           </p>
           <UpgradeCta variant="button" />
         </section>
-      )}
-      {activeTab === "other" && canSharePdf && (
+          ) : null}
+          {canSharePdf ? (
         <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1040,9 +1056,9 @@ export function ConfigClient({
             </button>
           )}
         </section>
-      )}
+          ) : null}
 
-      {activeTab === "other" && memberCount < 2 && (
+          {memberCount < 2 ? (
         <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
             <Mail className="w-4 h-4" />
@@ -1090,9 +1106,8 @@ export function ConfigClient({
             </div>
           )}
         </section>
-      )}
+          ) : null}
 
-      {activeTab === "other" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Importă evenimente</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -1154,6 +1169,7 @@ export function ConfigClient({
           </div>
         </div>
       </section>
+        </div>
       )}
 
       {message && (
