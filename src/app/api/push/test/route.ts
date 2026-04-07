@@ -20,7 +20,7 @@ export async function POST() {
   }
   await sendPushToSubscriptions(subs, {
     title: "HomeSplit",
-    body: "Notificări activate. Vei primi alerte pentru evenimente, reminder seara și ritualuri.",
+    body: "Notificări activate. Vei primi alerte pentru evenimente, reminder seara, ritualuri și tratamente medicale.",
     url: homeAppUrl({ tab: "program" }),
   });
   return NextResponse.json({ ok: true, sent: subs.length });

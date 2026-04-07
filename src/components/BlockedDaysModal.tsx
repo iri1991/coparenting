@@ -86,30 +86,27 @@ export function BlockedDaysModal({
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50"
-        onClick={onClose}
-      >
+      <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
         <div
-          className="bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-700 w-full max-w-md max-h-[85vh] flex flex-col"
+          className="app-native-surface-strong w-full max-w-md max-h-[85vh] rounded-[2rem] shadow-xl flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-700">
-            <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-stone-500" aria-hidden />
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#ead9c8]">
+            <h2 className="text-lg font-semibold text-stone-800 flex items-center gap-2">
+              <Lock className="w-5 h-5 text-[#b86a4b]" aria-hidden />
               Zile blocate
             </h2>
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500"
+              className="p-2 rounded-lg hover:bg-white/70 text-stone-500"
               aria-label="Închide"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="flex border-b border-stone-200 dark:border-stone-700">
+          <div className="flex border-b border-[#ead9c8]">
             {tabs.map(({ key, label }) => (
               <button
                 key={key}
@@ -117,8 +114,8 @@ export function BlockedDaysModal({
                 onClick={() => setActiveTab(key)}
                 className={`flex-1 py-3 px-4 text-sm font-medium touch-manipulation ${
                   activeTab === key
-                    ? "text-amber-600 dark:text-amber-400 border-b-2 border-amber-500 dark:border-amber-400 bg-amber-50/50 dark:bg-amber-950/20"
-                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300"
+                    ? "text-[#b66347] border-b-2 border-[#bf6a4b] bg-[#fff5eb]"
+                    : "text-stone-500 hover:text-stone-700"
                 }`}
               >
                 {label}
@@ -128,7 +125,7 @@ export function BlockedDaysModal({
 
           <div className="flex-1 overflow-y-auto p-4 min-h-0">
             {loading ? (
-              <p className="text-sm text-stone-400">Se încarcă…</p>
+              <p className="text-sm text-stone-500">Se încarcă…</p>
             ) : (
               <>
                 <TabContent
@@ -139,8 +136,8 @@ export function BlockedDaysModal({
                   currentUserId={currentUserId}
                 />
                 {plan === "free" && (
-                  <div className="mt-4 pt-3 border-t border-stone-200 dark:border-stone-700">
-                    <p className="text-xs text-stone-500 dark:text-stone-400 mb-2">
+                  <div className="mt-4 pt-3 border-t border-[#ead9c8]">
+                    <p className="text-xs text-stone-500 mb-2">
                       Planul Free: max 5 zile blocate pe lună. Pro / Family+: nelimitat.
                     </p>
                     <UpgradeCta variant="button" />

@@ -1127,7 +1127,13 @@ export function DashboardClient({
       />
       <EndOfPeriodActivitiesModal
         isOpen={showEndPeriodModal}
-        onClose={() => setShowEndPeriodModal(false)}
+        onClose={() => {
+          setShowEndPeriodModal(false);
+          if (parentType && activityModalDate) {
+            // Dacă utilizatorul închide explicit, nu mai reapari în buclă la reinițializare.
+            localStorage.setItem(`end-period-logged:${parentType}:${activityModalDate}`, "1");
+          }
+        }}
         periodEndDate={activityModalDate}
         activityCatalog={activityCatalog}
         onSaved={async () => {

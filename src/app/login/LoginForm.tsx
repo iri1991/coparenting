@@ -62,7 +62,7 @@ export function LoginForm() {
         </p>
       }
     >
-      <form className="space-y-4" onSubmit={handleLogin}>
+      <form className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4" onSubmit={handleLogin}>
         <div>
           <label htmlFor="login-email" className="sr-only">
             Email
@@ -75,7 +75,7 @@ export function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
         <div>
@@ -90,7 +90,7 @@ export function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
           <p className="mt-1.5 text-right">
             <Link href="/forgot-password" className="text-sm text-amber-600 dark:text-amber-400 hover:underline">
@@ -99,14 +99,21 @@ export function LoginForm() {
           </p>
         </div>
         {message && (
-          <p className={`text-sm ${message.type === "error" ? "text-red-600 dark:text-red-400" : "text-emerald-600"}`} role="alert">
+          <p
+            className={`text-sm rounded-xl px-3 py-2 ${
+              message.type === "error"
+                ? "text-red-700 dark:text-red-300 bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50"
+                : "text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50"
+            }`}
+            role="alert"
+          >
             {message.text}
           </p>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 active:scale-[0.99] disabled:opacity-50 transition shadow-md shadow-amber-500/20"
+          className="app-native-primary-button w-full py-3.5 font-semibold disabled:opacity-50"
         >
           {loading ? "Se conectează…" : "Conectare"}
         </button>

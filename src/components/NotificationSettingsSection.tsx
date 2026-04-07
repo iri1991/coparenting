@@ -108,9 +108,9 @@ export function NotificationSettingsSection({ currentUserId }: NotificationSetti
         Notificări push
       </h2>
       <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-        Primești alerte pentru evenimente, reminder seara și ritualurile setate (la ora ritualului, doar pentru
-        părintele care este cu copilul atunci). Notificările se activează <strong>per dispozitiv</strong> – pe telefon
-        și pe laptop trebuie activate separat.
+        Primești alerte pentru evenimente, reminder seara, ritualuri și tratamente medicale (doar pentru părintele
+        responsabil/aflat cu copilul la momentul respectiv). Notificările se activează <strong>per dispozitiv</strong> –
+        pe telefon și pe laptop trebuie activate separat.
       </p>
       {message && (
         <p className={`text-xs mb-3 ${status === "error" ? "text-red-600 dark:text-red-400" : "text-stone-600 dark:text-stone-400"}`}>

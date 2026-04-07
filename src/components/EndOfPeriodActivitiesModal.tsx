@@ -91,19 +91,19 @@ export function EndOfPeriodActivitiesModal({
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-xl p-4"
+        className="app-native-surface-strong w-full max-w-md rounded-[2rem] shadow-xl p-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-1">
+        <h3 className="text-base font-semibold text-stone-900 mb-1">
           Activități la final de perioadă
         </h3>
-        <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">
+        <p className="text-sm text-stone-500 mb-3">
           Ce a făcut copilul în perioada încheiată la {dateLabel}?
         </p>
 
         <div className="space-y-3">
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Activitate</label>
+            <label className="block text-xs text-stone-500 mb-1">Activitate</label>
             <div className="relative">
               <input
                 value={activityName}
@@ -117,10 +117,10 @@ export function EndOfPeriodActivitiesModal({
                   setTimeout(() => setShowSuggestions(false), 120);
                 }}
                 placeholder="Ex. puzzle, desen, lego, parc"
-                className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+                className="app-native-input w-full px-3 py-2 text-sm"
               />
               {showSuggestions && filteredSuggestions.length > 0 && (
-                <ul className="absolute z-20 mt-1 w-full max-h-52 overflow-auto rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-lg">
+                <ul className="absolute z-20 mt-1 w-full max-h-52 overflow-auto rounded-xl border border-[#e7d5c4] bg-white shadow-lg">
                   {filteredSuggestions.map((item) => (
                     <li key={item}>
                       <button
@@ -129,7 +129,7 @@ export function EndOfPeriodActivitiesModal({
                           setActivityName(item);
                           setShowSuggestions(false);
                         }}
-                        className="w-full text-left px-3 py-2 text-sm text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"
+                        className="w-full text-left px-3 py-2 text-sm text-stone-700 hover:bg-[#fff5eb]"
                       >
                         {item}
                       </button>
@@ -138,18 +138,18 @@ export function EndOfPeriodActivitiesModal({
                 </ul>
               )}
             </div>
-            <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+            <p className="mt-1 text-xs text-stone-500">
               Selectează din activitățile anterioare sau scrie una nouă; dacă e nouă, se adaugă automat în nomenclator.
             </p>
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Observații</label>
+            <label className="block text-xs text-stone-500 mb-1">Observații</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
               placeholder="Text liber: ce i-a plăcut, ce să evitați să repetați etc."
-              className="w-full rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm"
+              className="app-native-input w-full px-3 py-2 text-sm"
             />
           </div>
           {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
@@ -157,7 +157,7 @@ export function EndOfPeriodActivitiesModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-xl border border-stone-300 dark:border-stone-600 py-2 text-sm"
+              className="app-native-secondary-button flex-1 py-2 text-sm font-medium text-stone-700"
             >
               Închide
             </button>
@@ -165,7 +165,7 @@ export function EndOfPeriodActivitiesModal({
               type="button"
               onClick={handleSave}
               disabled={saving}
-              className="flex-1 rounded-xl bg-amber-500 text-white py-2 text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
+              className="app-native-primary-button flex-1 py-2 text-sm font-medium disabled:opacity-50"
             >
               {saving ? "Se salvează..." : "Salvează"}
             </button>

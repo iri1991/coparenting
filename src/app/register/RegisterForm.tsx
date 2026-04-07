@@ -93,7 +93,7 @@ export function RegisterForm() {
         </p>
       }
     >
-      <ul className="rounded-2xl border border-amber-200/80 dark:border-amber-800/50 bg-white/60 dark:bg-stone-900/60 px-4 py-3 space-y-2.5">
+      <ul className="app-native-surface rounded-[1.8rem] px-4 py-4 space-y-2.5">
         {PERKS.map(({ icon: Icon, text }) => (
           <li key={text} className="flex items-start gap-2.5 text-sm text-stone-700 dark:text-stone-300">
             <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
@@ -104,7 +104,7 @@ export function RegisterForm() {
         ))}
       </ul>
 
-      <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+      <form className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4" onSubmit={handleSubmit} noValidate>
         <div>
           <label htmlFor="reg-email" className="sr-only">
             Email
@@ -117,7 +117,7 @@ export function RegisterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
         <div>
@@ -133,7 +133,7 @@ export function RegisterForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
         <div>
@@ -149,14 +149,16 @@ export function RegisterForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
 
         {message && (
           <p
-            className={`text-sm ${
-              message.type === "error" ? "text-red-600 dark:text-red-400" : "text-emerald-600 dark:text-emerald-400"
+            className={`text-sm rounded-xl px-3 py-2 ${
+              message.type === "error"
+                ? "text-red-700 dark:text-red-300 bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50"
+                : "text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50"
             }`}
             role={message.type === "error" ? "alert" : "status"}
           >
@@ -167,7 +169,7 @@ export function RegisterForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 active:scale-[0.99] disabled:opacity-50 transition shadow-md shadow-amber-500/20"
+          className="app-native-primary-button w-full py-3.5 font-semibold disabled:opacity-50"
         >
           {loading ? "Se creează contul…" : "Creează cont și intră în app"}
         </button>

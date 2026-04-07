@@ -311,3 +311,144 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
     remindersSent,
   };
 }
+
+/**
+ * Reminder pentru planuri de tratament (medicamente) pe orele setate.
+ * Trimite către părintele responsabil (sau ambii), filtrat după cine e cu copilul în ziua respectivă.
+ */
+export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: string) {
+  const db = await getDb();
+
+  function triggerAt(timeLabel: string, leadMinutes: number): string {
+    const [hh, mm] = timeLabel.split(":").map((x) => Number(x));
+    const total = hh * 60 + mm - Math.max(0, leadMinutes);
+    const normalized = ((total % (24 * 60)) + 24 * 60) % (24 * 60);
+    return `${String(Math.floor(normalized / 60)).padStart(2, "0")}:${String(normalized % 60).padStart(2, "0")}`;
+  }
+
+  function ritualDateAtNotificationTime(nowDateValue: string, plannedTimeLabel: string, leadMinutes: number): string {
+    const [hh, mm] = plannedTimeLabel.split(":").map((x) => Number(x));
+    const triggerTotal = hh * 60 + mm - Math.max(0, leadMinutes);
+    if (triggerTotal < 0) return addDaysToDateString(nowDateValue, 1);
+    return nowDateValue;
+  }
+
+  const plans = await db
+    .collection("child_treatment_plans")
+    .find({ active: { $ne: false } })
+    .project({
+      familyId: 1,
+      childId: 1,
+      medicationName: 1,
+      dosage: 1,
+      startDate: 1,
+      endDate: 1,
+      times: 1,
+      reminderLeadMinutes: 1,
+      responsibleParent: 1,
+    })
+    .toArray();
+
+  let remindersSent = 0;
+  for (const plan of plans as {
+    _id: ObjectId;
+    familyId: ObjectId;
+    childId: ObjectId;
+    medicationName: string;
+    dosage: string;
+    startDate: string;
+    endDate?: string | null;
+    times?: string[];
+    reminderLeadMinutes?: number;
+    responsibleParent?: "tata" | "mama" | "both";
+  }[]) {
+    const times = Array.isArray(plan.times) ? plan.times.filter((t) => /^\d{2}:\d{2}$/.test(t)) : [];
+    if (times.length === 0) continue;
+    const lead = typeof plan.reminderLeadMinutes === "number" ? Math.max(0, Math.floor(plan.reminderLeadMinutes)) : 0;
+
+    for (const timeLabel of times) {
+      const whenToSend = triggerAt(timeLabel, lead);
+      if (whenToSend !== nowTimeLabel) continue;
+      const treatmentDate = ritualDateAtNotificationTime(nowDate, timeLabel, lead);
+      if (plan.startDate > treatmentDate) continue;
+      if (plan.endDate && plan.endDate < treatmentDate) continue;
+
+      const eventNow = await db.collection("schedule_events").findOne(
+        { familyId: plan.familyId, date: treatmentDate },
+        { projection: { parent: 1, type: 1 }, sort: { createdAt: -1, _id: -1 } }
+      );
+      const parentRaw = (eventNow as { parent?: unknown } | null)?.parent;
+      const caretaker =
+        parentRaw === "tata" || parentRaw === "mama" || parentRaw === "together"
+          ? parentRaw
+          : "together";
+
+      const family = await db.collection("families").findOne({ _id: plan.familyId }, { projection: { memberIds: 1 } });
+      const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((x) => String(x));
+      if (memberIds.length === 0) continue;
+
+      const users = await db
+        .collection("users")
+        .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
+        .project({ _id: 1, parentType: 1 })
+        .toArray();
+      const usersByParent = new Map<"tata" | "mama", string[]>();
+      for (const u of users as { _id: ObjectId; parentType?: string }[]) {
+        if (u.parentType !== "tata" && u.parentType !== "mama") continue;
+        const list = usersByParent.get(u.parentType) ?? [];
+        list.push(String(u._id));
+        usersByParent.set(u.parentType, list);
+      }
+
+      let recipientUserIds: string[] = [];
+      const responsible = plan.responsibleParent === "tata" || plan.responsibleParent === "mama" ? plan.responsibleParent : "both";
+      if (caretaker === "together") {
+        recipientUserIds = responsible === "both" ? memberIds : usersByParent.get(responsible) ?? [];
+      } else if (responsible === "both") {
+        recipientUserIds = usersByParent.get(caretaker) ?? [];
+      } else {
+        recipientUserIds = responsible === caretaker ? usersByParent.get(caretaker) ?? [] : [];
+      }
+      if (recipientUserIds.length === 0) continue;
+
+      const pending: string[] = [];
+      for (const uid of recipientUserIds) {
+        const already = await db.collection("treatment_reminder_logs").findOne({
+          familyId: plan.familyId,
+          planId: plan._id,
+          userId: uid,
+          date: treatmentDate,
+          timeLabel,
+        });
+        if (!already) pending.push(uid);
+      }
+      if (pending.length === 0) continue;
+
+      const subs = await getSubscriptionsForUsers(pending);
+      if (subs.length === 0) continue;
+      await sendPushToSubscriptions(subs, {
+        title: `Tratament: ${plan.medicationName}`,
+        body:
+          lead > 0
+            ? `În ${lead} min: ${plan.medicationName} (${plan.dosage}) la ${timeLabel}.`
+            : `E timpul: ${plan.medicationName} (${plan.dosage}) la ${timeLabel}.`,
+        url: "/account",
+      });
+      remindersSent += subs.length;
+      const now = new Date();
+      await db.collection("treatment_reminder_logs").insertMany(
+        pending.map((uid) => ({
+          familyId: plan.familyId,
+          childId: plan.childId,
+          planId: plan._id,
+          userId: uid,
+          date: treatmentDate,
+          timeLabel,
+          createdAt: now,
+        }))
+      );
+    }
+  }
+
+  return { ok: true, time: nowTimeLabel, date: nowDate, remindersSent };
+}

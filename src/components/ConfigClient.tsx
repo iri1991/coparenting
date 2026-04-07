@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
+import { ChildHealthSection } from "@/components/ChildHealthSection";
 import type { FamilyHouseholdMode } from "@/types/family";
 import { resolveHouseholdMode } from "@/lib/household-mode";
 
@@ -37,12 +38,16 @@ function ChildDetailsForm({
   onDocumentsChange,
   saving,
   canUseDocuments = true,
+  parent1Name,
+  parent2Name,
 }: {
   child: ChildData;
   onSave: (data: { allergies?: string; notes?: string; birthDate?: string | null }) => void;
   onDocumentsChange: (docs: TravelDocRef[]) => void;
   saving: boolean;
   canUseDocuments?: boolean;
+  parent1Name: string;
+  parent2Name: string;
 }) {
   const [allergies, setAllergies] = useState(child.allergies ?? "");
   const [notes, setNotes] = useState(child.notes ?? "");
@@ -178,6 +183,7 @@ function ChildDetailsForm({
           className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
         />
       </div>
+      <ChildHealthSection childId={child.id} parent1Name={parent1Name} parent2Name={parent2Name} />
       <button
         type="button"
         onClick={() =>
@@ -653,6 +659,8 @@ export function ConfigClient({
                   }
                   saving={saving}
                   canUseDocuments={canUseDocuments}
+                  parent1Name={family.parent1Name}
+                  parent2Name={family.parent2Name}
                 />
               )}
             </li>
