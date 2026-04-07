@@ -33,6 +33,10 @@ const FAQ_ITEMS = [
     a: "Da. Puteți defini ritualuri repetitive, astfel încât copilul să simtă același ritm, indiferent unde se află.",
   },
   {
+    q: "Avem și istoric medical + plan de tratament cu notificări?",
+    a: "Da. În tab-ul dedicat copilului ai timeline de boli (dată început + dată sfârșit/încheiere), rapoarte medicale atașate pe boală, plan de tratament cu interval (zilnic sau la N zile), ore de administrare, reminder pentru părintele responsabil și istoric cu medicamentele administrate în trecut.",
+  },
+  {
     q: "Datele copilului sunt în siguranță?",
     a: "Accesul este controlat, iar produsul tratează datele sensibile ca informații care trebuie protejate, nu doar stocate.",
   },

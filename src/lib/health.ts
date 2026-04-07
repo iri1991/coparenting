@@ -7,6 +7,7 @@ import type {
   ChildTreatmentAdministration,
   ChildTreatmentPlan,
   HealthResponsibleParent,
+  TreatmentRecurrenceType,
 } from "@/types/health";
 
 export interface HealthContext {
@@ -60,21 +61,46 @@ export function isValidHhMm(value: string): boolean {
   return /^\d{2}:\d{2}$/.test(value);
 }
 
+export function diffDaysYmd(startYmd: string, currentYmd: string): number {
+  const start = new Date(`${startYmd}T00:00:00`);
+  const current = new Date(`${currentYmd}T00:00:00`);
+  const diff = current.getTime() - start.getTime();
+  return Math.floor(diff / (24 * 60 * 60 * 1000));
+}
+
+export function isPlanActiveOnDate(
+  plan: Pick<ChildTreatmentPlan, "startDate" | "endDate" | "recurrenceType" | "recurrenceIntervalDays">,
+  ymd: string
+): boolean {
+  if (plan.startDate > ymd) return false;
+  if (plan.endDate && plan.endDate < ymd) return false;
+  if (plan.recurrenceType === "interval") {
+    const interval = Math.max(1, plan.recurrenceIntervalDays ?? 1);
+    const days = diffDaysYmd(plan.startDate, ymd);
+    if (days < 0) return false;
+    return days % interval === 0;
+  }
+  return true;
+}
+
 export function toCondition(doc: {
   _id: unknown;
   childId: unknown;
   title: string;
-  diagnosedAt?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
   status?: string | null;
   notes?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): ChildHealthCondition {
+  const startDate = typeof doc.startDate === "string" && isValidYmd(doc.startDate) ? doc.startDate : "1970-01-01";
   return {
     id: String(doc._id),
     childId: String(doc.childId),
     title: doc.title,
-    diagnosedAt: typeof doc.diagnosedAt === "string" ? doc.diagnosedAt : undefined,
+    startDate,
+    endDate: typeof doc.endDate === "string" && isValidYmd(doc.endDate) ? doc.endDate : undefined,
     status: doc.status === "resolved" ? "resolved" : "active",
     notes: doc.notes?.trim() || undefined,
     createdAt: doc.createdAt.toISOString(),
@@ -92,6 +118,8 @@ export function toPlan(doc: {
   startDate: string;
   endDate?: string | null;
   times?: string[] | null;
+  recurrenceType?: string | null;
+  recurrenceIntervalDays?: number | null;
   reminderLeadMinutes?: number | null;
   responsibleParent?: string | null;
   active?: boolean;
@@ -107,6 +135,11 @@ export function toPlan(doc: {
     doc.responsibleParent === "tata" || doc.responsibleParent === "mama" || doc.responsibleParent === "both"
       ? doc.responsibleParent
       : "both";
+  const recurrenceType: TreatmentRecurrenceType = doc.recurrenceType === "interval" ? "interval" : "daily";
+  const recurrenceIntervalDays =
+    recurrenceType === "interval" && typeof doc.recurrenceIntervalDays === "number" && Number.isFinite(doc.recurrenceIntervalDays)
+      ? Math.max(1, Math.floor(doc.recurrenceIntervalDays))
+      : undefined;
   return {
     id: String(doc._id),
     childId: String(doc.childId),
@@ -117,6 +150,8 @@ export function toPlan(doc: {
     startDate: doc.startDate,
     endDate: doc.endDate?.trim() || undefined,
     times,
+    recurrenceType,
+    recurrenceIntervalDays,
     reminderLeadMinutes: lead,
     responsibleParent: resp,
     active: doc.active !== false,
@@ -154,6 +189,7 @@ export function toAdministration(doc: {
 export function toMedicalReport(doc: {
   _id: unknown;
   childId: unknown;
+  conditionId?: unknown;
   name: string;
   contentType: string;
   createdAt: Date;
@@ -161,6 +197,7 @@ export function toMedicalReport(doc: {
   return {
     id: String(doc._id),
     childId: String(doc.childId),
+    conditionId: doc.conditionId ? String(doc.conditionId) : undefined,
     name: doc.name,
     contentType: doc.contentType,
     createdAt: doc.createdAt.toISOString(),

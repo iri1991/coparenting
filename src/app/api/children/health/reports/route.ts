@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 import { getHealthContext, ensureChildInFamily, toMedicalReport } from "@/lib/health";
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
@@ -17,6 +18,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Date invalide." }, { status: 400 });
   }
   const childIdRaw = formData.get("childId");
+  const conditionIdRaw = formData.get("conditionId");
   const name = formData.get("name");
   const file = formData.get("file");
   if (typeof childIdRaw !== "string" || typeof name !== "string" || !(file instanceof File)) {
@@ -24,6 +26,20 @@ export async function POST(request: Request) {
   }
   const childId = await ensureChildInFamily(ctx.db, ctx.familyId, childIdRaw);
   if (!childId) return NextResponse.json({ error: "Copil invalid." }, { status: 400 });
+  let conditionId: ObjectId | null = null;
+  if (typeof conditionIdRaw === "string" && conditionIdRaw.trim()) {
+    try {
+      conditionId = new ObjectId(conditionIdRaw);
+    } catch {
+      return NextResponse.json({ error: "Afecțiune invalidă." }, { status: 400 });
+    }
+    const cond = await ctx.db.collection("child_health_conditions").findOne({
+      _id: conditionId,
+      familyId: ctx.familyId,
+      childId,
+    });
+    if (!cond) return NextResponse.json({ error: "Afecțiunea selectată nu există." }, { status: 400 });
+  }
   if (!ALLOWED_TYPES.includes(file.type)) {
     return NextResponse.json({ error: "Fișier neacceptat (PDF/JPEG/PNG/WebP)." }, { status: 400 });
   }
@@ -34,6 +50,7 @@ export async function POST(request: Request) {
   const { insertedId } = await ctx.db.collection("child_medical_reports").insertOne({
     familyId: ctx.familyId,
     childId,
+    conditionId,
     name: title,
     contentType: file.type,
     content,

@@ -139,16 +139,16 @@ export function LandingSocialProof() {
 
 const TRANSITIONS = [
   {
-    problem: "Detalii pierdute în conversații",
-    solution: "Calendar, note și schimbări logate într-un singur spațiu",
+    problem: "Programul circulă în mesaje și versiuni diferite",
+    solution: "Calendar unic, cu aceeași informație pentru ambii părinți",
   },
   {
-    problem: "Încărcare mentală pe umerii unuia dintre părinți",
-    solution: "Ritualuri, documente și informații utile vizibile pentru amândoi",
+    problem: "Un singur părinte ține minte tot: acte, alergii, ritualuri",
+    solution: "Ritualuri, documente și informații medicale vizibile pentru amândoi",
   },
   {
-    problem: "Schimbări sensibile rămase neclare după ce au trecut",
-    solution: "Istoric, motiv și notificare clară când se editează ceva important",
+    problem: "Schimbările importante rămân neclare după câteva zile",
+    solution: "Istoric cu context și notificare când se modifică ceva relevant",
   },
 ];
 
@@ -158,9 +158,9 @@ export function LandingProblemSolution() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
         <AnimateOnScroll className="lg:sticky lg:top-28">
           <SectionHeading
-            eyebrow="Atmosferă, nu doar funcții"
-            title="Când coordonarea iese din haos, casa se simte altfel."
-            text="HomeSplit nu încearcă să vă facă mai ocupați. Mută informația într-un loc calm, clar și suficient de bine gândit încât să reducă fricțiunea zilnică."
+            eyebrow="Problema pe care o rezolvăm"
+            title="Coordonare clară pentru decizii de zi cu zi, fără conflicte inutile."
+            text="Când programul copilului, ritualurile și documentele sunt în locuri diferite, apar neînțelegeri. HomeSplit le adună într-un flux comun, ușor de urmărit și de actualizat."
             align="left"
           />
 
@@ -174,16 +174,16 @@ export function LandingProblemSolution() {
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,10,0.02)_0%,rgba(14,12,10,0.3)_100%)]" />
               <div className="absolute bottom-4 left-4 rounded-full bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-700 backdrop-blur">
-                claritatea schimbă atmosfera
+                mai puține ambiguități în program
               </div>
             </div>
           </div>
 
           <div className="mt-6 rounded-[2rem] bg-[#1f3a36] p-7 text-white shadow-[0_28px_70px_rgba(31,58,54,0.18)]">
-            <p className="text-xs uppercase tracking-[0.24em] text-white/60">ce se simte diferit</p>
-            <p className="landing-display mt-4 text-4xl leading-tight">Din reacție, în ritm.</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-white/60">impact în practică</p>
+            <p className="landing-display mt-4 text-4xl leading-tight">Mai puțin „cine a spus ce”.</p>
             <p className="mt-4 max-w-sm text-sm leading-7 text-white/78">
-              Programul nu mai este “ce mai rezolvăm azi?”, ci o imagine comună despre ce urmează, ce s-a schimbat și ce trebuie ținut minte.
+              Programul, excepțiile și informațiile medicale rămân în același loc, cu context și trasabilitate.
             </p>
           </div>
         </AnimateOnScroll>
@@ -214,12 +214,12 @@ export function LandingProblemSolution() {
           <AnimateOnScroll delay={320}>
             <div className="grid gap-5 rounded-[2.2rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fff3e7_0%,#fffdf9_55%,#edf6f3_100%)] p-6 shadow-[0_22px_50px_rgba(28,25,23,0.06)] sm:grid-cols-[1.15fr_0.85fr] sm:items-center">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">micro-story</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">rezultat</p>
                 <p className="landing-display mt-4 text-3xl leading-tight text-stone-900">
-                  Un loc pentru program. Un loc pentru context. Un loc pentru liniște.
+                  Un singur loc pentru program, context și sănătatea copilului.
                 </p>
                 <p className="mt-4 text-sm leading-7 text-stone-600">
-                  Nu arată ca un spreadsheet. Arată ca un produs care înțelege că familia are ritm, nu doar deadline-uri.
+                  Când apare o schimbare, nu mai căutați în chat: decizia, motivul și data sunt deja acolo.
                 </p>
               </div>
               <div className="rounded-[1.8rem] bg-white/80 p-5 shadow-[0_16px_32px_rgba(28,25,23,0.06)]">
@@ -245,15 +245,15 @@ export function LandingProblemSolution() {
 
 const FEATURE_GALLERY = [
   {
-    title: "Ritmul serii",
-    text: "Ritualuri care rămân recognoscibile și ușor de urmat.",
+    title: "Ritualuri și administrări zilnice",
+    text: "Checklist de seară, administrări zilnice și istoric de medicație, cu reminder pentru părintele responsabil.",
     image: STOCK_IMAGES.warmHome,
     alt: "Părinte și copil într-un moment de seară acasă",
     className: "md:col-span-2",
   },
   {
-    title: "Mobil, dar cald",
-    text: "Produsul trebuie să arate bine exact unde este folosit cel mai des.",
+    title: "Decizii rapide pe telefon",
+    text: "Când apare o modificare, actualizezi imediat programul, fără pași inutili.",
     image: STOCK_IMAGES.childFocus,
     alt: "Copil într-un moment calm și concentrat",
     className: "",
@@ -306,6 +306,15 @@ const FEATURE_CARDS: Array<{
     iconTone: "bg-[#dde8f6] text-[#365d89]",
   },
   {
+    icon: ShieldCheck,
+    title: "Istoric medical și plan de tratament",
+    text: "Gestionezi boala cap-coadă: perioadă de evoluție, rapoarte atașate, medicamente recurente și istoricul administrărilor.",
+    bullets: ["timeline boli (start/sfârșit)", "recurență tratament (zilnic / la N zile)", "istoric medicamente administrate"],
+    className: "",
+    tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]",
+    iconTone: "bg-[#d9eee8] text-[#1f5a4e]",
+  },
+  {
     icon: MessageSquare,
     title: "Context lângă calendar",
     text: "Mesajele importante trăiesc în aceeași zonă cu programul, nu în alt univers.",
@@ -325,6 +334,29 @@ const FEATURE_CARDS: Array<{
   },
 ];
 
+const HEALTH_HIGHLIGHTS = [
+  {
+    title: "Timeline boli",
+    text: "Vezi evoluția fiecărei afecțiuni cu dată de început și dată de sfârșit/încheiere.",
+    tone: "bg-[#fff4e8]",
+  },
+  {
+    title: "Rapoarte pe boală",
+    text: "Atașezi documente medicale direct pe boala relevantă, pentru context clar.",
+    tone: "bg-[#eef4fb]",
+  },
+  {
+    title: "Recurrență tratament",
+    text: "Setezi administrare zilnic sau la N zile, cu ore exacte și reminder.",
+    tone: "bg-[#edf6f3]",
+  },
+  {
+    title: "Istoric administrări",
+    text: "Ai lista cu medicamente administrate în trecut, utilă pentru urmărire și discuții medicale.",
+    tone: "bg-[#f8f1dc]",
+  },
+];
+
 export function LandingFeatures() {
   return (
     <section id="functionalitati" className="py-16 sm:py-24">
@@ -332,8 +364,8 @@ export function LandingFeatures() {
         <AnimateOnScroll>
           <SectionHeading
             eyebrow="Ce face produsul"
-            title="Mai puține blocuri de text. Mai multe momente în care totul are sens."
-            text="Am păstrat funcțiile care chiar reduc stresul și le-am așezat într-un flow care se vede rapid: program, ritualuri, documente, idei și istoric clar."
+            title="Tot ce ține de copil, într-un singur loc clar pentru ambii părinți."
+            text="HomeSplit adună programul, ritualurile, informațiile medicale, documentele și istoricul deciziilor într-o structură ușor de urmărit. Mai puține întrebări repetitive, mai puține neînțelegeri și mai mult timp pentru ce contează."
           />
         </AnimateOnScroll>
 
@@ -377,6 +409,28 @@ export function LandingFeatures() {
             </AnimateOnScroll>
           ))}
         </div>
+
+        <AnimateOnScroll delay={180}>
+          <div className="mt-8 rounded-[2.2rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fffdf9_0%,#edf6f3_100%)] p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)]">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Sănătate & tratament</p>
+              <h3 className="mt-3 text-2xl font-extrabold text-stone-900 sm:text-3xl">
+                Modul medical complet, explicat pe scurt.
+              </h3>
+              <p className="mt-3 text-sm leading-7 text-stone-600">
+                Nu este doar o listă de medicamente. Este un flux cap-coadă pentru boală, tratament, documente și administrări.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {HEALTH_HIGHLIGHTS.map((item) => (
+                <div key={item.title} className={`rounded-[1.5rem] border border-white/70 ${item.tone} p-4`}>
+                  <p className="text-sm font-extrabold text-stone-900">{item.title}</p>
+                  <p className="mt-2 text-xs leading-6 text-stone-600">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AnimateOnScroll>
       </div>
     </section>
   );
@@ -412,8 +466,8 @@ export function LandingHowItWorks() {
         <AnimateOnScroll>
           <SectionHeading
             eyebrow="Cum începe"
-            title="Onboarding scurt. Claritate care rămâne."
-            text="Nu trebuie să înveți un sistem greoi. Primii pași sunt puțini, iar valoarea apare imediat ce programul începe să aibă o singură sursă."
+            title="Configurare în câteva minute, beneficii din prima săptămână."
+            text="Setezi familia, copilul și regulile de bază, apoi aveți același context pentru program, ritualuri, tratament și documente."
           />
         </AnimateOnScroll>
 
@@ -461,6 +515,12 @@ const USE_CASES = [
     tone: "bg-[#eef4fb]",
   },
   {
+    quote: "“Ce tratament urmează și cine l-a administrat?”",
+    answer:
+      "Ai timeline de boli (cu început/sfârșit), planuri de tratament cu recurență, rapoarte medicale atașate și listă cu medicamente administrate în trecut.",
+    tone: "bg-[#edf6f3]",
+  },
+  {
     quote: "“Copilul are alergie și bunicii trebuie să știe imediat.”",
     answer: "Informația nu mai stă ascunsă într-un mesaj vechi.",
     tone: "bg-[#fff5eb]",
@@ -479,8 +539,8 @@ export function LandingUseCases() {
         <AnimateOnScroll>
           <SectionHeading
             eyebrow="Scenarii reale"
-            title="Viața de familie nu vine în bullet points perfecte."
-            text="Tocmai de aceea designul și funcțiile trebuie să răspundă la situații concrete: mutări, rutină, vacanțe, alergii, schimbări sensibile și serile care trebuie să curgă mai calm."
+            title="Situații reale în care diferența se vede imediat."
+            text="De la mutări de program și handover, până la tratament, acte și rutină de seară, HomeSplit ține aceeași imagine pentru toți cei implicați."
           />
         </AnimateOnScroll>
 
@@ -530,12 +590,12 @@ export function LandingWhyUs() {
           <div className="overflow-hidden rounded-[2.6rem] bg-[#1f3a36] px-6 py-10 text-white shadow-[0_30px_80px_rgba(31,58,54,0.2)] sm:px-10">
             <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-white/55">De ce se simte diferit</p>
+                <p className="text-xs uppercase tracking-[0.24em] text-white/55">de ce funcționează</p>
                 <h2 className="landing-display mt-4 text-4xl leading-tight sm:text-5xl">
-                  HomeSplit nu arată ca un proces rece. Arată ca un spațiu de familie.
+                  Un produs util când aveți nevoie de claritate, nu de încă un canal de comunicare.
                 </h2>
                 <p className="mt-5 max-w-xl text-sm leading-8 text-white/75 sm:text-base">
-                  Direcția de produs și direcția vizuală spun același lucru: claritatea nu trebuie să fie austeră. Poate fi caldă, memorabilă și foarte practică în același timp.
+                  Fiecare zonă este construită pentru decizii concrete: cine este cu copilul, ce urmează, ce s-a schimbat, ce tratament se administrează și unde sunt documentele.
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -592,8 +652,8 @@ export function LandingWebApp() {
         <AnimateOnScroll>
           <SectionHeading
             eyebrow="Web app"
-            title="Arată premium, dar intri instant."
-            text="Landing-ul poate fi emoțional și produsul poate rămâne extrem de practic. HomeSplit merge pe telefon, tabletă și laptop, fără instalare din store."
+            title="Intri imediat, de pe orice dispozitiv — fără instalare, fără pași inutili."
+            text="Când apare o schimbare de program sau o nevoie urgentă, ultimul lucru de care ai nevoie e fricțiune tehnică. HomeSplit funcționează direct din browser pe telefon, tabletă și laptop, ca să poți acționa rapid și să rămâneți sincronizați."
           />
         </AnimateOnScroll>
 

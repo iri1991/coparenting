@@ -333,6 +333,23 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
     return nowDateValue;
   }
 
+  function matchesRecurrence(
+    treatmentDate: string,
+    startDate: string,
+    recurrenceType?: "daily" | "interval",
+    recurrenceIntervalDays?: number | null
+  ): boolean {
+    if (recurrenceType !== "interval") return true;
+    const interval =
+      typeof recurrenceIntervalDays === "number" && Number.isFinite(recurrenceIntervalDays)
+        ? Math.max(1, Math.floor(recurrenceIntervalDays))
+        : 1;
+    const start = new Date(`${startDate}T00:00:00`).getTime();
+    const current = new Date(`${treatmentDate}T00:00:00`).getTime();
+    const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
+    return days >= 0 && days % interval === 0;
+  }
+
   const plans = await db
     .collection("child_treatment_plans")
     .find({ active: { $ne: false } })
@@ -344,6 +361,8 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
       startDate: 1,
       endDate: 1,
       times: 1,
+      recurrenceType: 1,
+      recurrenceIntervalDays: 1,
       reminderLeadMinutes: 1,
       responsibleParent: 1,
     })
@@ -359,6 +378,8 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
     startDate: string;
     endDate?: string | null;
     times?: string[];
+    recurrenceType?: "daily" | "interval";
+    recurrenceIntervalDays?: number | null;
     reminderLeadMinutes?: number;
     responsibleParent?: "tata" | "mama" | "both";
   }[]) {
@@ -372,6 +393,7 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
       const treatmentDate = ritualDateAtNotificationTime(nowDate, timeLabel, lead);
       if (plan.startDate > treatmentDate) continue;
       if (plan.endDate && plan.endDate < treatmentDate) continue;
+      if (!matchesRecurrence(treatmentDate, plan.startDate, plan.recurrenceType, plan.recurrenceIntervalDays)) continue;
 
       const eventNow = await db.collection("schedule_events").findOne(
         { familyId: plan.familyId, date: treatmentDate },

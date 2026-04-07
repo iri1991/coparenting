@@ -29,8 +29,16 @@ export async function POST(request: Request) {
   const startDate = typeof body.startDate === "string" && isValidYmd(body.startDate) ? body.startDate : "";
   if (!startDate) return NextResponse.json({ error: "Data de start este invalidă." }, { status: 400 });
   const endDate = typeof body.endDate === "string" && isValidYmd(body.endDate) ? body.endDate : null;
+  if (endDate && endDate < startDate) return NextResponse.json({ error: "Data de sfârșit este invalidă." }, { status: 400 });
   const times = sanitizeTimes(body.times);
   if (times.length === 0) return NextResponse.json({ error: "Adaugă cel puțin o oră (HH:mm)." }, { status: 400 });
+  const recurrenceType = body.recurrenceType === "interval" ? "interval" : "daily";
+  const recurrenceIntervalDays =
+    recurrenceType === "interval"
+      ? typeof body.recurrenceIntervalDays === "number" && Number.isFinite(body.recurrenceIntervalDays)
+        ? Math.max(1, Math.min(30, Math.floor(body.recurrenceIntervalDays)))
+        : 1
+      : null;
   const lead =
     typeof body.reminderLeadMinutes === "number" && Number.isFinite(body.reminderLeadMinutes)
       ? Math.max(0, Math.min(240, Math.floor(body.reminderLeadMinutes)))
@@ -56,6 +64,8 @@ export async function POST(request: Request) {
     startDate,
     endDate,
     times,
+    recurrenceType,
+    recurrenceIntervalDays,
     reminderLeadMinutes: lead,
     responsibleParent,
     active: true,
@@ -116,7 +126,48 @@ export async function PATCH(request: Request) {
   if ("responsibleParent" in body) {
     update.responsibleParent = body.responsibleParent === "tata" || body.responsibleParent === "mama" ? body.responsibleParent : "both";
   }
+  if ("recurrenceType" in body) {
+    update.recurrenceType = body.recurrenceType === "interval" ? "interval" : "daily";
+  }
+  if ("recurrenceIntervalDays" in body) {
+    update.recurrenceIntervalDays =
+      typeof body.recurrenceIntervalDays === "number" && Number.isFinite(body.recurrenceIntervalDays)
+        ? Math.max(1, Math.min(30, Math.floor(body.recurrenceIntervalDays)))
+        : 1;
+  }
+  if ("conditionId" in body) {
+    if (body.conditionId === null || body.conditionId === "") {
+      update.conditionId = null;
+    } else if (typeof body.conditionId === "string") {
+      try {
+        update.conditionId = new ObjectId(body.conditionId);
+      } catch {
+        return NextResponse.json({ error: "Afecțiune invalidă." }, { status: 400 });
+      }
+    }
+  }
   if ("active" in body) update.active = body.active !== false;
+
+  const existing = await ctx.db.collection("child_treatment_plans").findOne({ _id: id, familyId: ctx.familyId });
+  if (!existing) return NextResponse.json({ error: "Plan negăsit." }, { status: 404 });
+  const nextStart = String(update.startDate ?? (existing as { startDate?: string }).startDate ?? "");
+  const nextEndRaw = update.endDate ?? (existing as { endDate?: string | null }).endDate ?? null;
+  const nextEnd = typeof nextEndRaw === "string" ? nextEndRaw : null;
+  if (nextEnd && nextStart && nextEnd < nextStart) {
+    return NextResponse.json({ error: "Data de sfârșit nu poate fi înainte de data de început." }, { status: 400 });
+  }
+
+  const nextRecurrenceType =
+    (update.recurrenceType as string | undefined) ??
+    ((existing as { recurrenceType?: string | null }).recurrenceType === "interval" ? "interval" : "daily");
+  if (nextRecurrenceType === "interval" && !("recurrenceIntervalDays" in update)) {
+    const prev = (existing as { recurrenceIntervalDays?: number | null }).recurrenceIntervalDays;
+    update.recurrenceIntervalDays = typeof prev === "number" && Number.isFinite(prev) ? Math.max(1, Math.floor(prev)) : 1;
+  }
+  if (nextRecurrenceType === "daily") {
+    update.recurrenceIntervalDays = null;
+  }
+
   await ctx.db.collection("child_treatment_plans").updateOne({ _id: id, familyId: ctx.familyId }, { $set: update });
   const updated = await ctx.db.collection("child_treatment_plans").findOne({ _id: id, familyId: ctx.familyId });
   if (!updated) return NextResponse.json({ error: "Plan negăsit." }, { status: 404 });

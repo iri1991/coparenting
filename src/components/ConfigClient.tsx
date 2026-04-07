@@ -232,6 +232,7 @@ export function ConfigClient({
   plan = "free",
   returnToHref,
 }: ConfigClientProps) {
+  type ConfigTab = "general" | "child" | "residences" | "other";
   const canUseDocuments = plan === "pro" || plan === "family";
   const router = useRouter();
   const [family, setFamily] = useState(initialFamily);
@@ -251,6 +252,7 @@ export function ConfigClient({
   const [expandedChildId, setExpandedChildId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<ConfigTab>("general");
   const canSharePdf = plan === "pro" || plan === "family";
 
   useEffect(() => {
@@ -490,6 +492,65 @@ export function ConfigClient({
   return (
     <div className="space-y-8">
       {currentUserId && <NotificationSettingsSection currentUserId={currentUserId} />}
+      <div
+        className="app-native-surface rounded-[1.6rem] p-1 grid grid-cols-4 gap-1"
+        role="tablist"
+        aria-label="Tab-uri configurări"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "general"}
+          onClick={() => setActiveTab("general")}
+          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+            activeTab === "general"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
+              : "text-stone-600 hover:bg-white/80"
+          }`}
+        >
+          General
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "child"}
+          onClick={() => setActiveTab("child")}
+          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+            activeTab === "child"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
+              : "text-stone-600 hover:bg-white/80"
+          }`}
+        >
+          Copil
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "residences"}
+          onClick={() => setActiveTab("residences")}
+          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+            activeTab === "residences"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
+              : "text-stone-600 hover:bg-white/80"
+          }`}
+        >
+          Locuințe
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "other"}
+          onClick={() => setActiveTab("other")}
+          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+            activeTab === "other"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
+              : "text-stone-600 hover:bg-white/80"
+          }`}
+        >
+          Altele
+        </button>
+      </div>
+      {activeTab === "general" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">Configurare inițială</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -622,7 +683,9 @@ export function ConfigClient({
           </div>
         </div>
       </section>
+      )}
 
+      {activeTab === "child" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">Copii</h2>
         <ul className="space-y-2 mb-3">
@@ -692,7 +755,9 @@ export function ConfigClient({
           </p>
         )}
       </section>
+      )}
 
+      {activeTab === "child" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Informații copil</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -702,7 +767,9 @@ export function ConfigClient({
           <p className="text-sm text-stone-500 dark:text-stone-400">Adaugă mai întâi un copil în secțiunea „Copii”.</p>
         ) : null}
       </section>
+      )}
 
+      {activeTab === "residences" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">Locuințe</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -752,8 +819,9 @@ export function ConfigClient({
           </p>
         )}
       </section>
+      )}
 
-      {!canSharePdf && (
+      {activeTab === "other" && !canSharePdf && (
         <section className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -767,7 +835,7 @@ export function ConfigClient({
           <UpgradeCta variant="button" />
         </section>
       )}
-      {canSharePdf && (
+      {activeTab === "other" && canSharePdf && (
         <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -855,7 +923,7 @@ export function ConfigClient({
         </section>
       )}
 
-      {memberCount < 2 && (
+      {activeTab === "other" && memberCount < 2 && (
         <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
           <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
             <Mail className="w-4 h-4" />
@@ -905,6 +973,7 @@ export function ConfigClient({
         </section>
       )}
 
+      {activeTab === "other" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Importă evenimente</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -966,6 +1035,7 @@ export function ConfigClient({
           </div>
         </div>
       </section>
+      )}
 
       {message && (
         <p className={`text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-600"}`}>{message.text}</p>

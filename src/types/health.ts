@@ -4,12 +4,15 @@ export interface ChildHealthCondition {
   id: string;
   childId: string;
   title: string;
-  diagnosedAt?: string;
+  startDate: string;
+  endDate?: string;
   status: "active" | "resolved";
   notes?: string;
   createdAt: string;
   updatedAt: string;
 }
+
+export type TreatmentRecurrenceType = "daily" | "interval";
 
 export interface ChildTreatmentPlan {
   id: string;
@@ -21,6 +24,8 @@ export interface ChildTreatmentPlan {
   startDate: string;
   endDate?: string;
   times: string[]; // HH:mm
+  recurrenceType: TreatmentRecurrenceType;
+  recurrenceIntervalDays?: number;
   reminderLeadMinutes: number;
   responsibleParent: HealthResponsibleParent;
   active: boolean;
@@ -44,6 +49,7 @@ export interface ChildTreatmentAdministration {
 export interface ChildMedicalReportRef {
   id: string;
   childId: string;
+  conditionId?: string;
   name: string;
   contentType: string;
   createdAt: string;
