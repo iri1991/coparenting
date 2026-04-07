@@ -17,6 +17,7 @@ import { FamilyLabelsProvider } from "@/contexts/FamilyLabelsContext";
 import { UpgradeCta } from "@/components/UpgradeCta";
 import { EndOfPeriodActivitiesModal } from "@/components/EndOfPeriodActivitiesModal";
 import { ActivityRecommendationsTab } from "@/components/ActivityRecommendationsTab";
+import { BlogReferencesSection } from "@/components/BlogReferencesSection";
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
 import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
@@ -807,6 +808,9 @@ export function DashboardClient({
       )}
       {activeTab === "idei" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
+      )}
+      {activeTab === "idei" && (
+        <BlogReferencesSection />
       )}
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">

@@ -190,6 +190,20 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
     }
   }
 
+  async function reactivateCondition() {
+    setStopping("reactivate");
+    try {
+      await fetch("/api/children/health/conditions", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: condition.id, endDate: null, status: "active" }),
+      });
+      onRefresh();
+    } finally {
+      setStopping(null);
+    }
+  }
+
   async function stopPlan(planId: string) {
     setStopping(planId);
     try {
@@ -239,7 +253,16 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
             >
               {stopping === "condition" ? "…" : "Încheie"}
             </button>
-          ) : null}
+          ) : (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); reactivateCondition(); }}
+              disabled={stopping === "reactivate"}
+              className="rounded-full border border-stone-300 px-2 py-1 text-[11px] font-semibold text-stone-500 hover:border-emerald-400 hover:text-emerald-700 transition disabled:opacity-50"
+            >
+              {stopping === "reactivate" ? "…" : "Reactivează"}
+            </button>
+          )}
           {expanded ? <ChevronUp className="w-4 h-4 text-stone-400" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
         </div>
       </button>

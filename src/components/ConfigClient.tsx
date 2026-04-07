@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Upload, Mail } from "lucide-react";
+import { Plus, Trash2, Upload, Mail, Share2, FileDown, Copy, RefreshCw, ExternalLink } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
 import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
@@ -957,54 +957,74 @@ export function ConfigClient({
           />
           {currentUserId ? <NotificationSettingsSection currentUserId={currentUserId} /> : null}
           {!canSharePdf ? (
-        <section className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20 p-4">
-          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-            </svg>
-            Partajare program și export PDF
-          </h2>
-          <p className="text-xs text-stone-600 dark:text-stone-400 mb-3">
-            Disponibile în planul Pro – link partajare și export PDF pentru programul săptămânal.
-          </p>
-          <UpgradeCta variant="button" />
-        </section>
+            <section className="rounded-[1.4rem] border border-[#ead9c8] bg-[#fffcf8] p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#f6eee5] text-[#b66347]">
+                  <Share2 className="w-4 h-4" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-stone-800">Partajare & export PDF</p>
+                  <p className="text-xs text-stone-500">Disponibil în planul Pro</p>
+                </div>
+              </div>
+              <UpgradeCta variant="button" />
+            </section>
           ) : null}
           {canSharePdf ? (
-        <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-            </svg>
-            Partajare program săptămânal
-          </h2>
-          <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-            Generează un link pe care îl poți trimite bunicilor, încrengătorilor etc. Cei cu linkul văd doar programul săptămânal, într-o pagină frumoasă. Poți și salva ca PDF.
-          </p>
-          {shareUrl ? (
-            <div className="space-y-3">
-              <input
-                type="text"
-                readOnly
-                value={shareUrl}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-sm"
-              />
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => navigator.clipboard.writeText(shareUrl).then(() => setMessage({ type: "ok", text: "Link copiat." }))}
-                  className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-50 dark:hover:bg-stone-800"
-                >
-                  Copiază linkul
-                </button>
-                <a
-                  href={shareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600"
-                >
-                  Deschide / Exportă PDF
-                </a>
+            <section className="rounded-[1.4rem] border border-[#ead9c8] bg-[#fffcf8] p-4 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#f6eee5] text-[#b66347]">
+                  <Share2 className="w-4 h-4" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-stone-800">Partajare program săptămânal</p>
+                  <p className="text-xs text-stone-500">Trimite linkul bunicilor sau altor persoane. Pot salva și ca PDF.</p>
+                </div>
+              </div>
+
+              {shareUrl ? (
+                <>
+                  <div className="flex items-center gap-2 rounded-[1rem] bg-white border border-stone-200 px-3 py-2">
+                    <span className="flex-1 text-xs text-stone-500 truncate font-mono">{shareUrl}</span>
+                    <button
+                      type="button"
+                      onClick={() => navigator.clipboard.writeText(shareUrl).then(() => setMessage({ type: "ok", text: "Link copiat." }))}
+                      className="shrink-0 flex items-center gap-1.5 rounded-lg bg-[#f6eee5] px-2.5 py-1.5 text-xs font-semibold text-[#b66347] hover:bg-[#f0e0d0] transition"
+                    >
+                      <Copy className="w-3.5 h-3.5" /> Copiază
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href={shareUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="app-native-primary-button inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold"
+                    >
+                      <ExternalLink className="w-4 h-4" /> Deschide / Export PDF
+                    </a>
+                    <button
+                      type="button"
+                      disabled={shareLoading}
+                      onClick={async () => {
+                        setShareLoading(true);
+                        setMessage(null);
+                        try {
+                          const res = await fetch("/api/share-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ regenerate: true }) });
+                          const data = await res.json().catch(() => ({}));
+                          if (!res.ok) { setMessage({ type: "error", text: data.error || "Eroare." }); return; }
+                          if (data.shareUrl) setShareUrl(data.shareUrl);
+                          setMessage({ type: "ok", text: "Link nou generat. Linkul vechi nu mai funcționează." });
+                        } finally { setShareLoading(false); }
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-[1rem] border border-stone-200 px-4 py-2.5 text-sm font-semibold text-stone-600 hover:bg-stone-50 disabled:opacity-50 transition"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" /> {shareLoading ? "Se generează…" : "Resetează link"}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-stone-400">Linkul vechi devine invalid la resetare.</p>
+                </>
+              ) : (
                 <button
                   type="button"
                   disabled={shareLoading}
@@ -1012,50 +1032,19 @@ export function ConfigClient({
                     setShareLoading(true);
                     setMessage(null);
                     try {
-                      const res = await fetch("/api/share-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ regenerate: true }) });
+                      const res = await fetch("/api/share-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
                       const data = await res.json().catch(() => ({}));
-                      if (!res.ok) {
-                        setMessage({ type: "error", text: data.error || "Eroare." });
-                        return;
-                      }
+                      if (!res.ok) { setMessage({ type: "error", text: data.error || "Eroare." }); return; }
                       if (data.shareUrl) setShareUrl(data.shareUrl);
-                      setMessage({ type: "ok", text: "Link nou generat. Linkul vechi nu mai funcționează." });
-                    } finally {
-                      setShareLoading(false);
-                    }
+                      setMessage({ type: "ok", text: "Link generat. Copiază-l și trimite-l." });
+                    } finally { setShareLoading(false); }
                   }}
-                  className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400 text-sm hover:bg-stone-50 dark:hover:bg-stone-800 disabled:opacity-50"
+                  className="app-native-primary-button inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
                 >
-                  {shareLoading ? "Se generează…" : "Resetează link"}
+                  <FileDown className="w-4 h-4" /> {shareLoading ? "Se generează…" : "Generează link partajare"}
                 </button>
-              </div>
-            </div>
-          ) : (
-            <button
-              type="button"
-              disabled={shareLoading}
-              onClick={async () => {
-                setShareLoading(true);
-                setMessage(null);
-                try {
-                  const res = await fetch("/api/share-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
-                  const data = await res.json().catch(() => ({}));
-                  if (!res.ok) {
-                    setMessage({ type: "error", text: data.error || "Eroare." });
-                    return;
-                  }
-                  if (data.shareUrl) setShareUrl(data.shareUrl);
-                  setMessage({ type: "ok", text: "Link generat. Copiază-l și trimite-l celor care trebuie să vadă programul." });
-                } finally {
-                  setShareLoading(false);
-                }
-              }}
-              className="px-4 py-2.5 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
-            >
-              {shareLoading ? "Se generează…" : "Generează link partajare"}
-            </button>
-          )}
-        </section>
+              )}
+            </section>
           ) : null}
 
           {memberCount < 2 ? (
