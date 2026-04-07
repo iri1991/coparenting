@@ -6,9 +6,9 @@ import Link from "next/link";
 import { Plus, Trash2, Upload, Mail } from "lucide-react";
 import { NotificationSettingsSection } from "@/components/NotificationSettingsSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
-import { ChildHealthSection } from "@/components/ChildHealthSection";
 import type { FamilyHouseholdMode } from "@/types/family";
 import { resolveHouseholdMode } from "@/lib/household-mode";
+import { ChildHealthSection } from "@/components/ChildHealthSection";
 
 interface FamilyData {
   id: string;
@@ -38,16 +38,12 @@ function ChildDetailsForm({
   onDocumentsChange,
   saving,
   canUseDocuments = true,
-  parent1Name,
-  parent2Name,
 }: {
   child: ChildData;
   onSave: (data: { allergies?: string; notes?: string; birthDate?: string | null }) => void;
   onDocumentsChange: (docs: TravelDocRef[]) => void;
   saving: boolean;
   canUseDocuments?: boolean;
-  parent1Name: string;
-  parent2Name: string;
 }) {
   const [allergies, setAllergies] = useState(child.allergies ?? "");
   const [notes, setNotes] = useState(child.notes ?? "");
@@ -183,7 +179,6 @@ function ChildDetailsForm({
           className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
         />
       </div>
-      <ChildHealthSection childId={child.id} parent1Name={parent1Name} parent2Name={parent2Name} />
       <button
         type="button"
         onClick={() =>
@@ -232,7 +227,7 @@ export function ConfigClient({
   plan = "free",
   returnToHref,
 }: ConfigClientProps) {
-  type ConfigTab = "general" | "child" | "residences" | "other";
+  type ConfigTab = "general" | "child" | "health" | "residences" | "other";
   const canUseDocuments = plan === "pro" || plan === "family";
   const router = useRouter();
   const [family, setFamily] = useState(initialFamily);
@@ -250,6 +245,7 @@ export function ConfigClient({
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteResult, setInviteResult] = useState<{ joinUrl: string; emailSent: boolean } | null>(null);
   const [expandedChildId, setExpandedChildId] = useState<string | null>(null);
+  const [expandedHealthChildId, setExpandedHealthChildId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<ConfigTab>("general");
@@ -493,7 +489,7 @@ export function ConfigClient({
     <div className="space-y-8">
       {currentUserId && <NotificationSettingsSection currentUserId={currentUserId} />}
       <div
-        className="app-native-surface rounded-[1.6rem] p-1 grid grid-cols-4 gap-1"
+        className="app-native-surface rounded-[1.6rem] p-1 grid grid-cols-5 gap-1"
         role="tablist"
         aria-label="Tab-uri configurări"
       >
@@ -535,6 +531,19 @@ export function ConfigClient({
           }`}
         >
           Locuințe
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "health"}
+          onClick={() => setActiveTab("health")}
+          className={`rounded-xl py-2 px-1 text-xs sm:text-sm font-semibold transition ${
+            activeTab === "health"
+              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
+              : "text-stone-600 hover:bg-white/80"
+          }`}
+        >
+          Sănătate
         </button>
         <button
           type="button"
@@ -722,8 +731,6 @@ export function ConfigClient({
                   }
                   saving={saving}
                   canUseDocuments={canUseDocuments}
-                  parent1Name={family.parent1Name}
-                  parent2Name={family.parent2Name}
                 />
               )}
             </li>
@@ -753,6 +760,39 @@ export function ConfigClient({
             Planul Free: 1 copil. Pro: până la 3. Family+: nelimitat.
             <UpgradeCta variant="inline" children="Upgrade" />
           </p>
+        )}
+      </section>
+      )}
+
+      {activeTab === "health" && (
+      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
+        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Sănătate copil</h2>
+        <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+          Fiecare copil are secțiunea lui: boli (timeline), rapoarte medicale, planuri de tratament, recurență și istoric administrări.
+        </p>
+        {children.length === 0 ? (
+          <p className="text-sm text-stone-500 dark:text-stone-400">Adaugă mai întâi un copil în tab-ul „Copil”.</p>
+        ) : (
+          <ul className="space-y-2">
+            {children.map((c) => (
+              <li key={`health-${c.id}`} className="rounded-xl bg-stone-50 dark:bg-stone-800/50 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setExpandedHealthChildId(expandedHealthChildId === c.id ? null : c.id)}
+                  className="w-full flex items-center justify-between gap-2 py-3 px-3 text-left"
+                  aria-expanded={expandedHealthChildId === c.id}
+                >
+                  <span className="font-medium text-stone-800 dark:text-stone-200">{c.name}</span>
+                  <span className="text-xs text-stone-500">{expandedHealthChildId === c.id ? "Ascunde" : "Deschide"}</span>
+                </button>
+                {expandedHealthChildId === c.id ? (
+                  <div className="px-3 pb-3">
+                    <ChildHealthSection childId={c.id} parent1Name={family.parent1Name} parent2Name={family.parent2Name} />
+                  </div>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         )}
       </section>
       )}
