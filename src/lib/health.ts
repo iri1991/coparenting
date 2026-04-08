@@ -117,6 +117,7 @@ export function toPlan(doc: {
   instructions?: string | null;
   startDate: string;
   endDate?: string | null;
+  administrationMode?: string | null;
   times?: string[] | null;
   recurrenceType?: string | null;
   recurrenceIntervalDays?: number | null;
@@ -140,6 +141,8 @@ export function toPlan(doc: {
     recurrenceType === "interval" && typeof doc.recurrenceIntervalDays === "number" && Number.isFinite(doc.recurrenceIntervalDays)
       ? Math.max(1, Math.floor(doc.recurrenceIntervalDays))
       : undefined;
+  const administrationMode: import("@/types/health").TreatmentAdministrationMode =
+    doc.administrationMode === "on_demand" ? "on_demand" : "scheduled";
   return {
     id: String(doc._id),
     childId: String(doc.childId),
@@ -149,6 +152,7 @@ export function toPlan(doc: {
     instructions: doc.instructions?.trim() || undefined,
     startDate: doc.startDate,
     endDate: doc.endDate?.trim() || undefined,
+    administrationMode,
     times,
     recurrenceType,
     recurrenceIntervalDays,

@@ -23,6 +23,7 @@ import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
+import { ActiveHealthCard } from "@/components/ActiveHealthCard";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -41,6 +42,7 @@ interface DashboardClientProps {
   parent1Name?: string;
   parent2Name?: string;
   childName?: string;
+  childId?: string;
   residenceNames?: string[];
   /** When provided (e.g. from header), modals are controlled by parent */
   modalOpen?: boolean;
@@ -71,6 +73,7 @@ export function DashboardClient({
   parent1Name = "Părinte 1",
   parent2Name = "Părinte 2",
   childName = "copilul",
+  childId,
   residenceNames = ["Tunari", "Otopeni"],
   modalOpen: modalOpenProp,
   setModalOpen: setModalOpenProp,
@@ -852,6 +855,9 @@ export function DashboardClient({
           </>
         )}
       </section>
+      )}
+      {activeTab === "program" && childId && (
+        <ActiveHealthCard childId={childId} childName={childName} />
       )}
       {activeTab === "program" && (
       <div className="app-native-surface overflow-hidden rounded-[2rem]">

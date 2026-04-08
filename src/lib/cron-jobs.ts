@@ -350,9 +350,10 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
     return days >= 0 && days % interval === 0;
   }
 
+  // Only fetch scheduled plans – on_demand plans have no fixed times and don't get reminders
   const plans = await db
     .collection("child_treatment_plans")
-    .find({ active: { $ne: false } })
+    .find({ active: { $ne: false }, administrationMode: { $ne: "on_demand" } })
     .project({
       familyId: 1,
       childId: 1,

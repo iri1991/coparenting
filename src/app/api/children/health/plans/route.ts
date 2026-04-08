@@ -30,9 +30,10 @@ export async function POST(request: Request) {
   if (!startDate) return NextResponse.json({ error: "Data de start este invalidă." }, { status: 400 });
   const endDate = typeof body.endDate === "string" && isValidYmd(body.endDate) ? body.endDate : null;
   if (endDate && endDate < startDate) return NextResponse.json({ error: "Data de sfârșit este invalidă." }, { status: 400 });
+  const administrationMode = body.administrationMode === "on_demand" ? "on_demand" : "scheduled";
   const times = sanitizeTimes(body.times);
-  if (times.length === 0) return NextResponse.json({ error: "Adaugă cel puțin o oră (HH:mm)." }, { status: 400 });
-  const recurrenceType = body.recurrenceType === "interval" ? "interval" : "daily";
+  if (administrationMode === "scheduled" && times.length === 0) return NextResponse.json({ error: "Adaugă cel puțin o oră (HH:mm)." }, { status: 400 });
+  const recurrenceType = administrationMode === "scheduled" ? (body.recurrenceType === "interval" ? "interval" : "daily") : "daily";
   const recurrenceIntervalDays =
     recurrenceType === "interval"
       ? typeof body.recurrenceIntervalDays === "number" && Number.isFinite(body.recurrenceIntervalDays)
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
         : 1
       : null;
   const lead =
-    typeof body.reminderLeadMinutes === "number" && Number.isFinite(body.reminderLeadMinutes)
+    administrationMode === "scheduled" && typeof body.reminderLeadMinutes === "number" && Number.isFinite(body.reminderLeadMinutes)
       ? Math.max(0, Math.min(240, Math.floor(body.reminderLeadMinutes)))
       : 0;
   const responsibleParent = body.responsibleParent === "tata" || body.responsibleParent === "mama" ? body.responsibleParent : "both";
@@ -63,7 +64,8 @@ export async function POST(request: Request) {
     instructions: instructions || null,
     startDate,
     endDate,
-    times,
+    administrationMode,
+    times: administrationMode === "on_demand" ? [] : times,
     recurrenceType,
     recurrenceIntervalDays,
     reminderLeadMinutes: lead,
@@ -145,6 +147,9 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ error: "Afecțiune invalidă." }, { status: 400 });
       }
     }
+  }
+  if ("administrationMode" in body) {
+    update.administrationMode = body.administrationMode === "on_demand" ? "on_demand" : "scheduled";
   }
   if ("active" in body) update.active = body.active !== false;
 

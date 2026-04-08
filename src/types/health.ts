@@ -13,6 +13,7 @@ export interface ChildHealthCondition {
 }
 
 export type TreatmentRecurrenceType = "daily" | "interval";
+export type TreatmentAdministrationMode = "scheduled" | "on_demand";
 
 export interface ChildTreatmentPlan {
   id: string;
@@ -23,7 +24,8 @@ export interface ChildTreatmentPlan {
   instructions?: string;
   startDate: string;
   endDate?: string;
-  times: string[]; // HH:mm
+  administrationMode: TreatmentAdministrationMode;
+  times: string[]; // HH:mm – used only for "scheduled" mode
   recurrenceType: TreatmentRecurrenceType;
   recurrenceIntervalDays?: number;
   reminderLeadMinutes: number;

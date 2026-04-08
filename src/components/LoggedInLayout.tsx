@@ -20,6 +20,7 @@ interface LoggedInLayoutProps {
   parent1Name?: string;
   parent2Name?: string;
   childName?: string;
+  childId?: string;
   residenceNames?: string[];
   initialUnreadCount?: number;
   isAdmin?: boolean;
@@ -39,6 +40,7 @@ export function LoggedInLayout({
   parent1Name = "Părinte 1",
   parent2Name = "Părinte 2",
   childName = "copilul",
+  childId,
   residenceNames = ["Tunari", "Otopeni"],
   initialUnreadCount = 0,
   isAdmin = false,
@@ -233,6 +235,7 @@ export function LoggedInLayout({
             parent1Name={parent1Name}
             parent2Name={parent2Name}
             childName={childName}
+            childId={childId}
             residenceNames={residenceNames}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}

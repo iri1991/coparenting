@@ -8,6 +8,7 @@ import type {
   ChildTreatmentAdministration,
   ChildTreatmentPlan,
   HealthResponsibleParent,
+  TreatmentAdministrationMode,
 } from "@/types/health";
 
 interface Props {
@@ -31,6 +32,7 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
   const today = TODAY();
   const [medication, setMedication] = useState("");
   const [dosage, setDosage] = useState("");
+  const [mode, setMode] = useState<TreatmentAdministrationMode>("scheduled");
   const [times, setTimes] = useState("08:00");
   const [startDate, setStartDate] = useState(today);
   const [recurrenceType, setRecurrenceType] = useState<"daily" | "interval">("daily");
@@ -40,8 +42,11 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
   const [saving, setSaving] = useState(false);
 
   async function save() {
-    const parsedTimes = times.split(",").map((x) => x.trim()).filter(Boolean);
-    if (!medication.trim() || !dosage.trim() || parsedTimes.length === 0) return;
+    if (!medication.trim() || !dosage.trim()) return;
+    if (mode === "scheduled") {
+      const parsedTimes = times.split(",").map((x) => x.trim()).filter(Boolean);
+      if (parsedTimes.length === 0) return;
+    }
     setSaving(true);
     try {
       await fetch("/api/children/health/plans", {
@@ -52,12 +57,13 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
           conditionId: conditionId || null,
           medicationName: medication.trim(),
           dosage: dosage.trim(),
-          times: parsedTimes,
+          administrationMode: mode,
+          times: mode === "scheduled" ? times.split(",").map((x) => x.trim()).filter(Boolean) : [],
           startDate,
-          recurrenceType,
-          recurrenceIntervalDays: recurrenceType === "interval" ? intervalDays : null,
+          recurrenceType: mode === "scheduled" ? recurrenceType : "daily",
+          recurrenceIntervalDays: mode === "scheduled" && recurrenceType === "interval" ? intervalDays : null,
           responsibleParent: responsible,
-          reminderLeadMinutes: lead,
+          reminderLeadMinutes: mode === "scheduled" ? lead : 0,
         }),
       });
       onDone();
@@ -69,32 +75,55 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
   return (
     <div className="rounded-[1rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
       <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Adaugă medicament</p>
+      {/* Mode toggle */}
+      <div className="flex rounded-[0.7rem] bg-stone-100 p-0.5 gap-0.5">
+        <button type="button" onClick={() => setMode("scheduled")}
+          className={`flex-1 rounded-[0.5rem] py-1.5 text-xs font-semibold transition ${mode === "scheduled" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>
+          Cu program fix
+        </button>
+        <button type="button" onClick={() => setMode("on_demand")}
+          className={`flex-1 rounded-[0.5rem] py-1.5 text-xs font-semibold transition ${mode === "on_demand" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>
+          La nevoie
+        </button>
+      </div>
       <div className="grid gap-2 sm:grid-cols-2">
         <input className="app-native-input px-3 py-2 text-sm" placeholder="Medicament" value={medication} onChange={(e) => setMedication(e.target.value)} />
         <input className="app-native-input px-3 py-2 text-sm" placeholder="Doză (ex. 5ml)" value={dosage} onChange={(e) => setDosage(e.target.value)} />
-        <input className="app-native-input px-3 py-2 text-sm" placeholder="Ore (ex: 08:00, 20:00)" value={times} onChange={(e) => setTimes(e.target.value)} />
-        <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-        <select className="app-native-input px-3 py-2 text-sm" value={recurrenceType} onChange={(e) => setRecurrenceType(e.target.value as "daily" | "interval")}>
-          <option value="daily">Zilnic</option>
-          <option value="interval">La N zile</option>
-        </select>
-        {recurrenceType === "interval" ? (
-          <input type="number" min={1} max={30} className="app-native-input px-3 py-2 text-sm" placeholder="La câte zile" value={intervalDays}
-            onChange={(e) => setIntervalDays(Math.max(1, Math.min(30, Number(e.target.value) || 1)))} />
-        ) : null}
+        {mode === "scheduled" && (
+          <>
+            <input className="app-native-input px-3 py-2 text-sm" placeholder="Ore (ex: 08:00, 20:00)" value={times} onChange={(e) => setTimes(e.target.value)} />
+            <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <select className="app-native-input px-3 py-2 text-sm" value={recurrenceType} onChange={(e) => setRecurrenceType(e.target.value as "daily" | "interval")}>
+              <option value="daily">Zilnic</option>
+              <option value="interval">La N zile</option>
+            </select>
+            {recurrenceType === "interval" ? (
+              <input type="number" min={1} max={30} className="app-native-input px-3 py-2 text-sm" placeholder="La câte zile" value={intervalDays}
+                onChange={(e) => setIntervalDays(Math.max(1, Math.min(30, Number(e.target.value) || 1)))} />
+            ) : null}
+          </>
+        )}
+        {mode === "on_demand" && (
+          <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        )}
         <select className="app-native-input px-3 py-2 text-sm" value={responsible} onChange={(e) => setResponsible(e.target.value as HealthResponsibleParent)}>
           <option value="both">Responsabil: amândoi</option>
           <option value="tata">{parent1Name}</option>
           <option value="mama">{parent2Name}</option>
         </select>
-        <select className="app-native-input px-3 py-2 text-sm" value={String(lead)} onChange={(e) => setLead(Number(e.target.value))}>
-          <option value="0">Notificare la oră</option>
-          <option value="5">-5 min</option>
-          <option value="10">-10 min</option>
-          <option value="15">-15 min</option>
-          <option value="30">-30 min</option>
-        </select>
+        {mode === "scheduled" && (
+          <select className="app-native-input px-3 py-2 text-sm" value={String(lead)} onChange={(e) => setLead(Number(e.target.value))}>
+            <option value="0">Notificare la oră</option>
+            <option value="5">-5 min</option>
+            <option value="10">-10 min</option>
+            <option value="15">-15 min</option>
+            <option value="30">-30 min</option>
+          </select>
+        )}
       </div>
+      {mode === "on_demand" && (
+        <p className="text-[11px] text-stone-400">Medicamentul va apărea zilnic cu un buton de administrare. Ora se înregistrează automat la marcare.</p>
+      )}
       <div className="flex gap-2 pt-1">
         <button type="button" onClick={save} disabled={saving || !medication.trim() || !dosage.trim()} className="app-native-primary-button px-3 py-1.5 text-xs">
           {saving ? "Se salvează…" : "Salvează"}
@@ -279,8 +308,11 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-stone-800">{p.medicationName} <span className="font-normal text-stone-500">· {p.dosage}</span></p>
                     <p className="text-xs text-stone-500 mt-0.5">
-                      {p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"}
-                      {" · "}din {p.startDate}
+                      {p.administrationMode === "on_demand" ? (
+                        <>la nevoie · din {p.startDate}</>
+                      ) : (
+                        <>{p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"}{" · "}din {p.startDate}</>
+                      )}
                     </p>
                   </div>
                   <button
@@ -395,13 +427,22 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
 
   useEffect(() => { reload(); }, [reload]);
 
-  // Today's due doses (all plans)
+  // Today's due doses (all plans) — scheduled have time slots, on_demand appear once
   const dueToday = useMemo(() => {
-    const out: { plan: ChildTreatmentPlan; timeLabel: string; done: boolean }[] = [];
+    const out: { plan: ChildTreatmentPlan; timeLabel: string; done: boolean; administeredAt?: string }[] = [];
     for (const p of plans) {
       if (!p.active) continue;
       if (p.startDate > today) continue;
       if (p.endDate && p.endDate < today) continue;
+
+      if (p.administrationMode === "on_demand") {
+        // On-demand: show once per day, check if any administration exists for today
+        const todayAdmin = administrations.find((a) => a.planId === p.id && a.date === today && a.status === "done");
+        out.push({ plan: p, timeLabel: "la nevoie", done: !!todayAdmin, administeredAt: todayAdmin?.timeLabel });
+        continue;
+      }
+
+      // Scheduled mode
       if (p.recurrenceType === "interval") {
         const start = new Date(`${p.startDate}T00:00:00`).getTime();
         const current = new Date(`${today}T00:00:00`).getTime();
@@ -414,7 +455,13 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         out.push({ plan: p, timeLabel: t, done });
       }
     }
-    return out.sort((a, b) => a.timeLabel.localeCompare(b.timeLabel));
+    // Sort: scheduled by time first, on_demand at the end
+    return out.sort((a, b) => {
+      const aOnDemand = a.plan.administrationMode === "on_demand" ? 1 : 0;
+      const bOnDemand = b.plan.administrationMode === "on_demand" ? 1 : 0;
+      if (aOnDemand !== bOnDemand) return aOnDemand - bOnDemand;
+      return a.timeLabel.localeCompare(b.timeLabel);
+    });
   }, [plans, administrations, today]);
 
   // Past medication history
@@ -497,11 +544,15 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
     }
   }
 
-  async function markDone(planId: string, timeLabel: string) {
+  async function markDone(planId: string, timeLabel: string, isOnDemand?: boolean) {
+    // For on_demand, use the current time as timeLabel
+    const actualTimeLabel = isOnDemand
+      ? new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Bucharest" })
+      : timeLabel;
     await fetch("/api/children/health/administrations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ planId, date: today, timeLabel, status: "done" }),
+      body: JSON.stringify({ planId, date: today, timeLabel: actualTimeLabel, status: "done" }),
     });
     reload();
   }
@@ -515,23 +566,35 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
       {dueToday.length > 0 ? (
         <section className="rounded-[1.2rem] border border-[#b0d8ca] bg-[#f0faf6] p-3 space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-[#1f5a4e]">Administrare azi</p>
-          {dueToday.map((d) => (
-            <div key={`${d.plan.id}-${d.timeLabel}`} className="flex items-center justify-between gap-2 rounded-[0.9rem] bg-white px-3 py-2">
-              <div className="flex items-center gap-2 min-w-0">
-                {d.done
-                  ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
-                  : <Circle className="w-4 h-4 shrink-0 text-stone-300" />
-                }
-                <span className="text-sm text-stone-700 truncate">
-                  <span className="font-medium">{d.timeLabel}</span> · {d.plan.medicationName} ({d.plan.dosage})
-                </span>
+          {dueToday.map((d) => {
+            const isOnDemand = d.plan.administrationMode === "on_demand";
+            return (
+              <div key={`${d.plan.id}-${d.timeLabel}`} className="flex items-center justify-between gap-2 rounded-[0.9rem] bg-white px-3 py-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  {d.done
+                    ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+                    : <Circle className="w-4 h-4 shrink-0 text-stone-300" />
+                  }
+                  <span className="text-sm text-stone-700 truncate">
+                    {isOnDemand ? (
+                      <>
+                        {d.plan.medicationName} ({d.plan.dosage})
+                        {d.done && d.administeredAt ? <span className="text-stone-400 ml-1">· {d.administeredAt}</span> : null}
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-medium">{d.timeLabel}</span> · {d.plan.medicationName} ({d.plan.dosage})
+                      </>
+                    )}
+                  </span>
+                </div>
+                <button type="button" disabled={d.done} onClick={() => markDone(d.plan.id, d.timeLabel, isOnDemand)}
+                  className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0">
+                  {d.done ? "✓ Administrat" : isOnDemand ? "Administrează" : "Marchează"}
+                </button>
               </div>
-              <button type="button" disabled={d.done} onClick={() => markDone(d.plan.id, d.timeLabel)}
-                className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0">
-                {d.done ? "✓ Administrat" : "Marchează"}
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </section>
       ) : null}
 
@@ -592,7 +655,11 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-stone-700">{p.medicationName} · {p.dosage}</p>
-                  <p className="text-xs text-stone-400">{p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"} · din {p.startDate}</p>
+                  <p className="text-xs text-stone-400">
+                    {p.administrationMode === "on_demand"
+                      ? `la nevoie · din ${p.startDate}`
+                      : `${p.times.join(", ")} · ${p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"} · din ${p.startDate}`}
+                  </p>
                 </div>
                 <button
                   type="button"

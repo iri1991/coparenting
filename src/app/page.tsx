@@ -115,7 +115,9 @@ export default async function HomePage({
   const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
   const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
   const activityCity = familyData.activityCity?.trim();
-  const childName = (children as unknown as { name: string }[])[0]?.name || "copilul";
+  const firstChild = children[0] as unknown as { _id: { toString(): string }; name: string } | undefined;
+  const childName = firstChild?.name || "copilul";
+  const childId = firstChild?._id?.toString() ?? "";
   const plan = familyData.plan === "pro" || familyData.plan === "family" ? familyData.plan : "free";
 
   const pendingPlan = planParam === "pro" || planParam === "family" ? planParam : undefined;
@@ -137,6 +139,7 @@ export default async function HomePage({
         parent1Name={parent1Name}
         parent2Name={parent2Name}
         childName={childName}
+        childId={childId}
         residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
         initialUnreadCount={chatUnreadCount}
         isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
