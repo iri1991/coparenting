@@ -78,6 +78,94 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cand-copilul-spune-ca-nu-vrea-sa-mearga-in-cealalta-casa",
+    title: "Când copilul spune că nu vrea să meargă în cealaltă casă",
+    summary:
+      "Refuzul unei tranziții nu cere verdict rapid despre părinți, ci calm, reasigurare și o verificare atentă a modului în care se face schimbul.",
+    intro:
+      "Puține momente apasă mai tare un părinte decât replica «nu vreau să merg la mama» sau «nu vreau să merg la tata». E ușor să o auzi ca pe o confirmare că ceva este profund greșit în cealaltă casă ori ca pe o dovadă că trebuie să insiști imediat. Dar, în multe situații, copilul nu exprimă un verdict matur despre relație, ci dificultatea reală a separării, a schimbării de ritm sau a modului în care se face handover-ul. Asta cere mai întâi reglare și clarificare, nu interogatoriu.",
+    image: {
+      src: "/blog/child-refuses-other-home.svg",
+      alt: "Părinte care îl liniștește pe copil înaintea unei tranziții între două case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-09",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce apare refuzul fără să însemne automat că unul dintre părinți este problema",
+        paragraphs: [
+          "Raising Children Network explică limpede că unii copii au dificultăți reale când se mută între case și că dorința de a rămâne într-un loc sau de a se întoarce repede poate apărea pur și simplu pentru că separarea este grea, mai ales la copiii mici sau în perioadele în care rutina încă nu s-a așezat.",
+          "Cu alte cuvinte, propoziția nu vreau să merg poate descrie disconfortul tranziției, oboseală, anticiparea unei despărțiri sau frica de necunoscutul următoarei ore. Dacă adultul o tratează imediat ca pe un proces de intenție împotriva celuilalt părinte, copilul ajunge și mai prins între loialități.",
+        ],
+      },
+      {
+        title: "Ce faci în momentul acela",
+        paragraphs: [
+          "Primul obiectiv nu este să câștigi disputa, ci să reduci intensitatea. Copilul are nevoie să simtă că emoția lui încape și că adultul rămâne organizat.",
+          "Raising Children recomandă reasigurarea simplă: timpul cu celălalt părinte este important, iar tu vei fi tot aici când se întoarce sau îl vei lua la o oră clară. HealthyChildren subliniază și ea că adaptarea copilului merge mai bine când ambii părinți rămân stabili, predictibili și evită să-l pună în mijlocul conflictului.",
+        ],
+        bullets: [
+          "Vorbește scurt și calm: știu că îți este greu acum.",
+          "Spune ce rămâne stabil: mergi la tata/mama, iar eu te iau vineri după școală.",
+          "Nu cere explicații lungi în vârful emoției și nu transforma momentul într-un interviu.",
+          "Nu critica celălalt părinte și nu lăsa copilul să simtă că trebuie să aleagă între voi.",
+        ],
+      },
+      {
+        title: "După ce copilul se liniștește, caută modelul, nu doar episodul",
+        paragraphs: [
+          "Conversația utilă vine mai târziu, când copilul este din nou disponibil. Atunci poți întreba blând ce a fost cel mai greu: despărțirea, drumul, faptul că schimbul se face în grabă, somnul, bagajul, teama că uită ceva sau o tensiune concretă.",
+          "Merită să urmărești dacă refuzul apare mereu în același punct. Uneori problema nu este casa în sine, ci felul în care se face tranziția: schimb prea târziu, copil obosit, discuții între adulți, lipsa obiectului de confort sau prea multe necunoscute la plecare.",
+        ],
+        bullets: [
+          "Notează când apare refuzul: înainte de plecare, pe drum sau la despărțire.",
+          "Verifică dacă există factori constanți: foame, oboseală, schimbarea rutinei, teme, bagaj.",
+          "Întreabă copilul ce l-ar ajuta data viitoare să fie puțin mai ușor.",
+          "Discutați adult la adult despre schimbări logistice, nu prin copil.",
+        ],
+      },
+      {
+        title: "Ajustări mici care pot schimba mult",
+        paragraphs: [
+          "Raising Children propune câteva ajustări foarte practice: schimburi politicoase și previzibile, uneori la școală sau la grădiniță în loc de ușa casei, obiecte esențiale în ambele locuri și un ritual de sosire care îl ajută pe copil să se așeze.",
+          "În multe familii, nu ai nevoie de o revoluție în program, ci de o tranziție mai puțin încărcată. Un copil care știe unde doarme, ce ia cu el și cum arată primele 15 minute după sosire rezistă mai bine schimbului.",
+        ],
+        bullets: [
+          "Păstrați aceleași mesaje și aceeași ordine a pașilor înainte de plecare.",
+          "Țineți la ambele case lucrurile de bază, ca să nu pară că își mută toată viața de fiecare dată.",
+          "Evitați negocierile sau tensiunea dintre adulți în fața copilului.",
+          "Faceți un mini-ritual de sosire: gustare, baie, poveste, joacă liniștită sau timp de stat aproape.",
+        ],
+      },
+      {
+        title: "Când refuzul cere mai mult decât o ajustare de rutină",
+        paragraphs: [
+          "Dacă refuzul devine persistent, apare împreună cu anxietate intensă, regres evident, probleme de somn, dureri repetate fără explicație medicală, retragere, panică sau relatări îngrijorătoare despre siguranță, nu mai vorbim doar despre o tranziție grea. Merită discutat cu pediatrul sau cu un psiholog de copii, iar dacă există orice semn de abuz sau teamă reală, prioritatea este siguranța, nu menținerea aparenței că totul este un simplu disconfort.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Nu vreau să merg nu este automat un verdict despre relația cu celălalt părinte.",
+      "În vârful emoției, copilul are nevoie de reasigurare și predictibilitate, nu de anchetă.",
+      "Dacă refuzul se repetă, caută tiparul și ajustează logistica tranziției înainte să tragi concluzii mari.",
+    ],
+    sources: [
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Sursă centrală pentru dificultățile de a merge între case, reasigurarea copilului, schimburile făcute la școală sau grădiniță și semnele că tranziția îl depășește.",
+      },
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "Completează cu repere AAP despre importanța relației cu ambii părinți, reducerea conflictului și menținerea unui cadru stabil pentru copil.",
+      },
+    ],
+  },
+  {
     slug: "cum-prezinti-copilului-un-nou-partener-dupa-separare",
     title: "Cum îi prezinți copilului un nou partener după separare",
     summary:
