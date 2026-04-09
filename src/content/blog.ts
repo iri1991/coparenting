@@ -600,6 +600,221 @@ const blogArticles: BlogArticle[] = [
       },
     ],
   },
+  {
+    slug: "cum-pastrezi-legatura-cu-copilul-intre-vizite",
+    title: "Cum păstrezi legătura cu copilul între vizite fără să-l sufoci",
+    summary:
+      "Relația dintre vizite se ține mai bine prin contacte scurte, predictibile și calde decât prin apeluri lungi sau verificări insistente.",
+    intro:
+      "După separare, mulți părinți încearcă să recupereze distanța prin mai mult contact: multe mesaje, apeluri lungi sau întrebări dese despre ce face copilul. Intenția este bună, dar efectul nu este mereu cel dorit. Când contactul devine presiune, copilul simte că trebuie să performeze emoțional sau să liniștească adultul. O legătură bună între vizite arată mai degrabă ca o prezență caldă și previzibilă decât ca o monitorizare continuă.",
+    image: {
+      src: "/blog/connection-between-visits.svg",
+      alt: "Părinte și copil conectați printr-un apel scurt și cald între vizite",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-09",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Ce susține copilul după separare",
+        paragraphs: [
+          "HealthyChildren arată că adaptarea copilului este mai bună când ambii părinți rămân implicați pozitiv, iar părintele nerezident păstrează o relație apropiată și de sprijin. Asta nu înseamnă contact permanent, ci continuitate reală: copilul știe că poate conta pe relație și în zilele în care nu este în aceeași casă cu tine.",
+          "Pentru copil, predictibilitatea contează mai mult decât intensitatea. Un mesaj scurt la aceeași oră, un apel stabilit dinainte sau o fotografie cu ceva familiar pot susține siguranța fără să îi invadeze spațiul.",
+        ],
+      },
+      {
+        title: "Ce funcționează mai bine decât un apel lung",
+        paragraphs: [
+          "UNICEF amintește că și câteva momente pe zi îl pot face pe copil să se simtă foarte iubit, mai ales când adultul intră în interesul lui și nu transformă conversația într-un interviu. În practică, asta înseamnă contact scurt și ușor de dus, nu o obligație emoțională grea.",
+          "Dacă un copil nu are chef să povestească mult, relația nu este în pericol. Uneori legătura se ține mai bine printr-un ritual mic și repetabil decât prin discuții lungi care îl obosesc.",
+        ],
+        bullets: [
+          "Stabiliți un tip de contact simplu și recognoscibil: apel de 5 minute, mesaj vocal sau o fotografie pe ziua respectivă.",
+          "Pornește de la lumea copilului: ce construiești, ce carte citești, ce melodie ți-a plăcut azi?",
+          "Încheie înainte să devină obositor; copilul rămâne cu senzația de apropiere, nu de sarcină.",
+          "Respectă dacă uneori răspunsul este scurt; continuitatea contează mai mult decât performanța conversației.",
+        ],
+      },
+      {
+        title: "Ce să eviți ca să nu pui presiune pe copil",
+        paragraphs: [
+          "Când adultul caută reasigurare, copilul simte repede asta. Întrebările în rafală despre cealaltă casă, cererile de tipul mi-e dor de tine, spune și tu sau supărarea pentru un apel ratat pot muta contactul din zona de conectare în zona de obligație.",
+          "Legătura dintre vizite ar trebui să îi amintească copilului că relația este disponibilă, nu că trebuie să administreze emoțiile părintelui.",
+        ],
+        bullets: [
+          "Nu folosi apelul ca să verifici ce face celălalt părinte.",
+          "Nu cere copilului să demonstreze că îi este dor.",
+          "Nu prelungi conversația când vezi că a obosit sau vrea să se întoarcă la joacă.",
+          "Dacă ai ratat contactul stabilit, repară simplu și reia-l data viitoare fără dramă.",
+        ],
+      },
+      {
+        title: "Idei mici care țin relația vie",
+        paragraphs: [
+          "Ajută mult ritualurile care nu depind de dispoziția perfectă a nimănui: o poveste scurtă pe audio, o glumă recurentă, o fotografie cu ceva ce v-ar face pe amândoi să zâmbiți, un calendar cu zilele până la următoarea vizită. Când legătura capătă formă, copilul nu mai simte că totul depinde de un apel reușit sau de energia lui din acel moment.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Între vizite, contactul scurt și predictibil ajută mai mult decât apelurile lungi.",
+      "Legătura bună pornește din interesul copilului, nu din nevoia adultului de reasigurare.",
+      "Ritualurile mici și repetabile mențin apropierea fără presiune.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "AAP explică de ce copiii se adaptează mai bine când ambii părinți rămân implicați pozitiv, cu relații apropiate, reguli consecvente și conflict redus. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+      {
+        title: "Let’s talk parenting",
+        publisher: "UNICEF Parenting",
+        url: "https://www.unicef.org/parenting/child-care/lets-talk-parenting",
+        note: "Seria UNICEF subliniază că și câteva momente pe zi pot face copilul să se simtă foarte iubit și recomandă conectarea prin interesele lui, nu prin presiune sau corectare.",
+      },
+    ],
+  },
+  {
+    slug: "somnul-in-doua-case-ce-ajuta-cu-adevarat",
+    title: "Somnul în două case: ce ajută cu adevărat când copilul adoarme greu",
+    summary:
+      "Problemele de somn după schimbarea de casă se reduc mai des prin rutină și cooperare decât prin explicații lungi sau negocieri târzii.",
+    intro:
+      "Mulți părinți observă că exact seara, după o mutare între case, copilul devine mai agitat: nu vrea să se spele, cere încă o lumină, încă o poveste, încă un pahar cu apă sau pur și simplu nu se poate așeza. Nu este doar oboseală și nici neapărat răsfăț. Somnul este una dintre primele zone care arată că sistemul copilului duce multă schimbare. Vestea bună este că ajută tocmai lucrurile simple și repetabile.",
+    image: {
+      src: "/blog/sleep-two-homes.svg",
+      alt: "Copil pregătit de somn într-o cameră calmă, cu obiecte familiare din două case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-09",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce se vede stresul atât de repede în somn",
+        paragraphs: [
+          "HealthyChildren explică direct că după separare și divorț poate fi greu pentru copii să păstreze ore și rutine de seară consistente când își împart timpul între două case. Într-o situație deja stresantă, unii copii regresează temporar: apar frici de noapte, refuzul de culcare, treziri frecvente sau o nevoie mai mare de reasigurare.",
+          "Când schimbările între case sunt dese, corpul copilului are mai mult de adaptat: alt pat, altă lumină, alt zgomot, alt ritm și uneori alt stil parental. Nu este surprinzător că fix seara apar rezistența și sensibilitatea.",
+        ],
+      },
+      {
+        title: "Ce merită să rămână la fel în ambele case",
+        paragraphs: [
+          "Nu ai nevoie de camere identice, dar ajută enorm câțiva piloni constanți. HealthyChildren recomandă explicit păstrarea unei rutine de seară cât mai consistente și dubluri pentru obiectele de somn importante.",
+          "Când copilul recunoaște aceeași ordine a pașilor, somnul nu mai depinde atât de mult de negociere sau de dispoziția serii.",
+        ],
+        bullets: [
+          "Păstrați o oră aproximativă de culcare apropiată în ambele case.",
+          "Repetați aceeași ordine: baie, pijama, carte, lumină mică, somn.",
+          "Țineți dubluri pentru obiectele importante de confort: pluș, păturică, carte, muzică.",
+          "Evitați diferențele mari de ecrane, zahăr sau haos chiar înainte de culcare.",
+        ],
+      },
+      {
+        title: "Ce faci în seara în care copilul se agață sau se teme",
+        paragraphs: [
+          "În serile grele, scopul nu este să câștigi repede confruntarea. Mai util este să cobori intensitatea și să păstrezi structura. O voce calmă, puține cuvinte și un cadru familiar ajută mai mult decât avertismentele sau explicațiile lungi despre cât de târziu este.",
+          "Dacă apar cereri repetate, poți răspunde blând și predictibil: sunt aici, urmează încă un pupic și apoi somn. Copilul are nevoie să simtă limita ca pe un mal, nu ca pe o ruptură.",
+        ],
+      },
+      {
+        title: "Când problema nu mai este doar o fază de ajustare",
+        paragraphs: [
+          "HealthyChildren notează că, odată ce situația familiei se stabilizează, problemele de somn și alte simptome tind să se reducă treptat în câteva săptămâni. Dacă însă insomniile, coșmarurile, bedwetting-ul, retragerea sau izbucnirile persistă, merită discutat cu pediatrul sau cu un specialist.",
+          "Scopul nu este să demonstrezi că una dintre case greșește, ci să reduci încărcarea înainte ca lipsa de somn să tensioneze și mai mult tranzițiile.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Somnul arată rapid cât de greu duce copilul schimbările dintre case.",
+      "Aceiași piloni de seară și obiectele de confort dublate reduc mult fricțiunea.",
+      "Dacă problemele persistă săptămâni la rând, merită cerut sprijin profesional.",
+    ],
+    sources: [
+      {
+        title: "Sleep Problems After Separation or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/sleep/Pages/Sleep-Problems-After-Separation-or-Divorce.aspx?form=HealthyChildren",
+        note: "AAP descrie refuzul de culcare, trezirile și regresiile care pot apărea când copilul se mută între două case și recomandă rutine consistente, dubluri pentru obiectele de somn și cooperare strânsă între părinți. Pagina indică ultima actualizare la 3 iulie 2019.",
+      },
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "Completează ideea că rutinele și așteptările consecvente, plus colaborarea între părinți, protejează reglarea copilului în perioadele de schimbare.",
+      },
+    ],
+  },
+  {
+    slug: "ce-faci-cand-simti-ca-explodezi-tu-primul",
+    title: "Ce faci când simți că explodezi tu primul",
+    summary:
+      "Înainte să corectezi copilul, uneori cel mai util pas este să-ți cobori propriul ritm ca să poți rămâne ferm fără să sperii.",
+    intro:
+      "Există seri în care nu copilul este singurul aproape de limită. Ești obosit, poate ai venit din conflict, ai lucruri logistice nerezolvate și o reacție mică a copilului te împinge imediat spre ton ridicat sau replici aspre. Asta nu te face un părinte fără resurse. Dar îți arată clar că, în acel moment, disciplina începe cu autoreglarea adultului. Dacă tu intri în alarmă, copilul primește încă un semnal de pericol exact când avea nevoie de un adult stabil.",
+    image: {
+      src: "/blog/parent-self-regulation.svg",
+      alt: "Părinte care face o pauză de respirație înainte să răspundă calm copilului",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-09",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează atât de mult starea adultului",
+        paragraphs: [
+          "Harvard Center on the Developing Child explică faptul că planificarea, flexibilitatea, focusul și autocontrolul fac parte din capabilitățile adulte care ne ajută să gestionăm viața și îngrijirea copiilor. Când aceste capacități sunt împinse la limită de stres, scade și capacitatea de a oferi grijă receptivă.",
+          "Pe scurt, nu doar copilul are nevoie de reglare. Calitatea răspunsului tău depinde direct de cât de activat ești tu în clipa aceea.",
+        ],
+      },
+      {
+        title: "Ce faci în primele 30 de secunde",
+        paragraphs: [
+          "UNICEF recomandă, în momentele dificile, să începi cu o pauză scurtă care îți reglează propriile emoții înainte să încerci să rezolvi comportamentul copilului. Nu este fugă de responsabilitate, ci pregătirea pentru un răspuns util.",
+          "Uneori diferența dintre o limită fermă și o escaladare inutilă stă într-o respirație mai lentă și într-o propoziție spusă după ce corpul tău a coborât puțin din alarmă.",
+        ],
+        bullets: [
+          "Nu răspunde pe primul impuls dacă simți că îți urcă imediat tonul.",
+          "Pune ambele picioare pe podea și expiră mai lung decât inspiri de 3-4 ori.",
+          "Spune puțin și clar: sunt aici, rezolvăm imediat, dar vorbesc după ce mă liniștesc o clipă.",
+          "Mută întâi corpul din alertă, apoi decide dacă ai nevoie de limită, reconectare sau ambele.",
+        ],
+      },
+      {
+        title: "Cum rămâi ferm fără să devii dur",
+        paragraphs: [
+          "Autoreglarea adultului nu înseamnă să fii moale sau să lași totul să treacă. Înseamnă să poți spune nu, stop sau refacem, fără sarcasm, amenințări sau intimidare. Când ritmul tău scade, copilul primește o limită mai clară și mai ușor de suportat.",
+          "Ajută și limbajul scurt: nu te las să lovești; stau cu tine până te oprești; strângem împreună după ce te calmezi. Cu cât situația e mai încărcată, cu atât explicațiile lungi ajută mai puțin.",
+        ],
+      },
+      {
+        title: "Ce faci după ce ai ridicat totuși tonul",
+        paragraphs: [
+          "Nu încerca să acoperi episodul pretinzând că nu s-a întâmplat. Repară simplu: am vorbit prea tare, nu a fost în regulă, reiau mai calm. Mesajul important pentru copil este că adultul poate reveni la stabilitate și își poate asuma partea lui.",
+          "Dacă observi că astfel de momente se repetă des, nu trata problema doar ca pe lipsă de voință. Poate fi un semn că ai nevoie de mai mult sprijin, somn, structură sau de o discuție cu un specialist pentru tine ori pentru familie.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Calmul adultului nu este detaliu; schimbă direct ce poate primi copilul în acel moment.",
+      "O pauză scurtă înainte de reacție poate preveni escaladarea fără să slăbească limita.",
+      "Dacă ai ridicat tonul, reparația simplă și clară ajută mai mult decât justificarea.",
+    ],
+    sources: [
+      {
+        title: "Let’s talk parenting",
+        publisher: "UNICEF Parenting",
+        url: "https://www.unicef.org/parenting/child-care/lets-talk-parenting",
+        note: "UNICEF oferă recomandări scurte și practice pentru momente de parenting tensionate, inclusiv reglarea emoțiilor adultului înainte de corectare și conectarea prin interesele copilului.",
+      },
+      {
+        title: "A Guide to Adult Capabilities",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resource-guides/guide-adult-capabilities/",
+        note: "Harvard leagă autocontrolul, flexibilitatea și focusul adultului de capacitatea de a oferi grijă receptivă și subliniază că aceste abilități pot fi consolidate chiar și sub stres.",
+      },
+    ],
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {
