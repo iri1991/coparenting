@@ -1,0 +1,33 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#F7F2EA"/>
+  <rect x="64" y="72" width="1072" height="576" rx="40" fill="url(#bg)"/>
+  <circle cx="202" cy="176" r="56" fill="#F3D6A4" opacity="0.9"/>
+  <circle cx="1012" cy="572" r="72" fill="#D7E8F7" opacity="0.9"/>
+  <rect x="120" y="446" width="960" height="142" rx="28" fill="#E7D7C8"/>
+  <rect x="164" y="222" width="250" height="214" rx="24" fill="#FFF7EF"/>
+  <rect x="190" y="254" width="198" height="146" rx="18" fill="#D9ECF9"/>
+  <path d="M790 252C790 226.595 810.595 206 836 206H938C963.405 206 984 226.595 984 252V434H790V252Z" fill="#FFF7EF"/>
+  <rect x="818" y="242" width="138" height="168" rx="18" fill="#F7E4C8"/>
+  <path d="M475 442C475 385.667 520.667 340 577 340H671C727.333 340 773 385.667 773 442V564H475V442Z" fill="#C97A56"/>
+  <circle cx="626" cy="260" r="72" fill="#F0C39A"/>
+  <path d="M571 238C583 204 610 188 645 190C668 191 691 201 704 220C680 216 662 226 647 239C629 255 610 264 586 264C578 264 570 262 562 259C564 252 568 245 571 238Z" fill="#5C4335"/>
+  <rect x="564" y="430" width="122" height="92" rx="30" fill="#F6CBB7"/>
+  <circle cx="497" cy="348" r="54" fill="#F6D3B0"/>
+  <path d="M455 333C460 305 481 286 510 286C530 286 548 296 558 311C544 310 532 316 521 324C508 335 493 342 476 342C469 342 462 339 455 333Z" fill="#7B5B4A"/>
+  <path d="M437 438C437 398.235 469.235 366 509 366H545C584.765 366 617 398.235 617 438V564H437V438Z" fill="#7A8FB5"/>
+  <path d="M548 413C569 434 585 455 595 477" stroke="#F6D3B0" stroke-width="18" stroke-linecap="round"/>
+  <path d="M599 486C628 474 654 451 676 420" stroke="#F6D3B0" stroke-width="18" stroke-linecap="round"/>
+  <path d="M605 267C611 272 618 275 626 275C634 275 641 272 647 267" stroke="#8E6048" stroke-width="6" stroke-linecap="round"/>
+  <path d="M479 355C484 360 491 363 498 363C506 363 513 360 518 355" stroke="#8E6048" stroke-width="5" stroke-linecap="round"/>
+  <path d="M537 366C562 389 579 414 589 442" stroke="#F6D3B0" stroke-width="16" stroke-linecap="round"/>
+  <path d="M690 366C667 391 651 419 642 447" stroke="#F6D3B0" stroke-width="16" stroke-linecap="round"/>
+  <path d="M736 272C753 252 778 240 807 240" stroke="#9AB7CF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M416 206C448 187 486 184 520 196" stroke="#E2B488" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <path d="M300 456C323 433 354 420 387 420" stroke="#C8A882" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  <defs>
+    <linearGradient id="bg" x1="120" y1="120" x2="1056" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F2"/>
+      <stop offset="1" stop-color="#F4ECE3"/>
+    </linearGradient>
+  </defs>
+</svg>
