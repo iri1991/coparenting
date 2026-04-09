@@ -53,7 +53,7 @@ export function ActiveHealthCard({ childId, childName }: Props) {
       plan: ChildTreatmentPlan;
       timeLabel: string;
       done: boolean;
-      administeredAt?: string;
+      onDemandTimes?: string[];
     }[] = [];
     for (const p of plans) {
       if (!p.active) continue;
@@ -61,15 +61,11 @@ export function ActiveHealthCard({ childId, childName }: Props) {
       if (p.endDate && p.endDate < today) continue;
 
       if (p.administrationMode === "on_demand") {
-        const todayAdmin = administrations.find(
-          (a) => a.planId === p.id && a.date === today && a.status === "done"
-        );
-        out.push({
-          plan: p,
-          timeLabel: "la nevoie",
-          done: !!todayAdmin,
-          administeredAt: todayAdmin?.timeLabel,
-        });
+        const todayAdmins = administrations
+          .filter((a) => a.planId === p.id && a.date === today && a.status === "done")
+          .map((a) => a.timeLabel)
+          .sort();
+        out.push({ plan: p, timeLabel: "la nevoie", done: false, onDemandTimes: todayAdmins });
         continue;
       }
 
@@ -125,8 +121,12 @@ export function ActiveHealthCard({ childId, childName }: Props) {
   if (loading) return null;
   if (activeConditions.length === 0 && dueToday.length === 0) return null;
 
-  const doneCount = dueToday.filter((d) => d.done).length;
-  const totalCount = dueToday.length;
+  const scheduledItems = dueToday.filter((d) => d.plan.administrationMode !== "on_demand");
+  const doneCount = scheduledItems.filter((d) => d.done).length;
+  const totalCount = scheduledItems.length;
+  const onDemandAdminCount = dueToday
+    .filter((d) => d.plan.administrationMode === "on_demand")
+    .reduce((sum, d) => sum + (d.onDemandTimes?.length ?? 0), 0);
 
   return (
     <section className="app-native-surface rounded-[2rem] p-4 sm:p-5 space-y-3">
@@ -135,9 +135,11 @@ export function ActiveHealthCard({ childId, childName }: Props) {
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
           Sănătate {childName}
         </p>
-        {totalCount > 0 && (
+        {(totalCount > 0 || onDemandAdminCount > 0) && (
           <span className="ml-auto rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
-            {doneCount}/{totalCount} administrate
+            {totalCount > 0 ? `${doneCount}/${totalCount}` : ""}
+            {totalCount > 0 && onDemandAdminCount > 0 ? " · " : ""}
+            {onDemandAdminCount > 0 ? `${onDemandAdminCount} la nevoie` : ""}
           </span>
         )}
       </div>
@@ -163,53 +165,40 @@ export function ActiveHealthCard({ childId, childName }: Props) {
             {conditionPlans.length > 0 && (
               <div className="space-y-1">
                 {conditionPlans.map((d) => {
-                  const isOnDemand =
-                    d.plan.administrationMode === "on_demand";
+                  const isOnDemand = d.plan.administrationMode === "on_demand";
                   return (
-                    <div
-                      key={`${d.plan.id}-${d.timeLabel}`}
-                      className="flex items-center justify-between gap-2 rounded-[0.9rem] bg-white px-3 py-2"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        {d.done ? (
-                          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
-                        ) : (
-                          <Circle className="w-4 h-4 shrink-0 text-stone-300" />
-                        )}
-                        <span className="text-sm text-stone-700 truncate">
-                          {isOnDemand ? (
-                            <>
-                              {d.plan.medicationName} ({d.plan.dosage})
-                              {d.done && d.administeredAt && (
-                                <span className="text-stone-400 ml-1">
-                                  · {d.administeredAt}
-                                </span>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              <span className="font-medium">
-                                {d.timeLabel}
-                              </span>{" "}
-                              · {d.plan.medicationName} ({d.plan.dosage})
-                            </>
+                    <div key={`${d.plan.id}-${d.timeLabel}`} className="rounded-[0.9rem] bg-white px-3 py-2 space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          {!isOnDemand && (d.done
+                            ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+                            : <Circle className="w-4 h-4 shrink-0 text-stone-300" />
                           )}
-                        </span>
+                          <span className="text-sm text-stone-700 truncate">
+                            {isOnDemand
+                              ? <>{d.plan.medicationName} ({d.plan.dosage})</>
+                              : <><span className="font-medium">{d.timeLabel}</span> · {d.plan.medicationName} ({d.plan.dosage})</>
+                            }
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          disabled={d.done}
+                          onClick={() => markDone(d.plan.id, d.timeLabel, isOnDemand)}
+                          className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0"
+                        >
+                          {d.done ? "✓" : isOnDemand ? "Administrează" : "Marchează"}
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        disabled={d.done}
-                        onClick={() =>
-                          markDone(d.plan.id, d.timeLabel, isOnDemand)
-                        }
-                        className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0"
-                      >
-                        {d.done
-                          ? "✓"
-                          : isOnDemand
-                            ? "Administrează"
-                            : "Marchează"}
-                      </button>
+                      {isOnDemand && d.onDemandTimes && d.onDemandTimes.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 pl-0.5">
+                          {d.onDemandTimes.map((t) => (
+                            <span key={t} className="inline-flex items-center gap-1 rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-medium text-[#1f5a4e]">
+                              <CheckCircle2 className="w-3 h-3" /> {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -227,48 +216,38 @@ export function ActiveHealthCard({ childId, childName }: Props) {
             .map((d) => {
               const isOnDemand = d.plan.administrationMode === "on_demand";
               return (
-                <div
-                  key={`${d.plan.id}-${d.timeLabel}`}
-                  className="flex items-center justify-between gap-2 rounded-[0.9rem] bg-[#f0faf6] px-3 py-2"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    {d.done ? (
-                      <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
-                    ) : (
-                      <Circle className="w-4 h-4 shrink-0 text-stone-300" />
-                    )}
-                    <span className="text-sm text-stone-700 truncate">
-                      {isOnDemand ? (
-                        <>
-                          {d.plan.medicationName} ({d.plan.dosage})
-                          {d.done && d.administeredAt && (
-                            <span className="text-stone-400 ml-1">
-                              · {d.administeredAt}
-                            </span>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <span className="font-medium">{d.timeLabel}</span> ·{" "}
-                          {d.plan.medicationName} ({d.plan.dosage})
-                        </>
+                <div key={`${d.plan.id}-${d.timeLabel}`} className="rounded-[0.9rem] bg-[#f0faf6] px-3 py-2 space-y-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      {!isOnDemand && (d.done
+                        ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+                        : <Circle className="w-4 h-4 shrink-0 text-stone-300" />
                       )}
-                    </span>
+                      <span className="text-sm text-stone-700 truncate">
+                        {isOnDemand
+                          ? <>{d.plan.medicationName} ({d.plan.dosage})</>
+                          : <><span className="font-medium">{d.timeLabel}</span> · {d.plan.medicationName} ({d.plan.dosage})</>
+                        }
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={d.done}
+                      onClick={() => markDone(d.plan.id, d.timeLabel, isOnDemand)}
+                      className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0"
+                    >
+                      {d.done ? "✓" : isOnDemand ? "Administrează" : "Marchează"}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    disabled={d.done}
-                    onClick={() =>
-                      markDone(d.plan.id, d.timeLabel, isOnDemand)
-                    }
-                    className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0"
-                  >
-                    {d.done
-                      ? "✓"
-                      : isOnDemand
-                        ? "Administrează"
-                        : "Marchează"}
-                  </button>
+                  {isOnDemand && d.onDemandTimes && d.onDemandTimes.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pl-0.5">
+                      {d.onDemandTimes.map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1 rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-medium text-[#1f5a4e]">
+                          <CheckCircle2 className="w-3 h-3" /> {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
