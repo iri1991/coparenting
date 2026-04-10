@@ -212,6 +212,30 @@ const blogArticles: BlogArticle[] = [
         title: "Când devine important ajutorul din afară",
         paragraphs: [
           "Dacă țipatul, intimidarea sau reacțiile explozive sunt frecvente, nu mai vorbim doar despre un episod izolat de reparație. În acel punct, merită sprijin real pentru reglarea adultului și pentru siguranța relației: psihoterapie, parenting suportiv sau discuție cu un specialist care lucrează cu familii și copii.",
+        ],
+      },
+    ],
+    takeaways: [
+      "După ce ai țipat, regula de bază este pauză, apoi reparație clară.",
+      "Scuza bună își asumă tonul adultului fără să pună copilul să aline părintele.",
+      "Reparația adevărată include și întrebarea ce schimbăm data viitoare.",
+    ],
+    sources: [
+      {
+        title: "DBT for Parents",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/dbt-for-parents/",
+        note: "Explică oprirea reacției, înțelegerea emoțiilor adultului și alegerea conștientă între repararea relației și urmărirea unui obiectiv. Ultima revizuire indicată pe pagină: 24 aprilie 2025.",
+      },
+      {
+        title: "How-to: 5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/how-to-5-steps-for-brain-building-serve-and-return/",
+        note: "Harvard fundamentează importanța răspunsului receptiv și a revenirii către semnalele copilului; resursa video este publicată la 15 mai 2019.",
+      },
+    ],
+  },
+  {
     slug: "cand-copilul-spune-ca-nu-vrea-sa-mearga-in-cealalta-casa",
     title: "Când copilul spune că nu vrea să meargă în cealaltă casă",
     summary:
@@ -280,22 +304,22 @@ const blogArticles: BlogArticle[] = [
       },
     ],
     takeaways: [
-      "După ce ai țipat, regula de bază este pauză, apoi reparație clară.",
-      "Scuza bună își asumă tonul adultului fără să pună copilul să aline părintele.",
-      "Reparația adevărată include și întrebarea ce schimbăm data viitoare.",
+      "Nu vreau să merg nu este automat un verdict despre relația cu celălalt părinte.",
+      "În vârful emoției, copilul are nevoie de reasigurare și predictibilitate, nu de anchetă.",
+      "Dacă refuzul se repetă, caută tiparul și ajustează logistica tranziției înainte să tragi concluzii mari.",
     ],
     sources: [
       {
-        title: "DBT for Parents",
-        publisher: "Child Mind Institute",
-        url: "https://childmind.org/article/dbt-for-parents/",
-        note: "Explică oprirea reacției, înțelegerea emoțiilor adultului și alegerea conștientă între repararea relației și urmărirea unui obiectiv. Ultima revizuire indicată pe pagină: 24 aprilie 2025.",
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Sursă centrală pentru dificultățile de a merge între case, reasigurarea copilului, schimburile făcute la școală sau grădiniță și semnele că tranziția îl depășește.",
       },
       {
-        title: "How-to: 5 Steps for Brain-Building Serve and Return",
-        publisher: "Center on the Developing Child at Harvard University",
-        url: "https://developingchild.harvard.edu/resources/how-to-5-steps-for-brain-building-serve-and-return/",
-        note: "Harvard fundamentează importanța răspunsului receptiv și a revenirii către semnalele copilului; resursa video este publicată la 15 mai 2019.",
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "Completează cu repere AAP despre importanța relației cu ambii părinți, reducerea conflictului și menținerea unui cadru stabil pentru copil.",
       },
     ],
   },
@@ -360,22 +384,6 @@ const blogArticles: BlogArticle[] = [
         publisher: "UNICEF Parenting",
         url: "https://www.unicef.org/parenting/child-care/managing-child-separation-anxiety",
         note: "UNICEF recomandă separări scurte exersate treptat, obiecte de confort, răspuns cu compasiune și rămas-bun rapid și pozitiv. Pagina a fost accesată pentru această cercetare la 10 aprilie 2026.",
-      "Nu vreau să merg nu este automat un verdict despre relația cu celălalt părinte.",
-      "În vârful emoției, copilul are nevoie de reasigurare și predictibilitate, nu de anchetă.",
-      "Dacă refuzul se repetă, caută tiparul și ajustează logistica tranziției înainte să tragi concluzii mari.",
-    ],
-    sources: [
-      {
-        title: "Separation, divorce, children in two homes",
-        publisher: "Raising Children Network",
-        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
-        note: "Sursă centrală pentru dificultățile de a merge între case, reasigurarea copilului, schimburile făcute la școală sau grădiniță și semnele că tranziția îl depășește.",
-      },
-      {
-        title: "How to Support Children after Their Parents Separate or Divorce",
-        publisher: "HealthyChildren.org / American Academy of Pediatrics",
-        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
-        note: "Completează cu repere AAP despre importanța relației cu ambii părinți, reducerea conflictului și menținerea unui cadru stabil pentru copil.",
       },
     ],
   },
