@@ -118,7 +118,7 @@ function ChildDetailsForm({
                   href={`/api/children/documents/${d.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-amber-600 dark:text-amber-400 hover:underline truncate"
+                  className="font-medium text-[#b66347] hover:underline truncate"
                 >
                   {d.name}
                 </a>
@@ -155,7 +155,7 @@ function ChildDetailsForm({
           <button
             type="submit"
             disabled={uploading || !docName.trim() || !docFile}
-            className="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button px-3 py-2 text-sm font-medium disabled:opacity-50"
           >
             {uploading ? "Se încarcă…" : "Adaugă"}
           </button>
@@ -188,7 +188,7 @@ function ChildDetailsForm({
           })
         }
         disabled={saving}
-        className="w-full py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 disabled:opacity-50"
+        className="app-native-primary-button w-full py-2 text-sm font-medium disabled:opacity-50"
       >
         {saving ? "Se salvează…" : "Salvează"}
       </button>
@@ -689,7 +689,7 @@ export function ConfigClient({
           <div>
             <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">Tip de familie</span>
             <div className="space-y-2">
-              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-amber-400 dark:has-[:checked]:border-amber-600">
+              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-[#d48a63] dark:has-[:checked]:border-[#bf6a4b]">
                 <input
                   type="radio"
                   name="householdMode"
@@ -725,7 +725,7 @@ export function ConfigClient({
                   </span>
                 </span>
               </label>
-              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-amber-400 dark:has-[:checked]:border-amber-600">
+              <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-[#d48a63] dark:has-[:checked]:border-[#bf6a4b]">
                 <input
                   type="radio"
                   name="householdMode"
@@ -765,6 +765,56 @@ export function ConfigClient({
           </div>
         </div>
       </section>
+      )}
+
+      {activeTab === "general" && memberCount < 2 && (
+        <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
+          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            Invită celălalt părinte
+          </h2>
+          <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+            Trimite invitația pe email. Celălalt părinte va primi un link pentru a se alătura familiei.
+          </p>
+          <form onSubmit={handleInvite} className="flex flex-wrap gap-2 items-end">
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Email</label>
+              <input
+                type="email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                placeholder="email@exemplu.com"
+                required
+                className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={inviteLoading}
+              className="app-native-primary-button px-4 py-2.5 text-sm font-medium disabled:opacity-50"
+            >
+              {inviteLoading ? "Se trimite…" : "Trimite invitația"}
+            </button>
+          </form>
+          {inviteResult && (
+            <div className="mt-3 p-3 rounded-xl bg-stone-50 dark:bg-stone-800/50 text-sm">
+              <p className="text-stone-600 dark:text-stone-400 mb-1">Link invitație (poți să-l trimiți manual):</p>
+              <input
+                type="text"
+                readOnly
+                value={inviteResult.joinUrl}
+                className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs"
+              />
+              <button
+                type="button"
+                onClick={() => navigator.clipboard.writeText(inviteResult.joinUrl)}
+                className="mt-2 text-xs font-medium text-[#b66347] hover:underline"
+              >
+                Copiază linkul
+              </button>
+            </div>
+          )}
+        </section>
       )}
 
       {activeTab === "child" && (
@@ -822,7 +872,7 @@ export function ConfigClient({
             type="button"
             onClick={addChild}
             disabled={saving || !newChildName.trim()}
-            className="p-2 rounded-xl bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button p-2 disabled:opacity-50"
             aria-label="Adaugă copil"
           >
             <Plus className="w-5 h-5" />
@@ -932,7 +982,7 @@ export function ConfigClient({
             type="button"
             onClick={addResidence}
             disabled={saving || !newResidenceName.trim()}
-            className="p-2 rounded-xl bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+            className="app-native-primary-button p-2 disabled:opacity-50"
             aria-label="Adaugă locuință"
           >
             <Plus className="w-5 h-5" />
@@ -1047,56 +1097,6 @@ export function ConfigClient({
             </section>
           ) : null}
 
-          {memberCount < 2 ? (
-        <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-          <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2 flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            Invită celălalt părinte
-          </h2>
-          <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-            Trimite invitația pe email. Celălalt părinte va primi un link pentru a se alătura familiei.
-          </p>
-          <form onSubmit={handleInvite} className="flex flex-wrap gap-2 items-end">
-            <div className="flex-1 min-w-[200px]">
-              <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Email</label>
-              <input
-                type="email"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="email@exemplu.com"
-                required
-                className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={inviteLoading}
-              className="px-4 py-2.5 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
-            >
-              {inviteLoading ? "Se trimite…" : "Trimite invitația"}
-            </button>
-          </form>
-          {inviteResult && (
-            <div className="mt-3 p-3 rounded-xl bg-stone-50 dark:bg-stone-800/50 text-sm">
-              <p className="text-stone-600 dark:text-stone-400 mb-1">Link invitație (poți să-l trimiți manual):</p>
-              <input
-                type="text"
-                readOnly
-                value={inviteResult.joinUrl}
-                className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs"
-              />
-              <button
-                type="button"
-                onClick={() => navigator.clipboard.writeText(inviteResult.joinUrl)}
-                className="mt-2 text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
-              >
-                Copiază linkul
-              </button>
-            </div>
-          )}
-        </section>
-          ) : null}
-
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
         <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Importă evenimente</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
@@ -1118,7 +1118,7 @@ export function ConfigClient({
               type="button"
               onClick={handleImportIcs}
               disabled={importing || !importFile}
-              className="px-4 py-2 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
+              className="app-native-primary-button px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
               {importing ? "Se importă…" : "Importă .ics"}
             </button>
@@ -1150,7 +1150,7 @@ export function ConfigClient({
                 type="button"
                 onClick={handleImportJson}
                 disabled={importing || (!importJson.trim() && !importJsonFile)}
-                className="px-4 py-2 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
+                className="app-native-primary-button px-4 py-2 text-sm font-medium disabled:opacity-50"
               >
                 {importing ? "Se importă…" : "Importă JSON"}
               </button>
