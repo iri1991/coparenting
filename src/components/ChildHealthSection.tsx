@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Plus, X, FileText, CheckCircle2, Circle } from "lucide-react";
+import { OnDemandAdministerDialog } from "@/components/OnDemandAdministerDialog";
 import type {
   ChildHealthCondition,
   ChildMedicalReportRef,
@@ -547,15 +548,23 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
     }
   }
 
-  async function markDone(planId: string, timeLabel: string, isOnDemand?: boolean) {
-    // For on_demand, use the current time as timeLabel
-    const actualTimeLabel = isOnDemand
-      ? new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Bucharest" })
-      : timeLabel;
+  // For on-demand: dialog state to choose now / earlier time
+  const [onDemandDialog, setOnDemandDialog] = useState<ChildTreatmentPlan | null>(null);
+
+  async function markScheduledDone(planId: string, timeLabel: string) {
     await fetch("/api/children/health/administrations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ planId, date: today, timeLabel: actualTimeLabel, status: "done" }),
+      body: JSON.stringify({ planId, date: today, timeLabel, status: "done" }),
+    });
+    reload();
+  }
+
+  async function recordOnDemand(planId: string, timeLabel: string) {
+    await fetch("/api/children/health/administrations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ planId, date: today, timeLabel, status: "done" }),
     });
     reload();
   }
@@ -587,7 +596,8 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
                       )}
                     </span>
                   </div>
-                  <button type="button" disabled={d.done} onClick={() => markDone(d.plan.id, d.timeLabel, isOnDemand)}
+                  <button type="button" disabled={d.done}
+                    onClick={() => isOnDemand ? setOnDemandDialog(d.plan) : markScheduledDone(d.plan.id, d.timeLabel)}
                     className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0">
                     {d.done ? "✓ Administrat" : isOnDemand ? "Administrează" : "Marchează"}
                   </button>
@@ -793,6 +803,16 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
           </div>
         ) : null}
       </section>
+
+      <OnDemandAdministerDialog
+        open={!!onDemandDialog}
+        medicationName={onDemandDialog?.medicationName ?? ""}
+        dosage={onDemandDialog?.dosage ?? ""}
+        onClose={() => setOnDemandDialog(null)}
+        onConfirm={async (timeLabel) => {
+          if (onDemandDialog) await recordOnDemand(onDemandDialog.id, timeLabel);
+        }}
+      />
     </div>
   );
 }
