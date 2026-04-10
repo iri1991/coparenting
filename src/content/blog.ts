@@ -78,6 +78,228 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cand-copilului-ii-este-dor-de-celalalt-parinte",
+    title: "Când copilului îi este dor de celălalt părinte",
+    summary:
+      "Dorul nu se rezolvă prin competiție sau distragere forțată, ci prin validare, continuitate și respect pentru legătura copilului cu ambii părinți.",
+    intro:
+      "În familiile cu două case, un copil poate spune foarte direct că îi este dor de mama sau de tata, ori poate arăta asta mai indirect: devine retras, iritabil, cere des telefonul sau pare că nu se poate așeza în casa în care se află. Pentru adult, momentul poate înțepa exact în locul sensibil. E tentant să iei reacția personal, să te aperi sau să grăbești copilul spre altceva. Dar dorul nu este un vot împotriva ta. Este, de obicei, semnul că legătura cu celălalt părinte contează și că are nevoie să fie ținută în siguranță, nu pusă în competiție.",
+    image: {
+      src: "/blog/missing-other-parent.svg",
+      alt: "Copil și părinte stând împreună calm, cu un cadru de familie în apropiere",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-10",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce dorul nu este o problemă de loialitate",
+        paragraphs: [
+          "HealthyChildren arată că adaptarea copilului după separare merge mai bine atunci când ambii părinți rămân implicați pozitiv și susțin relația copilului cu celălalt părinte. Asta înseamnă că un copil poate fi bine atașat de tine și, în același timp, să-i fie dor de celălalt adult important din viața lui.",
+          "Când adultul interpretează dorul ca respingere, copilul ajunge să-și cenzureze emoția. În loc să se simtă mai apropiat, începe să simtă că trebuie să aleagă ce e permis să spună în fiecare casă. Exact asta crește tensiunea în loc să o reducă.",
+        ],
+      },
+      {
+        title: "Ce spui în momentul acela",
+        paragraphs: [
+          "CDC recomandă ascultarea activă: oprești ce faci, cobori ritmul și reflectezi în cuvinte simple ce pare că simte copilul. Nu trebuie să găsești replica perfectă. E suficient să arăți că ai auzit și că emoția lui nu te sperie.",
+          "Adesea ajută să numești două emoții deodată. Un copil poate fi trist și neliniștit, doritor și furios, sau dor și oboseală la un loc. Când pui cuvinte pe mai multe straturi, îl ajuți să se înțeleagă mai bine și reduci presiunea de a reacționa prin opoziție.",
+        ],
+        bullets: [
+          "Începe cu o reflecție simplă: îți e dor de mama/tata și cred că se simte greu acum.",
+          "Nu corecta imediat emoția cu dar uite ce frumos e aici sau nu ai de ce să fii trist.",
+          "Întreabă ce l-ar ajuta acum: un apel scurt, o poză, să stea puțin lipit de tine, să fie în liniște.",
+          "Dacă nimerești emoția doar pe jumătate, lasă-l să te corecteze; și asta îl ajută să-și pună în ordine starea.",
+        ],
+      },
+      {
+        title: "Cum păstrezi legătura fără să intri în competiție",
+        paragraphs: [
+          "HealthyChildren recomandă să respecți relația copilului cu celălalt părinte și să nu-l faci să se simtă vinovat că iubește ambii adulți. Asta poate însemna să permiți forme predictibile și rezonabile de continuitate, nu să transformi casa ta într-o zonă unde celălalt părinte dispare din limbaj.",
+          "Continuitatea bună e calmă și limitată: un apel stabilit, o fotografie, un obiect de tranziție, o rutină clară despre când vorbiți. Copilul se așază mai ușor când știe că legătura nu depinde de tensiunea dintre adulți.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "În astfel de momente, greșelile frecvente sunt sarcasmul, competiția și interogatoriul. Replici de tipul aici nu-ți lipsește nimic, iar începi sau după câte fac pentru tine tot la el/ea te gândești nu reduc dorul, ci îl amestecă cu rușine.",
+          "Nu ajută nici să folosești copilul pentru a obține informații ori validare despre celălalt părinte. Dacă emoția copilului devine poarta de intrare pentru conflictul adult, siguranța lui scade imediat.",
+        ],
+      },
+      {
+        title: "Când e nevoie de mai mult sprijin",
+        paragraphs: [
+          "Merită urmărit mai atent dacă dorul vine constant cu panică, somn mult dereglat, refuz repetat al tranzițiilor, retragere socială sau izbucniri care nu se reduc deloc după ce copilul primește sprijin și predictibilitate. În astfel de situații, discuția cu pediatrul sau cu un psiholog de copii poate clarifica dacă vorbim doar despre o adaptare firească ori despre o încărcare mai mare.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Dorul de celălalt părinte nu este respingere, ci semn că legătura contează.",
+      "Ascultarea activă și validarea emoției calmează mai bine decât distragerea forțată.",
+      "Copilul se așază mai ușor când ambii părinți respectă relația lui cu celălalt adult.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "AAP subliniază implicarea pozitivă a ambilor părinți, protejarea copilului de conflict și menținerea relației apropiate cu părintele nerezident. Ultima actualizare indicată pe pagină: 29 septembrie 2020.",
+      },
+      {
+        title: "Tips for Active Listening",
+        publisher: "Centers for Disease Control and Prevention",
+        url: "https://www.cdc.gov/parenting-toddlers/communication/active-listening.html",
+        note: "CDC oferă pași foarte practici pentru reflecția emoției, coborârea la nivelul copilului și tolerarea emoțiilor mixte. Publicat la 8 august 2024.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/adjusting-to-divorce.aspx",
+        note: "Completează cu recomandări despre a nu forța copilul să aleagă tabere și despre păstrarea relației cu ambii părinți. Ultima actualizare indicată pe pagină: 16 decembrie 2025.",
+      },
+    ],
+  },
+  {
+    slug: "cum-repari-dupa-ce-ai-tipat-la-copil",
+    title: "Cum repari după ce ai țipat la copil",
+    summary:
+      "Reparația nu înseamnă explicații lungi sau vină vărsată pe copil, ci pauză, revenire calmă și reconectare clară după ruptură.",
+    intro:
+      "Există seri în care părintele își pierde reglajul: vocea urcă, corpul se încordează, replica iese mai dur decât a vrut. După aceea apare adesea rușinea, iar adultul oscilează între două extreme: fie minimalizează complet momentul, fie vine spre copil cu prea multă descărcare emoțională. Nici una nu ajută prea mult. Ce repară cu adevărat este un proces scurt și coerent: te oprești, îți reglezi corpul, revii și repari relația fără să muți povara pe copil.",
+    image: {
+      src: "/blog/repair-after-yelling.svg",
+      alt: "Părinte și copil reconectându-se după un moment tensionat",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-10",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "Primul pas nu este discursul, ci frâna",
+        paragraphs: [
+          "Child Mind Institute notează că, atunci când și părintele, și copilul sunt dereglați, e greu să repari ceva util în plină activare. În astfel de momente ajută o oprire intenționată: te oprești, respiri, ieși puțin din reacție și alegi următorul pas mai degrabă decât să continui pe pilot automat.",
+          "Asta contează și pentru copil. Dacă revii prea repede cu explicații, justificări sau lecții, el primește încă un val peste un sistem deja încărcat. Reparația începe mai bine după ce intensitatea a scăzut puțin de ambele părți.",
+        ],
+      },
+      {
+        title: "Ce arată o reparație bună",
+        paragraphs: [
+          "Harvard Center on the Developing Child descrie interacțiunile bune ca pe un schimb receptiv, în care adultul observă semnalul copilului și răspunde adecvat. După o ruptură, asta înseamnă să revii către el cu prezență, nu doar cu reguli.",
+          "O reparație bună este scurtă și concretă: numești ce ai făcut, îți asumi partea ta și reasiguri relația. Nu îi ceri copilului să te liniștească și nu transformi conversația într-o scenă despre cât de rău te simți tu.",
+        ],
+        bullets: [
+          "Spune direct: am țipat mai tare decât era în regulă.",
+          "Leagă asta de relație: nu era vina ta să duci tonul meu.",
+          "Adaugă limita fără moralizare lungă: problema rămâne, dar o rezolvăm altfel.",
+          "Întreabă ce l-ar ajuta acum să se simtă din nou în siguranță: apă, spațiu, îmbrățișare, stat împreună.",
+        ],
+      },
+      {
+        title: "Ce evităm când cerem iertare",
+        paragraphs: [
+          "Nu ajută scuzele încărcate cu explicații de adult: am făcut asta pentru că m-ai provocat, sunt terminat, uite ce greu îmi este. Asta mută accentul de pe repararea relației pe reglarea părintelui prin copil.",
+          "Nu ajută nici varianta inversă, în care te comporți ca și cum nu s-a întâmplat nimic. Copilul simte ruptura chiar dacă tu nu o numești. Când adultul repară explicit, copilul învață că relațiile pot trece prin tensiune fără să se rupă definitiv.",
+        ],
+      },
+      {
+        title: "Cum previi repetarea, nu doar închizi episodul",
+        paragraphs: [
+          "Child Mind Institute insistă că părintele are nevoie să-și înțeleagă propriile emoții în raport cu copilul și să observe ce face situația mai bună sau mai rea. Merită să te întrebi după episod ce te-a împins în reacție: foame, grabă, zgomot, neînțelegere, acumulare din altă parte.",
+          "Uneori prevenția e foarte banală și tocmai de aceea eficientă: mai puține cereri simultane, o pauză de 30 de secunde înainte de răspuns, o rutină clară în orele dificile, sau revenirea la conversație mai târziu când toți sunt mai disponibili.",
+        ],
+      },
+      {
+        title: "Când devine important ajutorul din afară",
+        paragraphs: [
+          "Dacă țipatul, intimidarea sau reacțiile explozive sunt frecvente, nu mai vorbim doar despre un episod izolat de reparație. În acel punct, merită sprijin real pentru reglarea adultului și pentru siguranța relației: psihoterapie, parenting suportiv sau discuție cu un specialist care lucrează cu familii și copii.",
+        ],
+      },
+    ],
+    takeaways: [
+      "După ce ai țipat, regula de bază este pauză, apoi reparație clară.",
+      "Scuza bună își asumă tonul adultului fără să pună copilul să aline părintele.",
+      "Reparația adevărată include și întrebarea ce schimbăm data viitoare.",
+    ],
+    sources: [
+      {
+        title: "DBT for Parents",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/dbt-for-parents/",
+        note: "Explică oprirea reacției, înțelegerea emoțiilor adultului și alegerea conștientă între repararea relației și urmărirea unui obiectiv. Ultima revizuire indicată pe pagină: 24 aprilie 2025.",
+      },
+      {
+        title: "How-to: 5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/how-to-5-steps-for-brain-building-serve-and-return/",
+        note: "Harvard fundamentează importanța răspunsului receptiv și a revenirii către semnalele copilului; resursa video este publicată la 15 mai 2019.",
+      },
+    ],
+  },
+  {
+    slug: "ritualul-de-ramas-bun-care-scade-agatarea-la-despartire",
+    title: "Ritualul de rămas-bun care scade agățarea la despărțire",
+    summary:
+      "Când despărțirea se lungește, anxietatea crește; un rămas-bun scurt, previzibil și cald îl ajută pe copil să traverseze mai ușor momentul.",
+    intro:
+      "Pentru copiii mici, despărțirea de un părinte sau de adultul de referință nu este doar o mutare de program. Este un moment în care corpul întreabă foarte serios: pleci și te mai întorci? De aceea, mulți adulți tind fie să dispară repede pe furiș, fie să prelungească plecarea cu multe promisiuni, explicații și reveniri la ușă. Ambele pot crește neliniștea. De obicei ajută mai mult un ritual simplu, repetat și foarte previzibil.",
+    image: {
+      src: "/blog/goodbye-ritual-transition.svg",
+      alt: "Despărțire calmă între părinte și copil, cu un ritual scurt de rămas-bun",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-10",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce lungirea despărțirii înrăutățește momentul",
+        paragraphs: [
+          "UNICEF explică faptul că, pentru un copil mic, anxietatea de separare este firească și apare tocmai pentru că încă învață că plecările sunt temporare. Dacă adultul revine de mai multe ori, negociază la nesfârșit sau transmite neliniște prin corp și voce, copilul primește semnalul că situația chiar ar putea fi periculoasă.",
+          "Asta nu înseamnă că trebuie să fii rece. Înseamnă că prezența caldă funcționează mai bine când este scurtă, clară și repetată la fel. Predictibilitatea este cea care liniștește, nu durata.",
+        ],
+      },
+      {
+        title: "Cum arată un ritual bun de rămas-bun",
+        paragraphs: [
+          "UNICEF recomandă să vorbești despre reunire, să exersezi separări scurte și să lași copilului un obiect de confort când asta îl ajută. Toate acestea se pot aduna într-un ritual foarte simplu de 20-40 de secunde.",
+          "Ideea nu este să inventezi un moment spectaculos, ci unul pe care copilul îl poate recunoaște de fiecare dată. Când știe pașii, are mai puțin de ghicit și corpul lui intră mai ușor în tranziție.",
+        ],
+        bullets: [
+          "Spune pe scurt ce urmează: plec acum, după somn/după program revin și facem X împreună.",
+          "Păstrează același gest de fiecare dată: îmbrățișare, pupic, salut la fereastră, o propoziție-cheie.",
+          "Lasă, dacă ajută, un obiect de confort recognoscibil: pluș, batistă, poză mică.",
+          "Încheie clar și pleacă; nu reveni de trei ori la ușă pentru încă o reasigurare.",
+        ],
+      },
+      {
+        title: "Ce facem înainte de despărțire",
+        paragraphs: [
+          "Pentru unii copii, dificultatea scade mult dacă separarea nu apare din senin. UNICEF recomandă separări scurte exersate treptat și introducerea graduală a îngrijitorului nou. În familiile cu două case sau cu program complex, aceeași logică ajută și la handover-uri, grădiniță sau babysitter.",
+          "Poți pregăti momentul și printr-o ancoră de timp pe care copilul o înțelege: după gustare, după poveste, când se termină jocul acesta. Un copil mic nu are nevoie de explicație lungă, ci de o hartă simplă.",
+        ],
+      },
+      {
+        title: "Cum răspunzi dacă începe să plângă sau să se agațe",
+        paragraphs: [
+          "Validarea scurtă ajută mai mult decât prelungirea. Poți spune: știu că e greu să ne despărțim acum, te văd, iar eu mă întorc după somn. Apoi îi transferi calm atenția către adultul care rămâne sau către primul pas al rutinei.",
+          "Dacă te întorci din ușă pentru a stinge complet plânsul, copilul poate învăța fără să vrei că intensificarea reacției prelungește și prezența ta. Mai eficient este un rămas-bun cald și consecvent, repetat la fel.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Despărțirea merge mai ușor când are aceiași pași de fiecare dată.",
+      "Promisiunea clară despre reunire calmează mai bine decât explicațiile lungi.",
+      "Un rămas-bun cald și scurt ajută mai mult decât intrările și ieșirile repetate.",
+    ],
+    sources: [
+      {
+        title: "How to manage your child’s separation anxiety",
+        publisher: "UNICEF Parenting",
+        url: "https://www.unicef.org/parenting/child-care/managing-child-separation-anxiety",
+        note: "UNICEF recomandă separări scurte exersate treptat, obiecte de confort, răspuns cu compasiune și rămas-bun rapid și pozitiv. Pagina a fost accesată pentru această cercetare la 10 aprilie 2026.",
+      },
+    ],
+  },
+  {
     slug: "cum-prezinti-copilului-un-nou-partener-dupa-separare",
     title: "Cum îi prezinți copilului un nou partener după separare",
     summary:
