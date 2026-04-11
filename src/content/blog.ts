@@ -78,6 +78,264 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cand-copilul-spune-ca-la-celalalt-parinte-e-mai-bine",
+    title: "Când copilul spune că la celălalt părinte este mai bine",
+    summary:
+      "Comparația dintre case nu cere defensivă sau concurs, ci calm, curiozitate și atenție la ce încearcă de fapt copilul să spună.",
+    intro:
+      "Replica «la mama e mai bine» sau «la tata mă lași mai mult» poate înțepa imediat. Pentru adult, sună ușor ca o notă la purtare ori ca un atac la propria casă. Pentru copil, de multe ori este altceva: o comparație spontană, o încercare de a numi o diferență, uneori chiar o formă stângace de a spune că îi este greu cu schimbarea. Dacă răspunzi ca și cum ai de apărat un teritoriu, conversația se blochează repede. Dacă rămâi curios și stabil, afli mult mai repede ce are nevoie copilul de fapt.",
+    image: {
+      src: "/blog/comparing-homes.svg",
+      alt: "Copil între două case stilizate, vorbind calm cu un părinte despre diferențe",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-11",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce comparațiile apar atât de des",
+        paragraphs: [
+          "HealthyChildren arată că după separare copiii se adaptează mai bine când pot păstra relații apropiate cu ambii părinți și nu sunt împinși să aleagă tabere. Asta înseamnă că vor observa inevitabil diferențe între case și le vor rosti uneori direct, fără filtru și fără intenția de a răni.",
+          "Comparația poate descrie o preferință reală, o nevoie de predictibilitate sau pur și simplu faptul că două medii nu se simt la fel. Când adultul o tratează ca pe un afront, copilul învață repede că unele adevăruri nu sunt sigure de spus în casa respectivă.",
+        ],
+      },
+      {
+        title: "Ce spui în momentul acela",
+        paragraphs: [
+          "Primul pas util este să nu intri în duel. Copilul are nevoie să vadă că poți auzi diferența fără să te rupi emoțional. De multe ori, o reflecție scurtă deschide conversația mai bine decât o justificare.",
+          "Ajută să rămâi foarte aproape de faptă și de emoție: vrei să înțelegi ce i-a plăcut, ce i-a lipsit sau ce i s-a părut greu. Asta păstrează conversația în zona de sprijin, nu de loialitate.",
+        ],
+        bullets: [
+          "Începe cu ceva simplu: aud că ți s-a părut mai bine acolo la momentul acela.",
+          "Întreabă concret: ce anume ți-a plăcut mai mult sau ce ți-a fost mai ușor?",
+          "Dacă spune o diferență reală, nu o contrazice automat doar ca să-ți aperi regula.",
+          "Separă preferința copilului de valoarea ta ca părinte; nu sunt același lucru.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "HealthyChildren avertizează clar împotriva punerii copilului în mijlocul conflictului dintre adulți. Când răspunsul tău vine cu sarcasm, critică la adresa celuilalt părinte sau cereri de validare, copilul ajunge imediat într-o poziție imposibilă.",
+          "Nu ajută nici să transformi comparația într-un proces despre recunoștință. Chiar dacă replica te-a durut, copilul nu este responsabil să-ți repare starea și nici să dovedească pe loc că te iubește la fel de mult.",
+        ],
+        bullets: [
+          "Nu răspunde cu: atunci du-te acolo dacă este mai bine.",
+          "Nu cere copilului să decidă cine are dreptate.",
+          "Nu folosi conversația ca să aduni informații despre celălalt părinte.",
+          "Nu intra într-un concurs de avantaje, cadouri sau permisivități.",
+        ],
+      },
+      {
+        title: "Când diferența e util să fie discutată adult la adult",
+        paragraphs: [
+          "Unele comparații ascund o nevoie foarte practică: poate copilul adoarme mai ușor într-un anumit fel, poate are nevoie de aceeași ordine la teme, poate se pierde când programul diferă prea mult. Raising Children Network recomandă păstrarea unor repere recognoscibile între case și comunicarea directă între adulți, nu prin copil.",
+          "Nu trebuie să faceți casele identice. Dar dacă observați că aceeași diferență produce stres repetat, merită să aliniați câțiva piloni: somn, ecrane, obiecte de confort, temele sau felul în care anunțați schimbările.",
+        ],
+      },
+      {
+        title: "Când comparația poate ascunde ceva mai serios",
+        paragraphs: [
+          "Dacă replica vine împreună cu teamă intensă, retragere, refuz puternic al vizitelor, plângeri repetate despre siguranță sau schimbări mari de comportament, merită mai mult decât o conversație despre reguli. În acel punct, ajută să discuți cu pediatrul sau cu un psiholog de copii și să urmărești atent dacă este vorba despre stres de adaptare ori despre o problemă de siguranță.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Comparația dintre case nu este automat un verdict împotriva ta.",
+      "Curiozitatea calmă deschide mai mult decât defensiva sau sarcasmul.",
+      "Dacă o diferență produce stres repetat, soluția se discută adult la adult, nu prin copil.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "AAP insistă pe conflict redus, relație apropiată cu ambii părinți și evitarea presiunii de loialitate. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+      {
+        title: "Traps Divorced or Separating Parents Should Avoid",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/Traps-Divorced-or-Separating-Parents-Should-Avoid.aspx",
+        note: "AAP descrie explicit riscul de a pune copilul în mijlocul conflictului și de a-l face să aleagă între părinți. Pagina a fost accesată pentru această cercetare la 11 aprilie 2026.",
+      },
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Completează cu recomandări despre menținerea relației cu ambii părinți și câțiva piloni stabili între case. Pagina a fost accesată pentru această cercetare la 11 aprilie 2026.",
+      },
+    ],
+  },
+  {
+    slug: "cum-anunti-schimbarile-de-program-fara-sa-incarci-copilul",
+    title: "Cum anunți schimbările de program fără să încarci copilul",
+    summary:
+      "Schimbările de ultim moment devin mai ușor de dus când sunt spuse simplu, din timp și fără să transformi copilul în gestionarul tensiunii dintre adulți.",
+    intro:
+      "În co-parenting, planurile nu ies mereu perfect: cineva întârzie, apare o deplasare, o zi de școală se schimbă, un weekend trebuie mutat. Pentru adulți, schimbarea poate părea doar logistică. Pentru copil, ea poate însemna că harta pe care se baza s-a mutat sub picioare. De aceea, nu contează doar ce se schimbă, ci și cum anunți schimbarea. Mesajul bun este scurt, previzibil și nu cere copilului să ducă greutatea emoțională a adulților.",
+    image: {
+      src: "/blog/schedule-change.svg",
+      alt: "Calendar și copil pregătit de un părinte pentru o schimbare de program între două case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-11",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce schimbările de plan se simt atât de mari",
+        paragraphs: [
+          "Child Mind Institute explică faptul că tranzițiile sunt dificile pentru mulți copii fiindcă le cer să oprească un scenariu cunoscut și să intre repede într-altul. În familiile cu două case, schimbarea nu este doar de activitate, ci uneori de casă, ritm și persoană de referință.",
+          "Când adultul anunță totul pe fugă sau cu multă tensiune în voce, copilul nu primește doar informație. Primește și starea adultului. Asta poate transforma o schimbare gestionabilă într-una care se simte amenințătoare.",
+        ],
+      },
+      {
+        title: "Cum arată un mesaj bun",
+        paragraphs: [
+          "CDC recomandă structură și consecvență: copilul se reglează mai ușor când schimbările sunt anunțate clar, cu puține cuvinte și cu o idee simplă despre ce rămâne stabil. În practică, asta înseamnă să spui noul plan și să oferi imediat ancora principală.",
+          "Copilul nu are nevoie de toată istoria din spatele deciziei. Are nevoie să știe când, cu cine și ce rămâne neschimbat pentru el.",
+        ],
+        bullets: [
+          "Spune schimbarea direct: azi nu te ia tata după școală, te ia mâine dimineață.",
+          "Adaugă imediat ancora: în seara asta dormi aici și facem rutina obișnuită.",
+          "Folosește aceeași formă de mesaj de fiecare dată, fără explicații prea multe.",
+          "Dacă se poate, anunță din timp, nu cu 30 de secunde înainte de plecare.",
+        ],
+      },
+      {
+        title: "Ce îl ajută să proceseze",
+        paragraphs: [
+          "Mulți copii înțeleg mai bine schimbarea când o văd, nu doar când o aud. O tablă mică, un calendar simplu sau o propoziție repetată în același format pot face diferența. Child Mind Institute recomandă preview-ul și avertizarea din timp tocmai pentru că reduc senzația de surpriză brutală.",
+          "La copiii mai mici, harta poate fi foarte simplă: azi aici, mâine acolo, după somn sau după școală. La copiii mai mari, ajută să vadă exact ce se mută și ce rămâne la fel.",
+        ],
+        bullets: [
+          "Folosește un calendar vizual sau aceeași culoare pentru fiecare casă.",
+          "Repetă aceeași ancora de timp: după școală, după somn, vineri seara.",
+          "Lasă copilul să pună o întrebare sau să spună ce îi pare cel mai greu.",
+          "Dacă schimbarea afectează un plan așteptat, numește și dezamăgirea, nu doar noua logistică.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Nu ajută să anunți schimbarea împreună cu reproșuri despre celălalt părinte. Nici să transformi copilul în confident pentru frustrarea ta. Mesajele de tipul iar s-a răzgândit, vezi cum face sau spune-i tu că nu e corect îi mută imediat pe umeri conflictul adulților.",
+          "Nu ajută nici să promiți ceva nesigur doar ca să liniștești momentul. Predictibilitatea reală calmează mai mult decât optimismul improvizat.",
+        ],
+      },
+      {
+        title: "Când problema nu mai este schimbarea în sine, ci frecvența ei",
+        paragraphs: [
+          "Dacă programul se schimbă atât de des încât copilul rămâne constant în alertă, nu mai este doar o chestiune de formulare mai bună. În acel punct, merită ca adulții să refacă logistica și să reducă improvizația, pentru că nici cel mai bun mesaj nu compensează haosul repetat.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Schimbările de plan dor mai puțin când copilul află clar ce rămâne stabil.",
+      "Mesajul bun este scurt, previzibil și fără tensiunea adulților înăuntru.",
+      "Dacă improvizația devine regulă, problema este logistica, nu reacția copilului.",
+    ],
+    sources: [
+      {
+        title: "Why Do Kids Have Trouble With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/why-do-kids-have-trouble-with-transitions/",
+        note: "Child Mind explică de ce preview-ul, avertizarea și pașii clari reduc rezistența la schimbare. Pagina a fost accesată pentru această cercetare la 11 aprilie 2026.",
+      },
+      {
+        title: "Tips for Building Structure",
+        publisher: "Centers for Disease Control and Prevention",
+        url: "https://www.cdc.gov/parenting-toddlers/structure-rules/structure.html",
+        note: "CDC leagă structura copilului de consistență, predictibilitate și follow-through. Pagina indică publicarea la 8 august 2024.",
+      },
+    ],
+  },
+  {
+    slug: "cum-il-ajuti-pe-copil-sa-puna-in-cuvinte-ce-simte",
+    title: "Cum îl ajuți pe copil să pună în cuvinte ce simte",
+    summary:
+      "Când adultul numește blând emoția și o suportă fără grabă, copilul începe treptat să treacă de la izbucnire la exprimare.",
+    intro:
+      "Un copil care trântește, plânge, se închide sau explodează nu are mereu lipsă de voință. Uneori are prea puține cuvinte pentru ce i se întâmplă în corp. În familiile cu două case, asta se vede și mai ușor: dor, frustrare, oboseală, gelozie și neliniște se pot amesteca repede. Rolul adultului nu este să forțeze copilul să vorbească frumos imediat, ci să îi împrumute un limbaj calm până când poate face asta mai singur.",
+    image: {
+      src: "/blog/feelings-words.svg",
+      alt: "Părinte și copil privind împreună simboluri simple pentru emoții și cuvinte",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-11",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "De ce contează atât de mult să pui emoția în cuvinte",
+        paragraphs: [
+          "CDC recomandă ascultarea activă și reflectarea sentimentelor copilului în cuvinte simple. Asta nu este doar politețe relațională. Este o formă practică de reglare: copilul începe să înțeleagă ce i se întâmplă și nu mai trebuie să comunice totul doar prin comportament.",
+          "Harvard Center on the Developing Child descrie relațiile bune cu copilul ca pe un schimb de tip serve and return: copilul trimite un semnal, adultul îl observă și răspunde adecvat. Când semnalul este emoțional, răspunsul adecvat este adesea numirea stării, nu corectarea ei grăbită.",
+        ],
+      },
+      {
+        title: "Cum începi fără să forțezi",
+        paragraphs: [
+          "Nu ai nevoie de vocabular complicat. Cu cât copilul este mai mic sau mai activat, cu atât formula trebuie să fie mai scurtă. Important este să rămâi aproape de ce vezi și să lași loc să fii corectat.",
+          "Uneori e suficient să oferi două variante: pari furios sau poate mai degrabă dezamăgit. Când copilul te corectează, tot un pas bun este. Înseamnă că deja intră în procesul de a se înțelege.",
+        ],
+        bullets: [
+          "Pornește de la observabil: văd lacrimi, corp încordat, voce tare, retragere.",
+          "Leagă observația de un cuvânt simplu: cred că ești trist, furios, jenat sau copleșit.",
+          "Păstrează tonul jos și ritmul lent; emoția nu se numește eficient din grabă.",
+          "Acceptă și non-răspunsul; uneori copilul are nevoie doar să audă că l-ai înțeles.",
+        ],
+      },
+      {
+        title: "Ce îl ajută să învețe limbajul emoțiilor în viața de zi cu zi",
+        paragraphs: [
+          "Emoțiile nu se învață doar în criză. CDC arată că relația se întărește când adultul descrie, imită și laudă comportamentele copilului în momente calme. Poți folosi aceeași logică și pentru alfabetul emoțional: pui în cuvinte ce vezi când copilul este liniștit, curios, mândru sau dezamăgit.",
+          "Cu cât adultul numește mai des emoții mici, cu atât copilul le recunoaște mai repede înainte să devină uriașe. Asta ajută mult în tranziții, după zile grele și în momentele în care simte dor de celălalt părinte.",
+        ],
+        bullets: [
+          "Numește și emoțiile plăcute: pari ușurat, mândru, liniștit, entuziasmat.",
+          "Folosește povești, joc sau desene ca să vorbiți despre stări fără presiune directă.",
+          "Leagă emoția de corp: ți s-au strâns pumnii, cred că ceva te-a enervat mult.",
+          "Normalizează amestecurile: poți fi și bucuros, și trist în aceeași zi.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Nu ajută să contrazici rapid emoția cu nu ai de ce sau lasă că trece. Nici să folosești etichete globale precum ești prea sensibil ori iar faci dramă. Acestea nu îl învață pe copil să se înțeleagă, ci doar că anumite stări trebuie ascunse.",
+          "Nu ajută nici să transformi conversația despre emoții într-un interogatoriu lung. Uneori copilul are nevoie de câteva cuvinte bune și de prezență calmă, nu de analiză în profunzime.",
+        ],
+      },
+      {
+        title: "Când merită sprijin suplimentar",
+        paragraphs: [
+          "Dacă izbucnirile, retragerea sau anxietatea sunt foarte intense, apar în multe contexte și nu se reduc deloc odată cu sprijinul de bază, poate fi utilă o discuție cu pediatrul sau cu un psiholog de copii. Scopul nu este să patologizezi emoția, ci să îl ajuți pe copil să aibă mai multă siguranță și mai multe instrumente.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Copilul împrumută de la adult nu doar calmul, ci și limbajul pentru ce simte.",
+      "Numirea scurtă și blândă a emoției reduce presiunea de a o exprima doar prin comportament.",
+      "Alfabetul emoțional se construiește zilnic, nu doar în momentele de criză.",
+    ],
+    sources: [
+      {
+        title: "Tips for Active Listening",
+        publisher: "Centers for Disease Control and Prevention",
+        url: "https://www.cdc.gov/parenting-toddlers/communication/active-listening.html",
+        note: "CDC recomandă reflecția emoției, coborârea la nivelul copilului și validarea sentimentelor. Pagina indică publicarea la 8 august 2024.",
+      },
+      {
+        title: "Tips for Praise, Imitation, and Description",
+        publisher: "Centers for Disease Control and Prevention",
+        url: "https://www.cdc.gov/parenting-toddlers/communication/praise.html",
+        note: "CDC arată cum descrierea și observarea atentă îl ajută pe copil să se simtă văzut și să învețe din interacțiuni calme. Pagina indică publicarea la 8 august 2024.",
+      },
+      {
+        title: "Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/key-concept/serve-and-return/",
+        note: "Harvard fundamentează răspunsul sensibil al adultului la semnalele copilului și rolul lui în dezvoltarea autoreglării. Pagina a fost accesată pentru această cercetare la 11 aprilie 2026.",
+      },
+    ],
+  },
+  {
     slug: "cand-copilului-ii-este-dor-de-celalalt-parinte",
     title: "Când copilului îi este dor de celălalt părinte",
     summary:
