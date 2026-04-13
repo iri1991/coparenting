@@ -78,6 +78,246 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "geanta-de-tranzitie-care-scade-stresul-intre-doua-case",
+    title: "Geanta de tranziție care scade stresul între două case",
+    summary:
+      "O geantă simplă, previzibilă și împachetată fără grabă poate reduce mult fricțiunea dintre case și sentimentul că ceva important rămâne mereu în urmă.",
+    intro:
+      "În multe familii cu două case, stresul nu începe la ușă, ci cu zece minute înainte: unde este bluza preferată, cine a luat caietul, dacă ursulețul a rămas în cealaltă casă. Pentru copil, aceste detalii nu sunt doar obiecte. Sunt repere de continuitate. O geantă de tranziție bine gândită nu face viața perfectă, dar poate face schimbarea mai puțin haotică și mai puțin încărcată emoțional.",
+    image: {
+      src: "/blog/transition-bag.svg",
+      alt: "Geantă de tranziție pentru copil, pregătită calm cu obiecte esențiale pentru două case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-13",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează mai mult decât pare",
+        paragraphs: [
+          "Raising Children Network recomandă explicit ca obiectele esențiale să existe în ambele case, iar bagajul să fie pregătit cu ajutor și din timp. Ideea din spate este simplă: cu cât copilul trebuie să țină minte mai puține lucruri sub presiune, cu atât tranziția consumă mai puțin.",
+          "HealthyChildren explică rolul obiectelor de tranziție, precum păturica sau jucăria preferată, în momentele de separare, oboseală ori medii mai puțin familiare. Pentru mulți copii, aceste obiecte nu sunt mofturi. Sunt o formă concretă de siguranță.",
+        ],
+      },
+      {
+        title: "Ce merită să rămână în geantă",
+        paragraphs: [
+          "Scopul nu este să muți toată casa între două adrese. Scopul este să reduci surprizele neplăcute și să păstrezi câteva ancore stabile. De aceea, geanta bună este mai degrabă repetabilă decât perfectă.",
+        ],
+        bullets: [
+          "Un schimb simplu de haine și lenjerie, dacă logistica voastră cere asta.",
+          "Obiectul de confort pe care copilul îl caută când este obosit sau neliniștit.",
+          "Caietul, agenda sau lucrurile de școală care chiar trebuie mutate.",
+          "Orice element greu de înlocuit rapid: ochelari, aparat dentar, medicație sau încărcătorul necesar.",
+        ],
+      },
+      {
+        title: "Ce merită dublat între case",
+        paragraphs: [
+          "Raising Children Network recomandă păstrarea în ambele case a hainelor de bază, pijamalelor, produselor de igienă și încălțămintei. HealthyChildren merge chiar mai departe pentru obiectele de confort și sugerează, când se poate, o dublură rotită din timp.",
+          "Cu cât sunt mai multe esențiale deja disponibile în fiecare casă, cu atât geanta rămâne mai mică și mai puțin încărcată emoțional. Copilul nu mai simte că trebuie să poarte continuitatea familiei pe umeri.",
+        ],
+      },
+      {
+        title: "Cum pregătești fără să crești tensiunea",
+        paragraphs: [
+          "Momentul împachetării contează aproape la fel de mult ca lista. Dacă geanta se face pe fugă, cu reproșuri sau cu verificări repetate, copilul intră în tranziție deja tensionat. Ajută mai mult un ritm scurt și previzibil.",
+        ],
+        bullets: [
+          "Împachetați aproximativ la aceeași oră, nu cu două minute înainte de plecare.",
+          "Folosește o listă scurtă vizibilă, ca să nu transformi totul într-un interogatoriu.",
+          "La copiii mici, pune tu baza și lasă copilul să aleagă doar un element simplu.",
+          "Dacă lipsește ceva, notează și rezolvă adult la adult mai târziu; nu descărca tensiunea pe copil.",
+        ],
+      },
+      {
+        title: "Semnul că funcționează",
+        paragraphs: [
+          "Nu vei obține tranziții perfecte de fiecare dată. Dar dacă scad căutările în ultimul minut, plânsul legat de obiecte uitate și reproșurile la predare, geanta începe să-și facă treaba. Nu pentru că a rezolvat relația dintre adulți, ci pentru că a redus o parte inutilă din fricțiunea logistică.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Geanta de tranziție bună reduce surprizele, nu mută toată casa între adrese.",
+      "Obiectele de confort și câteva esențiale bine alese pot scădea mult stresul copilului.",
+      "Cu cât dublați mai multe lucruri de bază între case, cu atât tranziția devine mai ușoară.",
+    ],
+    sources: [
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Recomandă obiecte esențiale în ambele case, liste de împachetare și păstrarea jucăriei sau păturicii speciale la schimburi. Pagină accesată la 13 aprilie 2026.",
+      },
+      {
+        title: "Transitional Objects: Security Blankets & Beyond",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/ages-stages/baby/Pages/Transitional-Objects.aspx",
+        note: "AAP explică rolul obiectelor de tranziție în separare și recomandă, când este posibil, existența unei dubluri. Ultima actualizare indicată pe pagină: 22 noiembrie 2021.",
+      },
+    ],
+  },
+  {
+    slug: "ce-merita-sa-stie-scoala-sau-gradinita-despre-un-copil-cu-doua-case",
+    title: "Ce merită să știe școala sau grădinița despre un copil cu două case",
+    summary:
+      "Câteva informații clare date din timp către școală sau grădiniță pot preveni confuzii, rușine pentru copil și multă logistică făcută în ultimul moment.",
+    intro:
+      "Mulți părinți ezită să spună la școală sau la grădiniță că un copil trăiește între două case. Uneori din dorința de discreție, alteori pentru că situația încă doare. Dar instituția nu are nevoie de detalii intime. Are nevoie de câteva informații practice și stabile, astfel încât copilul să nu fie prins între mesaje contradictorii, întârzieri sau întrebări pe care nu știe cum să le gestioneze.",
+    image: {
+      src: "/blog/two-homes-school.svg",
+      alt: "Părinte discutând calm cu o educatoare despre organizarea copilului între două case",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-13",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ajută să știe",
+        paragraphs: [
+          "HealthyChildren recomandă explicit ca profesorii sau personalul de sprijin din școală să fie informați despre separare, tocmai pentru a putea observa din timp eventuale dificultăți și pentru a ști pe cine contactează în situații practice sau urgente.",
+          "Pentru copil, asta înseamnă mai puține momente stânjenitoare. Nu mai trebuie să explice singur de ce îl ia azi alt părinte, de ce are două adrese sau de ce un mesaj nu a ajuns unde trebuia.",
+        ],
+      },
+      {
+        title: "Ce informații sunt utile și suficiente",
+        paragraphs: [
+          "Nu este nevoie să intri în povestea despărțirii. O comunicare bună către școală este scurtă, neutră și orientată spre ce are nevoie copilul ca să funcționeze bine în fiecare zi.",
+        ],
+        bullets: [
+          "Cine are drept de ridicare și în ce zile se schimbă rutina, dacă există un tipar clar.",
+          "Ce numere de telefon și adrese de e-mail trebuie folosite pentru anunțuri și urgențe.",
+          "Dacă sunt două seturi de documente sau două persoane care trebuie incluse constant în comunicare.",
+          "Orice detaliu practic relevant pentru copil: obiecte de tranziție, reacții la schimbări sau sprijin util la despărțire.",
+        ],
+      },
+      {
+        title: "Cum formulezi fără să încarci relația",
+        paragraphs: [
+          "Tonul face diferența. Dacă mesajul către școală devine locul unde îți exprimi nemulțumirea față de celălalt părinte, copilul va simți asta mai devreme sau mai târziu. Varianta utilă este una administrativă și calmă.",
+          "Poți scrie simplu că familia funcționează acum între două case, că vrei o comunicare clară către ambii părinți și că orice schimbare importantă ajută să fie transmisă direct adulților, nu prin copil.",
+        ],
+      },
+      {
+        title: "Semne că merită un contact mai apropiat cu educatorul sau învățătorul",
+        paragraphs: [
+          "HealthyChildren amintește că separarea poate veni cu schimbări de dispoziție, atenție sau adaptare. Dacă apar frecvent plâns la predare, uitare accentuată, scădere la școală sau retragere, merită să ceri feedback regulat, nu doar să aștepți următoarea problemă.",
+        ],
+        bullets: [
+          "Copilul pare dezorganizat exact în zilele de schimbare între case.",
+          "Apar frecvent obiecte sau teme uitate în contextul tranzițiilor.",
+          "Există reacții puternice la despărțire ori la schimbări de plan în timpul programului.",
+          "Școala poate deveni un reper de predictibilitate dacă adulții din jur comunică coerent.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Nu lăsa copilul să fie canalul principal pentru informațiile dintre casă și instituție. Nu cere nici școlii să medieze conflictul dintre adulți. Rolul ei este să sprijine copilul, nu să arbitreze relația dintre părinți.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Școala sau grădinița are nevoie de informații practice, nu de povestea conflictului.",
+      "O comunicare scurtă și neutră poate preveni multe confuzii pentru copil.",
+      "Dacă apar semne de stres la predare sau în învățare, feedback-ul timpuriu ajută mult.",
+    ],
+    sources: [
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/adjusting-to-divorce.aspx",
+        note: "AAP recomandă ca profesorii sau asistenții sociali școlari să fie informați și precizează că școala trebuie să știe pe cine contactează pentru permisiuni și urgențe. Ultima actualizare indicată pe pagină: 16 decembrie 2025.",
+      },
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "Completează cu ideea că adaptarea copilului merge mai bine când adulții colaborează și păstrează rutina copilului cât mai stabilă. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+    ],
+  },
+  {
+    slug: "cand-lucrurile-raman-in-cealalta-casa-fara-sa-pui-copilul-la-mijloc",
+    title: "Când lucrurile rămân în cealaltă casă, fără să pui copilul la mijloc",
+    summary:
+      "Obiectele uitate între două case se rezolvă mai bine prin sisteme simple și comunicare adult la adult decât prin reproșuri sau presiune pusă pe copil.",
+    intro:
+      "La prima vedere, o geacă uitată, un caiet rămas în cealaltă casă sau pijamalele dispărute par probleme mici. În practică, ele se transformă repede în tensiune, mai ales când fiecare uitare vine la pachet cu grabă, presupuneri și replici tăioase. Pentru copil, însă, problema nu este doar obiectul lipsă. Este felul în care adulții se schimbă la față în jurul lui. De aceea, merită un sistem calm înainte să devină un nou loc de conflict.",
+    image: {
+      src: "/blog/forgotten-items.svg",
+      alt: "Doi părinți organizând calm obiectele copilului uitate între două case",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-13",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce problema se amplifică atât de repede",
+        paragraphs: [
+          "Raising Children Network recomandă păstrarea obiectelor esențiale în ambele case tocmai pentru a reduce presiunea logistică de la schimburi. Când fiecare casă depinde de ce a ajuns din cealaltă, orice uitare se simte mai mare decât este.",
+          "În același timp, aceeași rețea subliniază că modul în care părinții gestionează conflictul îi afectează direct pe copii. Dacă obiectele uitate devin pretext pentru ironii, cereri transmise prin copil sau dispute la ușă, problema reală nu mai este geaca, ci tensiunea relațională din jurul ei.",
+        ],
+      },
+      {
+        title: "Ce ajută concret",
+        paragraphs: [
+          "Soluțiile bune sunt mai degrabă plictisitoare decât spectaculoase: dubluri, o listă scurtă și un canal clar de comunicare între adulți. Exact asta le face utile. Ele scad numărul de decizii luate pe fugă și reduc șansele ca copilul să devină curier emoțional.",
+        ],
+        bullets: [
+          "Păstrează în ambele case lucrurile de bază: pijamale, încălțăminte, produse de igienă și haine simple.",
+          "Folosește un mesaj scurt adult la adult pentru lucrurile importante, fără explicații sau reproșuri inutile.",
+          "Ține o listă de obiecte care chiar trebuie transferate regulat: teme, medicație, aparat dentar, echipament sportiv.",
+          "Dacă ceva lipsește des, ajustați sistemul, nu tonul conversației.",
+        ],
+      },
+      {
+        title: "Ce să nu ceri copilului",
+        paragraphs: [
+          "Nu îl transforma în detectiv, avocat sau martor. Replici precum spune-i mamei să-mi dea geaca, vezi dacă tata a uitat iar sau data viitoare să fii atent mută asupra copilului o grijă care nu îi aparține.",
+          "Copilul poate participa la rutină în funcție de vârstă, dar nu ar trebui să poarte responsabilitatea relației dintre adulți. Una este să bifeze o listă alături de tine. Alta este să gestioneze tensiunea când ceva lipsește.",
+        ],
+      },
+      {
+        title: "Cum arată o comunicare bună între adulți",
+        paragraphs: [
+          "Raising Children Network recomandă o abordare calmă, respectuoasă și cât mai apropiată de un schimb între colegi. În practica de zi cu zi, asta înseamnă mesaj factual, fără subînțelesuri și cu accent pe rezolvare.",
+        ],
+        bullets: [
+          "Scrie ce lipsește și când ar ajuta să ajungă, fără comentarii despre trecut.",
+          "Dacă față în față escaladează repede, mutați logistica pe text sau e-mail.",
+          "Rezolvă problema în afara urechilor copilului ori de câte ori se poate.",
+          "Când observați un tipar, discutați sistemul într-un moment neutru, nu în plină grabă.",
+        ],
+      },
+      {
+        title: "Când e semn că sistemul trebuie schimbat",
+        paragraphs: [
+          "Dacă aproape în fiecare săptămână lipsesc obiecte importante, nu mai vorbim despre accidente izolate. Poate fi nevoie de mai multe dubluri, de o listă comună mai bună sau de o reducere a lucrurilor care circulă între case. Obiectivul nu este controlul perfect, ci mai puțină fricțiune pentru copil.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Obiectele uitate se gestionează mai bine prin sistem decât prin reproș.",
+      "Copilul poate ajuta la rutină, dar nu trebuie să ducă relația logistică dintre adulți.",
+      "Mai multe dubluri și mai puține mesaje încărcate reduc tensiunea reală a schimburilor.",
+    ],
+    sources: [
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Recomandă obiecte esențiale în ambele case, liste de împachetare și organizare clară între părinți pentru a reduce stresul copilului. Pagină accesată la 13 aprilie 2026.",
+      },
+      {
+        title: "How to handle co-parenting conflict",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/co-parenting/conflict-former-partner",
+        note: "Descrie comunicarea respectuoasă, evitarea copilului ca mesager și mutarea conversațiilor tensionate în afara prezenței lui. Pagină accesată la 13 aprilie 2026.",
+      },
+    ],
+  },
+  {
     slug: "cand-copilul-spune-ca-la-celalalt-parinte-e-mai-bine",
     title: "Când copilul spune că la celălalt părinte este mai bine",
     summary:
