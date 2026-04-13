@@ -62,6 +62,27 @@ export const geoSummaryEn = [
   "HomeSplit works in Romanian and English as a web app from any browser on phone or desktop; one subscription covers both parents, with a free start.",
 ] as const;
 
+/** Login / register — link preview copy */
+export const loginShareTitleRo = "Conectare — HomeSplit";
+export const loginShareDescriptionRo =
+  "Intră în contul tău HomeSplit: calendar, activități, idei AI, documente și chat — pentru orice tip de familie cu copii.";
+export const loginShareTitleEn = "Sign in — HomeSplit";
+export const loginShareDescriptionEn =
+  "Sign in to HomeSplit: family calendar, activities, AI ideas, documents and chat — for every kind of family with kids.";
+
+export const registerShareTitleRo = "Creează cont — HomeSplit";
+export const registerShareDescriptionRo =
+  "Înregistrare rapidă: calendar familie, activități, idei AI și documente — potrivit și când locuiți împreună, și la două adrese.";
+export const registerShareTitleEn = "Create account — HomeSplit";
+export const registerShareDescriptionEn =
+  "Quick signup: family calendar, activities, AI ideas and documents — whether you share one home or two.";
+
+/** Read-only weekly schedule share link */
+export const shareScheduleTitleRo = "Program partajat — HomeSplit";
+export const shareScheduleDescriptionRo = "Vezi programul săptămânii (doar citire).";
+export const shareScheduleTitleEn = "Shared schedule — HomeSplit";
+export const shareScheduleDescriptionEn = "View this week's family schedule (read-only).";
+
 export const keywordsEn = [
   "co-parenting app",
   "coparenting",

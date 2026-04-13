@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   blogCategories,
   blogDescription,
+  blogDescriptionEn,
   getArticlesForCategory,
   getBlogCategoryBySlug,
   getBlogCategoriesWithTranslation,
@@ -10,6 +11,7 @@ import {
 import { BlogShell } from "@/components/blog/BlogShell";
 import { BlogCategoryContent } from "@/components/blog/BlogCategoryContent";
 import { brandName, ogImage, siteUrl } from "@/lib/seo";
+import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -24,14 +26,22 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const category = getBlogCategoryBySlug(slug);
   if (!category) return {};
 
-  const description = `${category.description} Articole HomeSplit documentate din surse credibile pentru părinți și co-parenting.`;
+  const { pathname, lang } = await getSharePathMeta();
+  const isEn = lang === "en";
+  const catTr = getBlogCategoriesWithTranslation().find((c) => c.slug === category.slug);
+  const titleBase = isEn && catTr?.titleEn ? catTr.titleEn : category.title;
+  const descBase = isEn && catTr?.descriptionEn ? catTr.descriptionEn : category.description;
+  const description = isEn
+    ? `${descBase} ${blogDescriptionEn}`
+    : `${category.description} Articole HomeSplit documentate din surse credibile pentru părinți și co-parenting.`;
   const canonicalPath = `/blog/categorie/${category.slug}`;
+  const ogUrl = ogPublicUrl(siteUrl, pathname);
 
   return {
-    title: `${category.title} | Blog`,
+    title: `${titleBase} | Blog`,
     description,
     alternates: {
-      canonical: canonicalPath,
+      canonical: pathname,
       languages: {
         ro: `${siteUrl}${canonicalPath}`,
         en: `${siteUrl}/en${canonicalPath}`,
@@ -40,16 +50,17 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     },
     openGraph: {
       type: "website",
-      url: `${siteUrl}${canonicalPath}`,
-      title: `${category.title} | ${blogDescription}`,
+      url: ogUrl,
+      title: `${titleBase} | ${isEn ? blogDescriptionEn : blogDescription}`,
       description,
-      locale: "ro_RO",
-      alternateLocale: ["en_US"],
-      images: [{ url: ogImage, width: 512, height: 512, alt: category.title }],
+      locale: isEn ? "en_US" : "ro_RO",
+      alternateLocale: isEn ? ["ro_RO"] : ["en_US"],
+      siteName: brandName,
+      images: [{ url: ogImage, width: 512, height: 512, alt: titleBase }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${category.title} | Blog ${brandName}`,
+      title: `${titleBase} | Blog ${brandName}`,
       description,
       images: [ogImage],
     },

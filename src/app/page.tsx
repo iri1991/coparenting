@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
@@ -5,6 +6,18 @@ import { redirect } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { LoggedInLayout } from "@/components/LoggedInLayout";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
+import {
+  brandName,
+  defaultDescription,
+  defaultDescriptionEn,
+  defaultTitle,
+  defaultTitleEn,
+  keywords,
+  keywordsEn,
+  ogImage,
+  siteUrl,
+} from "@/lib/seo";
+import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
 
 function deriveFromType(
   type: string
@@ -54,6 +67,53 @@ function toEvent(doc: {
 }
 
 const HOME_TABS = new Set(["program", "rutine", "hub", "idei"]);
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { pathname, lang } = await getSharePathMeta();
+  const isEn = lang === "en";
+  const title = isEn ? defaultTitleEn : defaultTitle;
+  const description = isEn ? defaultDescriptionEn : defaultDescription;
+  const ogUrl = ogPublicUrl(siteUrl, pathname);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: pathname,
+      languages: {
+        ro: `${siteUrl}/`,
+        en: `${siteUrl}/en`,
+        "x-default": `${siteUrl}/`,
+      },
+    },
+    keywords: [...keywords, ...keywordsEn],
+    openGraph: {
+      type: "website",
+      locale: isEn ? "en_US" : "ro_RO",
+      alternateLocale: isEn ? ["ro_RO"] : ["en_US"],
+      url: ogUrl,
+      siteName: brandName,
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          width: 512,
+          height: 512,
+          alt: isEn
+            ? "HomeSplit — family calendar and child activities"
+            : "HomeSplit — calendar familie și activități copil",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
 export default async function HomePage({
   searchParams,

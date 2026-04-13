@@ -1,8 +1,48 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
 import { getMondayOfWeek, addDays } from "@/lib/week";
 import { ShareScheduleView, type ShareDayEvent } from "@/components/ShareScheduleView";
 import type { ParentType, LocationType } from "@/types/events";
+import {
+  ogImage,
+  shareScheduleDescriptionEn,
+  shareScheduleDescriptionRo,
+  shareScheduleTitleEn,
+  shareScheduleTitleRo,
+  siteUrl,
+} from "@/lib/seo";
+import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { pathname, lang } = await getSharePathMeta();
+  const isEn = lang === "en";
+  const title = isEn ? shareScheduleTitleEn : shareScheduleTitleRo;
+  const description = isEn ? shareScheduleDescriptionEn : shareScheduleDescriptionRo;
+  const ogUrl = ogPublicUrl(siteUrl, pathname);
+
+  return {
+    title,
+    description,
+    robots: { index: false, follow: false },
+    alternates: { canonical: pathname },
+    openGraph: {
+      type: "website",
+      url: ogUrl,
+      siteName: "HomeSplit",
+      title,
+      description,
+      locale: isEn ? "en_US" : "ro_RO",
+      images: [{ url: ogImage, width: 512, height: 512, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
 function deriveFromType(type: string): { parent: ParentType; location: LocationType } {
   switch (type) {

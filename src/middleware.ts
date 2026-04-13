@@ -18,18 +18,23 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-hs-pathname", pathname);
+
   const matchedLang = SUPPORTED_LANGS.find(
     (lang) => pathname === `/${lang}` || pathname.startsWith(`/${lang}/`)
   );
 
   if (matchedLang) {
+    requestHeaders.set("x-hs-path-lang", matchedLang);
+
     const newPathname =
       pathname === `/${matchedLang}` ? "/" : pathname.slice(matchedLang.length + 1);
 
     const url = request.nextUrl.clone();
     url.pathname = newPathname;
 
-    const response = NextResponse.rewrite(url);
+    const response = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
     response.cookies.set(LANG_COOKIE, matchedLang, {
       maxAge: COOKIE_MAX_AGE,
       path: "/",
@@ -38,7 +43,7 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  return NextResponse.next();
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {

@@ -185,7 +185,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   }
 
   async function addTemplate(template: { title: string; timeLabel: string; responsibleParent: RitualResponsibleParent; reminderLeadMinutes: number }) {
-    if (rituals.some((r) => rt.title.trim().toLowerCase() === template.title.trim().toLowerCase())) return;
+    if (rituals.some((r) => r.title.trim().toLowerCase() === template.title.trim().toLowerCase())) return;
     setSaving(true);
     try {
       const res = await fetch("/api/rituals", {
@@ -322,7 +322,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                     }
                     <input type="checkbox" checked={done} onChange={(e) => toggleCompleted(r.id, e.target.checked)} className="sr-only" />
                     <span className={`text-sm font-medium truncate ${done ? "text-emerald-800" : "text-stone-800"}`}>
-                      {rt.title}
+                      {r.title}
                     </span>
                     {r.timeLabel ? (
                       <span className="rounded-full bg-[#f6eee5] px-2 py-0.5 text-[11px] text-stone-500 shrink-0">{r.timeLabel}</span>
@@ -418,17 +418,17 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
             </button>
             <span className="text-stone-300 text-xs">·</span>
             <span className="text-xs text-stone-400">{rt.quickTemplates}</span>
-            {QUICK_TEMPLATES.map((t) => {
-              const exists = rituals.some((r) => rt.title.trim().toLowerCase() === t.title.trim().toLowerCase());
+            {QUICK_TEMPLATES.map((tpl) => {
+              const exists = rituals.some((r) => r.title.trim().toLowerCase() === tpl.title.trim().toLowerCase());
               return (
-                <button key={t.title} type="button" onClick={() => addTemplate(t)} disabled={saving || exists}
+                <button key={tpl.title} type="button" onClick={() => addTemplate(tpl)} disabled={saving || exists}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition ${
                     exists
                       ? "border-emerald-200 bg-emerald-50 text-emerald-600 opacity-60 cursor-default"
                       : "border-[#ead9c8] bg-white/80 text-stone-600 hover:bg-[#fff3e7]"
                   }`}>
                   {exists ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
-                  {t.title}
+                  {tpl.title}
                 </button>
               );
             })}

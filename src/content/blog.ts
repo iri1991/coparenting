@@ -70,6 +70,10 @@ export const blogTitle = "Blog HomeSplit";
 export const blogDescription =
   "Articole în limba română despre co-parenting, reglare emoțională, rutine și activități de conectare, construite din surse psihologice și pediatrice credibile.";
 
+export const blogTitleEn = "HomeSplit blog";
+export const blogDescriptionEn =
+  "Articles on co-parenting, emotional regulation, routines and connection activities — grounded in credible psychology and pediatrics sources.";
+
 export const blogCategories: BlogCategory[] = [
   {
     slug: "coparenting",
