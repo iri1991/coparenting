@@ -69,7 +69,7 @@ export function BlogArticleCard({ article, large = false }: BlogArticleCardProps
             large ? "text-3xl sm:text-4xl" : "text-2xl"
           }`}
         >
-          <Link href={`/blog/${display.slug}`}>{display.title}</Link>
+          <Link href={lang === "en" ? `/en/blog/${display.slug}` : `/blog/${display.slug}`}>{display.title}</Link>
         </h3>
 
         <p className={`mt-4 max-w-2xl text-pretty text-stone-600 ${large ? "text-base leading-8" : "text-sm leading-7"}`}>
@@ -78,13 +78,13 @@ export function BlogArticleCard({ article, large = false }: BlogArticleCardProps
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
-            href={`/blog/${display.slug}`}
+            href={lang === "en" ? `/en/blog/${display.slug}` : `/blog/${display.slug}`}
             className="inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#172c2a]"
           >
             {lang === "en" ? "Read article" : "Citește articolul"}
           </Link>
           <Link
-            href={`/blog/categorie/${display.category.slug}`}
+            href={lang === "en" ? `/en/blog/categorie/${display.category.slug}` : `/blog/categorie/${display.category.slug}`}
             className="inline-flex items-center rounded-full border border-[#dcc8b5] px-4 py-2 text-sm font-semibold text-stone-700 transition hover:bg-[#f8f0e8]"
           >
             {lang === "en" ? "View category" : "Vezi categoria"}

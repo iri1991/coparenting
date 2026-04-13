@@ -17,6 +17,41 @@ const LanguageContext = createContext<LanguageContextValue>({
 
 const DICT: Record<Lang, Translations> = { ro, en };
 
+/** Read hs-lang cookie synchronously (client only). */
+function readCookieLang(): Lang | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|;\s*)hs-lang=([^;]+)/);
+  return match ? getLangSafe(match[1]) : null;
+}
+
+/** Write hs-lang cookie (client only). */
+function writeCookieLang(lang: Lang) {
+  if (typeof document === "undefined") return;
+  const maxAge = 60 * 60 * 24 * 365;
+  document.cookie = `hs-lang=${lang}; max-age=${maxAge}; path=/; samesite=lax`;
+}
+
+/**
+ * Resolve the initial language in priority order:
+ * 1. Prop passed from server (e.g. from URL segment detection)
+ * 2. Cookie `hs-lang` — set by the middleware when user visits /en/...
+ * 3. localStorage (user's previous in-app preference)
+ * 4. Default (Romanian)
+ */
+function resolveInitialLang(propLang: Lang | undefined): Lang {
+  if (propLang) return propLang;
+  // Read cookie synchronously — avoids flash on /en/... URLs
+  const cookie = readCookieLang();
+  if (cookie) return cookie;
+  try {
+    const ls = getLangSafe(localStorage.getItem(LANG_STORAGE_KEY));
+    if (ls) return ls;
+  } catch {
+    // ignore (SSR / private browsing)
+  }
+  return DEFAULT_LANG;
+}
+
 export function LanguageProvider({
   children,
   initialLang,
@@ -24,26 +59,26 @@ export function LanguageProvider({
   children: React.ReactNode;
   initialLang?: Lang;
 }) {
-  const [lang, setLangState] = useState<Lang>(initialLang ?? DEFAULT_LANG);
+  // Initialise synchronously from cookie (set by middleware for /en/... URLs).
+  // This avoids a flash because it runs before the first paint on the client.
+  const [lang, setLangState] = useState<Lang>(() => resolveInitialLang(initialLang));
 
-  // Hydrate from localStorage once mounted and sync html[lang]
+  // Sync html[lang] attribute whenever language changes
   useEffect(() => {
-    const active = initialLang ?? getLangSafe(localStorage.getItem(LANG_STORAGE_KEY));
-    if (active !== lang) setLangState(active);
     if (typeof document !== "undefined") {
-      document.documentElement.lang = active === "en" ? "en" : "ro";
+      document.documentElement.lang = lang === "en" ? "en" : "ro";
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [lang]);
 
   const setLang = useCallback((next: Lang) => {
     setLangState(next);
+    // Persist in both cookie and localStorage
+    writeCookieLang(next);
     try {
       localStorage.setItem(LANG_STORAGE_KEY, next);
     } catch {
       // ignore
     }
-    // Update the html[lang] attribute for screen readers and crawlers
     if (typeof document !== "undefined") {
       document.documentElement.lang = next === "en" ? "en" : "ro";
     }

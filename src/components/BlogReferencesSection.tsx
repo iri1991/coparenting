@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BookOpen, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type BlogReferenceItem = {
   slug: string;
@@ -14,6 +15,8 @@ type BlogReferenceItem = {
 };
 
 export function BlogReferencesSection() {
+  const { t, lang } = useLanguage();
+  const b = t.app.blogRef;
   const [articles, setArticles] = useState<BlogReferenceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,31 +44,26 @@ export function BlogReferencesSection() {
             <BookOpen className="h-4 w-4" aria-hidden />
           </span>
           <div>
-            <h2 className="text-base font-semibold text-stone-800">Referințe din blog</h2>
-            <p className="text-xs text-stone-500 mt-0.5">
-              Articole practice de co-parenting, disponibile direct în aplicație.
-            </p>
+            <h2 className="text-base font-semibold text-stone-800">{b.title}</h2>
+            <p className="text-xs text-stone-500 mt-0.5">{b.desc}</p>
           </div>
         </div>
-        <Link
-          href="/blog"
-          className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-violet-200 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-50 transition"
-        >
-          Vezi tot blogul
+        <Link href={lang === "en" ? "/en/blog" : "/blog"} className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-violet-200 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-50 transition">
+          {b.viewAll}
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
 
       {loading ? (
-        <p className="text-xs text-stone-500">Se încarcă articolele…</p>
+        <p className="text-xs text-stone-500">{b.loading}</p>
       ) : articles.length === 0 ? (
-        <p className="text-xs text-stone-500">Nu am putut încărca articolele momentan.</p>
+        <p className="text-xs text-stone-500">{b.empty}</p>
       ) : (
         <ul className="grid gap-2 sm:grid-cols-2">
           {articles.map((article) => (
             <li key={article.slug} className="rounded-[1rem] border border-violet-100 bg-white/80 px-3 py-2.5">
               <p className="text-[11px] uppercase tracking-wide text-stone-400">
-                {article.category} · {article.publishedLabel} · {article.readingTimeMinutes} min
+                {article.category} · {article.publishedLabel} · {article.readingTimeMinutes} {b.minRead}
               </p>
               <Link
                 href={`/blog/${article.slug}`}

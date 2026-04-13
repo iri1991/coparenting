@@ -817,7 +817,7 @@ export function ConfigClient({
               disabled={inviteLoading}
               className="app-native-primary-button px-4 py-2.5 text-sm font-medium disabled:opacity-50"
             >
-              {inviteLoading ? "Se trimite…" : "Trimite invitația"}
+              {inviteLoading ? cfg.other.sending : cfg.other.sendInvite}
             </button>
           </form>
           {inviteResult && (
@@ -856,7 +856,7 @@ export function ConfigClient({
                     className="p-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-500 text-sm"
                     aria-expanded={expandedChildId === c.id}
                   >
-                    {expandedChildId === c.id ? "Ascunde" : "Detalii"}
+                    {expandedChildId === c.id ? cfg.child.hideLabel : cfg.child.detailsLabel}
                   </button>
                   <button
                     type="button"
@@ -1144,7 +1144,7 @@ export function ConfigClient({
               disabled={importing || !importFile}
               className="app-native-primary-button px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
-              {importing ? "Se importă…" : "Importă .ics"}
+              {importing ? cfg.other.importing : cfg.other.importIcs}
             </button>
           </div>
           <div>
@@ -1176,7 +1176,7 @@ export function ConfigClient({
                 disabled={importing || (!importJson.trim() && !importJsonFile)}
                 className="app-native-primary-button px-4 py-2 text-sm font-medium disabled:opacity-50"
               >
-                {importing ? "Se importă…" : "Importă JSON"}
+                {importing ? "Se importă…" : cfg.other.importJson}
               </button>
             </div>
           </div>

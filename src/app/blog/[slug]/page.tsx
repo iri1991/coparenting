@@ -32,7 +32,15 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     description: article.summary,
     alternates: {
       canonical: canonicalPath,
-      ...(hasEn ? { languages: { ro: `${siteUrl}${canonicalPath}`, en: `${siteUrl}${canonicalPath}` } } : {}),
+      ...(hasEn
+        ? {
+            languages: {
+              ro: `${siteUrl}${canonicalPath}`,
+              en: `${siteUrl}/en${canonicalPath}`,
+              "x-default": `${siteUrl}${canonicalPath}`,
+            },
+          }
+        : {}),
     },
     openGraph: {
       type: "article",

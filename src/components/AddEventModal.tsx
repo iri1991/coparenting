@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
@@ -36,6 +37,8 @@ export function AddEventModal({
   const [parent, setParent] = useState<ParentType>("tata");
   const [location, setLocation] = useState<LocationType>("tunari");
   const [locationLabel, setLocationLabel] = useState("");
+  const { t } = useLanguage();
+  const ev = t.app.events;
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -138,17 +141,17 @@ export function AddEventModal({
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
-                {editEvent ? "Actualizare" : "Program nou"}
+                {editEvent ? ev.update : ev.newProgram}
               </p>
               <h2 id="modal-title" className="mt-1 text-lg font-semibold text-stone-900">
-                {editEvent ? "Editează eveniment" : "Adaugă eveniment"}
+                {editEvent ? ev.editTitle : ev.addTitle}
               </h2>
             </div>
           <button
             type="button"
             onClick={onClose}
               className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 touch-manipulation"
-            aria-label="Închide"
+            aria-label={ev.close}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -259,7 +262,7 @@ export function AddEventModal({
                 type="text"
                 value={locationLabel}
                 onChange={(e) => setLocationLabel(e.target.value)}
-                placeholder="Ex: vacanță, bunici..."
+                placeholder={ev.locationPlaceholder}
                 className="app-native-input mt-2 w-full px-4 py-3 text-sm"
               />
             )}
@@ -284,7 +287,7 @@ export function AddEventModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              placeholder="Detalii, ore, etc."
+              placeholder={ev.notesPlaceholder}
               className="app-native-input w-full resize-none px-4 py-3 text-sm"
             />
           </div>
@@ -331,7 +334,7 @@ export function AddEventModal({
               type="submit"
               className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold active:scale-[0.98] touch-manipulation"
             >
-              {editEvent ? "Salvează" : "Adaugă"}
+              {editEvent ? ev.save : ev.add}
             </button>
           </div>
         </form>

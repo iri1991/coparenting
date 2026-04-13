@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { endOfMonth, format, parse, startOfMonth } from "date-fns";
 import { Check, ChevronDown, ChevronUp, Circle, CheckCircle2, Plus, Trash2, X } from "lucide-react";
 import type { FamilyRitual, RitualResponsibleParent } from "@/types/ritual";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SharedRitualsCardProps {
   parent1Name: string;
@@ -67,6 +68,8 @@ const QUICK_TEMPLATES = [
 ] as const;
 
 export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCardProps) {
+  const { t } = useLanguage();
+  const rt = t.app.rituals;
   const [rituals, setRituals] = useState<FamilyRitual[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -94,10 +97,10 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   const fetchRituals = useCallback(async () => {
     const res = await fetch("/api/rituals");
     const json = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      setError(typeof json.error === "string" ? json.error : "Nu s-au putut încărca ritualurile.");
-      return;
-    }
+      if (!res.ok) {
+        setError(typeof json.error === "string" ? json.error : rt.errorLoad);
+        return;
+      }
     setRituals(Array.isArray(json.rituals) ? json.rituals : []);
   }, []);
 
@@ -167,7 +170,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         body: JSON.stringify({ title, timeLabel: newTime.trim() || null, reminderLeadMinutes: newLeadMinutes, responsibleParent: newResponsibleParent }),
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) { setError(typeof json.error === "string" ? json.error : "Nu s-a putut adăuga."); return; }
+      if (!res.ok) { setError(typeof json.error === "string" ? json.error : rt.errorAdd); return; }
       setRituals((prev) => [...prev, json.ritual as FamilyRitual]);
       setNewTitle("");
       setNewTime("");
@@ -180,7 +183,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   }
 
   async function addTemplate(template: { title: string; timeLabel: string; responsibleParent: RitualResponsibleParent; reminderLeadMinutes: number }) {
-    if (rituals.some((r) => r.title.trim().toLowerCase() === template.title.trim().toLowerCase())) return;
+    if (rituals.some((r) => rt.title.trim().toLowerCase() === template.title.trim().toLowerCase())) return;
     setSaving(true);
     try {
       const res = await fetch("/api/rituals", {
@@ -196,7 +199,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
   }
 
   async function removeRitual(id: string) {
-    if (!confirm("Ștergi acest ritual?")) return;
+    if (!confirm(rt.deleteConfirm)) return;
     const res = await fetch(`/api/rituals?id=${encodeURIComponent(id)}`, { method: "DELETE" });
     if (!res.ok) return;
     setRituals((prev) => prev.filter((r) => r.id !== id));
@@ -255,10 +258,10 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Rutine</p>
-          <h2 className="text-base font-semibold text-stone-900">Ritualuri comune</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{rt.section}</p>
+          <h2 className="text-base font-semibold text-stone-900">{rt.title}</h2>
         </div>
-        <span className="text-[11px] text-stone-500">aceleași reguli în toate locuințele</span>
+        <span className="text-[11px] text-stone-500">{rt.subtitle}</span>
       </div>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
@@ -267,7 +270,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
       <section className="rounded-[1.4rem] border border-[#b0d8ca] bg-[#f0faf6] p-3 space-y-2">
         <div className="flex flex-wrap items-center gap-2 justify-between">
           <p className="text-xs font-semibold uppercase tracking-wide text-[#1f5a4e]">
-            Bife azi
+            {rt.checkinsTitle}
             {activeRituals.length > 0
               ? ` · ${doneTodayCount}/${activeRituals.length}`
               : ""}
@@ -284,9 +287,9 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         </div>
 
         {loading ? (
-          <p className="text-xs text-stone-500">Se încarcă…</p>
+          <p className="text-xs text-stone-500">{rt.loading}</p>
         ) : activeRituals.length === 0 ? (
-          <p className="text-xs text-stone-500">Niciun ritual configurat. Adaugă mai jos.</p>
+          <p className="text-xs text-stone-500">{rt.noRituals}</p>
         ) : (
           <ul className="space-y-1.5">
             {activeRituals.map((r) => {
@@ -304,7 +307,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                     }
                     <input type="checkbox" checked={done} onChange={(e) => toggleCompleted(r.id, e.target.checked)} className="sr-only" />
                     <span className={`text-sm font-medium truncate ${done ? "text-emerald-800" : "text-stone-800"}`}>
-                      {r.title}
+                      {rt.title}
                     </span>
                     {r.timeLabel ? (
                       <span className="rounded-full bg-[#f6eee5] px-2 py-0.5 text-[11px] text-stone-500 shrink-0">{r.timeLabel}</span>
@@ -321,7 +324,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
       {activeRituals.length > 0 ? (
         <section className="space-y-1.5">
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
-            Ritualuri configurate ({activeRituals.length})
+            {rt.configuredTitle} ({activeRituals.length})
           </p>
           <ul className="space-y-1.5">
             {activeRituals.map((r, idx) => (
@@ -329,12 +332,12 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                 className="rounded-[1rem] border border-white/70 bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(28,25,23,0.04)]"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-medium text-stone-800 truncate">{r.title}</span>
+                  <span className="text-sm font-medium text-stone-800 truncate">{rt.title}</span>
                   <div className="flex items-center gap-1 shrink-0">
                     <button type="button" onClick={() => moveRitual(r.id, -1)} disabled={idx === 0}
-                      className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title="Mută sus">↑</button>
+                      className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title={rt.moveUp}>↑</button>
                     <button type="button" onClick={() => moveRitual(r.id, 1)} disabled={idx === activeRituals.length - 1}
-                      className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title="Mută jos">↓</button>
+                      className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title={rt.moveDown}>↓</button>
                     <button type="button" onClick={() => removeRitual(r.id)}
                       className="rounded p-1 text-stone-300 hover:text-red-500 transition" title="Șterge">
                       <Trash2 className="w-3.5 h-3.5" />
@@ -347,13 +350,13 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                   ) : null}
                   <select value={r.responsibleParent} onChange={(e) => updateResponsible(r.id, e.target.value as RitualResponsibleParent)}
                     className="app-native-input px-2 py-0.5 text-xs">
-                    <option value="both">amândoi</option>
+                    <option value="both">{rt.both}</option>
                     <option value="tata">{parent1Name}</option>
                     <option value="mama">{parent2Name}</option>
                   </select>
                   <select value={String(r.reminderLeadMinutes ?? 0)} onChange={(e) => updateLead(r.id, Number(e.target.value))}
                     className="app-native-input px-2 py-0.5 text-xs" title="Reminder">
-                    <option value="0">la oră</option>
+                    <option value="0">{rt.atHour}</option>
                     <option value="5">-5 min</option>
                     <option value="10">-10 min</option>
                     <option value="15">-15 min</option>
@@ -372,12 +375,12 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
           <div className="flex flex-wrap items-center gap-2">
             <button type="button" onClick={() => setShowAddForm(true)}
               className="flex items-center gap-1.5 text-xs font-semibold text-[#b66347] hover:text-[#8a4b2d]">
-              <Plus className="w-3.5 h-3.5" /> Adaugă ritual
+              <Plus className="w-3.5 h-3.5" /> {rt.addTitle}
             </button>
             <span className="text-stone-300 text-xs">·</span>
-            <span className="text-xs text-stone-400">Template-uri rapide:</span>
+            <span className="text-xs text-stone-400">{rt.quickTemplates}</span>
             {QUICK_TEMPLATES.map((t) => {
-              const exists = rituals.some((r) => r.title.trim().toLowerCase() === t.title.trim().toLowerCase());
+              const exists = rituals.some((r) => rt.title.trim().toLowerCase() === t.title.trim().toLowerCase());
               return (
                 <button key={t.title} type="button" onClick={() => addTemplate(t)} disabled={saving || exists}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition ${
@@ -394,25 +397,25 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         ) : (
           <div className="rounded-[1.2rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">Ritual nou</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">{rt.formTitle}</p>
               <button type="button" onClick={() => setShowAddForm(false)}><X className="w-4 h-4 text-stone-400" /></button>
             </div>
             <div className="grid gap-2 sm:grid-cols-[1fr_7rem]">
               <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="Ex. Spălat pe dinți" className="app-native-input px-3 py-2 text-sm" />
+                placeholder={rt.namePlaceholder} className="app-native-input px-3 py-2 text-sm" />
               <input type="time" value={newTime} onChange={(e) => setNewTime(e.target.value)}
                 className="app-native-input px-3 py-2 text-sm" />
             </div>
             <div className="flex flex-wrap gap-2">
               <select value={newResponsibleParent} onChange={(e) => setNewResponsibleParent(e.target.value as RitualResponsibleParent)}
                 className="app-native-input px-3 py-2 text-sm flex-1">
-                <option value="both">Responsabil: amândoi</option>
+                <option value="both">{rt.responsibleBoth}</option>
                 <option value="tata">{parent1Name}</option>
                 <option value="mama">{parent2Name}</option>
               </select>
               <select value={String(newLeadMinutes)} onChange={(e) => setNewLeadMinutes(Number(e.target.value))}
                 className="app-native-input px-3 py-2 text-sm">
-                <option value="0">La oră</option>
+                <option value="0">{rt.atHourOpt}</option>
                 <option value="5">-5 min</option>
                 <option value="10">-10 min</option>
                 <option value="15">-15 min</option>
@@ -422,10 +425,10 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
             <div className="flex gap-2 pt-1">
               <button type="button" onClick={addRitual} disabled={saving || !newTitle.trim()}
                 className="app-native-primary-button inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold disabled:opacity-50">
-                <Plus className="w-3.5 h-3.5" /> Adaugă
+                <Plus className="w-3.5 h-3.5" /> {rt.addBtn}
               </button>
               <button type="button" onClick={() => setShowAddForm(false)} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
-                Anulează
+                {rt.cancel}
               </button>
             </div>
           </div>
@@ -437,7 +440,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         <button type="button" onClick={() => setShowReport(!showReport)}
           className="w-full flex items-center justify-between px-3 py-3 text-left">
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
-            Raport ritualuri
+            {rt.reportTitle}
           </p>
           {showReport ? <ChevronUp className="w-4 h-4 text-stone-400" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
         </button>
@@ -450,36 +453,36 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
             </p>
 
             <div className="flex flex-wrap items-center gap-2">
-              <label className="text-xs text-stone-500">Lună:</label>
+              <label className="text-xs text-stone-500">{rt.monthLabel}</label>
               <input type="month" value={reportMonth} onChange={(e) => setReportMonth(e.target.value)}
                 className="app-native-input px-2 py-1 text-sm" />
               <button type="button" onClick={() => loadReport()} disabled={reportLoading}
                 className="app-native-secondary-button px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:opacity-50">
-                Reîncarcă
+                {rt.reload}
               </button>
             </div>
 
             {reportLoading && reportRows === null ? (
-              <p className="text-xs text-stone-500">Se încarcă raportul…</p>
+              <p className="text-xs text-stone-500">{rt.reportLoading}</p>
             ) : reportRows && reportRows.length === 0 ? (
-              <p className="text-xs text-stone-500">Nu există ritualuri de raportat.</p>
+              <p className="text-xs text-stone-500">{rt.reportEmpty}</p>
             ) : reportRows && reportDaysWithSchedule === 0 ? (
-              <p className="text-xs text-stone-500">Nu există zile cu program în calendar pentru luna selectată.</p>
+              <p className="text-xs text-stone-500">{rt.reportNoSchedule}</p>
             ) : reportRows ? (
               <>
                 <div className="overflow-x-auto -mx-1">
                   <table className="w-full min-w-[480px] text-xs text-left border-collapse">
                     <thead>
                       <tr className="border-b border-stone-200 text-stone-500">
-                        <th className="py-2 pr-2 font-medium">Ritual</th>
+                        <th className="py-2 pr-2 font-medium">{rt.colRitual}</th>
                         <th className="py-2 px-1 font-medium text-center whitespace-nowrap" title={parent1Name}>
                           {parent1Name.length > 12 ? `${parent1Name.slice(0, 11)}…` : parent1Name}
                         </th>
                         <th className="py-2 px-1 font-medium text-center whitespace-nowrap" title={parent2Name}>
                           {parent2Name.length > 12 ? `${parent2Name.slice(0, 11)}…` : parent2Name}
                         </th>
-                        <th className="py-2 px-1 font-medium text-center">Împreună</th>
-                        <th className="py-2 pl-1 font-medium text-center">Total</th>
+                        <th className="py-2 px-1 font-medium text-center">{rt.colTogether}</th>
+                        <th className="py-2 pl-1 font-medium text-center">{rt.colTotal}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -487,7 +490,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                         <tr key={row.ritualId} className={`border-b border-stone-100 ${row.active ? "" : "opacity-60"}`}>
                           <td className="py-2 pr-2 text-stone-800">
                             <span className="font-medium">{row.title}</span>
-                            {!row.active ? <span className="ml-1 text-[10px] text-stone-400">(inactiv)</span> : null}
+                            {!row.active ? <span className="ml-1 text-[10px] text-stone-400">{rt.inactive}</span> : null}
                             <span className="block text-[10px] text-stone-400 mt-0.5">
                               {row.responsibleParent === "both" ? "amândoi" : row.responsibleParent === "tata" ? parent1Name : parent2Name}
                             </span>

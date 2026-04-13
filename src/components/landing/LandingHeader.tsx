@@ -4,13 +4,34 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Globe } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Lang } from "@/lib/i18n";
 
 export function LandingHeader() {
   const { t, lang, setLang } = useLanguage();
+  const router = useRouter();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  /**
+   * Navigate to the equivalent URL in the target language.
+   * /en/... → /... (Romanian) and /... → /en/... (English).
+   * The middleware will set the cookie on the next request.
+   * We also call setLang() so the current page updates instantly.
+   */
+  function switchLang(next: Lang) {
+    setLang(next);
+    // Derive the base path (strip /en prefix if present)
+    const base = pathname.startsWith("/en/")
+      ? pathname.slice(3) // keep leading /
+      : pathname === "/en"
+        ? "/"
+        : pathname;
+    const target = next === "en" ? (base === "/" ? "/en" : `/en${base}`) : base;
+    router.push(target);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -65,7 +86,7 @@ export function LandingHeader() {
 
           <div className="flex items-center gap-2">
             {/* Language switcher */}
-            <LanguageSwitcher lang={lang} setLang={setLang} />
+            <LanguageSwitcher lang={lang} setLang={switchLang} />
 
             <Link
               href="/login"
@@ -133,7 +154,7 @@ export function LandingHeader() {
                   <button
                     key={l}
                     type="button"
-                    onClick={() => { setLang(l); setMobileOpen(false); }}
+                    onClick={() => { switchLang(l); setMobileOpen(false); }}
                     className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
                       lang === l
                         ? "bg-[#1f3a36] text-white"

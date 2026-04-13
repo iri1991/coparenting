@@ -32,11 +32,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: "/",
-    // hreflang: both languages are served at the same URL (client-side switching)
     languages: {
-      "ro": siteUrl,
-      "en": siteUrl,
-      "x-default": siteUrl,
+      "ro": `${siteUrl}/`,
+      "en": `${siteUrl}/en`,
+      "x-default": `${siteUrl}/`,
     },
   },
   title: {

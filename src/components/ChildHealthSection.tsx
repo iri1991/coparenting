@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Plus, X, FileText, CheckCircle2, Circle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { OnDemandAdministerDialog } from "@/components/OnDemandAdministerDialog";
 import type {
   ChildHealthCondition,
@@ -30,6 +31,8 @@ interface AddPlanFormProps {
   onCancel: () => void;
 }
 function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, onCancel }: AddPlanFormProps) {
+  const { t } = useLanguage();
+  const h = t.app.health;
   const today = TODAY();
   const [medication, setMedication] = useState("");
   const [dosage, setDosage] = useState("");
@@ -88,18 +91,18 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
         </button>
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
-        <input className="app-native-input px-3 py-2 text-sm" placeholder="Medicament" value={medication} onChange={(e) => setMedication(e.target.value)} />
-        <input className="app-native-input px-3 py-2 text-sm" placeholder="Doză (ex. 5ml)" value={dosage} onChange={(e) => setDosage(e.target.value)} />
+        <input className="app-native-input px-3 py-2 text-sm" placeholder={h.medPlaceholder} value={medication} onChange={(e) => setMedication(e.target.value)} />
+        <input className="app-native-input px-3 py-2 text-sm" placeholder={h.dosePlaceholder} value={dosage} onChange={(e) => setDosage(e.target.value)} />
         {mode === "scheduled" && (
           <>
-            <input className="app-native-input px-3 py-2 text-sm" placeholder="Ore (ex: 08:00, 20:00)" value={times} onChange={(e) => setTimes(e.target.value)} />
+            <input className="app-native-input px-3 py-2 text-sm" placeholder={h.timesPlaceholder} value={times} onChange={(e) => setTimes(e.target.value)} />
             <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             <select className="app-native-input px-3 py-2 text-sm" value={recurrenceType} onChange={(e) => setRecurrenceType(e.target.value as "daily" | "interval")}>
               <option value="daily">Zilnic</option>
               <option value="interval">La N zile</option>
             </select>
             {recurrenceType === "interval" ? (
-              <input type="number" min={1} max={30} className="app-native-input px-3 py-2 text-sm" placeholder="La câte zile" value={intervalDays}
+              <input type="number" min={1} max={30} className="app-native-input px-3 py-2 text-sm" placeholder={h.intervalPlaceholder} value={intervalDays}
                 onChange={(e) => setIntervalDays(Math.max(1, Math.min(30, Number(e.target.value) || 1)))} />
             ) : null}
           </>
@@ -127,7 +130,7 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
       )}
       <div className="flex gap-2 pt-1">
         <button type="button" onClick={save} disabled={saving || !medication.trim() || !dosage.trim()} className="app-native-primary-button px-3 py-1.5 text-xs">
-          {saving ? "Se salvează…" : "Salvează"}
+          {saving ? h.saving : h.saving.replace("…", "")}
         </button>
         <button type="button" onClick={onCancel} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
           Anulează
@@ -145,6 +148,8 @@ interface AddReportFormProps {
   onCancel: () => void;
 }
 function AddReportForm({ childId, conditionId, onDone, onCancel }: AddReportFormProps) {
+  const { t } = useLanguage();
+  const h = t.app.health;
   const [name, setName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
@@ -170,12 +175,12 @@ function AddReportForm({ childId, conditionId, onDone, onCancel }: AddReportForm
     <form onSubmit={save} className="rounded-[1rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
       <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Atașează raport medical</p>
       <div className="flex flex-wrap gap-2 items-end">
-        <input className="app-native-input flex-1 min-w-[120px] px-3 py-2 text-sm" placeholder="Nume raport" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className="app-native-input flex-1 min-w-[120px] px-3 py-2 text-sm" placeholder={h.reportNamePH} value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".pdf,application/pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="text-xs" />
       </div>
       <div className="flex gap-2">
         <button type="submit" disabled={saving || !name.trim() || !file} className="app-native-primary-button px-3 py-1.5 text-xs">
-          {saving ? "Se încarcă…" : "Atașează"}
+          {saving ? h.reportUploading : h.reportAttach}
         </button>
         <button type="button" onClick={onCancel} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
           Anulează
@@ -196,6 +201,8 @@ interface ConditionCardProps {
   onRefresh: () => void;
 }
 function ConditionCard({ condition, plans, reports, childId, parent1Name, parent2Name, onRefresh }: ConditionCardProps) {
+  const { t } = useLanguage();
+  const h = t.app.health;
   const today = TODAY();
   const [expanded, setExpanded] = useState(false);
   const [showAddPlan, setShowAddPlan] = useState(false);
@@ -281,7 +288,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
               disabled={stopping === "condition"}
               className="rounded-full border border-stone-300 px-2 py-1 text-[11px] font-semibold text-stone-600 hover:border-red-300 hover:text-red-600 transition disabled:opacity-50"
             >
-              {stopping === "condition" ? "…" : "Încheie"}
+              {stopping === "condition" ? "…" : h.close}
             </button>
           ) : (
             <button
@@ -290,7 +297,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
               disabled={stopping === "reactivate"}
               className="rounded-full border border-stone-300 px-2 py-1 text-[11px] font-semibold text-stone-500 hover:border-emerald-400 hover:text-emerald-700 transition disabled:opacity-50"
             >
-              {stopping === "reactivate" ? "…" : "Reactivează"}
+              {stopping === "reactivate" ? "…" : h.reactivate}
             </button>
           )}
           {expanded ? <ChevronUp className="w-4 h-4 text-stone-400" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
@@ -322,7 +329,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
                     disabled={stopping === p.id}
                     className="rounded-full border border-stone-300 px-2 py-0.5 text-[11px] font-semibold text-stone-500 hover:border-red-300 hover:text-red-600 transition disabled:opacity-50 shrink-0"
                   >
-                    {stopping === p.id ? "…" : "Oprește"}
+                    {stopping === p.id ? "…" : h.stopMed}
                   </button>
                 </div>
               ))}
@@ -389,6 +396,8 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
 
 // ─── Main component ────────────────────────────────────────────────────────
 export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props) {
+  const { t } = useLanguage();
+  const h = t.app.health;
   const [loading, setLoading] = useState(true);
   const [conditions, setConditions] = useState<ChildHealthCondition[]>([]);
   const [plans, setPlans] = useState<ChildTreatmentPlan[]>([]);
@@ -599,7 +608,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
                   <button type="button" disabled={d.done}
                     onClick={() => isOnDemand ? setOnDemandDialog(d.plan) : markScheduledDone(d.plan.id, d.timeLabel)}
                     className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0">
-                    {d.done ? "✓ Administrat" : isOnDemand ? "Administrează" : "Marchează"}
+                    {d.done ? h.administered : isOnDemand ? "Administrează" : h.markDone}
                   </button>
                 </div>
                 {isOnDemand && d.onDemandTimes && d.onDemandTimes.length > 0 && (
@@ -638,7 +647,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
               <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Boală nouă</p>
               <button type="button" onClick={() => setShowAddCondition(false)}><X className="w-4 h-4 text-stone-400" /></button>
             </div>
-            <input className="app-native-input w-full px-3 py-2 text-sm" placeholder="Ex. bronșită, otită, etc." value={conditionTitle} onChange={(e) => setConditionTitle(e.target.value)} />
+            <input className="app-native-input w-full px-3 py-2 text-sm" placeholder={h.conditionPlaceholder} value={conditionTitle} onChange={(e) => setConditionTitle(e.target.value)} />
             <div className="flex items-center gap-2">
               <label className="text-xs text-stone-500 shrink-0">Început:</label>
               <input type="date" className="app-native-input flex-1 px-3 py-2 text-sm" value={conditionStartDate} onChange={(e) => setConditionStartDate(e.target.value)} />
@@ -646,7 +655,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
             <textarea className="app-native-input w-full px-3 py-2 text-sm" rows={2} placeholder="Observații (opțional)" value={conditionNotes} onChange={(e) => setConditionNotes(e.target.value)} />
             <div className="flex gap-2">
               <button type="button" onClick={addCondition} disabled={savingCondition || !conditionTitle.trim()} className="app-native-primary-button px-3 py-1.5 text-xs">
-                {savingCondition ? "Se salvează…" : "Adaugă boala"}
+                {savingCondition ? "Se salvează…" : h.addConditionBtn}
               </button>
               <button type="button" onClick={() => setShowAddCondition(false)} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
                 Anulează

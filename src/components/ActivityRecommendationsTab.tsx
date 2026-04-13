@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { Sparkles, MapPin, Loader2, Check, X, Trash2, Info } from "lucide-react";
 import { normalizeSuggestionTitleKey } from "@/lib/suggestion-title";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ActivityIdeaDetailModal } from "@/components/ActivityIdeaDetailModal";
 
 interface ActivityRecommendationsTabProps {
@@ -84,6 +85,8 @@ function migrateItems(raw: unknown): IdeaItem[] {
 }
 
 export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: ActivityRecommendationsTabProps) {
+  const { t } = useLanguage();
+  const ideas = t.app.ideas;
   const [userId, setUserId] = useState<string | null>(null);
   const [board, setBoard] = useState<IdeaBoard | null>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -223,7 +226,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(typeof json.error === "string" ? json.error : "Nu am putut încărca sugestiile.");
+        setError(typeof json.error === "string" ? json.error : ideas.errorLoad);
         return;
       }
       const payload = json as ApiOk;
@@ -260,7 +263,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         await refreshDecisionsForRange(start, end);
       }
     } catch {
-      setError("Eroare de rețea. Încearcă din nou.");
+      setError(ideas.errorNetwork);
     } finally {
       setLoading(false);
     }
@@ -271,7 +274,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
       const key = normalizeSuggestionTitleKey(s.title);
       const chosenDay = acceptDayByItemId[s.id] ?? contextDate;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(chosenDay)) {
-        setError("Alege o zi validă.");
+        setError(ideas.errorDate);
         return;
       }
 
@@ -283,13 +286,13 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             activityName: s.title.trim(),
-            notes: `Sugestie AI · planificată pentru ${chosenDay}`,
+            notes: `${ideas.noteTemplate} ${chosenDay}`,
             periodEndDate: chosenDay,
           }),
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(typeof json.error === "string" ? json.error : "Nu s-a putut salva activitatea.");
+          setError(typeof json.error === "string" ? json.error : ideas.errorSave);
           return;
         }
         await fetch("/api/activity-suggestion-decisions", {
@@ -320,7 +323,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(typeof json.error === "string" ? json.error : "Nu s-a putut salva refuzul.");
+          setError(typeof json.error === "string" ? json.error : ideas.errorReject);
           return;
         }
         setDecisions((prev) => ({ ...prev, [key]: "rejected" }));
@@ -386,7 +389,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
           className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-60 touch-manipulation"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MapPin className="h-4 w-4" />}
-          {loading ? "Se generează…" : "Adaugă sugestii AI"}
+          {loading ? ideas.generating : ideas.addBtn}
         </button>
       </div>
 
@@ -425,7 +428,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
             Șterge selectate
           </button>
           <button type="button" onClick={clearSelection} className="text-xs text-stone-500 hover:underline">
-            Renunță la selecție
+            {ideas.clearSelection}
           </button>
         </div>
       )}
@@ -442,20 +445,20 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                 onChange={(e) => (e.target.checked ? selectAll() : clearSelection())}
                 className="rounded border-stone-300"
               />
-              Selectează toate ideile
+              {ideas.selectAll}
             </label>
             {board!.items.length > 0 && (
               <button
                 type="button"
                 onClick={() => {
-                  if (confirm("Ștergi toate ideile din listă?")) {
+                  if (confirm(ideas.clearAllConfirm)) {
                     setBoard((b) => (b ? { ...b, items: [] } : b));
                     clearSelection();
                   }
                 }}
                 className="text-xs text-red-600 dark:text-red-400 hover:underline"
               >
-                Golește lista
+                {ideas.clearAll}
               </button>
             )}
           </div>
@@ -550,8 +553,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                           deleteByIds([s.id]);
                         }}
                         className="inline-flex items-center gap-1 rounded-lg border border-red-200 dark:border-red-900/50 bg-white dark:bg-stone-900 px-2 py-1.5 text-xs font-medium text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
-                        title="Șterge ideea"
-                        aria-label="Șterge ideea"
+                        title={ideas.deleteIdea}
+                        aria-label={ideas.deleteIdea}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>

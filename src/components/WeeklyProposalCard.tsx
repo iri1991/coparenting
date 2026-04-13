@@ -3,8 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
+import { enGB } from "date-fns/locale";
 import type { WeekProposal } from "@/types/proposal";
 import { UpgradeCta } from "@/components/UpgradeCta";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProposalResponse {
   proposal: (WeekProposal & {
@@ -23,6 +25,8 @@ interface WeeklyProposalCardProps {
 }
 
 export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyProposalCardProps) {
+  const { t, lang } = useLanguage();
+  const p = t.app.proposals;
   const [data, setData] = useState<ProposalResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [approving, setApproving] = useState(false);
@@ -63,7 +67,7 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
         if (json.applied) onApplied?.();
         await fetchProposal();
       } else {
-        alert(json.error || "Nu s-a putut aproba.");
+        alert(json.error || p.errorApprove);
       }
     } finally {
       setApproving(false);
@@ -103,12 +107,12 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) {
-        alert(json.error || "Nu s-a putut salva modificarea.");
+        alert(json.error || p.errorSave);
         return;
       }
       setEditing(false);
       await fetchProposal();
-      alert("Propunerea a fost actualizată. Aprobările au fost resetate și trebuie reconfirmată.");
+      alert(p.updated);
     } finally {
       setSavingEdit(false);
     }
@@ -119,10 +123,10 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
   if (!proposal && data.upgradeMessage) {
     return (
       <div className="app-native-surface rounded-[2rem] p-4 sm:p-5">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">Plan Pro</p>
-        <h3 className="mt-2 text-base font-semibold text-stone-900">Propunere program săptămână</h3>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">{p.proPlan}</p>
+        <h3 className="mt-2 text-base font-semibold text-stone-900">{p.proTitle}</h3>
         <p className="mt-2 text-sm text-stone-600">{data.upgradeMessage}</p>
-        <p className="mb-3 mt-1 text-xs text-stone-500">Planul Pro include propunerea automată în fiecare duminică.</p>
+        <p className="mb-3 mt-1 text-xs text-stone-500">{p.proDesc}</p>
         <UpgradeCta variant="button" />
       </div>
     );
@@ -136,8 +140,8 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
     <div className="app-native-surface-strong rounded-[2rem] p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">Propunere automată</p>
-          <h3 className="mt-1 text-base font-semibold text-stone-900">Program pentru săptămâna următoare</h3>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b85c3e]">{p.title}</p>
+          <h3 className="mt-1 text-base font-semibold text-stone-900">{p.subtitle}</h3>
         </div>
         <span className="rounded-full bg-white/70 px-3 py-1 text-[11px] font-medium text-stone-500">{weekLabel}</span>
       </div>
@@ -148,14 +152,14 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             className="flex items-center justify-between gap-3 rounded-[1.2rem] bg-white/76 px-3 py-3 text-sm text-stone-700"
           >
             <span className="font-medium text-stone-800">
-              {format(new Date(day.date + "T12:00:00"), "EEEE, d MMM", { locale: ro })}
+              {format(new Date(day.date + "T12:00:00"), "EEEE, d MMM", { locale: lang === "en" ? enGB : ro })}
             </span>
             {editing ? (
               <button
                 type="button"
                 onClick={() => cycleParent(idx)}
                 className="app-native-secondary-button px-3 py-1.5 text-xs font-semibold text-stone-700"
-                title="Apasă pentru a schimba: tata → mama → cu toții"
+                title={p.clickHint}
               >
                 {parentLabels[day.parent] ?? day.parent}
               </button>
@@ -173,22 +177,16 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             disabled={savingEdit}
             className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
           >
-            Renunță
+            {p.cancel}
           </button>
-          <button
-            type="button"
-            onClick={saveEdit}
-            disabled={savingEdit}
-            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50"
-          >
-            {savingEdit ? "Se salvează…" : "Salvează modificarea"}
+          <button type="button" onClick={saveEdit} disabled={savingEdit}
+            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50">
+            {savingEdit ? p.saving : p.saveChange}
           </button>
         </div>
       ) : myApproved ? (
         <p className="rounded-[1.2rem] bg-[#fff4e9] px-3 py-3 text-sm text-[#9f5a40]">
-          {otherApproved
-            ? "Ambele aprobări au fost înregistrate. Programul se aplică automat."
-            : "Ai aprobat. Așteptăm aprobarea celuilalt părinte."}
+          {otherApproved ? p.bothApproved : p.youApproved}
         </p>
       ) : (
         <div className="flex gap-2">
@@ -198,15 +196,11 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
             disabled={approving}
             className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
           >
-            Modifică propunerea
+            {p.modify}
           </button>
-          <button
-            type="button"
-            onClick={handleApprove}
-            disabled={approving}
-            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50"
-          >
-            {approving ? "Se înregistrează…" : "Aprob programul"}
+          <button type="button" onClick={handleApprove} disabled={approving}
+            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50">
+            {approving ? p.registering : p.approve}
           </button>
         </div>
       )}

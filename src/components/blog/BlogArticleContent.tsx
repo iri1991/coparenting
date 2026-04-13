@@ -34,7 +34,7 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
 
       <section className="px-4 pb-16 pt-4 sm:px-6">
         <div className="mx-auto max-w-6xl">
-          <Link href="/blog" className="text-sm font-semibold text-[#1f3a36] hover:text-[#172c2a]">
+          <Link href={lang === "en" ? "/en/blog" : "/blog"} className="text-sm font-semibold text-[#1f3a36] hover:text-[#172c2a]">
             {t.blog.backToBlog}
           </Link>
 

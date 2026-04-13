@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Bell, BellOff } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type PushStatus = "idle" | "loading" | "enabled" | "unsupported" | "denied" | "error";
 
@@ -19,6 +20,8 @@ function urlBase64ToUint8Array(base64: string): Uint8Array {
 }
 
 export function NotificationSettingsSection({ currentUserId }: NotificationSettingsSectionProps) {
+  const { t } = useLanguage();
+  const n = t.app.notifications;
   const [status, setStatus] = useState<PushStatus>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -28,19 +31,11 @@ export function NotificationSettingsSection({ currentUserId }: NotificationSetti
       setStatus("unsupported");
       return;
     }
-    if (Notification.permission === "denied") {
-      setStatus("denied");
-      return;
-    }
-    if (Notification.permission !== "granted") {
-      setStatus("idle");
-      return;
-    }
+    if (Notification.permission === "denied") { setStatus("denied"); return; }
+    if (Notification.permission !== "granted") { setStatus("idle"); return; }
     navigator.serviceWorker.ready
       .then((reg) => reg.pushManager.getSubscription())
-      .then((sub) => {
-        setStatus(sub ? "enabled" : "idle");
-      })
+      .then((sub) => setStatus(sub ? "enabled" : "idle"))
       .catch(() => setStatus("idle"));
   }, []);
 
@@ -53,46 +48,28 @@ export function NotificationSettingsSection({ currentUserId }: NotificationSetti
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         setStatus(permission === "denied" ? "denied" : "idle");
-        if (permission === "denied") setMessage("Ai refuzat notificările.");
+        if (permission === "denied") setMessage(n.denied);
         return;
       }
       const keyRes = await fetch("/api/push/vapid-public");
-      if (!keyRes.ok) {
-        setStatus("error");
-        setMessage("Notificările nu sunt configurate pe server.");
-        return;
-      }
+      if (!keyRes.ok) { setStatus("error"); setMessage(n.notConfigured); return; }
       const { publicKey } = await keyRes.json();
-      if (!publicKey) {
-        setStatus("error");
-        return;
-      }
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicKey) as BufferSource,
-      });
+      if (!publicKey) { setStatus("error"); return; }
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(publicKey) as BufferSource });
       const subscribeRes = await fetch("/api/push/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sub.toJSON()),
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sub.toJSON()),
       });
-      if (!subscribeRes.ok) {
-        setStatus("error");
-        setMessage("Nu s-a putut salva abonamentul.");
-        return;
-      }
+      if (!subscribeRes.ok) { setStatus("error"); setMessage(n.saveError); return; }
       await fetch("/api/push/test", { method: "POST" });
       setStatus("enabled");
-      setMessage("Notificări activate.");
+      setMessage(n.activated);
     } catch (e) {
       setStatus("error");
-      setMessage(e instanceof Error ? e.message : "Eroare la activare.");
+      setMessage(e instanceof Error ? e.message : n.activateError);
     }
-  }, [currentUserId]);
+  }, [currentUserId, n]);
 
-  if (status === "unsupported") {
-    return null;
-  }
+  if (status === "unsupported") return null;
 
   const isActive = status === "enabled";
   const isLoading = status === "loading";
@@ -100,37 +77,21 @@ export function NotificationSettingsSection({ currentUserId }: NotificationSetti
   return (
     <section className="rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800/50 p-4 mb-6">
       <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1 flex items-center gap-2">
-        {isActive ? (
-          <Bell className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden />
-        ) : (
-          <BellOff className="w-4 h-4 text-stone-500 dark:text-stone-400" aria-hidden />
-        )}
-        Notificări push
+        {isActive ? <Bell className="w-4 h-4 text-amber-600" aria-hidden /> : <BellOff className="w-4 h-4 text-stone-500" aria-hidden />}
+        {n.title}
       </h2>
-      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-        Primești alerte pentru evenimente, reminder seara, ritualuri și tratamente medicale (doar pentru părintele
-        responsabil/aflat cu copilul la momentul respectiv). Notificările se activează <strong>per dispozitiv</strong> –
-        pe telefon și pe laptop trebuie activate separat.
-      </p>
+      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">{n.desc}</p>
       {message && (
-        <p className={`text-xs mb-3 ${status === "error" ? "text-red-600 dark:text-red-400" : "text-stone-600 dark:text-stone-400"}`}>
-          {message}
-        </p>
+        <p className={`text-xs mb-3 ${status === "error" ? "text-red-600" : "text-stone-600"}`}>{message}</p>
       )}
       {isActive ? (
-        <p className="text-sm text-amber-700 dark:text-amber-300">Notificările sunt activate pe acest dispozitiv.</p>
+        <p className="text-sm text-amber-700">{n.active}</p>
       ) : status === "denied" ? (
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          Notificările sunt blocate în setările browserului. Deschide setările site-ului și permite notificările pentru a le activa.
-        </p>
+        <p className="text-sm text-stone-500">{n.blockedBrowser}</p>
       ) : (
-        <button
-          type="button"
-          onClick={enablePush}
-          disabled={isLoading || !currentUserId}
-          className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white text-sm font-medium"
-        >
-          {isLoading ? "Se activează…" : "Activează notificările"}
+        <button type="button" onClick={enablePush} disabled={isLoading || !currentUserId}
+          className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white text-sm font-medium">
+          {isLoading ? n.activating : n.activate}
         </button>
       )}
     </section>

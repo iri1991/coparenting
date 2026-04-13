@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
@@ -40,15 +41,16 @@ export function EventViewModal({
       ? event.locationLabel.trim()
       : labels.locationLabels[event.location];
   const hasTime = !!(event.startTime || event.endTime);
-  const timeLabel =
-    event.startTime && event.endTime
+  const { t } = useLanguage();
+  const ev = t.app.events;
+
+  const timeLabel = event.startTime && event.endTime
       ? `${event.startTime} – ${event.endTime}`
       : event.startTime
         ? event.startTime
         : event.endTime
-          ? `până ${event.endTime}`
+          ? `${ev.until2} ${event.endTime}`
           : "";
-
   return (
     <div
       className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4"
@@ -66,7 +68,7 @@ export function EventViewModal({
             type="button"
             onClick={onClose}
             className="app-native-icon-button absolute right-3 top-3 rounded-2xl p-2.5 text-stone-600 touch-manipulation"
-            aria-label="Închide"
+            aria-label={ev.close}
           >
             <X className="w-5 h-5 text-stone-500" />
           </button>

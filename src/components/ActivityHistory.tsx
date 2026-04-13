@@ -5,8 +5,10 @@ import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ActivityEntry, ActivityAction } from "@/lib/activity";
 import { Calendar, UserPlus, Home, Users, FileText, Ban, CheckCircle, Link2, Pencil } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { enGB } from "date-fns/locale";
 
-/** Propoziție completă: [Cine] [acțiune] [detalii]. */
+/** Full sentence: [Who] [action] [details]. Works for both RO and EN since fullActionSentence uses Romanian phrases from server. */
 function fullActionSentence(
   userLabel: string,
   action: ActivityAction,
@@ -124,6 +126,8 @@ function iconForAction(action: ActivityAction) {
 }
 
 export function ActivityHistory() {
+  const { t, lang } = useLanguage();
+  const h = t.app.history;
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -133,65 +137,49 @@ export function ActivityHistory() {
     (async () => {
       try {
         const res = await fetch("/api/activity?limit=80");
-        if (!res.ok) throw new Error("Nu s-a putut încărca istoricul.");
+        if (!res.ok) throw new Error(h.error);
         const data = await res.json();
         if (!cancelled) setEntries(data.entries ?? []);
       } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Eroare la încărcare.");
+        if (!cancelled) setError(e instanceof Error ? e.message : h.fetchError);
       } finally {
         if (!cancelled) setLoading(false);
       }
     })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    return () => { cancelled = true; };
+  }, [h]);
 
   if (loading) {
-    return (
-      <div className="py-8 text-center text-stone-500 dark:text-stone-400 text-sm">
-        Se încarcă istoricul…
-      </div>
-    );
+    return <div className="py-8 text-center text-stone-500 text-sm">{h.loading}</div>;
   }
   if (error) {
     return (
-      <div className="py-8 text-center text-red-600 dark:text-red-400 text-sm">
+      <div className="py-8 text-center text-red-600 text-sm">
         {error}
       </div>
     );
   }
   if (entries.length === 0) {
-    return (
-      <div className="py-12 text-center">
-        <p className="text-stone-500 dark:text-stone-400 text-sm">
-          Încă nu există acțiuni în istoric. Modificările făcute de tine și de celălalt părinte vor apărea aici.
-        </p>
-      </div>
-    );
+    return <div className="py-12 text-center"><p className="text-stone-500 text-sm">{h.empty}</p></div>;
   }
+
+  const dateLocale = lang === "en" ? enGB : ro;
 
   return (
     <div className="relative">
-      {/* linie verticală */}
-      <div
-        className="absolute left-5 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700"
-        aria-hidden
-      />
+      <div className="absolute left-5 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700" aria-hidden />
       <ul className="space-y-0">
         {entries.map((entry) => {
           const sentence = fullActionSentence(entry.userLabel, entry.action, entry.payload);
           return (
             <li key={entry.id} className="relative flex gap-4 pb-6 last:pb-0">
-              <span className="relative z-10 flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-600 shadow-sm">
+              <span className="relative z-10 flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-stone-900 border-2 border-stone-200 shadow-sm">
                 {iconForAction(entry.action)}
               </span>
               <div className="min-w-0 flex-1 pt-0.5">
-                <p className="text-sm font-medium text-stone-800 dark:text-stone-100 leading-snug">
-                  {sentence}
-                </p>
-                <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
-                  {format(parseISO(entry.createdAt), "d MMM yyyy, HH:mm", { locale: ro })}
+                <p className="text-sm font-medium text-stone-800 leading-snug">{sentence}</p>
+                <p className="mt-1 text-xs text-stone-400">
+                  {format(parseISO(entry.createdAt), "d MMM yyyy, HH:mm", { locale: dateLocale })}
                 </p>
               </div>
             </li>

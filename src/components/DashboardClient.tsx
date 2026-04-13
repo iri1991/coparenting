@@ -361,7 +361,7 @@ export function DashboardClient({
 
   const handleDelete = useCallback(
     async (event: ScheduleEvent) => {
-      if (!confirm("Ștergi acest eveniment?")) return;
+      if (!confirm(t.app.dashboard.deleteEventConfirm)) return;
       const res = await fetch(`/api/events?id=${encodeURIComponent(event.id)}`, {
         method: "DELETE",
       });
@@ -540,7 +540,7 @@ export function DashboardClient({
   }
 
   async function handleDeleteLink(id: string) {
-    if (!confirm("Ștergi acest link?")) return;
+    if (!confirm(t.app.dashboard.deleteLinkConfirm)) return;
     const res = await fetch(`/api/useful-links?id=${encodeURIComponent(id)}`, { method: "DELETE" });
     if (res.ok) fetchUsefulLinks();
   }
@@ -562,7 +562,7 @@ export function DashboardClient({
   async function handleInterruptPeriod() {
     if (!currentParentPeriod || !parentType || !interruptUntilDate) return;
     if (interruptTarget === "someoneElse" && !interruptCaretaker.trim()) {
-      alert("Completează cine preia copilul.");
+      alert(t.app.dashboard.interruptModal.caretakerError);
       return;
     }
     setInterruptSaving(true);
@@ -606,7 +606,7 @@ export function DashboardClient({
         });
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
-          alert(data.error || "Nu s-a putut întrerupe perioada.");
+          alert(data.error || t.app.dashboard.interruptModal.error);
           return;
         }
       }
@@ -890,7 +890,7 @@ export function DashboardClient({
                   : "bg-white text-stone-700 border-[#d7c3af]"
               }`}
             >
-              {showProposalPreview ? "Ascunde preview" : "Arată preview"}
+              {showProposalPreview ? t.app.dashboard.hidePreview : t.app.dashboard.showPreview}
             </button>
           </div>
         )}
@@ -994,7 +994,7 @@ export function DashboardClient({
             type="text"
             value={newLinkTitle}
             onChange={(e) => setNewLinkTitle(e.target.value)}
-            placeholder="Titlu"
+            placeholder={t.app.dashboard.titlePlaceholder}
             className="app-native-input px-3 py-2 text-sm"
           />
           <input
@@ -1008,7 +1008,7 @@ export function DashboardClient({
             type="text"
             value={newLinkCategory}
             onChange={(e) => setNewLinkCategory(e.target.value)}
-            placeholder="Categorie (opțional)"
+            placeholder={t.app.dashboard.categoryPlaceholder}
             className="app-native-input px-3 py-2 text-sm"
           />
         </div>
@@ -1018,7 +1018,7 @@ export function DashboardClient({
           disabled={linksSaving || !newLinkTitle.trim() || !newLinkUrl.trim()}
           className="app-native-primary-button mb-3 px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
         >
-          {linksSaving ? "Se salvează..." : "Adaugă link"}
+          {linksSaving ? t.app.dashboard.linkSaving : t.app.dashboard.addLink}
         </button>
         {usefulLinks.length === 0 ? (
           <p className="text-sm text-stone-500">Nu există materiale utile încă.</p>
@@ -1221,7 +1221,7 @@ export function DashboardClient({
                 disabled={interruptSaving}
                 className="app-native-primary-button flex-1 px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
               >
-                {interruptSaving ? "Se aplică..." : "Aplică"}
+                {interruptSaving ? t.app.dashboard.interruptModal.applying2 : t.app.dashboard.interruptModal.applyBtn}
               </button>
             </div>
           </div>
