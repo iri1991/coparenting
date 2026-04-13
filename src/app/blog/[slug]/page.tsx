@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import {
   formatBlogDate,
   getAllBlogArticles,
+  getAllBlogSlugs,
   getArticlesForCategory,
-  getBlogArticleBySlug,
+  getBlogArticleByAnySlug,
 } from "@/content/blog";
 import { BlogShell } from "@/components/blog/BlogShell";
 import { BlogArticleContent } from "@/components/blog/BlogArticleContent";
@@ -15,12 +16,13 @@ type ArticlePageProps = {
 };
 
 export function generateStaticParams() {
-  return getAllBlogArticles().map((article) => ({ slug: article.slug }));
+  // Include both Romanian and English slugs so /en/blog/[enSlug] is pre-built
+  return getAllBlogSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getBlogArticleBySlug(slug);
+  const article = getBlogArticleByAnySlug(slug);
 
   if (!article) return {};
 
@@ -62,7 +64,8 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function BlogArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const articleRo = getBlogArticleBySlug(slug);
+  // Accept both Romanian slugs and English slugs (e.g. after /en/ rewrite)
+  const articleRo = getBlogArticleByAnySlug(slug);
 
   if (!articleRo) notFound();
 

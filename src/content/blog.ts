@@ -6,6 +6,11 @@ export type BlogCategory = {
   surfaceClassName: string;
 };
 
+export type BlogCategoryWithTranslation = BlogCategory & {
+  titleEn?: string;
+  descriptionEn?: string;
+};
+
 export type BlogSource = {
   title: string;
   publisher: string;
@@ -49,6 +54,12 @@ export type BlogArticle = {
   sources: BlogSource[];
   /** English translation — only translatable content fields. Add this to any article to unlock English. */
   en?: BlogArticleLocale;
+  /**
+   * URL-safe English slug used when the article has an English translation.
+   * /en/blog/[enSlug] → served by the same [slug] page after middleware rewrite.
+   * Leave unset if no English translation exists.
+   */
+  enSlug?: string;
 };
 
 export type BlogArticleWithCategory = BlogArticle & {
@@ -93,6 +104,7 @@ export const blogCategories: BlogCategory[] = [
 const blogArticles: BlogArticle[] = [
   {
     slug: "geanta-de-tranzitie-care-scade-stresul-intre-doua-case",
+    enSlug: "the-transition-bag-that-reduces-stress-between-homes",
     title: "Geanta de tranziție care scade stresul între două case",
     summary:
       "O geantă simplă, previzibilă și împachetată fără grabă poate reduce mult fricțiunea dintre case și sentimentul că ceva important rămâne mereu în urmă.",
@@ -186,6 +198,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "ce-merita-sa-stie-scoala-sau-gradinita-despre-un-copil-cu-doua-case",
+    enSlug: "what-school-should-know-about-a-child-with-two-homes",
     title: "Ce merită să știe școala sau grădinița despre un copil cu două case",
     summary:
       "Câteva informații clare date din timp către școală sau grădiniță pot preveni confuzii, rușine pentru copil și multă logistică făcută în ultimul moment.",
@@ -279,6 +292,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cand-lucrurile-raman-in-cealalta-casa-fara-sa-pui-copilul-la-mijloc",
+    enSlug: "when-things-get-left-at-the-other-home",
     title: "Când lucrurile rămân în cealaltă casă, fără să pui copilul la mijloc",
     summary:
       "Obiectele uitate între două case se rezolvă mai bine prin sisteme simple și comunicare adult la adult decât prin reproșuri sau presiune pusă pe copil.",
@@ -372,6 +386,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cand-copilul-spune-ca-la-celalalt-parinte-e-mai-bine",
+    enSlug: "when-your-child-says-its-better-at-the-other-parents",
     title: "Când copilul spune că la celălalt părinte este mai bine",
     summary:
       "Comparația dintre case nu cere defensivă sau concurs, ci calm, curiozitate și atenție la ce încearcă de fapt copilul să spună.",
@@ -473,6 +488,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-anunti-schimbarile-de-program-fara-sa-incarci-copilul",
+    enSlug: "how-to-announce-schedule-changes-without-overloading-the-child",
     title: "Cum anunți schimbările de program fără să încarci copilul",
     summary:
       "Schimbările de ultim moment devin mai ușor de dus când sunt spuse simplu, din timp și fără să transformi copilul în gestionarul tensiunii dintre adulți.",
@@ -568,6 +584,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-il-ajuti-pe-copil-sa-puna-in-cuvinte-ce-simte",
+    enSlug: "how-to-help-your-child-put-feelings-into-words",
     title: "Cum îl ajuți pe copil să pună în cuvinte ce simte",
     summary:
       "Când adultul numește blând emoția și o suportă fără grabă, copilul începe treptat să treacă de la izbucnire la exprimare.",
@@ -669,6 +686,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cand-copilului-ii-este-dor-de-celalalt-parinte",
+    enSlug: "when-your-child-misses-the-other-parent",
     title: "Când copilului îi este dor de celălalt părinte",
     summary:
       "Dorul nu se rezolvă prin competiție sau distragere forțată, ci prin validare, continuitate și respect pentru legătura copilului cu ambii părinți.",
@@ -764,6 +782,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-repari-dupa-ce-ai-tipat-la-copil",
+    enSlug: "how-to-repair-after-shouting-at-your-child",
     title: "Cum repari după ce ai țipat la copil",
     summary:
       "Reparația nu înseamnă explicații lungi sau vină vărsată pe copil, ci pauză, revenire calmă și reconectare clară după ruptură.",
@@ -853,6 +872,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cand-copilul-spune-ca-nu-vrea-sa-mearga-in-cealalta-casa",
+    enSlug: "when-your-child-refuses-to-go-to-the-other-home",
     title: "Când copilul spune că nu vrea să meargă în cealaltă casă",
     summary:
       "Refuzul unei tranziții nu cere verdict rapid despre părinți, ci calm, reasigurare și o verificare atentă a modului în care se face schimbul.",
@@ -954,6 +974,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "ritualul-de-ramas-bun-care-scade-agatarea-la-despartire",
+    enSlug: "the-goodbye-ritual-that-reduces-clinging",
     title: "Ritualul de rămas-bun care scade agățarea la despărțire",
     summary:
       "Când despărțirea se lungește, anxietatea crește; un rămas-bun scurt, previzibil și cald îl ajută pe copil să traverseze mai ușor momentul.",
@@ -1030,6 +1051,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-prezinti-copilului-un-nou-partener-dupa-separare",
+    enSlug: "how-to-introduce-a-new-partner-to-your-child",
     title: "Cum îi prezinți copilului un nou partener după separare",
     summary:
       "Copilul are nevoie de timp, claritate și lipsă de presiune când apare un nou partener în viața unuia dintre părinți.",
@@ -1125,6 +1147,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "copilul-explodeaza-dupa-schimbarea-de-casa",
+    enSlug: "when-your-child-explodes-after-a-home-change",
     title: "Când copilul explodează după schimbarea de casă",
     summary:
       "Iritarea, plânsul sau opoziția de după handover nu cer mai întâi corectare, ci un adult care încetinește ritmul și co-reglează.",
@@ -1250,6 +1273,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "tranzitii-intre-doua-case-mai-putin-stres",
+    enSlug: "transitions-between-two-homes-less-stress",
     title: "Cum faci tranzițiile între două case mai puțin stresante pentru copil",
     summary:
       "Mutările frecvente nu devin mai ușoare prin grabă, ci prin predictibilitate, semnale clare și un ritual de reconectare după handover.",
@@ -1339,6 +1363,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-vorbim-cu-copilul-despre-separare-si-schimbari",
+    enSlug: "how-to-talk-to-your-child-about-separation",
     title: "Cum vorbim cu copilul despre separare și schimbări de program",
     summary:
       "Mesajele simple, repetate și fără detalii de conflict îi dau copilului un cadru de siguranță când familia se schimbă.",
@@ -1422,6 +1447,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "copilul-nu-este-mesager-reguli-de-coparenting",
+    enSlug: "the-child-is-not-a-messenger-coparenting-rules",
     title: "Copilul nu este mesager: 5 reguli de bază în co-parenting",
     summary:
       "Când copilul transportă mesaje, tensiune sau informații între adulți, el ajunge în mijlocul conflictului chiar dacă nimeni nu spune asta direct.",
@@ -1540,6 +1566,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "rutine-paralele-care-reduc-stresul-in-doua-case",
+    enSlug: "parallel-routines-that-reduce-stress-in-two-homes",
     title: "Rutine paralele care reduc stresul în două case",
     summary:
       "Casele nu trebuie să fie identice, dar copilul câștigă enorm când pilonii zilei rămân recognoscibili în ambele locuri.",
@@ -1703,6 +1730,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "cum-pastrezi-legatura-cu-copilul-intre-vizite",
+    enSlug: "how-to-stay-connected-with-your-child-between-visits",
     title: "Cum păstrezi legătura cu copilul între vizite fără să-l sufoci",
     summary:
       "Relația dintre vizite se ține mai bine prin contacte scurte, predictibile și calde decât prin apeluri lungi sau verificări insistente.",
@@ -1790,6 +1818,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "somnul-in-doua-case-ce-ajuta-cu-adevarat",
+    enSlug: "sleep-in-two-homes-what-actually-helps",
     title: "Somnul în două case: ce ajută cu adevărat când copilul adoarme greu",
     summary:
       "Problemele de somn după schimbarea de casă se reduc mai des prin rutină și cooperare decât prin explicații lungi sau negocieri târzii.",
@@ -1872,6 +1901,7 @@ const blogArticles: BlogArticle[] = [
   },
   {
     slug: "ce-faci-cand-simti-ca-explodezi-tu-primul",
+    enSlug: "what-to-do-when-you-feel-like-exploding-first",
     title: "Ce faci când simți că explodezi tu primul",
     summary:
       "Înainte să corectezi copilul, uneori cel mai util pas este să-ți cobori propriul ritm ca să poți rămâne ferm fără să sperii.",
@@ -1996,6 +2026,22 @@ export function getBlogArticleBySlug(slug: string) {
 }
 
 /**
+ * Look up an article by either its Romanian slug OR its English slug.
+ * Returns the article enriched with category data, or null if not found.
+ */
+export function getBlogArticleByAnySlug(slug: string): BlogArticleWithCategory | null {
+  const article =
+    blogArticles.find((item) => item.slug === slug) ??
+    blogArticles.find((item) => item.enSlug === slug);
+  return article ? enrichArticle(article) : null;
+}
+
+/** Returns the slug to use in a URL for the given article and language. */
+export function articleSlugForLang(article: BlogArticle | BlogArticleWithCategory, lang: "ro" | "en"): string {
+  return lang === "en" && article.enSlug ? article.enSlug : article.slug;
+}
+
+/**
  * Returns the article with text in the requested language.
  * Falls back to Romanian if no English translation exists.
  * Also returns `hasEnglish` so the UI can show a language badge.
@@ -2004,7 +2050,7 @@ export function getBlogArticleLocalized(
   slug: string,
   lang: "ro" | "en"
 ): { article: BlogArticleWithCategory; hasEnglish: boolean } | null {
-  const base = getBlogArticleBySlug(slug);
+  const base = getBlogArticleByAnySlug(slug);
   if (!base) return null;
   const hasEnglish = Boolean(base.en);
   return { article: applyLocale(base, lang), hasEnglish };
@@ -2019,11 +2065,48 @@ export function getBlogCategoryBySlug(slug: string) {
   return blogCategories.find((item) => item.slug === slug) ?? null;
 }
 
+const CATEGORY_EN: Record<string, { title: string; description: string }> = {
+  coparenting: {
+    title: "Co-parenting",
+    description: "Clear boundaries, communication between adults and protecting the child from conflict.",
+  },
+  "emotii-si-siguranta": {
+    title: "Emotions & safety",
+    description: "How to talk to the child about changes without shifting the adult conflict onto their shoulders.",
+  },
+  "rutine-si-tranzitii": {
+    title: "Routines & transitions",
+    description: "Concrete ideas for two homes, smoother handovers and real predictability.",
+  },
+  "activitati-si-conectare": {
+    title: "Activities & connection",
+    description: "Play, reconnection and micro-rituals that reduce tension after busy days.",
+  },
+};
+
+export function getBlogCategoriesWithTranslation(): BlogCategoryWithTranslation[] {
+  return blogCategories.map((c) => ({
+    ...c,
+    titleEn: CATEGORY_EN[c.slug]?.title,
+    descriptionEn: CATEGORY_EN[c.slug]?.description,
+  }));
+}
+
 export function getArticlesForCategory(categorySlug: string, lang: "ro" | "en" = "ro") {
   return getAllBlogArticlesLocalized(lang).filter((article) => article.category.slug === categorySlug);
 }
 
 /** True if the article has a full English translation available. */
 export function articleHasEnglish(slug: string): boolean {
-  return Boolean(blogArticles.find((a) => a.slug === slug)?.en);
+  return Boolean(blogArticles.find((a) => a.slug === slug || a.enSlug === slug)?.en);
+}
+
+/** Returns all Romanian + English slugs for static generation. */
+export function getAllBlogSlugs(): string[] {
+  const slugs: string[] = [];
+  for (const a of blogArticles) {
+    slugs.push(a.slug);
+    if (a.enSlug) slugs.push(a.enSlug);
+  }
+  return slugs;
 }

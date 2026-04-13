@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { BlogArticleWithCategory } from "@/content/blog";
-import { formatBlogDate } from "@/content/blog";
+import { formatBlogDate, articleSlugForLang } from "@/content/blog";
 
 interface Props {
   articleRo: BlogArticleWithCategory;
@@ -152,7 +152,7 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
             </div>
             <div className="grid gap-5 lg:grid-cols-2">
               {related.map((a) => (
-                <RelatedCard key={a.slug} article={a} readLabel={lang === "en" ? "Read article" : "Citește articolul"} />
+                <RelatedCard key={a.slug} article={a} readLabel={lang === "en" ? "Read article" : "Citește articolul"} lang={lang} />
               ))}
             </div>
           </div>
@@ -162,20 +162,20 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
   );
 }
 
-function RelatedCard({ article, readLabel }: { article: BlogArticleWithCategory; readLabel: string }) {
+function RelatedCard({ article, readLabel, lang }: { article: BlogArticleWithCategory; readLabel: string; lang: "ro" | "en" }) {
+  const href = lang === "en"
+    ? `/en/blog/${articleSlugForLang(article, "en")}`
+    : `/blog/${article.slug}`;
   return (
     <article className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-[0_20px_60px_rgba(28,25,23,0.08)] backdrop-blur">
       <span className={`rounded-full px-3 py-1 text-xs font-semibold ${article.category.badgeClassName}`}>
         {article.category.title}
       </span>
       <h3 className="landing-display mt-4 text-balance text-2xl text-stone-900">
-        <Link href={`/blog/${article.slug}`}>{article.title}</Link>
+        <Link href={href}>{article.title}</Link>
       </h3>
       <p className="mt-3 text-sm leading-7 text-pretty text-stone-600">{article.summary}</p>
-      <Link
-        href={`/blog/${article.slug}`}
-        className="mt-5 inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#172c2a]"
-      >
+      <Link href={href} className="mt-5 inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#172c2a]">
         {readLabel}
       </Link>
     </article>
