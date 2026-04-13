@@ -8,6 +8,8 @@ import { UpgradeCta } from "@/components/UpgradeCta";
 import type { FamilyHouseholdMode } from "@/types/family";
 import { resolveHouseholdMode } from "@/lib/household-mode";
 import { ChildHealthSection } from "@/components/ChildHealthSection";
+import { useLanguage } from "@/contexts/LanguageContext";
+import type { Lang } from "@/lib/i18n";
 
 interface FamilyData {
   id: string;
@@ -556,6 +558,8 @@ export function ConfigClient({
     }
   }
 
+  const { lang, setLang } = useLanguage();
+
   return (
     <div className="space-y-8">
       <div className="rounded-xl border border-[#ead9c8] bg-[#fff7ee] px-3 py-2 text-xs text-stone-600">
@@ -761,6 +765,27 @@ export function ConfigClient({
                   </span>
                 </span>
               </label>
+            </div>
+          </div>
+
+          {/* Language preference */}
+          <div className="mt-4 border-t border-stone-100 pt-4">
+            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">Limbă / Language</span>
+            <div className="inline-flex items-center gap-1 rounded-[1rem] border border-stone-200 bg-stone-50 p-1">
+              {(["ro", "en"] as Lang[]).map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLang(l)}
+                  className={`rounded-[0.7rem] px-4 py-1.5 text-sm font-semibold transition-all ${
+                    lang === l
+                      ? "bg-[#1f3a36] text-white shadow-sm"
+                      : "text-stone-500 hover:text-stone-800"
+                  }`}
+                >
+                  {l === "ro" ? "Română" : "English"}
+                </button>
+              ))}
             </div>
           </div>
         </div>

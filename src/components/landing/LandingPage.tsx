@@ -17,9 +17,11 @@ import { LandingFAQ } from "./LandingFAQ";
 import { LandingFinalCTA } from "./LandingFinalCTA";
 import { LandingFooter } from "./LandingFooter";
 import { landingDisplay, landingSans } from "./landingFonts";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export function LandingPage() {
   return (
+    <LanguageProvider>
     <div
       className={`${landingDisplay.variable} ${landingSans.variable} landing-sans relative min-h-screen overflow-hidden bg-[#fffaf5] text-stone-900`}
     >
@@ -49,5 +51,6 @@ export function LandingPage() {
         <LandingFooter />
       </main>
     </div>
+    </LanguageProvider>
   );
 }

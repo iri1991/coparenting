@@ -8,6 +8,7 @@ import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -103,6 +104,7 @@ export function AccountPageShell({
   );
 
   return (
+    <LanguageProvider>
     <div className="app-native-shell min-h-screen">
       <MobileAppTopBar />
 
@@ -181,5 +183,6 @@ export function AccountPageShell({
       </div>
       <MobileQuickNav />
     </div>
+    </LanguageProvider>
   );
 }

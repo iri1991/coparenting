@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type HeroAudience = "two" | "together";
 
@@ -111,7 +112,7 @@ const HERO_COPY: Record<
 
 type HeroCopy = (typeof HERO_COPY)[HeroAudience];
 
-function HeroVisual({ copy, compact = false }: { copy: HeroCopy; compact?: boolean }) {
+function HeroVisual({ copy, compact = false, historicVisibilityLabel }: { copy: HeroCopy; compact?: boolean; historicVisibilityLabel: string }) {
   return (
     <div className="relative">
       <div className="absolute -left-4 top-10 h-28 w-28 rounded-full bg-[#99c6be]/20 blur-3xl" />
@@ -192,7 +193,7 @@ function HeroVisual({ copy, compact = false }: { copy: HeroCopy; compact?: boole
                 {copy.insightText}
               </p>
               <div className="mt-4 rounded-[1.2rem] bg-[#eef5f3] px-3 py-2 text-sm font-medium text-[#1f5a4e]">
-                istoric vizibil + notificare către celălalt părinte
+                {historicVisibilityLabel}
               </div>
             </div>
           </div>
@@ -203,8 +204,45 @@ function HeroVisual({ copy, compact = false }: { copy: HeroCopy; compact?: boole
 }
 
 export function LandingHero() {
+  const { t } = useLanguage();
   const [audience, setAudience] = useState<HeroAudience>("two");
-  const copy = HERO_COPY[audience];
+
+  // Build HERO_COPY from translations so it updates on language change
+  const HERO_COPY_T: Record<HeroAudience, (typeof HERO_COPY)["two"]> = {
+    two: {
+      ...HERO_COPY.two,
+      label: t.hero.twoHomes.label,
+      eyebrow: t.hero.twoHomes.eyebrow,
+      subtitle: t.hero.twoHomes.subtitle,
+      chips: [...t.hero.twoHomes.chips] as [string, string, string],
+      quote: t.hero.twoHomes.quote,
+      boardTitle: t.hero.twoHomes.boardTitle,
+      boardRows: t.hero.twoHomes.boardRows.map((r) => ({ ...r })) as typeof HERO_COPY.two.boardRows,
+      insightTitle: t.hero.twoHomes.insightTitle,
+      insightText: t.hero.twoHomes.insightText,
+      visualTag: t.hero.twoHomes.visualTag,
+      visualTitle: t.hero.twoHomes.visualTitle,
+      visualText: t.hero.twoHomes.visualText,
+      secondaryCaption: t.hero.twoHomes.secondaryCaption,
+    },
+    together: {
+      ...HERO_COPY.together,
+      label: t.hero.oneHome.label,
+      eyebrow: t.hero.oneHome.eyebrow,
+      subtitle: t.hero.oneHome.subtitle,
+      chips: [...t.hero.oneHome.chips] as [string, string, string],
+      quote: t.hero.oneHome.quote,
+      boardTitle: t.hero.oneHome.boardTitle,
+      boardRows: t.hero.oneHome.boardRows.map((r) => ({ ...r })) as typeof HERO_COPY.together.boardRows,
+      insightTitle: t.hero.oneHome.insightTitle,
+      insightText: t.hero.oneHome.insightText,
+      visualTag: t.hero.oneHome.visualTag,
+      visualTitle: t.hero.oneHome.visualTitle,
+      visualText: t.hero.oneHome.visualText,
+      secondaryCaption: t.hero.oneHome.secondaryCaption,
+    },
+  };
+  const copy = HERO_COPY_T[audience];
 
   return (
     <section id="hero" className="relative overflow-hidden pb-18 pt-6 sm:pb-24 sm:pt-10">
@@ -237,7 +275,7 @@ export function LandingHero() {
                         : "text-stone-600 hover:bg-white"
                     }`}
                   >
-                    {HERO_COPY[key].label}
+                    {HERO_COPY_T[key].label}
                   </button>
                 ))}
               </div>
@@ -246,8 +284,8 @@ export function LandingHero() {
             <AnimateOnScroll delay={120}>
               <div className="space-y-5">
                 <h1 className="landing-display text-5xl leading-[0.94] text-stone-900 sm:text-6xl lg:text-[5.4rem]">
-                  Face loc pentru copil.
-                  <span className="mt-2 block text-[#b85c3e]">Nu pentru încă un șir de mesaje.</span>
+                  {t.hero.h1Line1}
+                  <span className="mt-2 block text-[#b85c3e]">{t.hero.h1Line2}</span>
                 </h1>
                 <p className="max-w-xl text-lg leading-8 text-stone-600">{copy.subtitle}</p>
               </div>
@@ -259,14 +297,14 @@ export function LandingHero() {
                   href="/register"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-7 py-3.5 text-base font-semibold text-white shadow-[0_18px_40px_rgba(191,106,75,0.22)] transition hover:brightness-[1.02] active:scale-[0.98]"
                 >
-                  Începe gratuit
+                  {t.common.startFree}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
                   href="#functionalitati"
                   className="inline-flex items-center justify-center rounded-full border border-[#d8c2ad] px-7 py-3.5 text-base font-semibold text-stone-700 transition hover:bg-white/70"
                 >
-                  Vezi experiența
+                  {t.hero.seeExperience}
                 </a>
               </div>
             </AnimateOnScroll>
@@ -280,7 +318,7 @@ export function LandingHero() {
             </AnimateOnScroll>
 
             <AnimateOnScroll delay={440} className="lg:hidden">
-              <HeroVisual copy={copy} compact />
+              <HeroVisual copy={copy} compact historicVisibilityLabel={t.hero.historicVisibility} />
             </AnimateOnScroll>
 
             <div className="flex flex-wrap gap-3">
@@ -301,7 +339,7 @@ export function LandingHero() {
           </div>
 
           <AnimateOnScroll delay={220} className="relative hidden lg:block">
-            <HeroVisual copy={copy} />
+            <HeroVisual copy={copy} historicVisibilityLabel={t.hero.historicVisibility} />
           </AnimateOnScroll>
         </div>
       </div>

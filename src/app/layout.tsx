@@ -8,7 +8,10 @@ import {
   siteUrl,
   defaultTitle,
   defaultDescription,
+  defaultTitleEn,
+  defaultDescriptionEn,
   keywords,
+  keywordsEn,
   brandName,
   ogImage,
   serviceArea,
@@ -29,13 +32,19 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: "/",
+    // hreflang: both languages are served at the same URL (client-side switching)
+    languages: {
+      "ro": siteUrl,
+      "en": siteUrl,
+      "x-default": siteUrl,
+    },
   },
   title: {
     default: defaultTitle,
     template: `%s | ${brandName}`,
   },
   description: defaultDescription,
-  keywords: keywords,
+  keywords: [...keywords, ...keywordsEn],
   category: "family",
   authors: [{ name: brandName, url: siteUrl }],
   creator: brandName,
@@ -43,12 +52,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ro_RO",
+    alternateLocale: ["en_US"],
     url: siteUrl,
     siteName: brandName,
     title: defaultTitle,
     description: defaultDescription,
     images: [
-      { url: ogImage, width: 512, height: 512, alt: "HomeSplit — calendar familie și activități copil" },
+      { url: ogImage, width: 512, height: 512, alt: "HomeSplit — family calendar & child activities" },
     ],
   },
   twitter: {
@@ -109,7 +119,7 @@ const jsonLd = {
       name: brandName,
       url: siteUrl,
       logo: { "@type": "ImageObject", url: `${siteUrl}${ogImage}` },
-      description: defaultDescription,
+      description: `${defaultDescription} | ${defaultDescriptionEn}`,
       areaServed: serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
       sameAs: [siteUrl],
     },
@@ -118,7 +128,7 @@ const jsonLd = {
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
       name: brandName,
-      inLanguage: "ro-RO",
+      inLanguage: ["ro-RO", "en"],
       description: defaultDescription,
       publisher: { "@id": `${siteUrl}/#organization` },
     },
@@ -129,12 +139,16 @@ const jsonLd = {
       applicationCategory: "LifestyleApplication",
       operatingSystem: "Web",
       inLanguage: "ro-RO",
-      availableLanguage: ["ro-RO"],
+      availableLanguage: [
+        { "@type": "Language", name: "Romanian", alternateName: "ro" },
+        { "@type": "Language", name: "English", alternateName: "en" },
+      ],
       url: siteUrl,
       description: defaultDescription,
+      alternateName: defaultTitleEn,
       audience: {
         "@type": "Audience",
-        audienceType: "Familii cu copii din România (împreună sau co-parenting la distanță)",
+        audienceType: "Families with children — co-parenting coordination or single-home organization",
       },
       offers: [
         {
@@ -167,14 +181,27 @@ const jsonLd = {
     {
       "@type": "Service",
       "@id": `${siteUrl}/#service`,
-      name: "Organizare familie & program copil",
+      name: "Organizare familie & program copil / Family organization & child schedule",
       serviceType: "Calendar, activități, idei AI, documente; handover când copilul e la două adrese",
       provider: { "@id": `${siteUrl}/#organization` },
+      inLanguage: ["ro-RO", "en"],
       areaServed: serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
       availableChannel: {
         "@type": "ServiceChannel",
         serviceUrl: siteUrl,
       },
+    },
+    // English-facing description for AI search engines / GEO
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#app-en`,
+      name: brandName,
+      applicationCategory: "LifestyleApplication",
+      operatingSystem: "Web",
+      inLanguage: "en",
+      url: siteUrl,
+      description: defaultDescriptionEn,
+      sameAs: `${siteUrl}/#app`,
     },
   ],
 };

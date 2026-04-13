@@ -9,6 +9,7 @@ import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import type { ScheduleEvent } from "@/types/events";
 import type { HomeDashboardTab } from "@/lib/deep-links";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const ADD_MODAL_OPEN_DELAY_MS = 1200;
 const CHAT_UNREAD_POLL_MS = 25000;
@@ -131,6 +132,7 @@ export function LoggedInLayout({
   }, []);
 
   return (
+    <LanguageProvider>
     <div className="app-native-shell">
       <MobileAppTopBar onAddClick={triggerAdd} onLockClick={triggerBlocked} />
 
@@ -254,5 +256,6 @@ export function LoggedInLayout({
 
       <MobileQuickNav />
     </div>
+    </LanguageProvider>
   );
 }

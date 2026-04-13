@@ -19,6 +19,18 @@ export type BlogSection = {
   bullets?: string[];
 };
 
+/**
+ * Translatable fields of an article (title, body, takeaways).
+ * Sources (URLs/publishers) are language-neutral and stay unchanged.
+ */
+export type BlogArticleLocale = {
+  title: string;
+  summary: string;
+  intro: string;
+  sections: BlogSection[];
+  takeaways: string[];
+};
+
 export type BlogArticle = {
   slug: string;
   title: string;
@@ -35,6 +47,8 @@ export type BlogArticle = {
   sections: BlogSection[];
   takeaways: string[];
   sources: BlogSource[];
+  /** English translation — only translatable content fields. Add this to any article to unlock English. */
+  en?: BlogArticleLocale;
 };
 
 export type BlogArticleWithCategory = BlogArticle & {
@@ -1037,6 +1051,60 @@ const blogArticles: BlogArticle[] = [
         note: "Explică de ce calmul adultului influențează reglarea copilului și oferă pași concreți: nivelul ochilor, numirea emoției, ton calm și exerciții de liniștire. Ultima actualizare indicată pe pagină: 21 ianuarie 2026.",
       },
     ],
+    en: {
+      title: "When your child explodes after a home change",
+      summary:
+        "Irritability, crying or opposition after a handover don't call for correction first — they call for an adult who slows down and co-regulates.",
+      intro:
+        "Some parents get scared or frustrated when the child arrives from the other home and seems suddenly difficult: snapping back, crying at nothing, refusing simple rules or picking fights. The natural reaction is to correct the behaviour immediately. But most of the time you're not seeing disrespect — you're seeing a nervous system already overloaded by change. In those moments, the child needs co-regulation first, then boundaries and conversation.",
+      sections: [
+        {
+          title: "Why the release happens right after arrival",
+          paragraphs: [
+            "Switching homes can demand a lot of internal adaptation even when the schedule is good and the relationship with both parents matters. The child has shifted rhythm, rules, stimulation, and possibly how they held themselves together all day. When they reach a safe place, the stored tension can surface.",
+            "Child Mind Institute explains that emotional regulation is learned gradually and that, during moments of overload, the child borrows from the calm of the nearby adult. In other words, the parent's reaction is not the backdrop of the scene — it's one of the pieces that moves the situation toward escalation or toward settling.",
+          ],
+        },
+        {
+          title: "What to do in the first few minutes",
+          paragraphs: [
+            "Before you correct their tone or ask for explanations, check your own body. If you also go into alert mode, the child receives yet another danger signal. The first step is to slow down.",
+            "You don't need a long speech. A calm presence, few words and a simple invitation toward regulation helps more.",
+          ],
+          bullets: [
+            "Physically lower yourself to the child's level instead of talking down from standing.",
+            "Name what you see without judgment: you seem very tense or I sense you've had a lot today.",
+            "Speak more slowly and quietly than feels natural in that moment.",
+            "Offer a short bridge: water, a shower, changing clothes, sitting close on the sofa, a few breaths together.",
+          ],
+        },
+        {
+          title: "Co-regulation does not mean no limits",
+          paragraphs: [
+            "Validating emotion doesn't mean any behaviour becomes acceptable. You can convey two things at once: I'm helping you calm down and I'm not letting you hit, insult or break things.",
+            "Order matters. When the child is strongly activated, long explanations and moral lessons don't land. First reduce the intensity, then return to the limit and repair: what do we do now, how do we fix it, what can we try next time.",
+          ],
+        },
+        {
+          title: "Signs you jumped too quickly to correction",
+          paragraphs: [
+            "If you notice the volume rises after you ask a lot of questions, demand immediate gratitude or compare to the other home, the child probably wasn't yet available for conversation. Sometimes a parent misreads the discharge as a deliberate choice to provoke.",
+            "A useful reference point: if after 10–20 minutes of calm, routine and contact the reaction subsides, you most likely had a regulation problem in front of you — not one that gets resolved through pressure.",
+          ],
+        },
+        {
+          title: "When it's worth seeking extra help",
+          paragraphs: [
+            "If after nearly every home change there are very intense outbursts, disrupted sleep, persistent fear, self-blame, strong refusal of transitions or clear regression, it's worth talking to a child psychologist or paediatrician. The goal isn't to find who's to blame, but to understand sooner where the overload comes from and what concrete support actually helps the child.",
+          ],
+        },
+      ],
+      takeaways: [
+        "After a handover, difficult behaviour may be a stress discharge, not a calculated provocation.",
+        "First regulate the rhythm and the relationship, then correct the behaviour.",
+        "You can validate the emotion and hold the limit at the same time.",
+      ],
+    },
   },
   {
     slug: "tranzitii-intre-doua-case-mai-putin-stres",
@@ -1256,6 +1324,53 @@ const blogArticles: BlogArticle[] = [
         note: "Recomandă evitarea interogatoriilor despre ce se întâmplă în cealaltă casă și menținerea liniilor de comunicare deschise.",
       },
     ],
+    en: {
+      title: "The child is not a messenger: 5 basic rules for co-parenting",
+      summary:
+        "When the child carries messages, tension or information between adults, they end up in the middle of the conflict even if nobody says so directly.",
+      intro:
+        "One of the most common co-parenting mistakes happens when adult logistics and frustration flow through the child. In the short term it seems convenient. In the long term, the child stays trapped between loyalties, feeling they must manage the emotional state of each parent. Good co-parenting starts exactly here: the child does not become the interface.",
+      sections: [
+        {
+          title: "Why the messenger role weighs so heavily",
+          paragraphs: [
+            "HealthyChildren stresses that separation goes better for children when they are not placed in the middle of adult resentments. When the child has to relay schedule changes, money matters, reproaches or sensitive information, they are no longer just a child — they become a carrier of tension.",
+            "This affects the sense of safety in the relationship with both parents. The child begins to filter what they say, to hide, to appease, to guess reactions. Even seemingly innocent questions about the other parent can place them in an impossible loyalty bind.",
+          ],
+        },
+        {
+          title: "The 5 rules that reduce friction significantly",
+          paragraphs: [
+            "No system is perfect, but a few simple rules can radically change the child's emotional climate. They don't require love between former partners — just minimum relational discipline.",
+          ],
+          bullets: [
+            "All important logistics go adult to adult, in writing when needed.",
+            "Don't ask the child for reports about the other parent's home.",
+            "Don't speak disparagingly about the other parent in the child's presence.",
+            "Don't use the child as emotional support for your own pain.",
+            "Messages about rules, health, school and schedule are clear and factual, without sarcasm.",
+          ],
+        },
+        {
+          title: "What to do when adult communication is already damaged",
+          paragraphs: [
+            "In many families, verbal contact increases conflict. Then a very short, predictable, child-focused communication helps: what changed, until when, what the other parent needs to know. That's it.",
+            "You can use the same mini-format every time: context, need, proposal, response deadline. When the format stays constant, the temptation to revisit the history of the relationship decreases.",
+          ],
+        },
+        {
+          title: "The important exception: safety",
+          paragraphs: [
+            "If there is violence, abuse, intimidation or real fear, the problem is no longer just the communication style. In such situations, involving the legal framework or the right professional immediately is warranted, and the usual co-parenting rules need to be adapted around safety.",
+          ],
+        },
+      ],
+      takeaways: [
+        "The adult's logistical convenience does not justify the pressure placed on the child.",
+        "Adult to adult for information; child to child for their own life.",
+        "A short, repeatable format reduces conflict better than long discussions.",
+      ],
+    },
   },
   {
     slug: "rutine-paralele-care-reduc-stresul-in-doua-case",
@@ -1638,19 +1753,47 @@ function enrichArticle(article: BlogArticle): BlogArticleWithCategory {
   return { ...article, category };
 }
 
-export function formatBlogDate(date: string) {
-  return new Intl.DateTimeFormat("ro-RO", { day: "numeric", month: "long", year: "numeric" }).format(
+export function formatBlogDate(date: string, lang: "ro" | "en" = "ro") {
+  const locale = lang === "en" ? "en-GB" : "ro-RO";
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(
     new Date(`${date}T12:00:00Z`)
   );
+}
+
+function applyLocale(article: BlogArticleWithCategory, lang: "ro" | "en"): BlogArticleWithCategory {
+  if (lang === "en" && article.en) {
+    return { ...article, ...article.en };
+  }
+  return article;
 }
 
 export function getAllBlogArticles() {
   return [...blogArticles].sort(compareArticlesByDate).map(enrichArticle);
 }
 
+/** Returns all articles with text in the given language (falls back to Romanian if no translation). */
+export function getAllBlogArticlesLocalized(lang: "ro" | "en") {
+  return getAllBlogArticles().map((a) => applyLocale(a, lang));
+}
+
 export function getBlogArticleBySlug(slug: string) {
   const article = blogArticles.find((item) => item.slug === slug);
   return article ? enrichArticle(article) : null;
+}
+
+/**
+ * Returns the article with text in the requested language.
+ * Falls back to Romanian if no English translation exists.
+ * Also returns `hasEnglish` so the UI can show a language badge.
+ */
+export function getBlogArticleLocalized(
+  slug: string,
+  lang: "ro" | "en"
+): { article: BlogArticleWithCategory; hasEnglish: boolean } | null {
+  const base = getBlogArticleBySlug(slug);
+  if (!base) return null;
+  const hasEnglish = Boolean(base.en);
+  return { article: applyLocale(base, lang), hasEnglish };
 }
 
 export function getFeaturedBlogArticle() {
@@ -1662,6 +1805,11 @@ export function getBlogCategoryBySlug(slug: string) {
   return blogCategories.find((item) => item.slug === slug) ?? null;
 }
 
-export function getArticlesForCategory(categorySlug: string) {
-  return getAllBlogArticles().filter((article) => article.category.slug === categorySlug);
+export function getArticlesForCategory(categorySlug: string, lang: "ro" | "en" = "ro") {
+  return getAllBlogArticlesLocalized(lang).filter((article) => article.category.slug === categorySlug);
+}
+
+/** True if the article has a full English translation available. */
+export function articleHasEnglish(slug: string): boolean {
+  return Boolean(blogArticles.find((a) => a.slug === slug)?.en);
 }

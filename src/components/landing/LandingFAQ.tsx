@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const FAQ_ITEMS = [
   {
@@ -53,7 +54,9 @@ const faqSchema = {
 };
 
 export function LandingFAQ() {
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const items = t.faq.items;
 
   return (
     <section id="intrebari" className="py-16 sm:py-24" aria-labelledby="faq-heading">
@@ -62,16 +65,16 @@ export function LandingFAQ() {
         <AnimateOnScroll>
           <div className="text-center">
             <span className="inline-flex rounded-full border border-[#ead9c8] bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Întrebări
+              {t.faq.sectionLabel}
             </span>
             <h2 id="faq-heading" className="landing-display mt-5 text-4xl leading-tight text-stone-900 sm:text-5xl">
-              Ce mai trebuie să știi înainte să intri.
+              {t.faq.heading}
             </h2>
           </div>
         </AnimateOnScroll>
 
         <div className="mt-12 space-y-3">
-          {FAQ_ITEMS.map((item, index) => (
+          {items.map((item, index) => (
             <AnimateOnScroll key={item.q} delay={index * 60}>
               <div className="overflow-hidden rounded-[1.8rem] border border-[#ead9c8] bg-white/88 shadow-[0_16px_36px_rgba(28,25,23,0.05)]">
                 <button

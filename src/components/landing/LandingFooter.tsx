@@ -2,28 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
-const FOOTER_LINKS = {
-  produs: [
-    { label: "Funcții", href: "/#functionalitati" },
-    { label: "Cum merge", href: "/#cum-functioneaza" },
-    { label: "Scenarii", href: "/#scenarii" },
-    { label: "Blog", href: "/blog" },
-    { label: "Prețuri", href: "/#preturi" },
-    { label: "FAQ", href: "/#intrebari" },
-  ],
-  legal: [
-    { label: "Termeni", href: "/terms" },
-    { label: "Confidențialitate", href: "/privacy" },
-    { label: "Cookies", href: "/cookies" },
-  ],
-  contact: [
-    { label: "Suport", href: "mailto:me@irinelnicoara.ro" },
-    { label: "Contact", href: "mailto:me@irinelnicoara.ro" },
-  ],
-};
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function LandingFooter() {
+  const { t } = useLanguage();
+  const fl = t.footer.links;
+
+  const footerLinks = {
+    produs: [
+      { label: fl.features, href: "/#functionalitati" },
+      { label: fl.howItWorks, href: "/#cum-functioneaza" },
+      { label: fl.scenarios, href: "/#scenarii" },
+      { label: fl.blog, href: "/blog" },
+      { label: fl.pricing, href: "/#preturi" },
+      { label: fl.faq, href: "/#intrebari" },
+    ],
+    legal: [
+      { label: fl.terms, href: "/terms" },
+      { label: fl.privacy, href: "/privacy" },
+      { label: fl.cookies, href: "/cookies" },
+    ],
+    contact: [
+      { label: fl.support, href: "mailto:me@irinelnicoara.ro" },
+      { label: fl.contactLabel, href: "mailto:me@irinelnicoara.ro" },
+    ],
+  };
+
   return (
     <footer className="border-t border-[#ead9c8] bg-[#fbf4ec] py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -37,15 +41,15 @@ export function LandingFooter() {
               </div>
             </div>
             <p className="mt-5 max-w-sm text-sm leading-7 text-stone-600">
-              Program, ritualuri, documente și context pentru familii care vor mai puțină fricțiune și mai multă claritate.
+              {t.footer.tagline}
             </p>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-3">
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Produs</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.product}</h4>
               <ul className="mt-4 space-y-3">
-                {FOOTER_LINKS.produs.map((link) => (
+                {footerLinks.produs.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
@@ -55,9 +59,9 @@ export function LandingFooter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Legal</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.legal}</h4>
               <ul className="mt-4 space-y-3">
-                {FOOTER_LINKS.legal.map((link) => (
+                {footerLinks.legal.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
@@ -67,9 +71,9 @@ export function LandingFooter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Contact</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.contact}</h4>
               <ul className="mt-4 space-y-3">
-                {FOOTER_LINKS.contact.map((link) => (
+                {footerLinks.contact.map((link) => (
                   <li key={link.label}>
                     <a href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
@@ -82,7 +86,7 @@ export function LandingFooter() {
         </div>
 
         <p className="mt-10 text-center text-xs text-stone-500">
-          © {new Date().getFullYear()} HomeSplit. Co-parenting și organizare de familie cu mai mult calm.
+          © {new Date().getFullYear()} HomeSplit. {t.footer.tagline}
         </p>
       </div>
     </footer>

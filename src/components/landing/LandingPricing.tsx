@@ -3,65 +3,11 @@
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { AnimateOnScroll } from "./AnimateOnScroll";
-
-const PLANS = [
-  {
-    name: "Free",
-    price: "0",
-    period: "lună",
-    badge: "intrare ușoară",
-    summary: "Perfect ca să intri rapid în ritmul produsului.",
-    features: [
-      "1 copil",
-      "calendar și handover basic",
-      "tab Idei cu recomandări AI",
-      "până la 3 activități recurente",
-      "până la 5 zile blocate / lună",
-    ],
-    cta: "Începe gratuit",
-    href: "/register",
-    primary: false,
-  },
-  {
-    name: "Pro",
-    price: "39",
-    period: "lună",
-    priceAlt: "sau 299 lei / an",
-    badge: "cel mai bun raport valoare",
-    summary: "Experiența completă pentru familiile care vor claritate fără compromis.",
-    features: [
-      "1–3 copii",
-      "activități recurente nelimitat",
-      "ritualuri, jurnal și istoric complet",
-      "documente, profil copil și remindere",
-      "propunerea automată de duminică",
-      "notificări și trasabilitate extinsă",
-    ],
-    cta: "Încearcă Pro 14 zile",
-    href: "/register?plan=pro",
-    primary: true,
-  },
-  {
-    name: "Family+",
-    price: "59",
-    period: "lună",
-    priceAlt: "sau 449 lei / an",
-    badge: "pentru familii extinse",
-    summary: "Pentru mai mulți copii și mai mulți oameni implicați în coordonare.",
-    features: [
-      "copii nelimitat",
-      "acces îngrijitori și bunici",
-      "export și share program",
-      "jurnal + materiale utile",
-      "suport prioritar",
-    ],
-    cta: "Alege Family+",
-    href: "/register?plan=family",
-    primary: false,
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function LandingPricing() {
+  const { t } = useLanguage();
+  const p = t.pricing;
   return (
     <section id="preturi" className="py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -70,30 +16,26 @@ export function LandingPricing() {
             <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
               <div>
                 <span className="inline-flex rounded-full border border-[#ead9c8] bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Preț simplu
+                  {p.eyebrow}
                 </span>
-                <h2 className="landing-display mt-5 text-4xl leading-tight text-stone-900 sm:text-5xl">
-                  Un abonament pe familie. Fără surprize. Fără card la trial.
-                </h2>
-                <p className="mt-4 max-w-xl text-base leading-8 text-stone-600">
-                  Nu plătiți separat pentru fiecare părinte. Începeți cu Free sau intrați direct în Pro timp de 14 zile, fără card.
-                </p>
+                <h2 className="landing-display mt-5 text-4xl leading-tight text-stone-900 sm:text-5xl">{p.title}</h2>
+                <p className="mt-4 max-w-xl text-base leading-8 text-stone-600">{p.text}</p>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="rounded-[1.8rem] bg-white/85 p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">trial</p>
-                  <p className="mt-3 text-3xl font-extrabold text-stone-900">14 zile</p>
-                  <p className="mt-2 text-sm leading-7 text-stone-600">Pro complet, fără card, fără presiune.</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">{p.trialLabel}</p>
+                  <p className="mt-3 text-3xl font-extrabold text-stone-900">{p.trialValue}</p>
+                  <p className="mt-2 text-sm leading-7 text-stone-600">{p.trialText}</p>
                 </div>
                 <div className="rounded-[1.8rem] bg-white/85 p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">familie</p>
-                  <p className="mt-3 text-3xl font-extrabold text-stone-900">2 părinți</p>
-                  <p className="mt-2 text-sm leading-7 text-stone-600">Același abonament, aceeași sursă de adevăr.</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-stone-400">{p.familyLabel}</p>
+                  <p className="mt-3 text-3xl font-extrabold text-stone-900">{p.familyValue}</p>
+                  <p className="mt-2 text-sm leading-7 text-stone-600">{p.familyText}</p>
                 </div>
                 <div className="rounded-[1.8rem] bg-[#1f3a36] p-5 text-white">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/60">upgrade</p>
-                  <p className="mt-3 text-3xl font-extrabold">oricând</p>
-                  <p className="mt-2 text-sm leading-7 text-white/75">Treci la planul potrivit fără să pierzi datele.</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/60">{p.upgradeLabel}</p>
+                  <p className="mt-3 text-3xl font-extrabold">{p.upgradeValue}</p>
+                  <p className="mt-2 text-sm leading-7 text-white/75">{p.upgradeText}</p>
                 </div>
               </div>
             </div>
@@ -101,7 +43,7 @@ export function LandingPricing() {
         </AnimateOnScroll>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {PLANS.map((plan, index) => (
+          {p.plans.map((plan, index) => (
             <AnimateOnScroll key={plan.name} delay={140 + index * 90}>
               <div
                 className={`relative flex h-full flex-col rounded-[2.2rem] border p-6 shadow-[0_20px_50px_rgba(28,25,23,0.06)] sm:p-7 ${
@@ -121,7 +63,7 @@ export function LandingPricing() {
                 <div className="mt-3 flex items-end gap-1">
                   <span className="landing-display text-5xl leading-none">{plan.price}</span>
                   <span className={`${plan.primary ? "text-white/70" : "text-stone-500"} mb-1 text-sm font-semibold`}>
-                    lei / {plan.period}
+                    {p.perMonth}
                   </span>
                 </div>
                 {plan.priceAlt ? (
