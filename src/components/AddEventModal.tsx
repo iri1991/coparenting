@@ -163,7 +163,7 @@ export function AddEventModal({
           <div className={`grid gap-2.5 ${!editEvent ? "grid-cols-2" : "grid-cols-1"}`}>
             <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                De la data
+                {ev.from}
               </label>
               <input
                 type="date"
@@ -176,7 +176,7 @@ export function AddEventModal({
             {!editEvent && (
               <div className="min-w-0">
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                  Până la (opțional)
+                  {ev.until}
                 </label>
                 <input
                   type="date"
@@ -187,7 +187,7 @@ export function AddEventModal({
                 />
                 {endDate && endDate >= date && (
                   <p className="mt-1 text-xs text-stone-500">
-                    Se creează evenimente pentru fiecare zi din interval.
+                    {ev.rangeHint}
                   </p>
                 )}
               </div>
@@ -196,7 +196,7 @@ export function AddEventModal({
           <div className="grid grid-cols-2 gap-2.5">
             <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Ora start
+                {ev.startTime}
               </label>
               <input
                 type="time"
@@ -207,7 +207,7 @@ export function AddEventModal({
             </div>
             <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Ora sfârșit
+                {ev.endTime}
               </label>
               <input
                 type="time"
@@ -219,7 +219,7 @@ export function AddEventModal({
           </div>
           <div>
             <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-              Cu cine e {labels.childName}
+              {ev.withWhom} {labels.childName}
             </label>
             <div className="grid grid-cols-3 gap-2">
               {(["tata", "mama", "together"] as const).map((p) => (
@@ -240,7 +240,7 @@ export function AddEventModal({
           </div>
           <div>
             <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-              Locație
+              {ev.location}
             </label>
             <div className="grid grid-cols-3 gap-2">
               {(["tunari", "otopeni", "other"] as const).map((loc) => (
@@ -269,7 +269,7 @@ export function AddEventModal({
           </div>
           <div>
             <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-              Titlu (opțional)
+              {ev.titleOpt}
             </label>
             <input
               type="text"
@@ -281,7 +281,7 @@ export function AddEventModal({
           </div>
           <div>
             <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-              Note (opțional)
+              {ev.notesOpt}
             </label>
             <textarea
               value={notes}
@@ -294,7 +294,7 @@ export function AddEventModal({
           {isEditingPastEvent && (
             <div className="space-y-2 rounded-[1.5rem] border border-[#efcfb6] bg-[#fff5eb] p-4">
               <p className="text-sm font-semibold text-[#9f5a40]">
-                Modificare excepțională pentru eveniment din trecut
+                {ev.pastEdit}
               </p>
               <label className="flex items-start gap-2 text-sm text-stone-700">
                 <input
@@ -304,16 +304,16 @@ export function AddEventModal({
                   className="mt-0.5 h-4 w-4 accent-amber-500"
                   required
                 />
-                Confirm că această modificare este necesară și va fi notificat celălalt părinte.
+                {ev.pastConfirm}
               </label>
               <div>
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                  Motiv (obligatoriu)
+                  {ev.reason}
                 </label>
                 <textarea
                   value={pastEditReason}
                   onChange={(e) => setPastEditReason(e.target.value)}
-                  placeholder="Ex: corecție pentru raportul medical / eroare introdusă accidental"
+                  placeholder={ev.reasonPlaceholder}
                   required
                   minLength={8}
                   rows={2}
@@ -328,7 +328,7 @@ export function AddEventModal({
               onClick={onClose}
               className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 touch-manipulation"
             >
-              Anulare
+              {ev.cancel}
             </button>
             <button
               type="submit"

@@ -152,7 +152,7 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
             </div>
             <div className="grid gap-5 lg:grid-cols-2">
               {related.map((a) => (
-                <RelatedCard key={a.slug} article={a} readLabel={lang === "en" ? "Read article" : "Citește articolul"} lang={lang} />
+                <RelatedCard key={a.slug} article={a} readLabel={t.blog.readArticle} lang={lang} />
               ))}
             </div>
           </div>

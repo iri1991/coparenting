@@ -3,90 +3,114 @@
 import { useState, useEffect } from "react";
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
+import { enGB } from "date-fns/locale";
 import type { ActivityEntry, ActivityAction } from "@/lib/activity";
 import { Calendar, UserPlus, Home, Users, FileText, Ban, CheckCircle, Link2, Pencil } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { enGB } from "date-fns/locale";
+import { inter } from "@/lib/i18n/interpolate";
+import type { Translations } from "@/lib/i18n";
 
-/** Full sentence: [Who] [action] [details]. Works for both RO and EN since fullActionSentence uses Romanian phrases from server. */
+type ActionT = Translations["app"]["history"]["actions"];
+
 function fullActionSentence(
   userLabel: string,
   action: ActivityAction,
-  payload: ActivityEntry["payload"]
+  payload: ActivityEntry["payload"],
+  a: ActionT
 ): string {
-  const who = userLabel.trim() || "Utilizator";
+  const who = userLabel.trim() || a.userFallback;
   switch (action) {
     case "event_created": {
-      const d = payload.date && payload.label ? `${payload.date} – ${payload.label}` : payload.date || payload.label || "eveniment";
-      return `${who} a adăugat evenimentul: ${d}.`;
+      const detail =
+        payload.date && payload.label
+          ? `${payload.date} – ${payload.label}`
+          : payload.date || payload.label || a.event;
+      return inter(a.eventAdded, { who, detail });
     }
     case "event_updated": {
-      const d = payload.date && payload.label ? `${payload.date} – ${payload.label}` : payload.date || payload.label || "eveniment";
+      const d =
+        payload.date && payload.label
+          ? `${payload.date} – ${payload.label}`
+          : payload.date || payload.label || a.event;
       const changes = Array.isArray(payload.changes)
         ? payload.changes.filter((c): c is string => typeof c === "string" && c.trim().length > 0)
         : [];
       const reason = typeof payload.reason === "string" ? payload.reason.trim() : "";
-      const pastTag = payload.wasPastEvent ? " (din trecut)" : "";
-      const changeText = changes.length > 0 ? ` Modificări: ${changes.join("; ")}.` : "";
-      const reasonText = reason ? ` Motiv: ${reason}.` : "";
-      return `${who} a modificat evenimentul${pastTag}: ${d}.${changeText}${reasonText}`;
+      const pastTag = payload.wasPastEvent ? a.pastSuffix : "";
+      const changeText = changes.length > 0 ? ` ${a.changesPrefix}${changes.join("; ")}.` : "";
+      const reasonText = reason ? ` ${a.reasonPrefix}${reason}.` : "";
+      return inter(a.eventUpdated, { who, detail: d, pastTag, changeText, reasonText });
     }
     case "event_deleted": {
-      const d = payload.date || payload.label || "eveniment";
-      return `${who} a șters evenimentul: ${d}.`;
+      const detail = payload.date || payload.label || a.event;
+      return inter(a.eventDeleted, { who, detail });
     }
     case "child_added": {
-      const n = typeof payload.name === "string" ? payload.name : "copil";
-      return `${who} a adăugat copilul ${n}.`;
+      const name = typeof payload.name === "string" ? payload.name : a.child;
+      return inter(a.childAdded, { who, name });
     }
     case "child_updated": {
-      const n = typeof payload.name === "string" ? payload.name : "copil";
-      return `${who} a actualizat datele copilului ${n}.`;
+      const name = typeof payload.name === "string" ? payload.name : a.child;
+      return inter(a.childUpdated, { who, name });
     }
     case "child_deleted": {
-      const n = typeof payload.name === "string" ? payload.name : "copil";
-      return `${who} a șters copilul ${n}.`;
+      const name = typeof payload.name === "string" ? payload.name : a.child;
+      return inter(a.childDeleted, { who, name });
     }
     case "residence_added": {
-      const n = typeof payload.name === "string" ? payload.name : "locuință";
-      return `${who} a adăugat locuința „${n}".`;
+      const name = typeof payload.name === "string" ? payload.name : a.residence;
+      return inter(a.residenceAdded, { who, name });
     }
     case "residence_deleted": {
-      const n = typeof payload.name === "string" ? payload.name : "locuință";
-      return `${who} a șters locuința „${n}".`;
+      const name = typeof payload.name === "string" ? payload.name : a.residence;
+      return inter(a.residenceDeleted, { who, name });
     }
     case "family_updated":
-      return `${who} a actualizat datele familiei.`;
-    case "proposal_applied":
-      return payload.weekLabel ? `${who} a aplicat programul pentru ${payload.weekLabel}.` : `${who} a aplicat programul săptămânii.`;
-    case "proposal_approved":
-      return payload.weekLabel ? `${who} a aprobat propunerea pentru ${payload.weekLabel}.` : `${who} a aprobat propunerea săptămânii.`;
-    case "proposal_updated":
-      return payload.weekLabel
-        ? `${who} a modificat propunerea pentru ${payload.weekLabel}.`
-        : `${who} a modificat propunerea săptămânii.`;
+      return inter(a.familyUpdated, { who });
+    case "proposal_applied": {
+      const week = typeof payload.weekLabel === "string" ? payload.weekLabel : "";
+      return week
+        ? inter(a.proposalAppliedWeek, { who, week })
+        : inter(a.proposalApplied, { who });
+    }
+    case "proposal_approved": {
+      const week = typeof payload.weekLabel === "string" ? payload.weekLabel : "";
+      return week
+        ? inter(a.proposalApprovedWeek, { who, week })
+        : inter(a.proposalApproved, { who });
+    }
+    case "proposal_updated": {
+      const week = typeof payload.weekLabel === "string" ? payload.weekLabel : "";
+      return week
+        ? inter(a.proposalUpdatedWeek, { who, week })
+        : inter(a.proposalUpdated, { who });
+    }
     case "child_activity_added": {
-      const n = typeof payload.name === "string" ? payload.name : "activitate";
-      return payload.date
-        ? `${who} a adăugat activitatea „${n}" pentru ${payload.date}.`
-        : `${who} a adăugat activitatea „${n}".`;
+      const name = typeof payload.name === "string" ? payload.name : a.activity;
+      const actDate = typeof payload.date === "string" ? payload.date : "";
+      return actDate
+        ? inter(a.activityAddedDate, { who, name, date: actDate })
+        : inter(a.activityAdded, { who, name });
     }
     case "useful_link_added": {
-      const n = typeof payload.name === "string" ? payload.name : "material";
-      return `${who} a adăugat materialul util „${n}".`;
+      const name = typeof payload.name === "string" ? payload.name : a.material;
+      return inter(a.linkAdded, { who, name });
     }
     case "useful_link_deleted":
-      return `${who} a șters un material util.`;
+      return inter(a.linkDeleted, { who });
     case "member_joined":
-      return `${who} s-a alăturat familiei.`;
-    case "blocked_period_added":
-      return payload.startDate && payload.endDate
-        ? `${who} a adăugat perioada blocată ${payload.startDate} – ${payload.endDate}.`
-        : `${who} a adăugat o perioadă blocată.`;
+      return inter(a.memberJoined, { who });
+    case "blocked_period_added": {
+      const start = typeof payload.startDate === "string" ? payload.startDate : "";
+      const end = typeof payload.endDate === "string" ? payload.endDate : "";
+      return start && end
+        ? inter(a.blockedAddedRange, { who, start, end })
+        : inter(a.blockedAdded, { who });
+    }
     case "blocked_period_deleted":
-      return `${who} a șters o perioadă blocată.`;
+      return inter(a.blockedDeleted, { who });
     default:
-      return `${who} – acțiune în aplicație.`;
+      return inter(a.generic, { who });
   }
 }
 
@@ -146,8 +170,10 @@ export function ActivityHistory() {
         if (!cancelled) setLoading(false);
       }
     })();
-    return () => { cancelled = true; };
-  }, [h]);
+    return () => {
+      cancelled = true;
+    };
+  }, [h.error, h.fetchError]);
 
   if (loading) {
     return <div className="py-8 text-center text-stone-500 text-sm">{h.loading}</div>;
@@ -170,7 +196,7 @@ export function ActivityHistory() {
       <div className="absolute left-5 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700" aria-hidden />
       <ul className="space-y-0">
         {entries.map((entry) => {
-          const sentence = fullActionSentence(entry.userLabel, entry.action, entry.payload);
+          const sentence = fullActionSentence(entry.userLabel, entry.action, entry.payload, h.actions);
           return (
             <li key={entry.id} className="relative flex gap-4 pb-6 last:pb-0">
               <span className="relative z-10 flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-stone-900 border-2 border-stone-200 shadow-sm">

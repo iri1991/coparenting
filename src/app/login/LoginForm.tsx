@@ -5,8 +5,11 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function LoginForm() {
+  const { t } = useLanguage();
+  const a = t.app.auth;
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan");
   const planQuery =
@@ -29,34 +32,34 @@ export function LoginForm() {
     });
     setLoading(false);
     if (res?.error) {
-      setMessage({ type: "error", text: "Email sau parolă incorectă." });
+      setMessage({ type: "error", text: a.badCredentials });
       return;
     }
     if (res?.ok) {
       window.location.href = redirectAfterLogin;
       return;
     }
-    setMessage({ type: "error", text: "Ceva nu a mers bine." });
+    setMessage({ type: "error", text: a.genericError });
   }
 
   return (
     <AuthPageShell
-      title="Conectează-te"
-      subtitle="Intră în contul tău HomeSplit — același plan și calendar ca înainte."
+      title={a.loginTitle}
+      subtitle={a.loginSubtitle}
       footer={
         <p className="text-center text-stone-500 text-sm space-y-2">
           <span className="block">
-            Nu ai cont?{" "}
+            {a.noAccount}{" "}
             <Link
               href={`/register${planQuery}`}
               className="font-medium text-amber-600 dark:text-amber-400 hover:underline"
             >
-              Creează cont gratuit
+              {a.createFree}
             </Link>
           </span>
           <span className="block">
             <Link href="/" className="text-amber-600/90 dark:text-amber-400/90 hover:underline">
-              Pagina principală
+              {a.homePage}
             </Link>
           </span>
         </p>
@@ -65,13 +68,13 @@ export function LoginForm() {
       <form className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4" onSubmit={handleLogin}>
         <div>
           <label htmlFor="login-email" className="sr-only">
-            Email
+            {a.email}
           </label>
           <input
             id="login-email"
             type="email"
             autoComplete="email"
-            placeholder="Email"
+            placeholder={a.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -80,13 +83,13 @@ export function LoginForm() {
         </div>
         <div>
           <label htmlFor="login-password" className="sr-only">
-            Parolă
+            {a.password}
           </label>
           <input
             id="login-password"
             type="password"
             autoComplete="current-password"
-            placeholder="Parolă"
+            placeholder={a.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -94,7 +97,7 @@ export function LoginForm() {
           />
           <p className="mt-1.5 text-right">
             <Link href="/forgot-password" className="text-sm text-amber-600 dark:text-amber-400 hover:underline">
-              Ai uitat parola?
+              {a.forgotPassword}
             </Link>
           </p>
         </div>
@@ -115,7 +118,7 @@ export function LoginForm() {
           disabled={loading}
           className="app-native-primary-button w-full py-3.5 font-semibold disabled:opacity-50"
         >
-          {loading ? "Se conectează…" : "Conectare"}
+          {loading ? a.signingIn : a.signIn}
         </button>
       </form>
     </AuthPageShell>

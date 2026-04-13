@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 import type { BlogArticleWithCategory, BlogCategoryWithTranslation } from "@/content/blog";
 import { BlogArticleCard } from "./BlogArticleCard";
 
@@ -11,18 +12,17 @@ interface Props {
 }
 
 export function BlogCategoryContent({ category, articles }: Props) {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const isEn = lang === "en";
+  const cl = t.blog.categoryListing;
 
   const blogBase = isEn ? "/en/blog" : "/blog";
   const catTitle = isEn ? category.titleEn ?? category.title : category.title;
   const catDesc = isEn ? category.descriptionEn ?? category.description : category.description;
-  const backLabel = isEn ? "← Back to blog" : "← Înapoi la blog";
-  const articlesCountLabel = isEn
-    ? `${articles.length} articles published`
-    : `${articles.length} articole publicate`;
-  const inCategoryLabel = isEn ? "In this category" : "În această categorie";
-  const availableLabel = isEn ? "Available articles" : "Articole disponibile";
+  const backLabel = t.blog.backToBlog;
+  const articlesCountLabel = inter(cl.articlesPublished, { n: String(articles.length) });
+  const inCategoryLabel = cl.inCategory;
+  const availableLabel = cl.availableArticles;
 
   return (
     <>

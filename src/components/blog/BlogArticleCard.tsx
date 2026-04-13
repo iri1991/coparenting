@@ -83,7 +83,7 @@ export function BlogArticleCard({ article, large = false }: BlogArticleCardProps
             href={lang === "en" ? `/en/blog/${articleSlugForLang(article, "en")}` : `/blog/${article.slug}`}
             className="inline-flex items-center rounded-full bg-[#1f3a36] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#172c2a]"
           >
-            {lang === "en" ? "Read article" : "Citește articolul"}
+            {t.blog.readArticle}
           </Link>
           <Link
             href={lang === "en" ? `/en/blog/categorie/${display.category.slug}` : `/blog/categorie/${display.category.slug}`}

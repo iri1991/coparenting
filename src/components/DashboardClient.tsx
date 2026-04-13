@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval, parseISO, format, addDays, isBefore, isSameDay } from "date-fns";
 import { ro } from "date-fns/locale";
+import { enGB } from "date-fns/locale";
 import { Calendar } from "@/components/Calendar";
 import { EventList } from "@/components/EventList";
 import { MonthEventsTimeline } from "@/components/MonthEventsTimeline";
@@ -24,6 +25,7 @@ import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
 
 const POLL_INTERVAL_MS = 15000;
@@ -71,9 +73,9 @@ export function DashboardClient({
   initialEvents,
   currentUserId,
   userName,
-  parent1Name = "Părinte 1",
-  parent2Name = "Părinte 2",
-  childName = "copilul",
+  parent1Name = "",
+  parent2Name = "",
+  childName = "",
   childId,
   residenceNames = ["Tunari", "Otopeni"],
   modalOpen: modalOpenProp,
@@ -95,7 +97,12 @@ export function DashboardClient({
   }
   const initialCalDate = parseYmdLocal(initialCalendarDate);
   const resolvedInitialTab = initialDashboardTab ?? "program";
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const d = t.app.dashboard;
+  const dateLocale = lang === "en" ? enGB : ro;
+  const resolvedParent1 = parent1Name.trim() || d.unknownParent1;
+  const resolvedParent2 = parent2Name.trim() || d.unknownParent2;
+  const resolvedChild = childName.trim() || d.childDefault;
 
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(() => initialCalDate ?? new Date());
@@ -280,8 +287,8 @@ export function DashboardClient({
       });
 
   const listTitle = selectedDate
-    ? `Evenimente – ${format(selectedDate, "d MMM yyyy")}`
-    : "Evenimente luna curentă";
+    ? inter(d.eventsListDay, { date: format(selectedDate, "d MMM yyyy", { locale: dateLocale }) })
+    : d.eventsListMonth;
 
   const handleSave = useCallback(
     async (
@@ -418,7 +425,7 @@ export function DashboardClient({
     const mamaPct = totalTrackedDays > 0 ? Math.round((mamaWeighted / totalTrackedDays) * 100) : 0;
 
     return {
-      monthLabel: format(currentDate, "MMMM yyyy", { locale: ro }),
+      monthLabel: format(currentDate, "MMMM yyyy", { locale: dateLocale }),
       tataDays,
       mamaDays,
       togetherDays,
@@ -426,14 +433,24 @@ export function DashboardClient({
       tataPct,
       mamaPct,
     };
-  }, [events, currentDate]);
+  }, [events, currentDate, dateLocale]);
 
   const greetingName =
-    parentType === "tata" ? parent1Name : parentType === "mama" ? parent2Name : capitalize(userName || "acolo");
-  const daysLabel = daysThisWeekWithEvents === 1 ? "zi" : "zile";
+    parentType === "tata"
+      ? resolvedParent1
+      : parentType === "mama"
+        ? resolvedParent2
+        : capitalize(userName || d.greetingAnonymous);
+  const daysLabel = daysThisWeekWithEvents === 1 ? d.day : d.days;
   const greeting =
     !profileLoading && parentType != null
-      ? `Salut ${greetingName}, săptămâna asta petreci ${daysThisWeekWithEvents} ${daysLabel} cu ${childName}.`
+      ? inter(d.greetingSentence, {
+          greetingHello: d.greetingHello,
+          name: greetingName,
+          count: String(daysThisWeekWithEvents),
+          daysLabel,
+          child: resolvedChild,
+        })
       : null;
 
   const todayEventForLoggedParent = useMemo(() => {
@@ -619,18 +636,18 @@ export function DashboardClient({
 
   return (
     <FamilyLabelsProvider
-      parent1Name={parent1Name}
-      parent2Name={parent2Name}
-      childName={childName}
+      parent1Name={resolvedParent1}
+      parent2Name={resolvedParent2}
+      childName={resolvedChild}
       residenceNames={residenceNames}
     >
     <div className="space-y-5">
       {plan === "free" && (
         <div className="app-native-surface rounded-[2rem] border-[#ecd8c5] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] px-4 py-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b85c3e]">Plan Free</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b85c3e]">{d.freePlan}</p>
             <p className="mt-1 text-sm text-stone-700">
-            Deblochează Pro: propunere automată, documente, mai mulți copii și locații.
+            {d.freePlanDesc}
             </p>
           </div>
           <UpgradeCta variant="button" />
@@ -642,13 +659,13 @@ export function DashboardClient({
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500">
                 <Sparkles className="h-3.5 w-3.5 text-[#b85c3e]" />
-                experiență nativă pentru programul familiei
+                {d.nativeExperienceBadge}
               </div>
               <h1 className="mt-4 text-2xl font-semibold tracking-tight text-stone-900 sm:text-[2rem]">
-                {greeting ?? `Salut ${greetingName}.`}
+                {greeting ?? inter(d.greetingShort, { greetingHello: d.greetingHello, name: greetingName })}
               </h1>
               <p className="mt-2 max-w-xl text-sm leading-7 text-stone-600">
-                Ai într-un singur loc programul, schimbările, rutinele și semnalele importante pentru {childName}.
+                {inter(d.programIntro, { child: resolvedChild })}
               </p>
             </div>
             {todayEventForLoggedParent && currentParentPeriod && (
@@ -657,7 +674,7 @@ export function DashboardClient({
                 onClick={openInterruptModal}
                 className="inline-flex items-center rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(191,106,75,0.22)]"
               >
-                Întrerupe perioada
+                {d.interruptBtn}
               </button>
             )}
           </div>
@@ -666,7 +683,7 @@ export function DashboardClient({
       <div
         className="app-native-surface rounded-[2rem] p-1.5 grid grid-cols-4 gap-1"
         role="tablist"
-        aria-label="Secțiuni acasă"
+        aria-label={d.homeSectionsAria}
       >
         <button
           type="button"
@@ -737,10 +754,10 @@ export function DashboardClient({
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="mb-3 flex items-center justify-between gap-2">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Panou rapid</p>
-            <h2 className="text-base font-semibold text-stone-800">Indicatori utili</h2>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.quickPanel}</p>
+            <h2 className="text-base font-semibold text-stone-800">{d.usefulIndicators}</h2>
           </div>
-          <span className="text-xs text-stone-500">mutați din ecranul principal</span>
+          <span className="text-xs text-stone-500">{d.hubMovedNote}</span>
         </div>
         <div className="grid gap-2.5 sm:grid-cols-3">
           <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
@@ -749,11 +766,13 @@ export function DashboardClient({
                 <CalendarRange className="h-4.5 w-4.5" />
               </span>
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Săptămâna ta</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.yourWeek}</p>
                 <p className="text-lg font-semibold text-stone-900">{daysThisWeekWithEvents}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">{daysLabel} cu timp programat</p>
+            <p className="mt-2 text-sm text-stone-600">
+              {daysThisWeekWithEvents === 1 ? d.scheduledTimeSingle : d.scheduledTimePlural}
+            </p>
           </div>
           <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
             <div className="flex items-center gap-2">
@@ -761,11 +780,11 @@ export function DashboardClient({
                 <Sparkles className="h-4.5 w-4.5" />
               </span>
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Memorie comună</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.sharedMemory}</p>
                 <p className="text-lg font-semibold text-stone-900">{activitiesSummary.length}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">activități distincte deja în jurnal</p>
+            <p className="mt-2 text-sm text-stone-600">{d.activitiesLogged}</p>
           </div>
           <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
             <div className="flex items-center gap-2">
@@ -773,11 +792,11 @@ export function DashboardClient({
                 <LockKeyhole className="h-4.5 w-4.5" />
               </span>
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">Disponibilitate</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.availability}</p>
                 <p className="text-lg font-semibold text-stone-900">{blockedPeriods.length}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">intervale blocate configurate</p>
+            <p className="mt-2 text-sm text-stone-600">{d.blockedIntervals}</p>
           </div>
         </div>
       </section>
@@ -785,7 +804,7 @@ export function DashboardClient({
       {!profileLoading && !parentType && (
         <div className="app-native-surface rounded-[2rem] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] p-4">
           <p className="text-sm font-semibold text-stone-800 mb-3">
-            Ești {parent1Name} sau {parent2Name}?
+            {d.parentRole} {resolvedParent1} {d.parentRoleOr} {resolvedParent2}?
           </p>
           <div className="flex gap-3">
             <button
@@ -793,20 +812,20 @@ export function DashboardClient({
               onClick={() => setParentType("tata")}
               className="flex-1 rounded-[1.2rem] bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(191,106,75,0.2)]"
             >
-              {parent1Name}
+              {resolvedParent1}
             </button>
             <button
               type="button"
               onClick={() => setParentType("mama")}
               className="flex-1 rounded-[1.2rem] bg-white px-4 py-3 text-sm font-semibold text-stone-800 shadow-[0_12px_24px_rgba(28,25,23,0.08)]"
             >
-              {parent2Name}
+              {resolvedParent2}
             </button>
           </div>
         </div>
       )}
       {activeTab === "rutine" && (
-        <SharedRitualsCard parent1Name={parent1Name} parent2Name={parent2Name} />
+        <SharedRitualsCard parent1Name={resolvedParent1} parent2Name={resolvedParent2} />
       )}
       {activeTab === "idei" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
@@ -817,12 +836,12 @@ export function DashboardClient({
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <h2 className="text-base font-semibold text-stone-800">Raport timp între părinți</h2>
+          <h2 className="text-base font-semibold text-stone-800">{d.timeReport}</h2>
           <span className="text-xs text-stone-500 capitalize">{parentTimeReport.monthLabel}</span>
         </div>
         {parentTimeReport.totalTrackedDays === 0 ? (
           <p className="text-sm text-stone-500">
-            Nu există încă zile planificate în luna selectată.
+            {d.timeReportEmpty}
           </p>
         ) : (
           <>
@@ -832,23 +851,23 @@ export function DashboardClient({
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
-                <p className="text-stone-500">Timp {parent1Name}</p>
+                <p className="text-stone-500">{d.timeFor} {resolvedParent1}</p>
                 <p className="font-semibold text-stone-800">
-                  {parentTimeReport.tataDays} zile
+                  {parentTimeReport.tataDays} {d.timeReportDaysUnit}
                   <span className="font-medium text-stone-500"> · {parentTimeReport.tataPct}%</span>
                 </p>
               </div>
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
-                <p className="text-stone-500">Timp {parent2Name}</p>
+                <p className="text-stone-500">{d.timeFor} {resolvedParent2}</p>
                 <p className="font-semibold text-stone-800">
-                  {parentTimeReport.mamaDays} zile
+                  {parentTimeReport.mamaDays} {d.timeReportDaysUnit}
                   <span className="font-medium text-stone-500"> · {parentTimeReport.mamaPct}%</span>
                 </p>
               </div>
             </div>
             {parentTimeReport.togetherDays > 0 && (
               <p className="mt-2 text-xs text-stone-500">
-                Zile „cu toții”: {parentTimeReport.togetherDays} (împărțite 50/50 în procente).
+                {d.togetherDays} {parentTimeReport.togetherDays} {d.togetherNote}
               </p>
             )}
           </>
@@ -856,7 +875,7 @@ export function DashboardClient({
       </section>
       )}
       {activeTab === "program" && childId && (
-        <ActiveHealthCard childId={childId} childName={childName} />
+        <ActiveHealthCard childId={childId} childName={resolvedChild} />
       )}
       {activeTab === "program" && (
       <div className="app-native-surface overflow-hidden rounded-[2rem]">
@@ -864,20 +883,20 @@ export function DashboardClient({
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#ecd8c5] bg-[#fff5eb] px-4 py-3">
             <div>
               <p className="text-xs font-medium text-[#9f5a40]">
-                Preview propunere în calendar
+                {d.calendarPreviewTitle}
               </p>
               {proposalWeekLabel && (
                 <p className="text-[11px] text-[#b86a4b]">{proposalWeekLabel}</p>
               )}
               <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
                 <span className="inline-flex items-center gap-1 rounded bg-[#f6ddd2] px-1.5 py-0.5 text-[#b66347]">
-                  {parent1Name.charAt(0).toUpperCase()} · {parent1Name}
+                  {resolvedParent1.charAt(0).toUpperCase()} · {resolvedParent1}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded bg-[#fde9d6] px-1.5 py-0.5 text-[#a56a3d]">
-                  {parent2Name.charAt(0).toUpperCase()} · {parent2Name}
+                  {resolvedParent2.charAt(0).toUpperCase()} · {resolvedParent2}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
-                  Î · Cu toții
+                  {d.previewTogether}
                 </span>
               </div>
             </div>
@@ -901,7 +920,7 @@ export function DashboardClient({
           aria-expanded={calendarExpanded}
         >
           <span className="text-sm font-semibold text-stone-800">
-            Calendar – {format(currentDate, "MMMM yyyy", { locale: ro })}
+            {inter(d.calendarWithMonth, { month: format(currentDate, "MMMM yyyy", { locale: dateLocale }) })}
           </span>
           <svg
             className={`w-5 h-5 text-stone-500 transition-transform ${calendarExpanded ? "rotate-180" : ""}`}
@@ -937,19 +956,19 @@ export function DashboardClient({
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <h2 className="text-base font-semibold text-stone-800">Activități făcute de copil</h2>
+          <h2 className="text-base font-semibold text-stone-800">{d.activitiesTitle}</h2>
           {handoverEndedYesterday && (
             <button
               type="button"
               onClick={() => setShowEndPeriodModal(true)}
               className="text-sm text-amber-700 font-medium hover:underline"
             >
-              Adaugă activitate
+              {d.addActivity}
             </button>
           )}
         </div>
         <p className="text-xs text-stone-500 mb-3">
-          Listă cumulată din perioadele anterioare, ca să evitați repetarea acelorași activități.
+          {d.activitiesDesc}
         </p>
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <input
@@ -964,18 +983,21 @@ export function DashboardClient({
             onClick={openRetroActivityModal}
             className="app-native-secondary-button px-4 py-2.5 text-sm font-semibold text-stone-700"
           >
-            Adaugă retroactiv
+            {d.addRetro}
           </button>
         </div>
         {activitiesSummary.length === 0 ? (
-          <p className="text-sm text-stone-500">Nu există activități înregistrate încă.</p>
+          <p className="text-sm text-stone-500">{d.activitiesEmpty}</p>
         ) : (
           <ul className="space-y-2">
             {activitiesSummary.map((a) => (
               <li key={a.name} className="rounded-[1.3rem] bg-white/82 border border-white/70 px-3 py-3">
                 <p className="text-sm font-medium text-stone-800 capitalize">{a.name}</p>
                 <p className="text-xs text-stone-500">
-                  de {a.count} ori · ultima dată: {new Date(a.lastDate + "T12:00:00").toLocaleDateString("ro-RO")}
+                  {inter(d.activityLastDone, {
+                    count: String(a.count),
+                    date: format(new Date(a.lastDate + "T12:00:00"), "d MMM yyyy", { locale: dateLocale }),
+                  })}
                 </p>
               </li>
             ))}
@@ -985,9 +1007,9 @@ export function DashboardClient({
       )}
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
-        <h2 className="text-base font-semibold text-stone-800 mb-2">Materiale utile</h2>
+        <h2 className="text-base font-semibold text-stone-800 mb-2">{d.usefulLinks}</h2>
         <p className="text-xs text-stone-500 mb-3">
-          Link-uri utile pentru continuitate între părinți (melodii, clipuri, cărți etc.).
+          {d.usefulLinksDesc}
         </p>
         <div className="grid gap-2 sm:grid-cols-3 mb-3">
           <input
@@ -1021,7 +1043,7 @@ export function DashboardClient({
           {linksSaving ? t.app.dashboard.linkSaving : t.app.dashboard.addLink}
         </button>
         {usefulLinks.length === 0 ? (
-          <p className="text-sm text-stone-500">Nu există materiale utile încă.</p>
+          <p className="text-sm text-stone-500">{d.linksEmpty}</p>
         ) : (
           <ul className="space-y-2">
             {usefulLinks.map((l) => (
@@ -1037,7 +1059,7 @@ export function DashboardClient({
                   onClick={() => handleDeleteLink(l.id)}
                   className="text-xs text-stone-500 hover:text-red-600"
                 >
-                  Șterge
+                  {d.deleteLink}
                 </button>
               </li>
             ))}
@@ -1049,7 +1071,7 @@ export function DashboardClient({
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Calendar extins</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.calendarExtended}</p>
             <h2 className="text-base font-semibold text-stone-800">
             {listTitle}
             </h2>
@@ -1060,7 +1082,7 @@ export function DashboardClient({
               onClick={() => setSelectedDate(null)}
               className="app-native-secondary-button px-4 py-2 text-sm font-semibold text-stone-700 touch-manipulation"
             >
-              Arată luna
+              {d.showMonth}
             </button>
           )}
         </div>
@@ -1079,7 +1101,7 @@ export function DashboardClient({
             }}
             onDelete={handleDelete}
             canEditEvent={canEditEvent}
-            emptyMessage="Niciun eveniment în această zi. Apasă Adaugă pentru a crea unul."
+            emptyMessage={d.eventsEmpty}
           />
         ) : (
           <MonthEventsTimeline
@@ -1098,7 +1120,7 @@ export function DashboardClient({
             onDelete={handleDelete}
             canEditEvent={canEditEvent}
             onSelectDate={handleSelectDate}
-            emptyMessage="Niciun eveniment în această lună."
+            emptyMessage={d.eventsMonthEmpty}
           />
         )}
       </section>
@@ -1161,12 +1183,14 @@ export function DashboardClient({
             className="app-native-surface-strong w-full max-w-md rounded-[2rem] p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400 mb-1">Situație excepțională</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400 mb-1">{d.interruptModal.title}</p>
             <h3 className="text-base font-semibold text-stone-900 mb-1">
-              Întrerupe perioada curentă
+              {d.interruptModal.subtitle}
             </h3>
             <p className="text-sm text-stone-500 mb-3">
-              Aplicăm schimbarea din {new Date(currentParentPeriod.startDate + "T12:00:00").toLocaleDateString("ro-RO")} până la:
+              {d.interruptModal.applying}{" "}
+              {format(new Date(currentParentPeriod.startDate + "T12:00:00"), "d MMM yyyy", { locale: dateLocale })}{" "}
+              {d.interruptModal.until}
             </p>
             <input
               type="date"
@@ -1185,7 +1209,7 @@ export function DashboardClient({
                   checked={interruptTarget === "otherParent"}
                   onChange={() => setInterruptTarget("otherParent")}
                 />
-                Preia celălalt părinte
+                {d.interruptModal.otherParent}
               </label>
               <label className="flex items-center gap-2 text-sm text-stone-700">
                 <input
@@ -1194,7 +1218,7 @@ export function DashboardClient({
                   checked={interruptTarget === "someoneElse"}
                   onChange={() => setInterruptTarget("someoneElse")}
                 />
-                Preia altcineva (ex. bunici / bonă)
+                {d.interruptModal.someoneElse}
               </label>
             </div>
             {interruptTarget === "someoneElse" && (
@@ -1202,7 +1226,7 @@ export function DashboardClient({
                 type="text"
                 value={interruptCaretaker}
                 onChange={(e) => setInterruptCaretaker(e.target.value)}
-                placeholder="Cine preia copilul?"
+                placeholder={d.interruptModal.caretakerPlaceholder}
                 className="app-native-input mb-3 w-full px-3 py-2 text-sm"
               />
             )}
@@ -1213,7 +1237,7 @@ export function DashboardClient({
                 onClick={() => setInterruptModalOpen(false)}
                 className="app-native-secondary-button flex-1 px-4 py-2.5 text-sm font-semibold text-stone-700"
               >
-                Renunță
+                {d.interruptModal.cancel}
               </button>
               <button
                 type="button"

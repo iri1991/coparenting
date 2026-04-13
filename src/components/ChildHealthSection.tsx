@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Plus, X, FileText, CheckCircle2, Circle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 import { OnDemandAdministerDialog } from "@/components/OnDemandAdministerDialog";
 import type {
   ChildHealthCondition,
@@ -21,6 +22,25 @@ interface Props {
 
 const TODAY = () => new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
 
+function treatmentPlanScheduleLine(
+  p: ChildTreatmentPlan,
+  h: {
+    onDemandShort: string;
+    fromDate: string;
+    everyNDaysShort: string;
+    recurrenceDailyShort: string;
+  },
+): string {
+  if (p.administrationMode === "on_demand") {
+    return `${h.onDemandShort} · ${inter(h.fromDate, { date: p.startDate })}`;
+  }
+  const recurrence =
+    p.recurrenceType === "interval"
+      ? inter(h.everyNDaysShort, { n: String(p.recurrenceIntervalDays ?? 1) })
+      : h.recurrenceDailyShort;
+  return `${p.times.join(", ")} · ${recurrence} · ${inter(h.fromDate, { date: p.startDate })}`;
+}
+
 // ─── Add-plan inline form ──────────────────────────────────────────────────
 interface AddPlanFormProps {
   childId: string;
@@ -33,6 +53,7 @@ interface AddPlanFormProps {
 function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, onCancel }: AddPlanFormProps) {
   const { t } = useLanguage();
   const h = t.app.health;
+  const c = t.common;
   const today = TODAY();
   const [medication, setMedication] = useState("");
   const [dosage, setDosage] = useState("");
@@ -78,16 +99,16 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
 
   return (
     <div className="rounded-[1rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
-      <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Adaugă medicament</p>
+      <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">{h.medFormTitle}</p>
       {/* Mode toggle */}
       <div className="flex rounded-[0.7rem] bg-stone-100 p-0.5 gap-0.5">
         <button type="button" onClick={() => setMode("scheduled")}
           className={`flex-1 rounded-[0.5rem] py-1.5 text-xs font-semibold transition ${mode === "scheduled" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>
-          Cu program fix
+          {h.scheduledTab}
         </button>
         <button type="button" onClick={() => setMode("on_demand")}
           className={`flex-1 rounded-[0.5rem] py-1.5 text-xs font-semibold transition ${mode === "on_demand" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>
-          La nevoie
+          {h.onDemandTab}
         </button>
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -98,8 +119,8 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
             <input className="app-native-input px-3 py-2 text-sm" placeholder={h.timesPlaceholder} value={times} onChange={(e) => setTimes(e.target.value)} />
             <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             <select className="app-native-input px-3 py-2 text-sm" value={recurrenceType} onChange={(e) => setRecurrenceType(e.target.value as "daily" | "interval")}>
-              <option value="daily">Zilnic</option>
-              <option value="interval">La N zile</option>
+              <option value="daily">{h.daily}</option>
+              <option value="interval">{h.interval}</option>
             </select>
             {recurrenceType === "interval" ? (
               <input type="number" min={1} max={30} className="app-native-input px-3 py-2 text-sm" placeholder={h.intervalPlaceholder} value={intervalDays}
@@ -111,29 +132,29 @@ function AddPlanForm({ childId, conditionId, parent1Name, parent2Name, onDone, o
           <input type="date" className="app-native-input px-3 py-2 text-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         )}
         <select className="app-native-input px-3 py-2 text-sm" value={responsible} onChange={(e) => setResponsible(e.target.value as HealthResponsibleParent)}>
-          <option value="both">Responsabil: amândoi</option>
+          <option value="both">{h.responsibleBoth}</option>
           <option value="tata">{parent1Name}</option>
           <option value="mama">{parent2Name}</option>
         </select>
         {mode === "scheduled" && (
           <select className="app-native-input px-3 py-2 text-sm" value={String(lead)} onChange={(e) => setLead(Number(e.target.value))}>
-            <option value="0">Notificare la oră</option>
-            <option value="5">-5 min</option>
-            <option value="10">-10 min</option>
-            <option value="15">-15 min</option>
-            <option value="30">-30 min</option>
+            <option value="0">{h.notifyAtHour}</option>
+            <option value="5">{inter(h.reminderBeforeMin, { n: "5" })}</option>
+            <option value="10">{inter(h.reminderBeforeMin, { n: "10" })}</option>
+            <option value="15">{inter(h.reminderBeforeMin, { n: "15" })}</option>
+            <option value="30">{inter(h.reminderBeforeMin, { n: "30" })}</option>
           </select>
         )}
       </div>
       {mode === "on_demand" && (
-        <p className="text-[11px] text-stone-400">Medicamentul va apărea zilnic cu un buton de administrare. Ora se înregistrează automat la marcare.</p>
+        <p className="text-[11px] text-stone-400">{h.onDemandMedHint}</p>
       )}
       <div className="flex gap-2 pt-1">
         <button type="button" onClick={save} disabled={saving || !medication.trim() || !dosage.trim()} className="app-native-primary-button px-3 py-1.5 text-xs">
-          {saving ? h.saving : h.saving.replace("…", "")}
+          {saving ? h.saving : c.save}
         </button>
         <button type="button" onClick={onCancel} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
-          Anulează
+          {h.cancel}
         </button>
       </div>
     </div>
@@ -173,7 +194,7 @@ function AddReportForm({ childId, conditionId, onDone, onCancel }: AddReportForm
 
   return (
     <form onSubmit={save} className="rounded-[1rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
-      <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Atașează raport medical</p>
+      <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">{h.reportFormTitle}</p>
       <div className="flex flex-wrap gap-2 items-end">
         <input className="app-native-input flex-1 min-w-[120px] px-3 py-2 text-sm" placeholder={h.reportNamePH} value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".pdf,application/pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="text-xs" />
@@ -183,7 +204,7 @@ function AddReportForm({ childId, conditionId, onDone, onCancel }: AddReportForm
           {saving ? h.reportUploading : h.reportAttach}
         </button>
         <button type="button" onClick={onCancel} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
-          Anulează
+          {h.cancel}
         </button>
       </div>
     </form>
@@ -203,6 +224,7 @@ interface ConditionCardProps {
 function ConditionCard({ condition, plans, reports, childId, parent1Name, parent2Name, onRefresh }: ConditionCardProps) {
   const { t } = useLanguage();
   const h = t.app.health;
+  const dateLocale = t.lang === "en" ? "en-GB" : "ro-RO";
   const today = TODAY();
   const [expanded, setExpanded] = useState(false);
   const [showAddPlan, setShowAddPlan] = useState(false);
@@ -265,18 +287,21 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-semibold text-stone-800 text-sm">{condition.title}</span>
             {isActive ? (
-              <span className="rounded-full bg-[#fef2e8] px-2 py-0.5 text-[11px] font-semibold text-[#b66347]">activă</span>
+              <span className="rounded-full bg-[#fef2e8] px-2 py-0.5 text-[11px] font-semibold text-[#b66347]">{h.active}</span>
             ) : (
-              <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-500">încheiată</span>
+              <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-500">{h.resolved}</span>
             )}
             {activePlans.length > 0 ? (
               <span className="rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
-                {activePlans.length} medicament{activePlans.length > 1 ? "e" : ""}
+                {activePlans.length === 1
+                  ? inter(h.medBadgeOne, { n: "1" })
+                  : inter(h.medBadgeMany, { n: String(activePlans.length) })}
               </span>
             ) : null}
           </div>
           <p className="text-xs text-stone-500 mt-0.5">
-            {condition.startDate}{condition.endDate ? ` → ${condition.endDate}` : " → în curs"}
+            {condition.startDate}
+            {condition.endDate ? ` → ${condition.endDate}` : h.dateRangeOngoing}
           </p>
           {condition.notes ? <p className="text-xs text-stone-500 mt-0.5 truncate">{condition.notes}</p> : null}
         </div>
@@ -310,17 +335,13 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
           {/* Active treatment plans */}
           {activePlans.length > 0 ? (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">Medicamente active</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">{h.activeMeds}</p>
               {activePlans.map((p) => (
                 <div key={p.id} className="rounded-[0.9rem] bg-[#edf6f3] px-3 py-2 flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-stone-800">{p.medicationName} <span className="font-normal text-stone-500">· {p.dosage}</span></p>
                     <p className="text-xs text-stone-500 mt-0.5">
-                      {p.administrationMode === "on_demand" ? (
-                        <>la nevoie · din {p.startDate}</>
-                      ) : (
-                        <>{p.times.join(", ")} · {p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"}{" · "}din {p.startDate}</>
-                      )}
+                      {treatmentPlanScheduleLine(p, h)}
                     </p>
                   </div>
                   <button
@@ -339,7 +360,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
           {/* Inactive / past plans for this condition */}
           {conditionPlans.filter((p) => !p.active || (p.endDate && p.endDate < today)).length > 0 ? (
             <div className="space-y-1">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">Medicamente oprite</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">{h.stoppedMeds}</p>
               {conditionPlans.filter((p) => !p.active || (p.endDate && p.endDate < today)).map((p) => (
                 <div key={p.id} className="rounded-[0.9rem] bg-stone-50 px-3 py-2">
                   <p className="text-sm text-stone-500 line-through">{p.medicationName} · {p.dosage}</p>
@@ -357,21 +378,21 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
           ) : (
             <button type="button" onClick={() => setShowAddPlan(true)}
               className="flex items-center gap-1.5 text-xs font-semibold text-[#b66347] hover:text-[#8a4b2d]">
-              <Plus className="w-3.5 h-3.5" /> Adaugă medicament
+              <Plus className="w-3.5 h-3.5" /> {h.addMed}
             </button>
           )}
 
           {/* Reports */}
           {conditionReports.length > 0 ? (
             <div className="space-y-1">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">Rapoarte medicale</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">{h.medicalReportsHeading}</p>
               {conditionReports.map((r) => (
                 <div key={r.id} className="flex items-center gap-2 rounded-[0.9rem] bg-stone-50 px-3 py-2">
                   <FileText className="w-3.5 h-3.5 shrink-0 text-stone-400" />
                   <a className="text-sm text-[#b66347] hover:underline truncate flex-1" href={`/api/children/health/reports/${r.id}`} target="_blank" rel="noopener noreferrer">
                     {r.name}
                   </a>
-                  <span className="text-[11px] text-stone-400 shrink-0">{new Date(r.createdAt).toLocaleDateString("ro-RO")}</span>
+                  <span className="text-[11px] text-stone-400 shrink-0">{new Date(r.createdAt).toLocaleDateString(dateLocale)}</span>
                 </div>
               ))}
             </div>
@@ -385,7 +406,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
           ) : (
             <button type="button" onClick={() => setShowAddReport(true)}
               className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 hover:text-stone-800">
-              <Plus className="w-3.5 h-3.5" /> Atașează raport
+              <Plus className="w-3.5 h-3.5" /> {h.attachReport}
             </button>
           )}
         </div>
@@ -398,6 +419,7 @@ function ConditionCard({ condition, plans, reports, childId, parent1Name, parent
 export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props) {
   const { t } = useLanguage();
   const h = t.app.health;
+  const dateLocale = t.lang === "en" ? "en-GB" : "ro-RO";
   const [loading, setLoading] = useState(true);
   const [conditions, setConditions] = useState<ChildHealthCondition[]>([]);
   const [plans, setPlans] = useState<ChildTreatmentPlan[]>([]);
@@ -451,7 +473,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
           .filter((a) => a.planId === p.id && a.date === today && a.status === "done")
           .map((a) => a.timeLabel)
           .sort();
-        out.push({ plan: p, timeLabel: "la nevoie", done: false, onDemandTimes: todayAdmins });
+        out.push({ plan: p, timeLabel: h.onDemandShort, done: false, onDemandTimes: todayAdmins });
         continue;
       }
 
@@ -463,9 +485,11 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
         if (days < 0 || days % interval !== 0) continue;
       }
-      for (const t of p.times) {
-        const done = administrations.some((a) => a.planId === p.id && a.date === today && a.timeLabel === t && a.status === "done");
-        out.push({ plan: p, timeLabel: t, done });
+      for (const timeSlot of p.times) {
+        const done = administrations.some(
+          (a) => a.planId === p.id && a.date === today && a.timeLabel === timeSlot && a.status === "done",
+        );
+        out.push({ plan: p, timeLabel: timeSlot, done });
       }
     }
     // Sort: scheduled by time first, on_demand at the end
@@ -475,7 +499,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
       if (aOnDemand !== bOnDemand) return aOnDemand - bOnDemand;
       return a.timeLabel.localeCompare(b.timeLabel);
     });
-  }, [plans, administrations, today]);
+  }, [plans, administrations, today, h.onDemandShort]);
 
   // Past medication history
   const pastHistory = useMemo(() => {
@@ -490,10 +514,10 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         id: a.id,
         date: a.date,
         timeLabel: a.timeLabel,
-        medicationName: planById.get(a.planId)?.medicationName ?? "Medicament",
+        medicationName: planById.get(a.planId)?.medicationName ?? h.medicationFallback,
         dosage: planById.get(a.planId)?.dosage ?? "-",
       }));
-  }, [administrations, plans, today]);
+  }, [administrations, plans, today, h.medicationFallback]);
 
   // Active vs resolved conditions
   const activeConditions = conditions.filter((c) => c.status !== "resolved");
@@ -578,7 +602,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
     reload();
   }
 
-  if (loading) return <p className="text-xs text-stone-500 py-2">Se încarcă…</p>;
+  if (loading) return <p className="text-xs text-stone-500 py-2">{h.loading}</p>;
 
   return (
     <div id="health" className="space-y-4">
@@ -586,7 +610,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
       {/* ── Zone 1: Administrare azi (proeminent, first) ── */}
       {dueToday.length > 0 ? (
         <section className="rounded-[1.2rem] border border-[#b0d8ca] bg-[#f0faf6] p-3 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#1f5a4e]">Administrare azi</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[#1f5a4e]">{h.adminToday}</p>
           {dueToday.map((d) => {
             const isOnDemand = d.plan.administrationMode === "on_demand";
             return (
@@ -608,7 +632,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
                   <button type="button" disabled={d.done}
                     onClick={() => isOnDemand ? setOnDemandDialog(d.plan) : markScheduledDone(d.plan.id, d.timeLabel)}
                     className="rounded-full bg-emerald-500 px-3 py-1 text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-default shrink-0">
-                    {d.done ? h.administered : isOnDemand ? "Administrează" : h.markDone}
+                    {d.done ? h.administered : isOnDemand ? h.administer : h.markDone}
                   </button>
                 </div>
                 {isOnDemand && d.onDemandTimes && d.onDemandTimes.length > 0 && (
@@ -630,12 +654,14 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
       <section className="space-y-2">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
-            Boli active {activeConditions.length > 0 ? `(${activeConditions.length})` : ""}
+            {activeConditions.length > 0
+              ? inter(h.activeConditionsCount, { n: String(activeConditions.length) })
+              : h.activeConditions}
           </p>
           {!showAddCondition ? (
             <button type="button" onClick={() => setShowAddCondition(true)}
               className="flex items-center gap-1 text-xs font-semibold text-[#b66347] hover:text-[#8a4b2d]">
-              <Plus className="w-3.5 h-3.5" /> Adaugă boală
+              <Plus className="w-3.5 h-3.5" /> {h.addCondition}
             </button>
           ) : null}
         </div>
@@ -644,28 +670,28 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         {showAddCondition ? (
           <div className="rounded-[1.2rem] border border-[#ead9c8] bg-[#fffcf8] p-3 space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">Boală nouă</p>
+              <p className="text-xs font-semibold text-stone-600 uppercase tracking-wide">{h.formTitle}</p>
               <button type="button" onClick={() => setShowAddCondition(false)}><X className="w-4 h-4 text-stone-400" /></button>
             </div>
             <input className="app-native-input w-full px-3 py-2 text-sm" placeholder={h.conditionPlaceholder} value={conditionTitle} onChange={(e) => setConditionTitle(e.target.value)} />
             <div className="flex items-center gap-2">
-              <label className="text-xs text-stone-500 shrink-0">Început:</label>
+              <label className="text-xs text-stone-500 shrink-0">{h.startDate}</label>
               <input type="date" className="app-native-input flex-1 px-3 py-2 text-sm" value={conditionStartDate} onChange={(e) => setConditionStartDate(e.target.value)} />
             </div>
-            <textarea className="app-native-input w-full px-3 py-2 text-sm" rows={2} placeholder="Observații (opțional)" value={conditionNotes} onChange={(e) => setConditionNotes(e.target.value)} />
+            <textarea className="app-native-input w-full px-3 py-2 text-sm" rows={2} placeholder={h.notesPH} value={conditionNotes} onChange={(e) => setConditionNotes(e.target.value)} />
             <div className="flex gap-2">
               <button type="button" onClick={addCondition} disabled={savingCondition || !conditionTitle.trim()} className="app-native-primary-button px-3 py-1.5 text-xs">
-                {savingCondition ? "Se salvează…" : h.addConditionBtn}
+                {savingCondition ? h.saving : h.addConditionBtn}
               </button>
               <button type="button" onClick={() => setShowAddCondition(false)} className="px-3 py-1.5 text-xs text-stone-500 hover:text-stone-800">
-                Anulează
+                {h.cancel}
               </button>
             </div>
           </div>
         ) : null}
 
         {activeConditions.length === 0 && !showAddCondition ? (
-          <p className="text-xs text-stone-400 py-1">Nicio boală activă înregistrată.</p>
+          <p className="text-xs text-stone-400 py-1">{h.noActiveConditions}</p>
         ) : null}
 
         {activeConditions.map((c) => (
@@ -677,37 +703,35 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
       {/* ── Zone 3: Medicamente fără boală asociată ── */}
       {(orphanActivePlans.length > 0 || showAddOrphanPlan || showAddOrphanReport || orphanReports.length > 0) ? (
         <section className="rounded-[1.2rem] border border-stone-200 bg-white p-3 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">Medicamente fără boală asociată</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">{h.orphanTitle}</p>
           {orphanActivePlans.map((p) => (
             <div key={p.id} className="rounded-[0.9rem] bg-stone-50 px-3 py-2 space-y-1.5">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-stone-700">{p.medicationName} · {p.dosage}</p>
-                  <p className="text-xs text-stone-400">
-                    {p.administrationMode === "on_demand"
-                      ? `la nevoie · din ${p.startDate}`
-                      : `${p.times.join(", ")} · ${p.recurrenceType === "interval" ? `la ${p.recurrenceIntervalDays ?? 1} zile` : "zilnic"} · din ${p.startDate}`}
-                  </p>
+                  <p className="text-xs text-stone-400">{treatmentPlanScheduleLine(p, h)}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => stopOrphanPlan(p.id)}
                   className="rounded-full border border-stone-300 px-2 py-0.5 text-[11px] font-semibold text-stone-500 hover:border-red-300 hover:text-red-600 transition shrink-0"
                 >
-                  Oprește
+                  {h.stopMed}
                 </button>
               </div>
               {conditions.length > 0 ? (
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] text-stone-400 shrink-0">Asociază la:</span>
+                  <span className="text-[11px] text-stone-400 shrink-0">{h.associateTo}</span>
                   <select
                     defaultValue=""
                     onChange={(e) => { if (e.target.value) associatePlan(p.id, e.target.value); }}
                     className="app-native-input px-2 py-0.5 text-xs flex-1"
                   >
-                    <option value="">— alege boală —</option>
+                    <option value="">{h.chooseCondition}</option>
                     {conditions.map((c) => (
-                      <option key={c.id} value={c.id}>{c.title} {c.status === "resolved" ? "(încheiată)" : ""}</option>
+                      <option key={c.id} value={c.id}>
+                        {c.title} {c.status === "resolved" ? `(${h.resolved})` : ""}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -719,19 +743,21 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
               <div className="flex items-center gap-2">
                 <FileText className="w-3.5 h-3.5 shrink-0 text-stone-400" />
                 <a className="text-sm text-[#b66347] hover:underline truncate flex-1" href={`/api/children/health/reports/${r.id}`} target="_blank" rel="noopener noreferrer">{r.name}</a>
-                <span className="text-[11px] text-stone-400 shrink-0">{new Date(r.createdAt).toLocaleDateString("ro-RO")}</span>
+                <span className="text-[11px] text-stone-400 shrink-0">{new Date(r.createdAt).toLocaleDateString(dateLocale)}</span>
               </div>
               {conditions.length > 0 ? (
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] text-stone-400 shrink-0">Asociază la:</span>
+                  <span className="text-[11px] text-stone-400 shrink-0">{h.associateTo}</span>
                   <select
                     defaultValue=""
                     onChange={(e) => { if (e.target.value) associateReport(r.id, e.target.value); }}
                     className="app-native-input px-2 py-0.5 text-xs flex-1"
                   >
-                    <option value="">— alege boală —</option>
+                    <option value="">{h.chooseCondition}</option>
                     {conditions.map((c) => (
-                      <option key={c.id} value={c.id}>{c.title} {c.status === "resolved" ? "(încheiată)" : ""}</option>
+                      <option key={c.id} value={c.id}>
+                        {c.title} {c.status === "resolved" ? `(${h.resolved})` : ""}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -744,7 +770,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
           ) : (
             <button type="button" onClick={() => setShowAddOrphanPlan(true)}
               className="flex items-center gap-1.5 text-xs font-semibold text-[#b66347] hover:text-[#8a4b2d]">
-              <Plus className="w-3.5 h-3.5" /> Adaugă medicament
+              <Plus className="w-3.5 h-3.5" /> {h.addMed}
             </button>
           )}
           {showAddOrphanReport ? (
@@ -753,7 +779,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
           ) : (
             <button type="button" onClick={() => setShowAddOrphanReport(true)}
               className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 hover:text-stone-800">
-              <Plus className="w-3.5 h-3.5" /> Atașează raport
+              <Plus className="w-3.5 h-3.5" /> {h.attachReport}
             </button>
           )}
         </section>
@@ -761,7 +787,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         <div className="flex items-center gap-3">
           <button type="button" onClick={() => setShowAddOrphanPlan(true)}
             className="flex items-center gap-1.5 text-xs font-semibold text-stone-400 hover:text-[#b66347]">
-            <Plus className="w-3.5 h-3.5" /> Medicament fără boală
+            <Plus className="w-3.5 h-3.5" /> {h.orphanMed}
           </button>
         </div>
       )}
@@ -771,8 +797,12 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
         <button type="button" onClick={() => setShowHistory(!showHistory)}
           className="w-full flex items-center justify-between px-3 py-3 text-left">
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
-            Istoric{resolvedConditions.length > 0 || pastHistory.length > 0
-              ? ` · ${resolvedConditions.length} boli încheiate, ${pastHistory.length} administrări`
+            {h.historyTitle}
+            {resolvedConditions.length > 0 || pastHistory.length > 0
+              ? inter(h.historySummaryResolved, {
+                  resolved: String(resolvedConditions.length),
+                  admins: String(pastHistory.length),
+                })
               : ""}
           </p>
           {showHistory ? <ChevronUp className="w-4 h-4 text-stone-400" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
@@ -783,7 +813,7 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
             {/* Resolved conditions */}
             {resolvedConditions.length > 0 ? (
               <div className="space-y-1.5">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">Boli încheiate</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">{h.resolvedConditions}</p>
                 {resolvedConditions.map((c) => (
                   <ConditionCard key={c.id} condition={c} plans={plans} reports={reports}
                     childId={childId} parent1Name={parent1Name} parent2Name={parent2Name} onRefresh={reload} />
@@ -794,20 +824,22 @@ export function ChildHealthSection({ childId, parent1Name, parent2Name }: Props)
             {/* Past medication administrations */}
             {pastHistory.length > 0 ? (
               <div className="space-y-1">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">Medicamente administrate</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-400">{h.pastMeds}</p>
                 {pastHistory.slice(0, 30).map((item) => (
                   <div key={item.id} className="rounded-[0.9rem] bg-white px-3 py-2 text-xs text-stone-600">
                     <span className="font-medium">{item.date}</span> · {item.timeLabel} · {item.medicationName} ({item.dosage})
                   </div>
                 ))}
                 {pastHistory.length > 30 ? (
-                  <p className="text-xs text-stone-400 pl-1">… și {pastHistory.length - 30} mai vechi</p>
+                  <p className="text-xs text-stone-400 pl-1">
+                    {inter(h.moreOlder, { count: String(pastHistory.length - 30) })}
+                  </p>
                 ) : null}
               </div>
             ) : null}
 
             {resolvedConditions.length === 0 && pastHistory.length === 0 ? (
-              <p className="text-xs text-stone-400">Niciun istoric înregistrat.</p>
+              <p className="text-xs text-stone-400">{h.noHistory}</p>
             ) : null}
           </div>
         ) : null}

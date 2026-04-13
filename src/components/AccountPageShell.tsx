@@ -8,7 +8,7 @@ import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
-import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -105,7 +105,6 @@ export function AccountPageShell({
   );
 
   return (
-    <LanguageProvider>
     <div className="app-native-shell min-h-screen">
       <MobileAppTopBar />
 
@@ -155,8 +154,7 @@ export function AccountPageShell({
           {activeTab === "config" && configData && (
             <div className="animate-in fade-in duration-200">
               <p className="mb-4 text-sm text-stone-500">
-                Nume părinți, copii, locuințe, invitații. Modificările sunt notificate pe email tuturor membrilor. Abonamentul și
-                notificările push sunt în tab-ul „Altele”.
+                {t.app.account.configIntro}
               </p>
               <ConfigClient
                 initialFamily={configData.initialFamily}
@@ -175,7 +173,7 @@ export function AccountPageShell({
           {activeTab === "istoric" && (
             <div className="animate-in fade-in duration-200">
               <p className="mb-6 text-sm text-stone-500">
-                Ultimele acțiuni ale tale și ale celuilalt părinte în aplicație.
+                {t.app.account.historyIntro}
               </p>
               <ActivityHistory />
             </div>
@@ -184,6 +182,5 @@ export function AccountPageShell({
       </div>
       <MobileQuickNav />
     </div>
-    </LanguageProvider>
   );
 }

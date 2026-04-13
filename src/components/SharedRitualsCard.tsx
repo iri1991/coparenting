@@ -5,6 +5,7 @@ import { endOfMonth, format, parse, startOfMonth } from "date-fns";
 import { Check, ChevronDown, ChevronUp, Circle, CheckCircle2, Pencil, Plus, Trash2, X } from "lucide-react";
 import type { FamilyRitual, RitualResponsibleParent } from "@/types/ritual";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 
 interface SharedRitualsCardProps {
   parent1Name: string;
@@ -15,9 +16,9 @@ function todayBucharest(): string {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
 }
 
-function roDate(ymd: string): string {
+function localeLongDate(ymd: string, lang: "ro" | "en"): string {
   try {
-    return new Date(ymd + "T12:00:00").toLocaleDateString("ro-RO", {
+    return new Date(ymd + "T12:00:00").toLocaleDateString(lang === "en" ? "en-GB" : "ro-RO", {
       day: "numeric",
       month: "long",
       year: "numeric",
@@ -54,22 +55,30 @@ interface RitualReportRow {
 function fmtCell(s: RitualReportCaretakerCell): string {
   return s.eligible === 0 ? "—" : `${s.done}/${s.eligible}`;
 }
-function cellTitle(s: RitualReportCaretakerCell): string {
-  return s.eligible === 0
-    ? "Nicio zi eligibilă"
-    : `Bifat: ${s.done} · Lipsă: ${s.missed} (din ${s.eligible} zile)`;
-}
-
-const QUICK_TEMPLATES = [
-  { title: "Duș de seară", timeLabel: "19:00", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 10 },
-  { title: "Spălat pe dinți", timeLabel: "19:20", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 5 },
-  { title: "Rugăciune / moment de liniște", timeLabel: "19:25", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 5 },
-  { title: "Somn", timeLabel: "19:30", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 10 },
-] as const;
-
 export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCardProps) {
   const { t, lang } = useLanguage();
   const rt = t.app.rituals;
+
+  const quickTemplates = useMemo(
+    () =>
+      [
+        { title: rt.templateEveningShower, timeLabel: "19:00", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 10 },
+        { title: rt.templateBrushTeeth, timeLabel: "19:20", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 5 },
+        { title: rt.templateQuiet, timeLabel: "19:25", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 5 },
+        { title: rt.templateSleep, timeLabel: "19:30", responsibleParent: "both" as RitualResponsibleParent, reminderLeadMinutes: 10 },
+      ] as const,
+    [rt]
+  );
+
+  function cellTitle(s: RitualReportCaretakerCell): string {
+    return s.eligible === 0
+      ? rt.noEligible
+      : inter(rt.cellTitleLine, {
+          done: String(s.done),
+          missed: String(s.missed),
+          eligible: String(s.eligible),
+        });
+  }
   const [rituals, setRituals] = useState<FamilyRitual[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -104,7 +113,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         return;
       }
     setRituals(Array.isArray(json.rituals) ? json.rituals : []);
-  }, []);
+  }, [rt.errorLoad]);
 
   const fetchCheckins = useCallback(async (date: string) => {
     const res = await fetch(`/api/rituals/checkins?date=${encodeURIComponent(date)}`);
@@ -297,7 +306,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
               onChange={(e) => setSelectedDate(e.target.value)}
               className="app-native-input px-2 py-1 text-xs"
             />
-            <span className="text-[11px] text-stone-500">{roDate(selectedDate)}</span>
+            <span className="text-[11px] text-stone-500">{localeLongDate(selectedDate, lang)}</span>
           </div>
         </div>
 
@@ -366,7 +375,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                         type="button"
                         onClick={() => startEditName(r.id, r.title)}
                         className="opacity-0 group-hover/name:opacity-100 rounded p-0.5 text-stone-300 hover:text-stone-600 transition shrink-0"
-                        title={lang === "en" ? "Rename" : "Redenumește"}
+                        title={rt.renameTitle}
                       >
                         <Pencil className="w-3 h-3" />
                       </button>
@@ -394,7 +403,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                     <option value="mama">{parent2Name}</option>
                   </select>
                   <select value={String(r.reminderLeadMinutes ?? 0)} onChange={(e) => updateLead(r.id, Number(e.target.value))}
-                    className="app-native-input px-2 py-0.5 text-xs" title="Reminder">
+                    className="app-native-input px-2 py-0.5 text-xs" title={rt.reminderTitle}>
                     <option value="0">{rt.atHour}</option>
                     <option value="5">-5 min</option>
                     <option value="10">-10 min</option>
@@ -418,7 +427,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
             </button>
             <span className="text-stone-300 text-xs">·</span>
             <span className="text-xs text-stone-400">{rt.quickTemplates}</span>
-            {QUICK_TEMPLATES.map((tpl) => {
+            {quickTemplates.map((tpl) => {
               const exists = rituals.some((r) => r.title.trim().toLowerCase() === tpl.title.trim().toLowerCase());
               return (
                 <button key={tpl.title} type="button" onClick={() => addTemplate(tpl)} disabled={saving || exists}
@@ -487,8 +496,8 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
         {showReport ? (
           <div className="border-t border-stone-100 px-3 pb-4 pt-3 space-y-3">
             <p className="text-[11px] leading-relaxed text-stone-500">
-              Numărăm doar zilele cu program. O zi e „eligibilă" dacă responsabilul setat se potrivește cu cine e trecut cu copilul.{" "}
-              <strong className="text-stone-600">bifat / zile eligibile</strong>.
+              {rt.reportDesc}{" "}
+              <strong className="text-stone-600">{rt.reportBold}</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-2">
@@ -531,7 +540,7 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                             <span className="font-medium">{row.title}</span>
                             {!row.active ? <span className="ml-1 text-[10px] text-stone-400">{rt.inactive}</span> : null}
                             <span className="block text-[10px] text-stone-400 mt-0.5">
-                              {row.responsibleParent === "both" ? "amândoi" : row.responsibleParent === "tata" ? parent1Name : parent2Name}
+                              {row.responsibleParent === "both" ? rt.both : row.responsibleParent === "tata" ? parent1Name : parent2Name}
                             </span>
                           </td>
                           <td className="py-2 px-1 text-center font-mono text-stone-700" title={cellTitle(row.byCaretaker.tata)}>{fmtCell(row.byCaretaker.tata)}</td>
@@ -547,7 +556,9 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                   </table>
                 </div>
                 {reportDaysWithSchedule != null && reportDaysWithSchedule > 0 ? (
-                  <p className="text-[11px] text-stone-400">{reportDaysWithSchedule} zile cu program în calendar.</p>
+                  <p className="text-[11px] text-stone-400">
+                    {inter(rt.daysWithScheduleCount, { n: String(reportDaysWithSchedule) })}
+                  </p>
                 ) : null}
               </>
             ) : null}

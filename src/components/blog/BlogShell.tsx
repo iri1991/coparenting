@@ -2,11 +2,8 @@ import { ReactNode } from "react";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { landingDisplay, landingSans } from "@/components/landing/landingFonts";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-
 export function BlogShell({ children }: { children: ReactNode }) {
   return (
-    <LanguageProvider>
     <div
       className={`${landingDisplay.variable} ${landingSans.variable} landing-sans relative min-h-screen overflow-hidden bg-[#fffaf5] text-stone-900`}
     >
@@ -21,6 +18,5 @@ export function BlogShell({ children }: { children: ReactNode }) {
       <main>{children}</main>
       <LandingFooter />
     </div>
-    </LanguageProvider>
   );
 }

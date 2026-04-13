@@ -9,8 +9,8 @@ import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import type { ScheduleEvent } from "@/types/events";
 import type { HomeDashboardTab } from "@/lib/deep-links";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-
+import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 const ADD_MODAL_OPEN_DELAY_MS = 1200;
 const CHAT_UNREAD_POLL_MS = 25000;
 
@@ -38,9 +38,9 @@ export function LoggedInLayout({
   initialEvents,
   currentUserId,
   userName,
-  parent1Name = "Părinte 1",
-  parent2Name = "Părinte 2",
-  childName = "copilul",
+  parent1Name,
+  parent2Name,
+  childName,
   childId,
   residenceNames = ["Tunari", "Otopeni"],
   initialUnreadCount = 0,
@@ -53,6 +53,13 @@ export function LoggedInLayout({
   initialDashboardTab,
   initialCalendarDate,
 }: LoggedInLayoutProps) {
+  const { t } = useLanguage();
+  const sh = t.app.shell;
+  const dash = t.app.dashboard;
+  const resolvedParent1 = parent1Name?.trim() || dash.unknownParent1;
+  const resolvedParent2 = parent2Name?.trim() || dash.unknownParent2;
+  const resolvedChild = childName?.trim() || dash.childDefault;
+
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingPlanHandled, setPendingPlanHandled] = useState(false);
   const [blockedDaysModalOpen, setBlockedDaysModalOpen] = useState(false);
@@ -132,7 +139,6 @@ export function LoggedInLayout({
   }, []);
 
   return (
-    <LanguageProvider>
     <div className="app-native-shell">
       <MobileAppTopBar onAddClick={triggerAdd} onLockClick={triggerBlocked} />
 
@@ -143,7 +149,7 @@ export function LoggedInLayout({
               <AppLogo size={38} linkToHome className="h-10 w-10" />
               <div>
                 <p className="text-[15px] font-semibold tracking-tight text-stone-900">HomeSplit</p>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">spațiul familiei</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">{sh.familySpace}</p>
               </div>
             </div>
 
@@ -160,8 +166,8 @@ export function LoggedInLayout({
                   triggerAdd();
                 }}
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_14px_30px_rgba(191,106,75,0.22)]"
-                title="Adaugă eveniment"
-                aria-label="Adaugă eveniment"
+                title={sh.addEvent}
+                aria-label={sh.addEvent}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -171,8 +177,8 @@ export function LoggedInLayout({
                 type="button"
                 onClick={() => setBlockedDaysModalOpen(true)}
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700"
-                title="Zile blocate"
-                aria-label="Zile blocate"
+                title={sh.blockedDays}
+                aria-label={sh.blockedDays}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -181,8 +187,14 @@ export function LoggedInLayout({
               <Link
                 href="/chat"
                 className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700"
-                title={unreadCount > 0 ? `Chat – ${unreadCount} mesaje necitite` : "Chat cu celălalt părinte"}
-                aria-label={unreadCount > 0 ? `${unreadCount} mesaje necitite` : "Chat"}
+                title={
+                  unreadCount > 0
+                    ? inter(sh.chatUnreadTitle, { n: String(unreadCount) })
+                    : sh.chatWithCoparent
+                }
+                aria-label={
+                  unreadCount > 0 ? inter(sh.chatUnreadAria, { n: String(unreadCount) }) : sh.chatLinkAria
+                }
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -206,8 +218,8 @@ export function LoggedInLayout({
               <Link
                 href="/account"
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700"
-                title="Cont și date"
-                aria-label="Cont și date"
+                title={sh.accountData}
+                aria-label={sh.accountData}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -216,8 +228,8 @@ export function LoggedInLayout({
               <a
                 href="/api/auth/signout"
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700"
-                title="Ieșire"
-                aria-label="Ieșire"
+                title={sh.signOut}
+                aria-label={sh.signOut}
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -234,9 +246,9 @@ export function LoggedInLayout({
             initialEvents={initialEvents}
             currentUserId={currentUserId}
             userName={userName}
-            parent1Name={parent1Name}
-            parent2Name={parent2Name}
-            childName={childName}
+            parent1Name={resolvedParent1}
+            parent2Name={resolvedParent2}
+            childName={resolvedChild}
             childId={childId}
             residenceNames={residenceNames}
             modalOpen={modalOpen}
@@ -256,6 +268,5 @@ export function LoggedInLayout({
 
       <MobileQuickNav />
     </div>
-    </LanguageProvider>
   );
 }

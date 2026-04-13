@@ -3,6 +3,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 import { format, parseISO } from "date-fns";
 import { ro } from "date-fns/locale";
+import { enGB } from "date-fns/locale";
 import { X, MapPin, Calendar, Clock, Lock } from "lucide-react";
 import type { ScheduleEvent } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
@@ -28,6 +29,10 @@ export function EventViewModal({
   blockedPeriods = [],
 }: EventViewModalProps) {
   const labels = useFamilyLabels();
+  const { t, lang } = useLanguage();
+  const ev = t.app.events;
+  const dateLocale = lang === "en" ? enGB : ro;
+
   if (!isOpen || !event) return null;
 
   const eventDate = event.date;
@@ -41,8 +46,6 @@ export function EventViewModal({
       ? event.locationLabel.trim()
       : labels.locationLabels[event.location];
   const hasTime = !!(event.startTime || event.endTime);
-  const { t } = useLanguage();
-  const ev = t.app.events;
 
   const timeLabel = event.startTime && event.endTime
       ? `${event.startTime} – ${event.endTime}`
@@ -81,7 +84,7 @@ export function EventViewModal({
               />
             </span>
             <div className="min-w-0 flex-1 pr-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">Detalii eveniment</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{ev.viewTitle}</p>
               <h2
                 id="event-view-title"
                 className="text-lg font-semibold leading-snug text-stone-900"
@@ -89,7 +92,7 @@ export function EventViewModal({
                 {title}
               </h2>
               <p className="mt-1 text-sm text-stone-500">
-                {format(parseISO(event.date), "EEEE, d MMMM yyyy", { locale: ro })}
+                {format(parseISO(event.date), "EEEE, d MMMM yyyy", { locale: dateLocale })}
               </p>
             </div>
           </div>
@@ -102,10 +105,10 @@ export function EventViewModal({
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Data
+                {ev.dateLabel}
               </p>
               <p className="text-sm font-medium">
-                {format(parseISO(event.date), "d MMMM yyyy", { locale: ro })}
+                {format(parseISO(event.date), "d MMMM yyyy", { locale: dateLocale })}
               </p>
             </div>
           </div>
@@ -117,7 +120,7 @@ export function EventViewModal({
               </span>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                  Orar
+                  {ev.schedule}
                 </p>
                 <p className="text-sm font-medium">{timeLabel}</p>
               </div>
@@ -130,7 +133,7 @@ export function EventViewModal({
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Locație
+                {ev.locationLabel}
               </p>
               <p className="text-sm font-medium">{locationLabel}</p>
             </div>
@@ -139,7 +142,7 @@ export function EventViewModal({
           {event.notes?.trim() && (
             <div className="rounded-[1.35rem] bg-white/72 px-4 py-3">
               <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Note
+                {ev.notesLabel}
               </p>
               <p className="whitespace-pre-wrap text-sm text-stone-700">
                 {event.notes.trim()}
@@ -151,7 +154,7 @@ export function EventViewModal({
             <div className="rounded-[1.35rem] bg-[#fff5eb] px-4 py-3">
               <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#9f5a40]">
                 <Lock className="w-3.5 h-3.5" />
-                Zi blocată
+                {ev.blockedDay}
               </p>
               <ul className="space-y-2">
                 {blocksOnThisDay.map((b) => (
@@ -175,7 +178,7 @@ export function EventViewModal({
               onClick={onClose}
               className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 touch-manipulation"
             >
-              Închide
+              {ev.close}
             </button>
             {onEdit && canEdit && (
               <button
@@ -186,7 +189,7 @@ export function EventViewModal({
                 }}
                 className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold active:scale-[0.98] touch-manipulation"
               >
-                Editează
+                {ev.edit}
               </button>
             )}
           </div>

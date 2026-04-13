@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Sparkles, MapPin, Loader2, Check, X, Trash2, Info } from "lucide-react";
 import { normalizeSuggestionTitleKey } from "@/lib/suggestion-title";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { inter } from "@/lib/i18n/interpolate";
 import { ActivityIdeaDetailModal } from "@/components/ActivityIdeaDetailModal";
 
 interface ActivityRecommendationsTabProps {
@@ -56,9 +57,9 @@ function addCalendarDays(ymd: string, days: number): string {
   return `${y2}-${m2}-${d2}`;
 }
 
-function formatRoDate(ymd: string): string {
+function formatViewerDate(ymd: string, locale: string): string {
   try {
-    return new Date(ymd + "T12:00:00").toLocaleDateString("ro-RO", {
+    return new Date(ymd + "T12:00:00").toLocaleDateString(locale, {
       weekday: "short",
       day: "numeric",
       month: "short",
@@ -87,6 +88,7 @@ function migrateItems(raw: unknown): IdeaItem[] {
 export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: ActivityRecommendationsTabProps) {
   const { t } = useLanguage();
   const ideas = t.app.ideas;
+  const dateLocale = t.lang === "en" ? "en-GB" : "ro-RO";
   const [userId, setUserId] = useState<string | null>(null);
   const [board, setBoard] = useState<IdeaBoard | null>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -375,11 +377,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
             <Sparkles className="h-5 w-5" aria-hidden />
           </span>
           <div>
-            <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">Recomandări</h2>
-            <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-              Sugestii pentru zilele tale cu copilul din calendar (și idei „împreună” când există astfel de zile). La
-              Accept alegi ziua. Fără referințe la celălalt părinte. Detalii la click; ștergere manuală sau în masă.
-            </p>
+            <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">{ideas.title}</h2>
+            <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{ideas.desc}</p>
           </div>
         </div>
         <button
@@ -419,13 +418,15 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
 
       {hasBoard && selectedIds.length > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-stone-100/90 dark:bg-stone-800/80 px-3 py-2 text-sm">
-          <span className="text-stone-600 dark:text-stone-300">{selectedIds.length} selectate</span>
+          <span className="text-stone-600 dark:text-stone-300">
+            {inter(ideas.selectedCount, { n: String(selectedIds.length) })}
+          </span>
           <button
             type="button"
             onClick={() => deleteByIds(selectedIds)}
             className="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700"
           >
-            Șterge selectate
+            {ideas.deleteSelected}
           </button>
           <button type="button" onClick={clearSelection} className="text-xs text-stone-500 hover:underline">
             {ideas.clearSelection}
@@ -476,8 +477,8 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                   role="button"
                   tabIndex={0}
                   onClick={(e) => {
-                    const t = e.target as HTMLElement;
-                    if (t.closest("button, input[type='checkbox'], a")) return;
+                    const el = e.target as HTMLElement;
+                    if (el.closest("button, input[type='checkbox'], a")) return;
                     openDetail(s.title);
                   }}
                   onKeyDown={(e) => {
@@ -495,24 +496,24 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                         onChange={() => toggleSelect(s.id)}
                         onClick={(e) => e.stopPropagation()}
                         className="mt-1 rounded border-stone-300 shrink-0"
-                        aria-label={`Selectează ${s.title}`}
+                        aria-label={inter(ideas.selectIdeaAria, { title: s.title })}
                       />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start gap-2 flex-wrap">
                           <p className="font-medium text-stone-900 dark:text-stone-100">{s.title}</p>
                           <span className="inline-flex items-center gap-0.5 text-[11px] text-violet-600 dark:text-violet-400 shrink-0">
                             <Info className="h-3.5 w-3.5" aria-hidden />
-                            detalii
+                            {ideas.details}
                           </span>
                         </div>
                         {st === "accepted" && (
                           <span className="mt-1 inline-flex items-center gap-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:text-emerald-200">
-                            <Check className="h-3.5 w-3.5" /> Adăugată la activități
+                            <Check className="h-3.5 w-3.5" /> {ideas.added}
                           </span>
                         )}
                         {st === "rejected" && (
                           <span className="mt-1 inline-flex items-center gap-1 rounded-lg bg-stone-200/90 dark:bg-stone-700 px-2 py-0.5 text-xs font-medium text-stone-600 dark:text-stone-300">
-                            <X className="h-3.5 w-3.5" /> Refuzată
+                            <X className="h-3.5 w-3.5" /> {ideas.rejected}
                           </span>
                         )}
                       </div>
@@ -530,7 +531,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                             className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50 touch-manipulation"
                           >
                             {busy(i, "accept") ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
-                            Accept
+                            {ideas.accept}
                           </button>
                           <button
                             type="button"
@@ -542,7 +543,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                             className="inline-flex items-center gap-1 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-1.5 text-xs font-medium text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-700 disabled:opacity-50 touch-manipulation"
                           >
                             {busy(i, "reject") ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" />}
-                            Refuz
+                            {ideas.reject}
                           </button>
                         </>
                       )}
@@ -568,7 +569,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                     <div className="mt-2 pl-7 space-y-1" onClick={(e) => e.stopPropagation()}>
                       {canSaveToCalendar ? (
                         <label className="flex flex-wrap items-center gap-2 text-[11px] text-stone-600 dark:text-stone-400">
-                          <span className="shrink-0">Salvează pentru ziua:</span>
+                          <span className="shrink-0">{ideas.saveFor}</span>
                           <select
                             value={acceptDayByItemId[s.id] ?? availableViewerDates[0]}
                             onChange={(e) =>
@@ -578,16 +579,13 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
                           >
                             {availableViewerDates.map((d) => (
                               <option key={d} value={d}>
-                                {formatRoDate(d)} ({d})
+                                {formatViewerDate(d, dateLocale)} ({d})
                               </option>
                             ))}
                           </select>
                         </label>
                       ) : (
-                        <p className="text-[11px] text-amber-700 dark:text-amber-300">
-                          Adaugă în calendar zilele în care ești cu copilul (sau zile „împreună”) ca să poți salva
-                          ideea.
-                        </p>
+                        <p className="text-[11px] text-amber-700 dark:text-amber-300">{ideas.noDateHint}</p>
                       )}
                     </div>
                   )}
@@ -603,7 +601,7 @@ export function ActivityRecommendationsTab({ activityCity, onActivityLogged }: A
 
       {!hasBoard && hydrated && (
         <p className="mt-4 text-sm text-stone-500 dark:text-stone-400 text-center py-6">
-          Apasă „Adaugă sugestii AI” pentru a genera idei. Ele vor rămâne salvate pe acest dispozitiv pentru contul tău.
+          {ideas.empty}
         </p>
       )}
 

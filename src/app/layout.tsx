@@ -17,6 +17,7 @@ import {
   serviceArea,
 } from "@/lib/seo";
 import { PwaRuntime } from "@/components/PwaRuntime";
+import { AppLanguageRoot } from "@/components/AppLanguageRoot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -237,10 +238,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <SessionProvider>
-          <UpgradeModalProvider>
-            <PwaRuntime />
-            {children}
-          </UpgradeModalProvider>
+          <AppLanguageRoot>
+            <UpgradeModalProvider>
+              <PwaRuntime />
+              {children}
+            </UpgradeModalProvider>
+          </AppLanguageRoot>
         </SessionProvider>
       </body>
     </html>
