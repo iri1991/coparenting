@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { endOfMonth, format, parse, startOfMonth } from "date-fns";
-import { Check, ChevronDown, ChevronUp, Circle, CheckCircle2, Plus, Trash2, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Circle, CheckCircle2, Pencil, Plus, Trash2, X } from "lucide-react";
 import type { FamilyRitual, RitualResponsibleParent } from "@/types/ritual";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -68,7 +68,7 @@ const QUICK_TEMPLATES = [
 ] as const;
 
 export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCardProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const rt = t.app.rituals;
   const [rituals, setRituals] = useState<FamilyRitual[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,6 +88,8 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
 
   // Zone 4: report
   const [showReport, setShowReport] = useState(false);
+  const [editingNameId, setEditingNameId] = useState<string | null>(null);
+  const [editingNameValue, setEditingNameValue] = useState("");
   const [reportMonth, setReportMonth] = useState(ymBucharestNow);
   const [reportLoading, setReportLoading] = useState(false);
   const [reportRows, setReportRows] = useState<RitualReportRow[] | null>(null);
@@ -232,6 +234,19 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
     await fetch("/api/rituals", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: ritualId, reminderLeadMinutes }) });
   }
 
+  function startEditName(ritualId: string, currentTitle: string) {
+    setEditingNameId(ritualId);
+    setEditingNameValue(currentTitle);
+  }
+
+  async function saveEditName(ritualId: string) {
+    const title = editingNameValue.trim();
+    if (!title) { setEditingNameId(null); return; }
+    setRituals((prev) => prev.map((r) => r.id === ritualId ? { ...r, title } : r));
+    setEditingNameId(null);
+    await fetch("/api/rituals", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: ritualId, title }) });
+  }
+
   async function toggleCompleted(ritualId: string, checked: boolean) {
     if (checked) {
       const res = await fetch("/api/rituals/checkins", {
@@ -332,14 +347,38 @@ export function SharedRitualsCard({ parent1Name, parent2Name }: SharedRitualsCar
                 className="rounded-[1rem] border border-white/70 bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(28,25,23,0.04)]"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-medium text-stone-800 truncate">{rt.title}</span>
+                  {editingNameId === r.id ? (
+                    <input
+                      autoFocus
+                      value={editingNameValue}
+                      onChange={(e) => setEditingNameValue(e.target.value)}
+                      onBlur={() => saveEditName(r.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") { e.preventDefault(); saveEditName(r.id); }
+                        if (e.key === "Escape") { setEditingNameId(null); }
+                      }}
+                      className="app-native-input flex-1 px-2 py-1 text-sm font-medium"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-1.5 min-w-0 group/name">
+                      <span className="text-sm font-medium text-stone-800 truncate">{r.title}</span>
+                      <button
+                        type="button"
+                        onClick={() => startEditName(r.id, r.title)}
+                        className="opacity-0 group-hover/name:opacity-100 rounded p-0.5 text-stone-300 hover:text-stone-600 transition shrink-0"
+                        title={lang === "en" ? "Rename" : "Redenumește"}
+                      >
+                        <Pencil className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
                   <div className="flex items-center gap-1 shrink-0">
                     <button type="button" onClick={() => moveRitual(r.id, -1)} disabled={idx === 0}
                       className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title={rt.moveUp}>↑</button>
                     <button type="button" onClick={() => moveRitual(r.id, 1)} disabled={idx === activeRituals.length - 1}
                       className="rounded px-1.5 py-1 text-xs text-stone-400 hover:text-stone-700 disabled:opacity-30" title={rt.moveDown}>↓</button>
                     <button type="button" onClick={() => removeRitual(r.id)}
-                      className="rounded p-1 text-stone-300 hover:text-red-500 transition" title="Șterge">
+                      className="rounded p-1 text-stone-300 hover:text-red-500 transition" title={rt.delete}>
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
