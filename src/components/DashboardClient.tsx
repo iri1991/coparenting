@@ -23,6 +23,7 @@ import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
 
 const POLL_INTERVAL_MS = 15000;
@@ -94,6 +95,7 @@ export function DashboardClient({
   }
   const initialCalDate = parseYmdLocal(initialCalendarDate);
   const resolvedInitialTab = initialDashboardTab ?? "program";
+  const { t } = useLanguage();
 
   const [events, setEvents] = useState<ScheduleEvent[]>(initialEvents);
   const [currentDate, setCurrentDate] = useState(() => initialCalDate ?? new Date());
@@ -677,7 +679,7 @@ export function DashboardClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          Program
+          {t.app.tabs.program}
         </button>
         <button
           type="button"
@@ -689,9 +691,8 @@ export function DashboardClient({
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
-          title="Ritualuri comune și raport"
         >
-          Rutine
+          {t.app.tabs.routines}
         </button>
         <button
           type="button"
@@ -703,10 +704,9 @@ export function DashboardClient({
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
-          title="Rapoarte și resurse"
         >
-          <span className="sm:hidden">Rapoarte</span>
-          <span className="hidden sm:inline">Rapoarte & resurse</span>
+          <span className="sm:hidden">{t.app.tabs.hubShort}</span>
+          <span className="hidden sm:inline">{t.app.tabs.hubLong}</span>
         </button>
         <button
           type="button"
@@ -718,9 +718,8 @@ export function DashboardClient({
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
-          title="Recomandări AI"
         >
-          Idei
+          {t.app.tabs.ideas}
         </button>
       </div>
       {activeTab === "hub" && (

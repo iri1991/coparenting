@@ -558,17 +558,18 @@ export function ConfigClient({
     }
   }
 
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
+  const cfg = t.app.config;
 
   return (
     <div className="space-y-8">
       <div className="rounded-xl border border-[#ead9c8] bg-[#fff7ee] px-3 py-2 text-xs text-stone-600">
-        Modificările se salvează automat în această pagină.
+        {cfg.autoSave}
       </div>
       <div
         className="app-native-surface rounded-[1.6rem] p-1 flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
-        aria-label="Secțiuni configurare familie"
+        aria-label={lang === "en" ? "Family settings sections" : "Secțiuni configurare familie"}
       >
         <button
           type="button"
@@ -581,7 +582,7 @@ export function ConfigClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          General
+          {cfg.tabs.general}
         </button>
         <button
           type="button"
@@ -594,7 +595,7 @@ export function ConfigClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          Copil
+          {cfg.tabs.child}
         </button>
         <button
           type="button"
@@ -607,7 +608,7 @@ export function ConfigClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          Locuințe
+          {cfg.tabs.residences}
         </button>
         <button
           type="button"
@@ -620,7 +621,7 @@ export function ConfigClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          Sănătate
+          {cfg.tabs.health}
         </button>
         <button
           type="button"
@@ -633,65 +634,63 @@ export function ConfigClient({
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          Altele
+          {cfg.tabs.other}
         </button>
       </div>
       {activeTab === "general" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">Configurare inițială</h2>
+        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3">{cfg.general.title}</h2>
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-          Numele familiei și al părinților – folosit în calendar și notificări.
+          {cfg.general.subtitle}
         </p>
         <div className="space-y-3">
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Nume familie (opțional)</label>
+            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">{cfg.general.familyName}</label>
             <input
               type="text"
               value={family.name}
               onChange={(e) => setFamily((f) => ({ ...f, name: e.target.value }))}
               onBlur={() => saveFamily()}
-              placeholder="Ex. Familia Popescu"
+              placeholder={cfg.general.familyNamePlaceholder}
               className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Primul părinte</label>
+            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">{cfg.general.parent1}</label>
             <input
               type="text"
               value={family.parent1Name}
               onChange={(e) => setFamily((f) => ({ ...f, parent1Name: e.target.value }))}
               onBlur={() => saveFamily()}
-              placeholder="Nume"
+              placeholder={cfg.general.namePlaceholder}
               className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Al doilea părinte</label>
+            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">{cfg.general.parent2}</label>
             <input
               type="text"
               value={family.parent2Name}
               onChange={(e) => setFamily((f) => ({ ...f, parent2Name: e.target.value }))}
               onBlur={() => saveFamily()}
-              placeholder="Nume"
+              placeholder={cfg.general.namePlaceholder}
               className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Oraș (sugestii AI & vreme)</label>
+            <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">{cfg.general.city}</label>
             <input
               type="text"
               value={family.activityCity ?? ""}
               onChange={(e) => setFamily((f) => ({ ...f, activityCity: e.target.value }))}
               onBlur={() => saveFamily()}
-              placeholder="Ex. București, Cluj-Napoca"
+              placeholder={cfg.general.cityPlaceholder}
               className="w-full px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
             />
-            <p className="text-[11px] text-stone-400 mt-1">
-              Folosit dacă nu acorzi acces la locație pe telefon. Poți completa și data nașterii copilului la „Detalii”.
-            </p>
+            <p className="text-[11px] text-stone-400 mt-1">{cfg.general.cityHint}</p>
           </div>
           <div>
-            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">Tip de familie</span>
+            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">{cfg.general.familyType}</span>
             <div className="space-y-2">
               <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 dark:border-stone-600 p-3 has-[:checked]:border-[#d48a63] dark:has-[:checked]:border-[#bf6a4b]">
                 <input
@@ -723,9 +722,9 @@ export function ConfigClient({
                   }}
                 />
                 <span>
-                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">Locuim împreună</span>
+                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">{cfg.general.together}</span>
                   <span className="block text-xs text-stone-500 dark:text-stone-400">
-                    Fără predare/primire automată; locuințele sunt opționale (ex. bunici, vacanță).
+                    {cfg.general.togetherDesc}
                   </span>
                 </span>
               </label>
@@ -759,9 +758,9 @@ export function ConfigClient({
                   }}
                 />
                 <span>
-                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">Două locuințe (custodie / handover)</span>
+                  <span className="block text-sm font-medium text-stone-800 dark:text-stone-100">{cfg.general.twoHomes}</span>
                   <span className="block text-xs text-stone-500 dark:text-stone-400">
-                    Adaugă cel puțin o locuință pentru calendar; propuneri și schimb de perioadă ca înainte.
+                    {cfg.general.twoHomesDesc}
                   </span>
                 </span>
               </label>
@@ -770,7 +769,7 @@ export function ConfigClient({
 
           {/* Language preference */}
           <div className="mt-4 border-t border-stone-100 pt-4">
-            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">Limbă / Language</span>
+            <span className="block text-xs text-stone-500 dark:text-stone-400 mb-2">{cfg.general.language}</span>
             <div className="inline-flex items-center gap-1 rounded-[1rem] border border-stone-200 bg-stone-50 p-1">
               {(["ro", "en"] as Lang[]).map((l) => (
                 <button

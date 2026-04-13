@@ -8,7 +8,7 @@ import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 
 type ParentType = "tata" | "mama" | null;
 
@@ -40,6 +40,7 @@ export function AccountPageShell({
 }: AccountPageShellProps) {
   const [activeTab, setActiveTab] = useState<"cont" | "config" | "istoric">("cont");
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -66,7 +67,7 @@ export function AccountPageShell({
         }`}
       >
         <User className="h-4 w-4 shrink-0" aria-hidden />
-        Cont
+        {t.app.account.tabs.account}
       </button>
       {configData && (
         <button
@@ -81,7 +82,7 @@ export function AccountPageShell({
           }`}
         >
           <Settings className="h-4 w-4 shrink-0" aria-hidden />
-          Configurare
+          {t.app.account.tabs.config}
         </button>
       )}
       {configData && (
@@ -97,7 +98,7 @@ export function AccountPageShell({
           }`}
         >
           <History className="h-4 w-4 shrink-0" aria-hidden />
-          Istoric
+          {t.app.account.tabs.history}
         </button>
       )}
     </nav>
@@ -124,17 +125,17 @@ export function AccountPageShell({
             <AppLogo size={32} linkToHome className="h-8 w-8" />
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
-                Setări familie
+                {t.lang === "en" ? "Family settings" : "Setări familie"}
               </p>
               <h1 className="truncate text-lg font-semibold text-stone-900">
-                Cont și date
+                {t.lang === "en" ? "Account & data" : "Cont și date"}
               </h1>
               <p className="text-xs text-stone-500">
                 {activeTab === "cont"
-                  ? "Profil, parolă, export"
+                  ? (t.lang === "en" ? "Profile, password, export" : "Profil, parolă, export")
                   : activeTab === "config"
-                    ? "Configurare familie"
-                    : "Istoric acțiuni"}
+                    ? (t.lang === "en" ? "Family settings" : "Configurare familie")
+                    : (t.lang === "en" ? "Action history" : "Istoric acțiuni")}
               </p>
             </div>
           </div>

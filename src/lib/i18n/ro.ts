@@ -461,6 +461,8 @@ export const ro = {
       program: "Program",
       routines: "Rutine",
       hub: "Hub",
+      hubShort: "Rapoarte",
+      hubLong: "Rapoarte & resurse",
       ideas: "Idei",
     },
     config: {

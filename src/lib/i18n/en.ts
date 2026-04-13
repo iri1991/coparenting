@@ -463,6 +463,8 @@ export const en: Translations = {
       program: "Schedule",
       routines: "Routines",
       hub: "Hub",
+      hubShort: "Reports",
+      hubLong: "Reports & resources",
       ideas: "Ideas",
     },
     config: {
