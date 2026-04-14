@@ -107,6 +107,407 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "primele-5-minute-dupa-preluare-fara-interogatoriu",
+    enSlug: "the-first-5-minutes-after-pickup-without-an-interrogation",
+    title: "Primele 5 minute după preluare, fără interogatoriu",
+    summary:
+      "După școală, grădiniță sau o schimbare între case, reconectarea merge mai bine când începi cu atenție comună și prezență, nu cu o serie de întrebări puse din reflex.",
+    intro:
+      "Mulți părinți simt nevoia să recupereze imediat tot ce nu au văzut: cum a fost, ce ai mâncat, ai dormit, cine te-a supărat, ce a spus doamna, cum a fost la cealaltă casă. Intenția e firească. Dar pentru copil, primele minute după o preluare sunt adesea un moment de readaptare, nu de raport. Harvard Center on the Developing Child descrie interacțiunile bune ca pe un schimb scurt și receptiv: observi spre ce se întoarce copilul și intri acolo cu el, înainte să ceri mult limbaj sau organizare.",
+    image: {
+      src: "/blog/reunion-five-minutes.svg",
+      alt: "Părinte și copil reconectându-se calm imediat după preluare",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-14",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce primul contact contează atât de mult",
+        paragraphs: [
+          "În modelul serve and return, primul pas este să observi ce semnale dă copilul și unde îi este deja atenția. Nu ai nevoie de un moment lung. Ai nevoie să vezi dacă se uită la tine, la sticla de apă, la geantă, la o piatră găsită pe drum sau dacă, pur și simplu, caută să meargă tăcut lângă tine.",
+          "Asta scade presiunea. În loc să îi ceri imediat să treacă dintr-o lume în alta prin explicații, îi oferi o punte mai simplă: mai întâi ne sincronizăm puțin, apoi vorbim. Pentru mulți copii, această ordine face diferența dintre apropiere și rezistență.",
+        ],
+      },
+      {
+        title: "Ce poți face în primele minute",
+        paragraphs: [
+          "Harvard recomandă să răspunzi la semnalul copilului prin sprijin și încurajare. Tradus în viața reală, asta înseamnă să intri lângă ce aduce el, nu să schimbi imediat direcția spre agenda adultului.",
+        ],
+        bullets: [
+          "Spune ceva scurt despre ce vedeți amândoi: ai găsit o frunză mare sau văd că ți-ai luat geanta singur.",
+          "Oferă contact simplu, nu obligatoriu: un zâmbet, o mână, o îmbrățișare scurtă dacă o caută.",
+          "Lasă câteva zeci de secunde fără întrebări, mai ales dacă pare obosit sau plin.",
+          "Dacă vrei informații practice, așteaptă până după apă, gustare sau intrarea în mașină/casă.",
+        ],
+      },
+      {
+        title: "Ce întrebare ajută mai mult decât zece",
+        paragraphs: [
+          "Nu este nevoie să taci tot drumul. Dar ajută să alegi o singură întrebare ușoară, nu un chestionar. O întrebare largă și calmă lasă copilului loc să intre în conversație în ritmul lui.",
+        ],
+        bullets: [
+          "Care a fost partea ta preferată de azi?",
+          "Ce simți că ai nevoie acum: apă, liniște, să-mi povestești sau doar să stăm puțin?",
+          "Vrei să-mi arăți ceva înainte să vorbim?",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Când primele minute devin control de informație, copilul poate simți rapid că trebuie să performeze exact când sistemul lui încă se reașază. Asta nu înseamnă că nu îți pasă. Înseamnă că ordinea contează.",
+        ],
+        bullets: [
+          "Nu începe cu cinci întrebări la rând imediat ce l-ai văzut.",
+          "Nu cere rezumat emoțional în vârf de oboseală: și cum te-ai simțit exact acolo?",
+          "Nu interpreta tăcerea ca respingere; uneori este doar tranziție.",
+          "Nu folosi primele minute ca să verifici ce s-a întâmplat în cealaltă casă.",
+        ],
+      },
+      {
+        title: "Semnul că merge",
+        paragraphs: [
+          "Copilul începe să vină spre tine mai moale: arată ceva, respiră mai jos, vorbește puțin mai ușor sau acceptă să tacă fără tensiune. Nu pentru că ai scos informația potrivită, ci pentru că ai construit din nou ritmul relației înainte de a cere conținut.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Primele minute după preluare merg mai bine cu atenție comună decât cu interogatoriu.",
+      "O singură întrebare calmă valorează mai mult decât un șir de verificări.",
+      "Reconectarea scurtă înaintea conversației face trecerea dintre lumi mai ușoară pentru copil.",
+    ],
+    sources: [
+      {
+        title: "How-to: 5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/videos/how-to-5-steps-for-brain-building-serve-and-return/",
+        note: "Harvard explică observarea semnalului copilului și răspunsul prin atenție comună, sprijin și schimb scurt, receptiv. Resursa este publicată la 15 mai 2019; pașii sunt rezumați și în ghidul asociat „5 Steps for Brain-Building Serve and Return”.",
+      },
+    ],
+    en: {
+      title: "The first 5 minutes after pickup, without an interrogation",
+      summary: "After school, nursery or a switch between homes, reconnection works better when you begin with shared attention and presence, not a reflex chain of questions.",
+      intro: "Many parents feel the urge to immediately recover everything they missed: how was it, what did you eat, did you sleep, who upset you, what did the teacher say, how was it at the other home. The intention makes sense. But for the child, the first minutes after pickup are often a moment of readjustment, not reporting. Harvard Center on the Developing Child describes good interactions as short, responsive exchanges: you notice where the child's attention already is and join them there before asking for lots of language or organisation.",
+      sections: [
+        {
+          title: "Why the first contact matters so much",
+          paragraphs: [
+            "In the serve and return model, the first step is noticing the child's signals and where their attention already is. You don't need a long moment. You need to see whether they're looking at you, at their water bottle, at the bag, at a stone they found on the way, or whether they simply need to walk quietly beside you.",
+            "That lowers the pressure. Instead of asking the child to move from one world into another through explanations, you offer a simpler bridge: first we sync a little, then we talk. For many children, that order makes the difference between closeness and resistance.",
+          ],
+        },
+        {
+          title: "What you can do in the first minutes",
+          paragraphs: [
+            "Harvard recommends returning the child's signal with support and encouragement. In everyday life, that means joining what they bring rather than immediately redirecting toward the adult agenda.",
+          ],
+          bullets: [
+            "Say something brief about what you're both seeing: you found a big leaf or I see you carried your bag by yourself.",
+            "Offer simple contact, not forced contact: a smile, a hand, a short hug if they seek it.",
+            "Leave a few dozen seconds without questions, especially if they seem tired or full.",
+            "If you need practical information, wait until after water, a snack or settling into the car/home.",
+          ],
+        },
+        {
+          title: "The one question that helps more than ten",
+          paragraphs: [
+            "You don't have to stay silent all the way home. But it helps to choose one easy question, not a questionnaire. One broad, calm question gives the child room to enter the conversation at their own pace.",
+          ],
+          bullets: [
+            "What was your favourite part of today?",
+            "What do you feel you need right now: water, quiet, to tell me something, or just to sit together a bit?",
+            "Do you want to show me something before we talk?",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "When the first minutes turn into information control, the child can quickly feel they have to perform exactly when their system is still settling. That doesn't mean you don't care. It means the order matters.",
+          ],
+          bullets: [
+            "Don't begin with five questions in a row the moment you see them.",
+            "Don't demand an emotional summary at the peak of tiredness: and how exactly did you feel there?",
+            "Don't interpret silence as rejection; sometimes it is simply transition.",
+            "Don't use the first minutes to check what happened at the other home.",
+          ],
+        },
+        {
+          title: "The sign it's working",
+          paragraphs: [
+            "The child starts coming toward you more softly: they show you something, breathe lower, talk a little more easily or accept silence without tension. Not because you extracted the right information, but because you rebuilt the rhythm of the relationship before asking for content.",
+          ],
+        },
+      ],
+      takeaways: [
+        "The first minutes after pickup go better with shared attention than with an interrogation.",
+        "One calm question is worth more than a string of checks.",
+        "Brief reconnection before conversation makes the shift between worlds easier for the child.",
+      ],
+    },
+  },
+  {
+    slug: "cand-copilul-iti-arata-ceva-mic-dar-important",
+    enSlug: "when-your-child-shows-you-something-small-but-important",
+    title: "Când copilul îți arată ceva mic, dar important",
+    summary:
+      "Un desen, o piatră, o glumă sau un detaliu aparent banal poate fi felul în care copilul spune „uite-mă”; răspunsul scurt și atent întărește relația mai mult decât pare.",
+    intro:
+      "Copilul vine uneori cu lucruri foarte mici: o bucată de plastilină, o frunză, o grimasă, o propoziție repetată prost sau un „mami, uită-te”. Pentru adultul ocupat, tentația este să amâne: imediat, stai puțin, lasă-mă să termin. Desigur, nu poți opri tot de fiecare dată. Dar Harvard arată că aceste mici invitații sunt „serve-uri” relaționale. Când le observi și le întorci măcar puțin, copilul primește semnalul că este văzut și că inițiativa lui contează.",
+    image: {
+      src: "/blog/little-bids-connection.svg",
+      alt: "Copil care îi arată unui părinte un detaliu mic și primește atenție caldă",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-14",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce lucrurile mici nu sunt deloc mici",
+        paragraphs: [
+          "În logica serve and return, copilul inițiază adesea contactul prin gesturi simple, nu prin discursuri mari. Arată ceva, repetă un sunet, se uită spre tine, îți atinge brațul. Aceste momente sunt mici, dar dese. Tocmai de aceea construiesc relația în viața reală.",
+          "Pentru un copil care merge între două case sau are zile încărcate, experiența de a fi observat în lucrurile mărunte aduce continuitate. Nu trebuie să fie un eveniment mare ca să se simtă aproape de tine.",
+        ],
+      },
+      {
+        title: "Cum răspunzi când nu ai timp mult",
+        paragraphs: [
+          "Harvard recomandă să întorci semnalul și să îi pui nume. Asta poate însemna doar câteva secunde de atenție reală, nu neapărat zece minute de joc.",
+        ],
+        bullets: [
+          "Oprește-te două-trei secunde și privește exact spre ce îți arată.",
+          "Pune în cuvinte: ai făcut un turn foarte înalt sau e o piatră netedă și lucioasă.",
+          "Adaugă o reacție simplă: văd de ce ai vrut să-mi arăți asta.",
+          "Dacă nu poți continua, spune clar când revii: termin mesajul și apoi stau două minute cu tine să-mi mai arăți.",
+        ],
+      },
+      {
+        title: "De ce ajută să numești, nu doar să spui bravo",
+        paragraphs: [
+          "Lauda generică nu este greșită, dar numirea exactă merge mai adânc. Când pui în cuvinte ce vede, face sau simte copilul, îl ajuți să își organizeze experiența și să simtă că tu chiar ai intrat în momentul lui.",
+          "Diferența este între un automat frumos și un răspuns care arată prezență: văd că ai pus piesa roșie chiar sus și ai încercat din nou după ce a căzut. Al doilea spune mai clar te-am observat.",
+        ],
+      },
+      {
+        title: "Ce faci dacă te caută tocmai când ești prins",
+        paragraphs: [
+          "Nu vei putea răspunde complet de fiecare dată, iar copiii pot tolera asta dacă primesc totuși un semnal clar. Partea importantă este să nu lași prea des invitația lor să cadă în gol.",
+        ],
+        bullets: [
+          "Ridică privirea și confirmă înainte de a amâna.",
+          "Spune cât durează așteptarea în limbaj concret: după ce pun farfuriile sau după ce închid apelul.",
+          "Revenirea contează; dacă ai promis două minute, întoarce-te la ele.",
+          "Dacă l-ai ratat de tot, repară simplu: nu m-am uitat când mi-ai arătat, vreau să văd acum.",
+        ],
+      },
+      {
+        title: "Semnul că relația se hrănește din asta",
+        paragraphs: [
+          "Copilul continuă să vină spre tine cu inițiativă, nu doar cu cereri mari sau crize. Asta spune mult. Înseamnă că a învățat că între voi există spațiu și pentru lucrurile mărunte, iar tocmai acolo se consolidează multă siguranță relațională.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Invitațiile mici ale copilului sunt deseori încercări reale de conectare.",
+      "Câteva secunde de atenție specifică pot conta mai mult decât un bravo spus automat.",
+      "Dacă amâni, ajută să confirmi clar și să revii când ai promis.",
+    ],
+    sources: [
+      {
+        title: "5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/wp-content/uploads/2024/10/HCDC_ServeReturn_for_Parents_Caregivers_2019.pdf",
+        note: "Ghidul Harvard rezumă pașii de observare a semnalului copilului, întoarcerea lui prin sprijin și „naming” a ceea ce copilul vede, face sau simte. În pagina accesată la 14 aprilie 2026 apar explicit ideile de a observa, a răspunde și a pune în cuvinte.",
+      },
+    ],
+    en: {
+      title: "When your child shows you something small but important",
+      summary: "A drawing, a stone, a joke or an apparently trivial detail can be your child's way of saying 'see me'; a short, attentive response strengthens the relationship more than it seems.",
+      intro: "Children sometimes come with very small things: a bit of playdough, a leaf, a face, a badly repeated sentence or a \"mum, look\". For the busy adult, the temptation is to postpone: in a second, wait a bit, let me finish. Of course you can't stop everything every time. But Harvard shows that these small invitations are relational serves. When you notice them and return them even briefly, the child gets the signal that they are seen and that their initiative matters.",
+      sections: [
+        {
+          title: "Why small things are not small at all",
+          paragraphs: [
+            "In serve and return, children often initiate contact through simple gestures, not big speeches. They show something, repeat a sound, look toward you, touch your arm. These moments are small, but frequent. That is exactly why they build the relationship in real life.",
+            "For a child moving between two homes or carrying heavy days, being noticed in the little things brings continuity. It doesn't have to be a big event for them to feel close to you.",
+          ],
+        },
+        {
+          title: "How to respond when you don't have much time",
+          paragraphs: [
+            "Harvard recommends returning the signal and naming it. That can mean just a few seconds of real attention, not necessarily ten minutes of play.",
+          ],
+          bullets: [
+            "Pause for two or three seconds and look exactly at what they're showing.",
+            "Put it into words: you made a very tall tower or that's a smooth, shiny stone.",
+            "Add a simple reaction: I can see why you wanted to show me that.",
+            "If you can't continue, say clearly when you'll come back: I'll finish this message and then spend two minutes with you to show me more.",
+          ],
+        },
+        {
+          title: "Why naming helps more than just saying good job",
+          paragraphs: [
+            "Generic praise isn't wrong, but specific naming goes deeper. When you put words to what the child sees, does or feels, you help them organise their experience and feel that you actually entered their moment.",
+            "The difference is between an automatic nice and a response that shows presence: I see you put the red piece right on top and tried again after it fell. The second says more clearly: I noticed you.",
+          ],
+        },
+        {
+          title: "What to do if they reach for you right when you're busy",
+          paragraphs: [
+            "You won't be able to respond fully every time, and children can tolerate that if they still receive a clear signal. The important part is not to let their invitation fall into emptiness too often.",
+          ],
+          bullets: [
+            "Look up and acknowledge before postponing.",
+            "Say how long the wait is in concrete language: after I put the plates down or after I end this call.",
+            "Returning matters; if you promised two minutes, come back to them.",
+            "If you missed it completely, repair simply: I didn't look when you showed me, I want to see now.",
+          ],
+        },
+        {
+          title: "The sign the relationship is being fed by this",
+          paragraphs: [
+            "The child keeps coming toward you with initiative, not only with big requests or crises. That says a lot. It means they have learned that between you there is room for small things too, and a lot of relational safety gets strengthened exactly there.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A child's small invitations are often genuine attempts at connection.",
+        "A few seconds of specific attention can matter more than an automatic good job.",
+        "If you delay, it helps to clearly acknowledge and then return when you said you would.",
+      ],
+    },
+  },
+  {
+    slug: "cum-inchizi-o-activitate-fara-lupta-inainte-de-tranzitie",
+    enSlug: "how-to-end-an-activity-without-a-fight-before-a-transition",
+    title: "Cum închizi o activitate fără luptă înainte de tranziție",
+    summary:
+      "Schimbările merg mai lin când copilul primește timp de răspuns, un final recognoscibil și un început clar pentru ce urmează, nu o tăiere bruscă din mers.",
+    intro:
+      "Fie că urmează plecarea spre cealaltă casă, ieșirea din parc, dușul sau somnul, multe conflicte pornesc exact în clipa în care adultul vrea să oprească ceva ce copilul încă trăiește intens. Harvard include în modelul serve and return două idei foarte utile pentru astfel de momente: schimbul are nevoie de timp și așteptare, iar copiii beneficiază când adulții practică începuturi și încheieri recognoscibile. Cu alte cuvinte, tranzițiile nu se rezolvă doar prin anunț; se reglează și prin ritm.",
+    image: {
+      src: "/blog/calm-transition-ending.svg",
+      alt: "Părinte și copil trecând calm de la o activitate la următoarea înainte de tranziție",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-14",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce nu merge bine când tai brusc",
+        paragraphs: [
+          "Când copilul este absorbit într-un joc sau într-o activitate plăcută, nu schimbă viteza în aceeași secundă cu tine. Dacă adultul trece direct la gata, acum plecăm, rezistența nu spune neapărat lipsă de cooperare. Spune adesea că sistemul lui n-a avut timp să facă trecerea.",
+          "Harvard subliniază că așteptarea face parte din schimbul bun. Pauza mică după ce ai spus ce urmează îi dă copilului timp să răspundă, să proceseze și să își adune ideea despre final.",
+        ],
+      },
+      {
+        title: "Cum arată un final recognoscibil",
+        paragraphs: [
+          "Un final bun nu trebuie să fie lung sau spectaculos. Trebuie doar să fie clar și repetabil, astfel încât copilul să poată recunoaște modelul și să nu trăiască fiecare oprire ca pe o ruptură bruscă.",
+        ],
+        bullets: [
+          "Anunță ce urmează și ce mai rămâne: încă două ture, încă o pagină, încă trei minute.",
+          "Spune și pasul următor, nu doar ce se oprește: apoi mergem la mașină sau apoi facem baie.",
+          "Lasă copilul să închidă activitatea într-un gest simplu: pune ultima piesă, alege ultima alunecare, închide el cartea.",
+          "Folosește aceeași formulare de fiecare dată când poți, ca să devină familiară.",
+        ],
+      },
+      {
+        title: "De ce ajută să aștepți după ce ai anunțat",
+        paragraphs: [
+          "Mulți adulți spun că au avertizat, dar în practică avertismentul și smulgerea vin lipite. Diferența reală apare când există câteva secunde sau un minut de spațiu între ele. Acolo copilul poate protesta puțin, poate negocia scurt sau poate începe să se reașeze.",
+          "Așteptarea nu slăbește limita. O face mai ușor de dus. Îi arată copilului că are loc și reacția lui, chiar dacă direcția rămâne aceeași.",
+        ],
+      },
+      {
+        title: "Cum legi sfârșitul de un nou început",
+        paragraphs: [
+          "Pasul cinci din ghidul Harvard vorbește despre a practica încheieri și începuturi. Asta este foarte util înainte de plecări și handover-uri: nu lași doar ceva în urmă, ci intri și într-o formă recognoscibilă a ce vine.",
+        ],
+        bullets: [
+          "După parc: ne urcăm, bem apă, punem centura și alegi tu prima melodie.",
+          "După joc: strângem trei piese, mergem la baie și alegi tu prosopul.",
+          "Înainte de plecare spre cealaltă casă: punem geanta la ușă, facem un salut scurt, apoi alegi tu dacă vrei să iei cartea sau ursulețul.",
+          "Începutul clar reduce senzația că totul se rupe deodată.",
+        ],
+      },
+      {
+        title: "Semnul că tranziția devine mai ușoară",
+        paragraphs: [
+          "Nu dispare orice protest. Dar scad surpriza, agățarea și lupta de putere. Copilul începe să recunoască forma schimbării și are mai puțină nevoie să se apere de fiecare dată ca și cum ar fi o tăiere arbitrară.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un avertisment util include și timp real de răspuns, nu doar anunțul.",
+      "Copiii cooperează mai ușor când pot recunoaște un final și un început familiar.",
+      "Așteptarea scurtă nu slăbește limita; o face mai suportabilă.",
+    ],
+    sources: [
+      {
+        title: "5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/wp-content/uploads/2024/10/HCDC_ServeReturn_for_Parents_Caregivers_2019.pdf",
+        note: "Harvard precizează că schimbul bun include turn-taking și așteptare, iar copiii semnalizează când sunt gata să încheie și să înceapă altceva. În ghid apar explicit ideile „Take turns…and wait” și „Practice endings and beginnings”.",
+      },
+    ],
+    en: {
+      title: "How to end an activity without a fight before a transition",
+      summary: "Changes go more smoothly when the child gets response time, a recognisable ending and a clear beginning for what comes next, rather than a sudden cut in motion.",
+      intro: "Whether it's leaving for the other home, leaving the park, bath time or bedtime, many conflicts start exactly when the adult wants to stop something the child is still deeply in. Harvard includes two very useful ideas in the serve and return model for these moments: interaction needs time and waiting, and children benefit when adults practise recognisable endings and beginnings. In other words, transitions are not solved only through an announcement; they are also regulated through rhythm.",
+      sections: [
+        {
+          title: "Why it goes badly when you cut it off abruptly",
+          paragraphs: [
+            "When a child is absorbed in play or a pleasant activity, they do not change speed in the same second you do. If the adult jumps straight to okay, we're leaving now, resistance does not necessarily mean lack of cooperation. It often means their system did not have time to make the shift.",
+            "Harvard highlights that waiting is part of good interaction. The small pause after you say what comes next gives the child time to respond, process and gather their own idea about the ending.",
+          ],
+        },
+        {
+          title: "What a recognisable ending looks like",
+          paragraphs: [
+            "A good ending does not have to be long or dramatic. It only has to be clear and repeatable, so the child can recognise the pattern and not experience every stop as a sudden rupture.",
+          ],
+          bullets: [
+            "Announce what comes next and what still remains: two more turns, one more page, three more minutes.",
+            "Name the next step too, not only what is stopping: then we go to the car or then we take a bath.",
+            "Let the child close the activity with one simple gesture: place the last piece, choose the last slide, close the book themselves.",
+            "Use the same wording whenever you can so it becomes familiar.",
+          ],
+        },
+        {
+          title: "Why it helps to wait after you've announced it",
+          paragraphs: [
+            "Many adults say they warned the child, but in practice the warning and the pulling away happen stuck together. The real difference appears when there are a few seconds or a minute of space between them. In that space, the child can protest a little, negotiate briefly or begin to reorganise.",
+            "Waiting does not weaken the limit. It makes it easier to carry. It shows the child that their reaction has room too, even if the direction stays the same.",
+          ],
+        },
+        {
+          title: "How to link the ending to a new beginning",
+          paragraphs: [
+            "Step five in Harvard's guide is about practising endings and beginnings. That is very useful before departures and handovers: you are not only leaving something behind, you are also entering a recognisable form of what comes next.",
+          ],
+          bullets: [
+            "After the park: we get in, drink water, buckle up and you choose the first song.",
+            "After play: we put away three pieces, go to the bathroom and you choose the towel.",
+            "Before leaving for the other home: we put the bag by the door, do a short goodbye, then you choose whether to take the book or the teddy.",
+            "A clear beginning reduces the sense that everything is breaking at once.",
+          ],
+        },
+        {
+          title: "The sign the transition is getting easier",
+          paragraphs: [
+            "Not every protest disappears. But surprise, clinging and power struggles decrease. The child starts recognising the shape of the change and needs less protection against it each time as if it were an arbitrary cut.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A useful warning includes real response time, not just the announcement.",
+        "Children cooperate more easily when they can recognise a familiar ending and beginning.",
+        "Brief waiting does not weaken the limit; it makes it more bearable.",
+      ],
+    },
+  },
+  {
     slug: "geanta-de-tranzitie-care-scade-stresul-intre-doua-case",
     enSlug: "the-transition-bag-that-reduces-stress-between-homes",
     title: "Geanta de tranziție care scade stresul între două case",
