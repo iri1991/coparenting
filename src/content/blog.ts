@@ -107,6 +107,405 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "mai-bine-trei-reguli-decat-zece-intre-doua-case",
+    enSlug: "three-shared-rules-work-better-than-ten-across-two-homes",
+    title: "Mai bine trei reguli decât zece între două case",
+    summary:
+      "Când casele funcționează diferit, copilul se descurcă mai ușor dacă există câteva reguli comune, scurte și previzibile, nu o listă lungă pe care nimeni nu o poate ține minte în tensiune.",
+    intro:
+      "În co-parenting, tentația este să repari haosul prin multe explicații și multe reguli. Dar CDC recomandă, mai ales pentru copiii mici, structură clară și puține așteptări ușor de recunoscut. În practică, asta ajută și într-un sistem cu două case: copilul nu are nevoie ca totul să fie identic, dar îl ajută mult să găsească același nucleu de bază în ambele locuri.",
+    image: {
+      src: "/blog/three-shared-rules.svg",
+      alt: "Două case legate de trei reguli simple și comune pentru copil",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-15",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce puține reguli merg mai bine",
+        paragraphs: [
+          "Când copilul se mută între două contexte, energia lui merge deja spre adaptare: oameni, ritm, obiecte, așteptări. Dacă fiecare casă adaugă multe corecturi și multe excepții, nu obții mai multă cooperare, ci mai multă încărcare.",
+          "CDC recomandă reguli specifice și clare, plus rutină recognoscibilă. Tradus pentru co-parenting, asta înseamnă că merită să alegeți un set mic de repere comune, pe care copilul să le poată anticipa fără efort mare.",
+        ],
+      },
+      {
+        title: "Ce fel de reguli merită să fie comune",
+        paragraphs: [
+          "Nu trebuie să negociați fiecare detaliu dintre case. Este suficient să existe acord pe câteva lucruri care țin de siguranță, respect și ritm de bază.",
+        ],
+        bullets: [
+          "Vorbim fără jigniri și fără lovituri.",
+          "Strângem împreună înainte să trecem la următoarea activitate.",
+          "Seara urmează aceeași ordine mare: baie, pijama, poveste, somn.",
+          "Cerem ajutor cu cuvinte simple când ceva e greu.",
+        ],
+      },
+      {
+        title: "Cum formulezi regulile ca să poată fi urmate",
+        paragraphs: [
+          "CDC sugerează formulări concrete, nu reguli vagi. Pentru copil, „mergem cu pași liniștiți în casă” este mai ușor de înțeles decât „fii cuminte”. La fel, „paharul rămâne pe masă” funcționează mai bine decât „nu mai face dezordine”.",
+          "Și între adulți ajută aceeași claritate: în loc de discuții lungi despre stil parental, decideți cum arată exact cele două sau trei comportamente pe care vreți să le susțineți în ambele case.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Copilul nu are nevoie de comparații între case ca să respecte o limită. Are nevoie de predictibilitate și de adulți care nu îl transformă în teren de test pentru diferențele dintre ei.",
+        ],
+        bullets: [
+          "Nu folosi regula ca să trimiți mesaje către celălalt părinte.",
+          "Nu schimba setul de așteptări de la o săptămână la alta.",
+          "Nu cere copilului să explice care casă are regulile mai bune.",
+          "Nu încărca momentul de tranziție cu toată lista de corecturi.",
+        ],
+      },
+      {
+        title: "Semnul că setul este potrivit",
+        paragraphs: [
+          "Auzi mai puțin „dar acolo e altfel” și vezi mai des că copilul anticipează singur ce urmează. Nu pentru că cele două case au devenit identice, ci pentru că reperele de bază sunt suficient de stabile încât să nu-i consume toată energia de adaptare.",
+        ],
+      },
+    ],
+    takeaways: [
+      "În două case, câteva reguli comune ajută mai mult decât o listă lungă de corecturi.",
+      "Regulile merg mai bine când sunt concrete și ușor de recunoscut în comportament.",
+      "Copilul nu are nevoie de case identice, ci de un nucleu previzibil de așteptări.",
+    ],
+    sources: [
+      {
+        title: "Tips for Creating Rules",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/parenting-toddlers/structure-rules/rules.html",
+        note: "CDC recomandă reguli specifice și clare, amintește că pentru copiii mici merită să te concentrezi doar pe 2-3 reguli importante și sugerează consistență între adulții care îngrijesc copilul.",
+      },
+    ],
+    en: {
+      title: "Three shared rules work better than ten across two homes",
+      summary:
+        "When the homes work differently, children cope more easily if there are a few shared, predictable rules instead of a long list no one can hold in mind under stress.",
+      intro:
+        "In co-parenting, the temptation is to repair chaos with more explanations and more rules. But the CDC recommends clear structure and a small number of expectations that are easy to recognise, especially for younger children. In practice, that also helps in a two-home system: the child does not need everything to be identical, but it helps a lot when the same basic core exists in both places.",
+      sections: [
+        {
+          title: "Why fewer rules work better",
+          paragraphs: [
+            "When a child moves between two contexts, their energy is already going into adaptation: people, rhythm, objects and expectations. If each home adds many corrections and many exceptions, you do not get more cooperation, you get more overload.",
+            "The CDC recommends specific, clear rules plus recognisable routine. In co-parenting, that means choosing a small set of shared anchors the child can anticipate without much effort.",
+          ],
+        },
+        {
+          title: "What kind of rules are worth sharing",
+          paragraphs: [
+            "You do not have to negotiate every detail between homes. It is enough to agree on a few things tied to safety, respect and the basic rhythm of the day.",
+          ],
+          bullets: [
+            "We speak without insults and without hitting.",
+            "We tidy together before moving to the next activity.",
+            "Evenings follow the same big order: bath, pyjamas, story, sleep.",
+            "We ask for help with simple words when something feels hard.",
+          ],
+        },
+        {
+          title: "How to phrase rules so they can actually be followed",
+          paragraphs: [
+            "The CDC suggests concrete wording, not vague rules. For a child, 'we use quiet feet indoors' is easier to understand than 'be good'. In the same way, 'the cup stays on the table' works better than 'stop making a mess'.",
+            "The same clarity helps between adults: instead of long discussions about parenting style, decide what the two or three behaviours you want to support in both homes actually look like.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "The child does not need comparisons between homes in order to respect a limit. They need predictability and adults who do not turn them into a testing ground for their differences.",
+          ],
+          bullets: [
+            "Do not use the rule to send messages to the other parent.",
+            "Do not change the expectation set from week to week.",
+            "Do not ask the child to explain which home has the better rules.",
+            "Do not load the transition moment with the full correction list.",
+          ],
+        },
+        {
+          title: "The sign the set is right",
+          paragraphs: [
+            "You hear less 'but it's different there' and see more moments where the child already knows what comes next. Not because the homes became identical, but because the basic anchors are stable enough not to consume all of the child's adaptation energy.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Across two homes, a few shared rules help more than a long correction list.",
+        "Rules work better when they are concrete and easy to recognise in behaviour.",
+        "The child does not need identical homes, but they do need a predictable core of expectations.",
+      ],
+    },
+  },
+  {
+    slug: "programul-vizual-care-face-tranzitiile-mai-usoare",
+    enSlug: "the-visual-routine-that-makes-transitions-easier",
+    title: "Programul vizual care face tranzițiile mai ușoare",
+    summary:
+      "Când copilul vede ce urmează, trecerea dintre activități sau dintre case cere mai puține negocieri și mai puțină energie; un suport vizual simplu scade surpriza fără să rigidizeze ziua.",
+    intro:
+      "Mulți copii nu se opun doar schimbării în sine, ci surprizei din jurul ei. CDC recomandă programe și grafice simple care arată ce urmează, pentru că predictibilitatea scade tensiunea. În familiile cu două case, asta poate fi o piesă foarte utilă: nu pentru control, ci pentru orientare. Un copil care vede mai clar ordinea mare a zilei are mai puțin de ghicit și mai puțin de apărat.",
+    image: {
+      src: "/blog/visual-routine-chart.svg",
+      alt: "Plan vizual cu pașii zilei pentru un copil care trece mai ușor prin tranziții",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-15",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce ajută un suport vizual",
+        paragraphs: [
+          "Când spui doar în cuvinte ce urmează, copilul trebuie să țină în minte, să anticipeze și să accepte schimbarea în același timp. Pentru unii copii, mai ales când sunt obosiți sau emoționați, asta este mult.",
+          "Un program vizual mută o parte din efort din conversație în mediu. În loc să negociați iar și iar, vă puteți uita împreună la pașii zilei și copilul vede că tranziția nu apare din senin.",
+        ],
+      },
+      {
+        title: "Ce merită să apară pe el",
+        paragraphs: [
+          "Nu face un panou complicat. CDC recomandă ceva simplu, folosibil și ușor de repetat. În două case, funcționează mai bine dacă păstrați aceeași logică, chiar dacă designul diferă.",
+        ],
+        bullets: [
+          "3-5 pași pentru momentul dificil: plecare, sosire, seară, dimineață.",
+          "Cuvinte scurte sau imagini clare: dinți, pijama, carte, somn.",
+          "Un marcaj vizibil pentru pasul la care sunteți acum.",
+          "Spațiu pentru o mică schimbare anunțată din timp, nu pentru surprize de ultim moment.",
+        ],
+      },
+      {
+        title: "Cum îl folosești fără să devină încă un motiv de ceartă",
+        paragraphs: [
+          "Programul vizual nu este argumentul final într-o luptă. Este un sprijin. Uită-te cu copilul la el înainte de momentul sensibil, nu doar exact când tensiunea a urcat deja.",
+          "Poți spune simplu: acum suntem aici, după asta urmează asta. Când copilul are nevoie de control, ajută să-i oferi o alegere mică în interiorul rutinei: periem dinții înainte sau după apă?",
+        ],
+      },
+      {
+        title: "Unde se vede cel mai repede diferența",
+        paragraphs: [
+          "De obicei în momentele repetitive care se stricau zilnic: ieșitul pe ușă, intrarea în baie, pregătirea de somn, plecarea din parc. Nu pentru că dispar toate emoțiile, ci pentru că ordinea devine mai recognoscibilă și nu mai trebuie reconstruită de fiecare dată din vocea adultului.",
+        ],
+      },
+      {
+        title: "Când merită simplificat și mai mult",
+        paragraphs: [
+          "Dacă programul ajunge să aibă prea multe pictograme, prea multe excepții sau prea multe explicații, a devenit încă o sarcină. Semnul bun este simplitatea: copilul îl poate urmări repede, iar tu îl poți folosi chiar și într-o seară obosită.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un program vizual reduce surpriza și face tranzițiile mai ușor de anticipat.",
+      "Funcționează mai bine când rămâne simplu, cu puțini pași și repere clare.",
+      "În două case, aceeași logică a rutinei ajută chiar dacă panoul nu arată identic.",
+    ],
+    sources: [
+      {
+        title: "Tips for Building Structure",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/parenting-toddlers/structure-rules/structure.html",
+        note: "CDC explică faptul că rutina îl ajută pe copil să știe la ce să se aștepte și leagă tranzițiile mai line de consistență, predictibilitate și follow-through.",
+      },
+      {
+        title: "Practice Parenting Skills: Structure and Rules",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/parenting-toddlers/structure-rules/parenting-skills.html",
+        note: "CDC propune programe zilnice și grafice simple care „scot surpriza” din ce urmează, idee foarte utilă pentru plecări, reveniri și seri sensibile.",
+      },
+    ],
+    en: {
+      title: "The visual routine that makes transitions easier",
+      summary:
+        "When a child can see what comes next, moves between activities or homes usually need less negotiation and less energy; a simple visual support lowers surprise without making the day rigid.",
+      intro:
+        "Many children are not resisting the change itself as much as the surprise around it. The CDC recommends simple schedules and charts that show what comes next, because predictability lowers tension. In two-home families, this can be especially useful: not for control, but for orientation. A child who can see the big order of the day more clearly has less to guess and less to defend against.",
+      sections: [
+        {
+          title: "Why a visual support helps",
+          paragraphs: [
+            "When you explain the next steps only with words, the child has to hold them in mind, anticipate the change and accept it all at once. For some children, especially when tired or emotional, that is a lot.",
+            "A visual routine moves part of that effort from conversation into the environment. Instead of renegotiating again and again, you can look at the steps together and the child sees that the transition is not appearing out of nowhere.",
+          ],
+        },
+        {
+          title: "What is worth putting on it",
+          paragraphs: [
+            "Do not make a complicated board. The CDC recommends something simple, usable and easy to repeat. Across two homes, it works best if you keep the same logic even if the design looks different.",
+          ],
+          bullets: [
+            "3-5 steps for the difficult moment: leaving, arriving, evening, morning.",
+            "Short words or clear images: teeth, pyjamas, book, sleep.",
+            "A visible marker for the step you are on right now.",
+            "Room for one small change announced in advance, not last-minute surprises.",
+          ],
+        },
+        {
+          title: "How to use it without turning it into another fight",
+          paragraphs: [
+            "The visual routine is not the final argument in a struggle. It is support. Look at it with the child before the sensitive moment, not only once tension has already risen.",
+            "You can say something simple: we are here now, after this comes that. When the child needs a sense of control, it helps to offer one small choice inside the routine: do we brush teeth before or after water?",
+          ],
+        },
+        {
+          title: "Where the difference shows up fastest",
+          paragraphs: [
+            "Usually in the repetitive moments that kept breaking down every day: leaving the house, getting into the bath, bedtime preparation, leaving the park. Not because all emotions disappear, but because the order becomes more recognisable and no longer needs to be rebuilt each time from the adult's voice alone.",
+          ],
+        },
+        {
+          title: "When it is worth simplifying even more",
+          paragraphs: [
+            "If the board ends up with too many icons, too many exceptions or too many explanations, it has become another task. The good sign is simplicity: the child can follow it quickly and you can still use it on a tired evening.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A visual routine reduces surprise and makes transitions easier to anticipate.",
+        "It works best when it stays simple, with few steps and clear anchors.",
+        "Across two homes, the same routine logic helps even if the board does not look identical.",
+      ],
+    },
+  },
+  {
+    slug: "lauda-etichetata-care-creste-cooperarea",
+    enSlug: "labeled-praise-that-builds-cooperation",
+    title: "Lauda etichetată care crește cooperarea",
+    summary:
+      "În loc de un „bravo” aruncat pe fugă, copilul răspunde adesea mai bine când aude exact ce a reușit: cooperarea devine mai vizibilă, mai ușor de repetat și mai puțin dependentă de corecturi.",
+    intro:
+      "În perioadele cu multe tranziții, părinții observă repede ce nu merge: întârzierea, protestul, refuzul, explozia. CDC recomandă însă și un alt instrument simplu: observă și laudă concret comportamentul pe care vrei să-l vezi mai des. Într-un context cu două case, asta ajută fiindcă îi dă copilului o hartă clară a succesului, nu doar o listă de greșeli.",
+    image: {
+      src: "/blog/labeled-praise-cooperation.svg",
+      alt: "Părinte care remarcă explicit cooperarea copilului într-un moment de rutină",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-15",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "Ce înseamnă lauda etichetată",
+        paragraphs: [
+          "Nu este laudă mare și nu este lingușire. Este observație scurtă și clară: ai pus pantofii când ți-am spus, ai dus cana înapoi pe masă, ai venit lângă mine fără să fugim unul după altul.",
+          "Pentru copil, astfel de propoziții fac vizibil comportamentul dorit. Nu trebuie să ghicească de ce adultul este mulțumit; primește exact informația care îl ajută să repete.",
+        ],
+      },
+      {
+        title: "De ce ajută mai ales în zilele aglomerate",
+        paragraphs: [
+          "În zilele cu preluări, plecări, teme și oboseală, feedbackul adultului riscă să fie aproape exclusiv corectiv. Atunci copilul poate ajunge să audă mult despre ce nu merge și foarte puțin despre ce funcționează.",
+          "Lauda etichetată mută puțin balanța. Nu ignoră dificultățile, dar creează mai multe momente în care cooperarea primește atenție imediată, nu doar controlul comportamentului dificil.",
+        ],
+      },
+      {
+        title: "Ce formulări merg bine",
+        paragraphs: [
+          "Ajută să descrii exact acțiunea și efectul ei. Nu trebuie să fie lung. De fapt, cu cât este mai simplu, cu atât intră mai ușor în ritmul familiei.",
+        ],
+        bullets: [
+          "Ai venit la ușă când te-am chemat; asta ne-a ajutat să plecăm mai liniștit.",
+          "Ai pus geanta la locul ei; acum dimineața va fi mai ușoară.",
+          "Mi-a plăcut cum ai cerut ajutor cu voce normală.",
+          "Ai trecut la baie după primul semn; asta a fost greu și ai reușit.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Lauda funcționează mai bine când rămâne ancorată în realitate. Dacă devine exagerată sau apare doar rar, exact după conflicte mari, copilul o poate simți ca pe o tehnică, nu ca pe o relație.",
+        ],
+        bullets: [
+          "Nu lăuda vag totul: perfect, extraordinar, nemaipomenit, pentru orice lucru mic.",
+          "Nu combina imediat lauda cu o critică: bine, dar data viitoare să nu mai faci...",
+          "Nu o transforma în comparație cu fratele, sora sau cealaltă casă.",
+          "Nu aștepta doar momente spectaculoase; cooperarea mică de zi cu zi contează mult.",
+        ],
+      },
+      {
+        title: "Semnul că începe să prindă",
+        paragraphs: [
+          "Auzi mai des comportamentele bune fără să le ceri de trei ori și vezi mai puțină rezistență în momentele repetitive. Nu pentru că lauda rezolvă tot, ci pentru că ai făcut clar ce anume merge și merită repetat.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Lauda etichetată spune exact ce a mers bine, nu doar că a fost „bine”.",
+      "Ajută mai ales când zilele sunt pline de corecturi și copilul are nevoie de repere clare de cooperare.",
+      "Funcționează cel mai bine când este scurtă, realistă și legată de comportamente concrete.",
+    ],
+    sources: [
+      {
+        title: "Tips for Creating Rules",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/parenting-toddlers/structure-rules/rules.html",
+        note: "CDC notează că atunci când vede copilul urmând regula, adultul poate răspunde imediat cu laudă etichetată, adică o observație clară despre alegerea bună pe care a făcut-o.",
+      },
+      {
+        title: "Tips for Praise, Imitation, and Description",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/parenting-toddlers/communication/praise.html",
+        note: "CDC explică explicit că lauda specifică, numită labeled praise, funcționează mai bine decât aprobarea vagă pentru că îl ajută pe copil să știe exact ce comportament vrei să vezi repetat.",
+      },
+    ],
+    en: {
+      title: "Labeled praise that builds cooperation",
+      summary:
+        "Instead of a rushed 'good job', children often respond better when they hear exactly what they managed to do: cooperation becomes more visible, more repeatable and less dependent on corrections.",
+      intro:
+        "During periods with many transitions, parents quickly notice what is not working: the delay, the protest, the refusal, the blow-up. The CDC points to another simple tool too: notice and praise the specific behaviour you want to see more often. In a two-home context, that helps because it gives the child a clear map of success, not only a list of mistakes.",
+      sections: [
+        {
+          title: "What labeled praise means",
+          paragraphs: [
+            "It is not big praise and it is not flattery. It is short, clear observation: you put your shoes on when I asked, you brought the cup back to the table, you came over without making us chase each other.",
+            "For the child, those sentences make the desired behaviour visible. They do not have to guess why the adult is pleased; they get the exact information that helps them repeat it.",
+          ],
+        },
+        {
+          title: "Why it helps especially on busy days",
+          paragraphs: [
+            "On days with pickups, departures, homework and tiredness, adult feedback can become almost entirely corrective. Then the child may hear a lot about what is not working and very little about what is.",
+            "Labeled praise shifts that balance a little. It does not ignore difficulties, but it creates more moments where cooperation gets immediate attention instead of the difficult behaviour getting all the focus.",
+          ],
+        },
+        {
+          title: "Phrases that work well",
+          paragraphs: [
+            "It helps to describe the action and its effect. It does not need to be long. In fact, the simpler it is, the easier it fits into family life.",
+          ],
+          bullets: [
+            "You came to the door when I called; that helped us leave more calmly.",
+            "You put your bag in its place; tomorrow morning will be easier now.",
+            "I liked how you asked for help in a calm voice.",
+            "You moved to the bathroom after the first cue; that was hard and you did it.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Praise works better when it stays grounded in reality. If it becomes exaggerated or shows up only rarely right after major conflicts, the child can feel it as a technique rather than a relationship.",
+          ],
+          bullets: [
+            "Do not praise everything vaguely: perfect, amazing, incredible, for every small thing.",
+            "Do not immediately attach criticism to it: good, but next time don't...",
+            "Do not turn it into comparison with a sibling or the other home.",
+            "Do not wait only for dramatic moments; small daily cooperation matters a lot.",
+          ],
+        },
+        {
+          title: "The sign it is starting to land",
+          paragraphs: [
+            "You see more helpful behaviours without asking three times and less resistance in repetitive moments. Not because praise fixes everything, but because you have made it clear what is working and worth repeating.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Labeled praise says exactly what went well, not only that it was 'good'.",
+        "It helps especially when the day is full of corrections and the child needs clear cooperation cues.",
+        "It works best when it is short, realistic and tied to concrete behaviour.",
+      ],
+    },
+  },
+  {
     slug: "primele-5-minute-dupa-preluare-fara-interogatoriu",
     enSlug: "the-first-5-minutes-after-pickup-without-an-interrogation",
     title: "Primele 5 minute după preluare, fără interogatoriu",
