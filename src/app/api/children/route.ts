@@ -213,7 +213,16 @@ export async function PATCH(request: Request) {
   }
   const body = await request.json().catch(() => ({}));
   const update: Record<string, unknown> = { updatedAt: new Date() };
-  if (typeof body.name === "string") update.name = body.name.trim();
+  if ("name" in body) {
+    if (typeof body.name !== "string") {
+      return NextResponse.json({ error: "Numele trebuie să fie text." }, { status: 400 });
+    }
+    const trimmedName = body.name.trim();
+    if (!trimmedName) {
+      return NextResponse.json({ error: "Numele copilului nu poate fi gol." }, { status: 400 });
+    }
+    update.name = trimmedName;
+  }
   if (typeof body.allergies === "string") update.allergies = body.allergies.trim() || null;
   if (typeof body.notes === "string") update.notes = body.notes.trim() || null;
   if ("birthDate" in body) {

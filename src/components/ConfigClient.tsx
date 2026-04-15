@@ -35,17 +35,27 @@ interface ChildData {
 
 function ChildDetailsForm({
   child,
+  nameLabel,
+  nameEmptyError,
   onSave,
   onDocumentsChange,
   saving,
   canUseDocuments = true,
 }: {
   child: ChildData;
-  onSave: (data: { allergies?: string; notes?: string; birthDate?: string | null }) => void;
+  nameLabel: string;
+  nameEmptyError: string;
+  onSave: (data: {
+    name: string;
+    allergies?: string;
+    notes?: string;
+    birthDate?: string | null;
+  }) => void;
   onDocumentsChange: (docs: TravelDocRef[]) => void;
   saving: boolean;
   canUseDocuments?: boolean;
 }) {
+  const [childName, setChildName] = useState(child.name);
   const [allergies, setAllergies] = useState(child.allergies ?? "");
   const [notes, setNotes] = useState(child.notes ?? "");
   const [birthDate, setBirthDate] = useState(child.birthDate ?? "");
@@ -54,10 +64,11 @@ function ChildDetailsForm({
   const [uploading, setUploading] = useState(false);
   const docs = child.travelDocuments ?? [];
   useEffect(() => {
+    setChildName(child.name);
     setAllergies(child.allergies ?? "");
     setNotes(child.notes ?? "");
     setBirthDate(child.birthDate ?? "");
-  }, [child.id, child.allergies, child.notes, child.birthDate]);
+  }, [child.id, child.name, child.allergies, child.notes, child.birthDate]);
   async function handleUploadDocument(e: React.FormEvent) {
     e.preventDefault();
     if (!docName.trim() || !docFile) return;
@@ -88,6 +99,16 @@ function ChildDetailsForm({
   }
   return (
     <div className="px-3 pb-3 pt-1 border-t border-stone-200 dark:border-stone-700 space-y-3">
+      <div>
+        <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">{nameLabel}</label>
+        <input
+          type="text"
+          value={childName}
+          onChange={(e) => setChildName(e.target.value)}
+          autoComplete="name"
+          className="w-full px-3 py-2 rounded-lg border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+        />
+      </div>
       <div>
         <label className="block text-xs text-stone-500 dark:text-stone-400 mb-1">Data nașterii (opțional)</label>
         <input
@@ -182,13 +203,19 @@ function ChildDetailsForm({
       </div>
       <button
         type="button"
-        onClick={() =>
+        onClick={() => {
+          const trimmed = childName.trim();
+          if (!trimmed) {
+            alert(nameEmptyError);
+            return;
+          }
           onSave({
+            name: trimmed,
             allergies: allergies.trim() || undefined,
             notes: notes.trim() || undefined,
             birthDate: birthDate.trim() ? birthDate.trim() : null,
-          })
-        }
+          });
+        }}
         disabled={saving}
         className="app-native-primary-button w-full py-2 text-sm font-medium disabled:opacity-50"
       >
@@ -398,18 +425,6 @@ export function ConfigClient({
     }
   }
 
-  async function removeChild(id: string) {
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await fetch(`/api/children?id=${encodeURIComponent(id)}`, { method: "DELETE" });
-      if (!res.ok) return;
-      setChildren((prev) => prev.filter((c) => c.id !== id));
-    } finally {
-      setSaving(false);
-    }
-  }
-
   async function addResidence() {
     const name = newResidenceName.trim();
     if (!name) return;
@@ -535,7 +550,10 @@ export function ConfigClient({
     }
   }
 
-  async function saveChildDetails(childId: string, data: { allergies?: string; notes?: string; birthDate?: string | null }) {
+  async function saveChildDetails(
+    childId: string,
+    data: { name: string; allergies?: string; notes?: string; birthDate?: string | null }
+  ) {
     setSaving(true);
     setMessage(null);
     try {
@@ -849,29 +867,20 @@ export function ConfigClient({
             <li key={c.id} className="rounded-xl bg-stone-50 dark:bg-stone-800/50 overflow-hidden">
               <div className="flex items-center justify-between gap-2 py-2 px-3">
                 <span className="font-medium text-stone-800 dark:text-stone-200">{c.name}</span>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => setExpandedChildId(expandedChildId === c.id ? null : c.id)}
-                    className="p-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-500 text-sm"
-                    aria-expanded={expandedChildId === c.id}
-                  >
-                    {expandedChildId === c.id ? cfg.child.hideLabel : cfg.child.detailsLabel}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => removeChild(c.id)}
-                    disabled={saving}
-                    className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-stone-400 hover:text-red-600"
-                    aria-label="Șterge"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setExpandedChildId(expandedChildId === c.id ? null : c.id)}
+                  className="p-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-500 text-sm"
+                  aria-expanded={expandedChildId === c.id}
+                >
+                  {expandedChildId === c.id ? cfg.child.hideLabel : cfg.child.detailsLabel}
+                </button>
               </div>
               {expandedChildId === c.id && (
                 <ChildDetailsForm
                   child={c}
+                  nameLabel={cfg.child.nameLabel}
+                  nameEmptyError={cfg.child.nameEmptyError}
                   onSave={(data) => saveChildDetails(c.id, data)}
                   onDocumentsChange={(travelDocuments) =>
                     setChildren((prev) => prev.map((ch) => (ch.id === c.id ? { ...ch, travelDocuments } : ch)))

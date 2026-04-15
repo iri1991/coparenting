@@ -540,6 +540,8 @@ export const en: Translations = {
       },
       child: {
         title: "Children",
+        nameLabel: "Name",
+        nameEmptyError: "Please enter the child's name.",
         placeholder: "Child's name",
         freePlan: "Free plan: 1 child. Pro: up to 3. Family+: unlimited.",
         detailsLabel: "Details",

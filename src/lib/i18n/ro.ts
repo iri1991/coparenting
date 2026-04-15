@@ -538,6 +538,8 @@ export const ro = {
       },
       child: {
         title: "Copii",
+        nameLabel: "Nume",
+        nameEmptyError: "Introdu numele copilului.",
         placeholder: "Nume copil",
         freePlan: "Planul Free: 1 copil. Pro: până la 3. Family+: nelimitat.",
         detailsLabel: "Detalii",
