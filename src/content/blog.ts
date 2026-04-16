@@ -2786,6 +2786,407 @@ const blogArticles: BlogArticle[] = [
       },
     ],
   },
+  {
+    slug: "mai-intai-oglindesti-emotia-apoi-ceri-pasul-urmator",
+    enSlug: "first-reflect-the-feeling-then-ask-for-the-next-step",
+    title: "Mai întâi oglindești emoția, apoi ceri pasul următor",
+    summary:
+      "Când copilul se blochează într-o emoție mare, o propoziție care numește ce trăiește poate coborî tensiunea mai repede decât o explicație lungă sau o corectare grăbită.",
+    intro:
+      "În momentele încărcate, mulți adulți sar direct la soluție: grăbește-te, termină, nu mai plânge, știi foarte bine ce ai de făcut. HealthyChildren propune o ordine mai utilă pentru copiii mici și preșcolari: observi emoția, o pui în cuvinte, arăți că are sens și abia apoi ceri pasul următor. Nu este permisivitate. Este o cale mai scurtă spre cooperare, pentru că reduce alarma înainte să adaugi limita.",
+    image: {
+      src: "/blog/emotion-coaching-next-step.svg",
+      alt: "Părinte care se apleacă spre copil și îi reflectă emoția înainte de a-l ghida mai departe",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-16",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce oglindirea emoției schimbă momentul",
+        paragraphs: [
+          "HealthyChildren descrie emotion coaching ca pe un pas simplu: observi ce simte copilul, numești emoția și recunoști că situația este grea pentru el. Când copilul se simte înțeles, nu mai trebuie să lupte atât de mult ca să dovedească cât de intens trăiește momentul.",
+          "Asta nu rezolvă instant fiecare protest, dar schimbă tonul interacțiunii. În loc să primească întâi presiune, copilul primește mai întâi orientare și siguranță.",
+        ],
+      },
+      {
+        title: "Formula scurtă care ajută cel mai des",
+        paragraphs: [
+          "Nu ai nevoie de discurs psihologic. De cele mai multe ori ajunge o propoziție scurtă, urmată de o cerință mică și clară.",
+        ],
+        bullets: [
+          "Observă: văd că ești foarte supărat acum.",
+          "Numește cauza probabilă: cred că ți-e greu pentru că trebuie să plecăm tocmai când încă te jucai.",
+          "Validează: e greu când ceva plăcut se oprește.",
+          "Cere următorul pas: te ajut să pui ultima piesă jos și mergem spre mașină.",
+        ],
+      },
+      {
+        title: "Unde funcționează bine în viața dintre două case",
+        paragraphs: [
+          "În familiile cu două case, copilul poate reacționa puternic exact când adultul simte că timpul presează: la handover, la închiderea unui apel, la plecarea spre școală sau când află că planul s-a schimbat. Tocmai acolo merită să reduci numărul de explicații și să începi cu reflecția emoției.",
+          "O formulare precum știu, îți era bine aici și e greu să schimbi acum poate face mai mult decât zece argumente despre program. După ce emoția e văzută, copilul are mai mult spațiu să audă și limita.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Emotion coaching nu înseamnă să negociezi orice refuz și nici să transformi momentul într-o analiză lungă. Scopul este reglarea suficientă pentru a putea continua.",
+        ],
+        bullets: [
+          "Nu contrazice emoția cu replici de tipul nu ai de ce să fii supărat.",
+          "Nu pune imediat întrebări multe dacă vezi că e deja copleșit.",
+          "Nu adăuga explicații lungi înainte ca intensitatea să fi scăzut puțin.",
+          "Nu confunda validarea emoției cu aprobarea comportamentului care rănește sau lovește.",
+        ],
+      },
+      {
+        title: "Semnul că metoda prinde",
+        paragraphs: [
+          "Nu neapărat că protestul dispare pe loc, ci că episodul se scurtează și copilul acceptă mai repede următorul pas cu ajutor. Dacă auzi mai puțin nu mă înțelegi și vezi mai des că poate face tranziția după una-două propoziții calme, e un semn bun că abordarea îl ajută.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Mai întâi reglezi relația, apoi ceri cooperare.",
+      "O propoziție scurtă care numește emoția ajută mai mult decât explicațiile lungi în plină tensiune.",
+      "Validarea emoției nu anulează limita; doar o face mai ușor de primit.",
+    ],
+    en: {
+      title: "First reflect the feeling, then ask for the next step",
+      summary:
+        "When a child gets stuck in a big feeling, one sentence that names what they are living often lowers the tension faster than a long explanation or rushed correction.",
+      intro:
+        "In loaded moments, many adults jump straight to the solution: hurry up, finish, stop crying, you know exactly what to do. HealthyChildren suggests a more useful order for babies, toddlers and preschoolers: notice the feeling, put it into words, show that it makes sense, and only then ask for the next step. This is not permissiveness. It is often the shortest path to cooperation because it lowers alarm before you add the limit.",
+      sections: [
+        {
+          title: "Why reflecting the feeling changes the moment",
+          paragraphs: [
+            "HealthyChildren describes emotion coaching as a simple sequence: notice what your child is feeling, name the emotion and acknowledge that the situation feels hard to them. When a child feels understood, they do not need to fight as hard to prove how intense the moment feels.",
+            "That does not solve every protest instantly, but it changes the tone of the interaction. Instead of receiving pressure first, the child receives orientation and safety first.",
+          ],
+        },
+        {
+          title: "The short formula that helps most often",
+          paragraphs: [
+            "You do not need a psychological speech. Most of the time, one short sentence followed by one small, clear request is enough.",
+          ],
+          bullets: [
+            "Observe: I can see you're really upset right now.",
+            "Name the likely reason: I think this feels hard because we have to leave while you were still enjoying your play.",
+            "Validate: it's hard when something enjoyable has to stop.",
+            "Ask for the next step: I'll help you put the last piece down and then we'll walk to the car.",
+          ],
+        },
+        {
+          title: "Where it works well in life across two homes",
+          paragraphs: [
+            "In two-home families, the child may react strongly exactly when the adult feels time pressure: at handover, at the end of a call, on the way to school or when they hear the plan changed. That is exactly where it helps to reduce explanations and start with the reflected feeling.",
+            "A phrase like I know, it felt good to be here and it's hard to switch now can do more than ten arguments about the schedule. Once the feeling has been seen, the child has more room to hear the limit too.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Emotion coaching does not mean negotiating every refusal and it does not mean turning the moment into a long analysis. The aim is enough regulation to keep moving.",
+          ],
+          bullets: [
+            "Do not contradict the feeling with phrases like there's no reason to be upset.",
+            "Do not ask lots of questions right away if the child already looks overwhelmed.",
+            "Do not add long explanations before the intensity has dropped a little.",
+            "Do not confuse validating the feeling with approving behaviour that hurts or hits.",
+          ],
+        },
+        {
+          title: "The sign it is landing",
+          paragraphs: [
+            "Not necessarily that the protest disappears on the spot, but that the episode gets shorter and the child can accept the next step with help more quickly. If you hear less you don't understand me and more often see the transition happen after one or two calm sentences, that is a good sign the approach is helping.",
+          ],
+        },
+      ],
+      takeaways: [
+        "First regulate the relationship, then ask for cooperation.",
+        "One short sentence that names the feeling often helps more than long explanations in the middle of tension.",
+        "Validating the feeling does not remove the limit; it just makes it easier to receive.",
+      ],
+    },
+    sources: [
+      {
+        title: "Helping Little People Manage Big Feelings",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/Pages/helping-little-people-manage-big-feelings.aspx?form=HealthyChildren",
+        note: "AAP prezintă emotion coaching, sportscasting și \"sunshine time\" ca strategii simple prin care adultul îl ajută pe copil să se simtă văzut, susținut și mai capabil să treacă prin emoții mari. Pagina indică ultima actualizare la 7 noiembrie 2024.",
+      },
+    ],
+  },
+  {
+    slug: "descrierea-calma-care-il-face-pe-copil-sa-se-simta-vazut",
+    enSlug: "the-calm-description-that-helps-your-child-feel-seen",
+    title: "Descrierea calmă care îl face pe copil să se simtă văzut",
+    summary:
+      "Uneori copilul nu are nevoie nici de laudă, nici de corectare, ci doar să audă că ai observat ce face și că ești cu adevărat prezent.",
+    intro:
+      "HealthyChildren numește această intervenție sportscasting: descrii pe scurt ce face copilul, cu ton cald și fără să transformi totul în instrucțiuni sau evaluare. Este surprinzător de utilă în momentele în care copilul caută atenție, devine agitat sau pare că se lipește de tine exact când încerci să faci altceva. Descrierea calmă îi transmite că este văzut, iar asta reduce adesea nevoia de a escalada ca să obțină contact.",
+    image: {
+      src: "/blog/calm-description-feel-seen.svg",
+      alt: "Părinte care observă și descrie calm jocul copilului cu blocuri",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-16",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "Ce este sportscasting și ce nu este",
+        paragraphs: [
+          "În formularea AAP, sportscasting înseamnă să spui cu voce blândă ce vezi: construiești cu mare grijă turnul, cauți piesa rotundă, ai pus mașinile una lângă alta. Nu îl judeci, nu îl corectezi și nici nu-l împingi imediat spre altceva.",
+          "Este diferit de laudă. Lauda spune ai făcut foarte bine. Sportscasting spune te văd și sunt atent la ce faci. Pentru mulți copii, mai ales în perioade aglomerate sau după tranziții, senzația că sunt văzuți reduce mult lupta pentru atenție.",
+        ],
+      },
+      {
+        title: "Când merită folosit cel mai des",
+        paragraphs: [
+          "Metoda merge bine în ferestre scurte, exact acolo unde nu ai timp de joc lung, dar poți oferi prezență reală pentru 20-30 de secunde. De exemplu, când gătești, când aștepți la ușă să plecați, după ce ai preluat copilul sau când îl vezi că începe să te tragă repetat de mânecă.",
+          "Într-un sistem cu două case, sportscasting poate fi o punte bună după o schimbare de context. În loc să intri imediat în întrebări sau indicații, intri mai întâi în observare.",
+        ],
+        bullets: [
+          "Văd că ai aliniat toate creioanele după culoare.",
+          "Te uiți atent cum se închide fermoarul și încerci din nou.",
+          "Ții ursulețul foarte strâns acum; cred că îți place să-l ai aproape.",
+          "Construiești iar podul mare; ai ținut minte exact unde vine piesa lungă.",
+        ],
+      },
+      {
+        title: "De ce ajută mai mult decât pare",
+        paragraphs: [
+          "Când copilul simte atenția adultului fără presiune, poate coborî din modul în care cere contact prin întrerupere, opoziție sau agitație. Nu pentru că l-ai convins, ci pentru că nevoia de a fi observat a fost întâlnită într-o formă simplă.",
+          "În plus, această descriere liniștită poate fi o intrare mai bună și către cooperare. După ce copilul se simte văzut, tolerează mai ușor o cerință scurtă precum încă două piese și apoi strângem.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Sportscasting funcționează tocmai pentru că nu sună ca o tehnică apăsată. Dacă îl transformi într-o serie continuă de comentarii sau într-o laudă mascată, își pierde efectul.",
+        ],
+        bullets: [
+          "Nu descrie non-stop tot ce face copilul.",
+          "Nu strecura imediat ordine în aceeași propoziție.",
+          "Nu folosi ton ironic sau teatral.",
+          "Nu transforma observația într-un test: ce culoare e asta, cum se numește piesa, de ce ai făcut așa?",
+        ],
+      },
+      {
+        title: "Semnul că funcționează",
+        paragraphs: [
+          "Copilul se uită spre tine și se înmoaie puțin, nu te mai trage atât de intens spre conflict sau își reia activitatea fără să ceară escaladare. Uneori schimbarea este mică, dar repetată de multe ori pe zi face o diferență reală în tonul relației.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Sportscasting înseamnă observație caldă, nu evaluare și nu corectare.",
+      "Poate reduce lupta pentru atenție în ferestre foarte scurte de conectare.",
+      "După ce copilul se simte văzut, cooperarea vine de multe ori mai ușor.",
+    ],
+    en: {
+      title: "The calm description that helps your child feel seen",
+      summary:
+        "Sometimes a child does not need praise or correction, but simply to hear that you noticed what they are doing and that you are truly present.",
+      intro:
+        "HealthyChildren calls this intervention sportscasting: you briefly describe what the child is doing, with a warm tone and without turning everything into instructions or evaluation. It is surprisingly useful in moments when the child is seeking attention, getting agitated or attaching to you right when you are trying to do something else. Calm description tells them they are seen, and that often reduces the need to escalate in order to get contact.",
+      sections: [
+        {
+          title: "What sportscasting is and what it is not",
+          paragraphs: [
+            "In the AAP's framing, sportscasting means saying in a gentle voice what you see: you're building that tower very carefully, you're looking for the round piece, you've lined the cars up side by side. You are not judging, correcting or pushing the child straight into the next thing.",
+            "It is different from praise. Praise says you did that so well. Sportscasting says I see you and I'm paying attention to what you're doing. For many children, especially during busy periods or after transitions, that sense of being seen reduces attention battles significantly.",
+          ],
+        },
+        {
+          title: "When it is most worth using",
+          paragraphs: [
+            "The method works well in short windows, exactly where you do not have time for long play but you can offer real presence for 20 to 30 seconds. For example, while cooking, while waiting at the door to leave, after pickup or when you notice the child starting to tug at you repeatedly.",
+            "In a two-home system, sportscasting can be a strong bridge after a context shift. Instead of moving straight into questions or directions, you enter through observation first.",
+          ],
+          bullets: [
+            "I can see you've lined all the pencils up by colour.",
+            "You're watching the zip carefully and trying again.",
+            "You're holding the teddy very tightly right now; I think it helps to keep it close.",
+            "You're building the big bridge again; you remembered exactly where the long piece goes.",
+          ],
+        },
+        {
+          title: "Why it helps more than it seems",
+          paragraphs: [
+            "When a child feels the adult's attention without pressure, they can come down from trying to get contact through interruption, opposition or agitation. Not because you persuaded them, but because the need to be noticed was met in a simple way.",
+            "This quiet description can also become a better entry into cooperation. After the child feels seen, they often tolerate a short request such as two more pieces and then we tidy up more easily.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Sportscasting works precisely because it does not sound like a heavy-handed technique. If you turn it into a constant stream of commentary or disguised praise, it loses its effect.",
+          ],
+          bullets: [
+            "Do not describe everything the child does nonstop.",
+            "Do not slip orders into the same sentence right away.",
+            "Do not use an ironic or theatrical tone.",
+            "Do not turn the observation into a test: what colour is that, what is that piece called, why did you do it like that?",
+          ],
+        },
+        {
+          title: "The sign it is working",
+          paragraphs: [
+            "The child glances at you and softens a little, stops pulling quite so hard toward conflict or returns to the activity without demanding escalation. Sometimes the shift is small, but repeated many times a day it makes a real difference to the tone of the relationship.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Sportscasting is warm observation, not evaluation and not correction.",
+        "It can reduce attention battles in very short windows of connection.",
+        "Once the child feels seen, cooperation often comes more easily.",
+      ],
+    },
+    sources: [
+      {
+        title: "Helping Little People Manage Big Feelings",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/Pages/helping-little-people-manage-big-feelings.aspx?form=HealthyChildren",
+        note: "AAP prezintă emotion coaching, sportscasting și \"sunshine time\" ca strategii simple prin care adultul îl ajută pe copil să se simtă văzut, susținut și mai capabil să treacă prin emoții mari. Pagina indică ultima actualizare la 7 noiembrie 2024.",
+      },
+    ],
+  },
+  {
+    slug: "15-minute-de-timp-special-care-umplu-rezervorul-relatiei",
+    enSlug: "15-minutes-of-special-time-that-refill-the-relationship",
+    title: "15 minute de timp special care umplu rezervorul relației",
+    summary:
+      "Câteva minute de joc în care copilul conduce, fără telefon și fără corectări, pot schimba surprinzător de mult tonul unei săptămâni aglomerate.",
+    intro:
+      "HealthyChildren recomandă ceea ce numește sunshine time: 10-15 minute, de două-trei ori pe săptămână, în care adultul oferă atenție întreagă, lasă copilul să aleagă activitatea și rămâne în joc. Nu este recompensă și nici metodă de a obține imediat comportament perfect. Este un mic rezervor de conectare care poate face restul zilelor mai puțin tensionate. În familiile cu două case, tocmai această regularitate mică și previzibilă poate conta mult.",
+    image: {
+      src: "/blog/special-time-relationship-reservoir.svg",
+      alt: "Părinte și copil la joacă pe covor, cu un soare și un timer care sugerează timp special",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-16",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează un timp mic, dar previzibil",
+        paragraphs: [
+          "Când conectarea există doar în resturile zilei, copilul poate ajunge să o ceară exact în momentele cele mai incomode: la plecare, când ești pe telefon, în timp ce faci cină sau când încerci să închizi seara. Un timp special pus intenționat în program reduce din această foame de contact.",
+          "HealthyChildren subliniază că jocul scurt, cu atenție deplină, îi transmite copilului că este văzut și valorizat. Nu trebuie să fie zilnic ca să conteze, dar ajută să fie recognoscibil și protejat de grabă.",
+        ],
+      },
+      {
+        title: "Cum arată în practică",
+        paragraphs: [
+          "Formatul este simplu tocmai ca să poată fi repetat. Pui un timer, lași telefonul deoparte și îl lași pe copil să conducă activitatea cât timp cadrul rămâne sigur.",
+        ],
+        bullets: [
+          "Alege 10-15 minute, de 2-3 ori pe săptămână.",
+          "Spune clar că este timpul lui: acum urmează timpul tău special.",
+          "Lasă copilul să aleagă jocul dintre opțiuni simple și sigure.",
+          "Intră în joc fără să corectezi, să predai sau să verifici altceva în paralel.",
+        ],
+      },
+      {
+        title: "Cum îl folosești în două case fără competiție",
+        paragraphs: [
+          "Nu e nevoie ca amândoi părinții să facă aceeași activitate sau să compare cine oferă mai mult. Ajută mai mult ideea de ritual recognoscibil decât identitatea jocului.",
+          "De exemplu, la un părinte poate fi timpul de construit pe covor, iar la celălalt timpul de desen sau Lego. Nucleul comun este același: copilul conduce, adultul este prezent și intervalul este suficient de scurt încât să rămână realist.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Timpul special își pierde forța când devine monedă de schimb sau teren de corectare. Nu scopul este să faci ceva impresionant, ci să oferi contact de calitate.",
+        ],
+        bullets: [
+          "Nu îl condiționa de cum s-a purtat copilul mai devreme.",
+          "Nu transforma jocul în lecție sau în ședință de întrebări.",
+          "Nu sta cu telefonul lângă tine ca și cum ai fi doar pe jumătate acolo.",
+          "Nu îl anula prea ușor; dacă îl muți, oferă un nou reper clar.",
+        ],
+      },
+      {
+        title: "Semnul că rezervorul începe să se umple",
+        paragraphs: [
+          "Nu doar că acel sfert de oră merge bine, ci că în restul săptămânii copilul caută contactul cu mai puțină disperare și suportă mai bine micile frustrări. Uneori schimbarea se vede în ton: mai puține agățări bruște, mai puțin ping-pong și o revenire mai rapidă după tranziții sau despărțiri.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Timpul special nu trebuie să fie lung ca să fie puternic.",
+      "Copilul conduce jocul, iar adultul oferă atenție întreagă și calmă.",
+      "Un ritual scurt și repetabil poate scădea tensiunea din multe alte momente ale săptămânii.",
+    ],
+    en: {
+      title: "15 minutes of special time that refill the relationship",
+      summary:
+        "A few minutes of child-led play, with no phone and no correcting, can change the tone of a busy week more than many parents expect.",
+      intro:
+        "HealthyChildren recommends what it calls sunshine time: 10 to 15 minutes, two to three times a week, when the adult gives full attention, lets the child choose the activity and stays in the play. It is not a reward and it is not a way to get instant perfect behaviour. It is a small reservoir of connection that can make the rest of the week less tense. In two-home families, that small and predictable regularity can matter a lot.",
+      sections: [
+        {
+          title: "Why a short but predictable time matters",
+          paragraphs: [
+            "When connection only happens in the leftovers of the day, children may end up asking for it exactly in the most inconvenient moments: when you are leaving, when you are on your phone, while making dinner or when you are trying to close the evening. A special time placed intentionally in the schedule reduces some of that contact hunger.",
+            "HealthyChildren emphasises that short play with full attention helps children feel seen and valued. It does not have to happen every day to matter, but it helps when it is recognisable and protected from rush.",
+          ],
+        },
+        {
+          title: "What it looks like in practice",
+          paragraphs: [
+            "The format is simple precisely so it can be repeated. You set a timer, put the phone away and let the child lead the activity as long as the frame stays safe.",
+          ],
+          bullets: [
+            "Choose 10 to 15 minutes, 2 to 3 times a week.",
+            "Say clearly that it is their time: now it's your special time.",
+            "Let the child choose the game from simple and safe options.",
+            "Join the play without correcting, teaching or checking something else at the same time.",
+          ],
+        },
+        {
+          title: "How to use it across two homes without competition",
+          paragraphs: [
+            "Both parents do not need to offer the same activity or compare who gives more. The recognisable ritual matters more than the exact game.",
+            "For one parent it may be building time on the rug, and for the other drawing time or Lego. The shared core stays the same: the child leads, the adult is present and the block is short enough to stay realistic.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Special time loses its power when it becomes bargaining currency or a correction arena. The point is not to do something impressive, but to offer quality contact.",
+          ],
+          bullets: [
+            "Do not make it conditional on how the child behaved earlier.",
+            "Do not turn the play into a lesson or a question session.",
+            "Do not keep your phone near you as if you are only half there.",
+            "Do not cancel it too easily; if you need to move it, offer a new clear anchor.",
+          ],
+        },
+        {
+          title: "The sign the reservoir is starting to fill",
+          paragraphs: [
+            "Not only that the 15 minutes go well, but that during the rest of the week the child seeks contact with less desperation and handles small frustrations better. Sometimes the shift shows up in tone: fewer sudden clingy grabs, less ping-pong and faster recovery after transitions or separations.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Special time does not need to be long to be powerful.",
+        "The child leads the play and the adult offers full, calm attention.",
+        "A short, repeatable ritual can lower tension in many other moments of the week.",
+      ],
+    },
+    sources: [
+      {
+        title: "Helping Little People Manage Big Feelings",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/Pages/helping-little-people-manage-big-feelings.aspx?form=HealthyChildren",
+        note: "AAP prezintă emotion coaching, sportscasting și \"sunshine time\" ca strategii simple prin care adultul îl ajută pe copil să se simtă văzut, susținut și mai capabil să treacă prin emoții mari. Pagina indică ultima actualizare la 7 noiembrie 2024.",
+      },
+    ],
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {
