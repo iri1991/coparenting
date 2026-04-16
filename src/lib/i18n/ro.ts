@@ -16,6 +16,8 @@ export const ro = {
     noCard: "fără card",
     days14free: "14 zile Pro gratuit",
     oneSubPerFamily: "un singur abonament pe familie",
+    whatsappLabel: "WhatsApp",
+    whatsappDefaultMessage: "Bună ziua! Aș dori mai multe informații.",
   },
   nav: {
     features: "Funcții",

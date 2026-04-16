@@ -18,6 +18,8 @@ export const en: Translations = {
     noCard: "no card needed",
     days14free: "14 days Pro free",
     oneSubPerFamily: "one subscription per family",
+    whatsappLabel: "WhatsApp",
+    whatsappDefaultMessage: "Hello! I would like more information.",
   },
   nav: {
     features: "Features",

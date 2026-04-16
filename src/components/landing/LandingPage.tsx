@@ -16,6 +16,7 @@ import { LandingBlogPreview } from "./LandingBlogPreview";
 import { LandingFAQ } from "./LandingFAQ";
 import { LandingFinalCTA } from "./LandingFinalCTA";
 import { LandingFooter } from "./LandingFooter";
+import { WhatsAppAgentButton } from "./WhatsAppAgentButton";
 import { landingDisplay, landingSans } from "./landingFonts";
 export function LandingPage() {
   return (
@@ -47,6 +48,7 @@ export function LandingPage() {
         <LandingFinalCTA />
         <LandingFooter />
       </main>
+      <WhatsAppAgentButton />
     </div>
   );
 }
