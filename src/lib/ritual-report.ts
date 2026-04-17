@@ -1,12 +1,15 @@
 import type { ParentType } from "@/types/events";
 import type { RitualResponsibleParent } from "@/types/ritual";
 import { addDaysToDateString } from "@/lib/date-bucharest";
+import { resolveParentForRitualOnDay, type ScheduleDaySlot } from "@/lib/schedule-parent-by-time";
 
 export type RitualReportCaretaker = ParentType;
 
 export interface RitualReportInputRitual {
   id: string;
   title: string;
+  /** Opțional HH:mm — raportul alege părintele din segmentul programului care conține ora. */
+  timeLabel?: string | null;
   responsibleParent: RitualResponsibleParent;
   active: boolean;
 }
@@ -62,13 +65,14 @@ export function iterateDateRangeInclusive(from: string, to: string): string[] {
 /**
  * Construiește raport: pentru fiecare zi cu program, dacă ritualul se aplică,
  * numără bifat vs nebifat, pe bucket-ul „cine era cu copilul” (tata / mama / together).
+ * `slotsByDate`: evenimentele calendar pe zi; ora (dacă există) determină părintele pentru ritual.
  */
 export function buildRitualReport(
   rituals: RitualReportInputRitual[],
-  eventsByDate: Map<string, ParentType>,
+  slotsByDate: Map<string, ScheduleDaySlot[]>,
   checkinKeys: Set<string>
 ): RitualReportRow[] {
-  const dates = [...eventsByDate.keys()].sort();
+  const dates = [...slotsByDate.keys()].sort();
 
   return rituals.map((ritual) => {
     const byCaretaker = emptyBuckets();
@@ -77,7 +81,9 @@ export function buildRitualReport(
     let missed = 0;
 
     for (const date of dates) {
-      const caretaker = eventsByDate.get(date);
+      const slots = slotsByDate.get(date);
+      if (!slots?.length) continue;
+      const caretaker = resolveParentForRitualOnDay(slots, ritual.timeLabel);
       if (!caretaker) continue;
       if (!ritualAppliesOnDay(ritual.responsibleParent, caretaker)) continue;
 

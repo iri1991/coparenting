@@ -1,7 +1,20 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval, parseISO, format, addDays, isBefore, isSameDay } from "date-fns";
+import {
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  isWithinInterval,
+  parseISO,
+  format,
+  addDays,
+  isBefore,
+  isSameDay,
+  subMonths,
+  subDays,
+} from "date-fns";
 import { ro } from "date-fns/locale";
 import { enGB } from "date-fns/locale";
 import { Calendar } from "@/components/Calendar";
@@ -27,10 +40,13 @@ import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { inter } from "@/lib/i18n/interpolate";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
+import { minutesByParentForDay } from "@/lib/schedule-parent-by-time";
 
 const POLL_INTERVAL_MS = 15000;
 
 type ParentRole = "tata" | "mama";
+
+type TimeReportPreset = "calendar_month" | "prev_month" | "last_30" | "last_90" | "custom";
 
 interface UserProfile {
   name: string | null;
@@ -136,6 +152,11 @@ export function DashboardClient({
   const [proposalPreviewDays, setProposalPreviewDays] = useState<WeekProposal["days"]>([]);
   const [proposalWeekLabel, setProposalWeekLabel] = useState<string | null>(null);
   const [showProposalPreview, setShowProposalPreview] = useState(true);
+  const [timeReportPreset, setTimeReportPreset] = useState<TimeReportPreset>("calendar_month");
+  const [timeReportCustomFrom, setTimeReportCustomFrom] = useState(() =>
+    format(startOfMonth(new Date()), "yyyy-MM-dd")
+  );
+  const [timeReportCustomTo, setTimeReportCustomTo] = useState(() => format(endOfMonth(new Date()), "yyyy-MM-dd"));
 
   const modalOpen = modalOpenProp ?? internalModalOpen;
   const setModalOpen = setModalOpenProp ?? setInternalModalOpen;
@@ -395,45 +416,111 @@ export function DashboardClient({
     return new Set(inWeek.map((e) => e.date)).size;
   }, [events, parentType]);
 
+  const timeReportRange = useMemo(() => {
+    const now = new Date();
+    let fromStr: string;
+    let toStr: string;
+    switch (timeReportPreset) {
+      case "calendar_month":
+        fromStr = format(startOfMonth(currentDate), "yyyy-MM-dd");
+        toStr = format(endOfMonth(currentDate), "yyyy-MM-dd");
+        break;
+      case "prev_month": {
+        const prev = subMonths(startOfMonth(now), 1);
+        fromStr = format(prev, "yyyy-MM-dd");
+        toStr = format(endOfMonth(prev), "yyyy-MM-dd");
+        break;
+      }
+      case "last_30":
+        fromStr = format(subDays(now, 29), "yyyy-MM-dd");
+        toStr = format(now, "yyyy-MM-dd");
+        break;
+      case "last_90":
+        fromStr = format(subDays(now, 89), "yyyy-MM-dd");
+        toStr = format(now, "yyyy-MM-dd");
+        break;
+      case "custom": {
+        const ymd = /^\d{4}-\d{2}-\d{2}$/;
+        let a = timeReportCustomFrom;
+        let b = timeReportCustomTo;
+        if (!ymd.test(a)) a = format(startOfMonth(now), "yyyy-MM-dd");
+        if (!ymd.test(b)) b = format(endOfMonth(now), "yyyy-MM-dd");
+        fromStr = a <= b ? a : b;
+        toStr = a <= b ? b : a;
+        break;
+      }
+    }
+    return { fromStr, toStr };
+  }, [timeReportPreset, currentDate, timeReportCustomFrom, timeReportCustomTo]);
+
   const parentTimeReport = useMemo(() => {
-    const monthStartStr = format(startOfMonth(currentDate), "yyyy-MM-dd");
-    const monthEndStr = format(endOfMonth(currentDate), "yyyy-MM-dd");
+    const { fromStr: monthStartStr, toStr: monthEndStr } = timeReportRange;
 
-    const dayOwner = new Map<string, "tata" | "mama" | "together">();
-    const sorted = [...events].sort((a, b) => {
-      if (a.date !== b.date) return a.date.localeCompare(b.date);
-      return (a.startTime ?? "").localeCompare(b.startTime ?? "");
-    });
-    for (const e of sorted) {
+    const byDate = new Map<string, ScheduleEvent[]>();
+    for (const e of events) {
       if (e.date < monthStartStr || e.date > monthEndStr) continue;
-      if (!dayOwner.has(e.date)) dayOwner.set(e.date, e.parent);
+      const arr = byDate.get(e.date) ?? [];
+      arr.push(e);
+      byDate.set(e.date, arr);
     }
 
-    let tataDays = 0;
-    let mamaDays = 0;
-    let togetherDays = 0;
-    for (const owner of dayOwner.values()) {
-      if (owner === "tata") tataDays += 1;
-      else if (owner === "mama") mamaDays += 1;
-      else togetherDays += 1;
+    const DAY_MIN = 24 * 60;
+    let tataMinutes = 0;
+    let mamaMinutes = 0;
+    let togetherMinutes = 0;
+    let totalTrackedDays = 0;
+
+    for (const [, dayEvents] of byDate) {
+      totalTrackedDays += 1;
+      const slots = dayEvents.map((ev) => ({
+        parent: ev.parent,
+        startTime: ev.startTime,
+        endTime: ev.endTime,
+      }));
+      const m = minutesByParentForDay(slots);
+      tataMinutes += m.get("tata") ?? 0;
+      mamaMinutes += m.get("mama") ?? 0;
+      togetherMinutes += m.get("together") ?? 0;
     }
 
-    const totalTrackedDays = tataDays + mamaDays + togetherDays;
+    const tataDays = tataMinutes / DAY_MIN;
+    const mamaDays = mamaMinutes / DAY_MIN;
+    const togetherDays = togetherMinutes / DAY_MIN;
+
     const tataWeighted = tataDays + togetherDays * 0.5;
     const mamaWeighted = mamaDays + togetherDays * 0.5;
-    const tataPct = totalTrackedDays > 0 ? Math.round((tataWeighted / totalTrackedDays) * 100) : 0;
-    const mamaPct = totalTrackedDays > 0 ? Math.round((mamaWeighted / totalTrackedDays) * 100) : 0;
+    const denom = tataWeighted + mamaWeighted;
+    const tataPct = denom > 0 ? Math.round((tataWeighted / denom) * 100) : 0;
+    const mamaPct = denom > 0 ? Math.round((mamaWeighted / denom) * 100) : 0;
+
+    function fmtDayFrac(v: number): string {
+      const r = Math.round(v);
+      if (Math.abs(v - r) < 0.001) return String(r);
+      return v.toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+    }
+
+    const a = parseISO(monthStartStr);
+    const b = parseISO(monthEndStr);
+    let rangeLabel: string;
+    if (format(a, "yyyy-MM") === format(b, "yyyy-MM")) {
+      rangeLabel = `${format(a, "d", { locale: dateLocale })}–${format(b, "d MMM yyyy", { locale: dateLocale })}`;
+    } else if (format(a, "yyyy") === format(b, "yyyy")) {
+      rangeLabel = `${format(a, "d MMM", { locale: dateLocale })} – ${format(b, "d MMM yyyy", { locale: dateLocale })}`;
+    } else {
+      rangeLabel = `${format(a, "d MMM yyyy", { locale: dateLocale })} – ${format(b, "d MMM yyyy", { locale: dateLocale })}`;
+    }
 
     return {
-      monthLabel: format(currentDate, "MMMM yyyy", { locale: dateLocale }),
-      tataDays,
-      mamaDays,
-      togetherDays,
+      rangeLabel,
+      tataDaysStr: fmtDayFrac(tataDays),
+      mamaDaysStr: fmtDayFrac(mamaDays),
+      togetherDaysStr: fmtDayFrac(togetherDays),
+      showTogetherLine: togetherMinutes > 0,
       totalTrackedDays,
       tataPct,
       mamaPct,
     };
-  }, [events, currentDate, dateLocale]);
+  }, [events, timeReportRange, dateLocale]);
 
   const greetingName =
     parentType === "tata"
@@ -759,44 +846,50 @@ export function DashboardClient({
           </div>
           <span className="text-xs text-stone-500">{d.hubMovedNote}</span>
         </div>
-        <div className="grid gap-2.5 sm:grid-cols-3">
-          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
-                <CalendarRange className="h-4.5 w-4.5" />
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+          <div className="min-w-0 rounded-[1.35rem] bg-white/80 px-1.5 py-2.5 sm:px-3 sm:py-3">
+            <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-2 sm:text-left">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e] sm:h-9 sm:w-9">
+                <CalendarRange className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.yourWeek}</p>
-                <p className="text-lg font-semibold text-stone-900">{daysThisWeekWithEvents}</p>
+              <div className="min-w-0">
+                <p className="text-[9px] font-semibold uppercase leading-tight tracking-[0.08em] text-stone-400 sm:text-[11px] sm:tracking-[0.14em]">
+                  {d.yourWeek}
+                </p>
+                <p className="text-base font-semibold tabular-nums text-stone-900 sm:text-lg">{daysThisWeekWithEvents}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">
+            <p className="mt-1.5 text-center text-[10px] leading-snug text-stone-600 sm:mt-2 sm:text-left sm:text-sm">
               {daysThisWeekWithEvents === 1 ? d.scheduledTimeSingle : d.scheduledTimePlural}
             </p>
           </div>
-          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#f8e4da] text-[#b96a4b]">
-                <Sparkles className="h-4.5 w-4.5" />
+          <div className="min-w-0 rounded-[1.35rem] bg-white/80 px-1.5 py-2.5 sm:px-3 sm:py-3">
+            <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-2 sm:text-left">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-[#f8e4da] text-[#b96a4b] sm:h-9 sm:w-9">
+                <Sparkles className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.sharedMemory}</p>
-                <p className="text-lg font-semibold text-stone-900">{activitiesSummary.length}</p>
+              <div className="min-w-0">
+                <p className="text-[9px] font-semibold uppercase leading-tight tracking-[0.08em] text-stone-400 sm:text-[11px] sm:tracking-[0.14em]">
+                  {d.sharedMemory}
+                </p>
+                <p className="text-base font-semibold tabular-nums text-stone-900 sm:text-lg">{activitiesSummary.length}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">{d.activitiesLogged}</p>
+            <p className="mt-1.5 text-center text-[10px] leading-snug text-stone-600 sm:mt-2 sm:text-left sm:text-sm">{d.activitiesLogged}</p>
           </div>
-          <div className="rounded-[1.35rem] bg-white/80 px-3 py-3">
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#f7f0e7] text-[#8a6330]">
-                <LockKeyhole className="h-4.5 w-4.5" />
+          <div className="min-w-0 rounded-[1.35rem] bg-white/80 px-1.5 py-2.5 sm:px-3 sm:py-3">
+            <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-2 sm:text-left">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-[#f7f0e7] text-[#8a6330] sm:h-9 sm:w-9">
+                <LockKeyhole className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">{d.availability}</p>
-                <p className="text-lg font-semibold text-stone-900">{blockedPeriods.length}</p>
+              <div className="min-w-0">
+                <p className="text-[9px] font-semibold uppercase leading-tight tracking-[0.08em] text-stone-400 sm:text-[11px] sm:tracking-[0.14em]">
+                  {d.availability}
+                </p>
+                <p className="text-base font-semibold tabular-nums text-stone-900 sm:text-lg">{blockedPeriods.length}</p>
               </div>
             </div>
-            <p className="mt-2 text-sm text-stone-600">{d.blockedIntervals}</p>
+            <p className="mt-1.5 text-center text-[10px] leading-snug text-stone-600 sm:mt-2 sm:text-left sm:text-sm">{d.blockedIntervals}</p>
           </div>
         </div>
       </section>
@@ -835,16 +928,69 @@ export function DashboardClient({
       )}
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
-        <div className="flex items-center justify-between gap-2 mb-2">
-          <h2 className="text-base font-semibold text-stone-800">{d.timeReport}</h2>
-          <span className="text-xs text-stone-500 capitalize">{parentTimeReport.monthLabel}</span>
+        <h2 className="text-base font-semibold text-stone-800 mb-2">{d.timeReport}</h2>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {(
+            [
+              ["calendar_month", d.timeReportPresetCalendarMonth],
+              ["prev_month", d.timeReportPresetPrevMonth],
+              ["last_30", d.timeReportPresetLast30],
+              ["last_90", d.timeReportPresetLast90],
+              ["custom", d.timeReportPresetCustom],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => {
+                if (id === "custom") {
+                  setTimeReportCustomFrom(format(startOfMonth(currentDate), "yyyy-MM-dd"));
+                  setTimeReportCustomTo(format(endOfMonth(currentDate), "yyyy-MM-dd"));
+                }
+                setTimeReportPreset(id);
+              }}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition touch-manipulation ${
+                timeReportPreset === id
+                  ? "bg-[#1f3a36] text-white shadow-sm"
+                  : "bg-stone-100 text-stone-600 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
+        {timeReportPreset === "custom" && (
+          <div className="flex flex-wrap items-end gap-3 mb-3 text-xs">
+            <div>
+              <label className="mb-1 block text-stone-500 dark:text-stone-400">{d.timeReportCustomFrom}</label>
+              <input
+                type="date"
+                value={timeReportCustomFrom}
+                onChange={(e) => setTimeReportCustomFrom(e.target.value)}
+                className="rounded-lg border border-stone-200 bg-white px-2 py-1.5 text-stone-800 dark:border-stone-600 dark:bg-stone-900 dark:text-stone-100"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-stone-500 dark:text-stone-400">{d.timeReportCustomTo}</label>
+              <input
+                type="date"
+                value={timeReportCustomTo}
+                onChange={(e) => setTimeReportCustomTo(e.target.value)}
+                className="rounded-lg border border-stone-200 bg-white px-2 py-1.5 text-stone-800 dark:border-stone-600 dark:bg-stone-900 dark:text-stone-100"
+              />
+            </div>
+          </div>
+        )}
+        <p className="text-xs text-stone-500 capitalize mb-2">{parentTimeReport.rangeLabel}</p>
         {parentTimeReport.totalTrackedDays === 0 ? (
           <p className="text-sm text-stone-500">
             {d.timeReportEmpty}
           </p>
         ) : (
           <>
+            <p className="text-[11px] text-stone-400 mb-2">
+              {inter(d.timeReportScheduledInRange, { count: String(parentTimeReport.totalTrackedDays) })}
+            </p>
             <div className="mb-3 h-3 w-full overflow-hidden rounded-full bg-stone-100">
               <div className="float-left h-full bg-[#cb7757]" style={{ width: `${parentTimeReport.tataPct}%` }} />
               <div className="float-left h-full bg-[#e5b18d]" style={{ width: `${parentTimeReport.mamaPct}%` }} />
@@ -853,21 +999,21 @@ export function DashboardClient({
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
                 <p className="text-stone-500">{d.timeFor} {resolvedParent1}</p>
                 <p className="font-semibold text-stone-800">
-                  {parentTimeReport.tataDays} {d.timeReportDaysUnit}
+                  {parentTimeReport.tataDaysStr} {d.timeReportDaysUnit}
                   <span className="font-medium text-stone-500"> · {parentTimeReport.tataPct}%</span>
                 </p>
               </div>
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
                 <p className="text-stone-500">{d.timeFor} {resolvedParent2}</p>
                 <p className="font-semibold text-stone-800">
-                  {parentTimeReport.mamaDays} {d.timeReportDaysUnit}
+                  {parentTimeReport.mamaDaysStr} {d.timeReportDaysUnit}
                   <span className="font-medium text-stone-500"> · {parentTimeReport.mamaPct}%</span>
                 </p>
               </div>
             </div>
-            {parentTimeReport.togetherDays > 0 && (
+            {parentTimeReport.showTogetherLine && (
               <p className="mt-2 text-xs text-stone-500">
-                {d.togetherDays} {parentTimeReport.togetherDays} {d.togetherNote}
+                {d.togetherDays} {parentTimeReport.togetherDaysStr} {d.togetherNote}
               </p>
             )}
           </>

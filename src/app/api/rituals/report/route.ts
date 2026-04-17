@@ -12,6 +12,7 @@ import {
   RITUAL_REPORT_MAX_RANGE_DAYS,
   type RitualReportInputRitual,
 } from "@/lib/ritual-report";
+import type { ScheduleDaySlot } from "@/lib/schedule-parent-by-time";
 
 function deriveFromType(type: string): { parent: ParentType } {
   switch (type) {
@@ -95,13 +96,13 @@ export async function GET(request: Request) {
     db
       .collection("family_rituals")
       .find({ familyId })
-      .project({ title: 1, responsibleParent: 1, active: 1, order: 1, createdAt: 1 })
+      .project({ title: 1, timeLabel: 1, responsibleParent: 1, active: 1, order: 1, createdAt: 1 })
       .sort({ order: 1, createdAt: 1 })
       .toArray(),
     db
       .collection("schedule_events")
       .find({ familyId, date: { $gte: from, $lte: to } })
-      .project({ date: 1, parent: 1, type: 1 })
+      .project({ date: 1, parent: 1, type: 1, startTime: 1, endTime: 1 })
       .toArray(),
     db
       .collection("family_ritual_checkins")
@@ -110,11 +111,25 @@ export async function GET(request: Request) {
       .toArray(),
   ]);
 
-  const eventsByDate = new Map<string, ParentType>();
-  for (const ev of eventDocs as { date?: string; parent?: string | null; type?: string | null }[]) {
+  const slotsByDate = new Map<string, ScheduleDaySlot[]>();
+  for (const ev of eventDocs as {
+    date?: string;
+    parent?: string | null;
+    type?: string | null;
+    startTime?: string | null;
+    endTime?: string | null;
+  }[]) {
     if (!ev.date || ev.date < from || ev.date > to) continue;
     const p = eventParentFromDoc(ev);
-    if (p) eventsByDate.set(ev.date, p);
+    if (!p) continue;
+    const slot: ScheduleDaySlot = {
+      parent: p,
+      startTime: ev.startTime ?? null,
+      endTime: ev.endTime ?? null,
+    };
+    const list = slotsByDate.get(ev.date) ?? [];
+    list.push(slot);
+    slotsByDate.set(ev.date, list);
   }
 
   const checkinKeys = new Set<string>();
@@ -126,11 +141,13 @@ export async function GET(request: Request) {
   const rituals: RitualReportInputRitual[] = (ritualDocs as {
     _id: ObjectId;
     title: string;
+    timeLabel?: string | null;
     responsibleParent?: string | null;
     active?: boolean;
   }[]).map((d) => ({
     id: String(d._id),
     title: d.title,
+    timeLabel: typeof d.timeLabel === "string" && /^\d{2}:\d{2}$/.test(d.timeLabel.trim()) ? d.timeLabel.trim() : null,
     responsibleParent:
       d.responsibleParent === "tata" || d.responsibleParent === "mama" || d.responsibleParent === "both"
         ? (d.responsibleParent as RitualResponsibleParent)
@@ -138,13 +155,13 @@ export async function GET(request: Request) {
     active: d.active !== false,
   }));
 
-  const rows = buildRitualReport(rituals, eventsByDate, checkinKeys);
+  const rows = buildRitualReport(rituals, slotsByDate, checkinKeys);
 
   return NextResponse.json({
     from,
     to,
     daysInRange: days.length,
-    daysWithSchedule: eventsByDate.size,
+    daysWithSchedule: slotsByDate.size,
     rows,
   });
 }
