@@ -3187,6 +3187,421 @@ const blogArticles: BlogArticle[] = [
       },
     ],
   },
+  {
+    slug: "un-singur-pas-clar-inainte-de-plecare",
+    enSlug: "one-clear-step-before-leaving",
+    title: "Un singur pas clar înainte de plecare",
+    summary:
+      "La plecarea dintre două case, copilul cooperează mai ușor când adultul cere un singur pas concret pe rând, în loc să arunce toată lista odată.",
+    intro:
+      "Harvard Center on the Developing Child descrie funcțiile executive ca sistemul care îl ajută pe copil să țină minte informația relevantă, să schimbe viteza și să-și frâneze impulsurile. Exact aceste abilități sunt solicitate când trebuie să lase o activitate, să-și ia lucrurile și să plece. De aceea, la tranziții ajută mai puțin discursul lung și mai mult un singur pas clar, spus calm.",
+    image: {
+      src: "/blog/one-clear-step-transition.svg",
+      alt: "Părinte care îi oferă copilului un singur pas clar înainte de plecare",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-17",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce plecarea blochează atât de repede cooperarea",
+        paragraphs: [
+          "Pentru copil, plecarea nu înseamnă doar să pună pantofii. În același timp trebuie să lase ce făcea, să rețină ce urmează, să suporte graba adultului și să-și gestioneze propriul disconfort.",
+          "Când îi dai cinci instrucțiuni dintr-o dată, îi ceri prea mult tocmai din sistemul care este deja solicitat. Nu e neapărat opoziție; de multe ori e supraîncărcare.",
+        ],
+      },
+      {
+        title: "Cum sună un singur pas clar",
+        paragraphs: [
+          "Scopul nu este să explici tot planul, ci să faci următorul pas ușor de executat. Limbajul scurt și concret scade zgomotul și îl ajută pe copil să înceapă.",
+        ],
+        bullets: [
+          "Acum punem mașinuțele în cutie.",
+          "Când ai terminat, venim la pantofi.",
+          "Întâi sticla în geantă, apoi ieșim.",
+          "Te ajut cu fermoarul după ce îți pui hanoracul.",
+        ],
+      },
+      {
+        title: "Ordinea care ajută cel mai des",
+        paragraphs: [
+          "Merită să păstrezi aceeași succesiune mare de fiecare dată: strângem, încălțăm, luăm geanta, ieșim. Nu trebuie să fie perfectă, dar dacă ordinea rămâne recognoscibilă, copilul nu mai trebuie să reconstruiască tot traseul de fiecare dată.",
+          "Poți anunța doar pasul următor, nu toată secvența. După ce acel pas s-a închis, îl oferi pe următorul. Asta susține atât memoria de lucru, cât și capacitatea de a schimba ritmul fără să intre imediat în luptă.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "La plecare, discursul lung și presiunea suplimentară cresc frecvent blocajul. Dacă vrei mișcare, merită să reduci complexitatea, nu să ridici volumul.",
+        ],
+        bullets: [
+          "Nu da lista completă de instrucțiuni în aceeași propoziție.",
+          "Nu amesteca plecarea cu morală despre comportamentul de mai devreme.",
+          "Nu schimba ordinea de fiecare dată dacă nu este necesar.",
+          "Nu interpreta orice încetinire ca lipsă de voință.",
+        ],
+      },
+      {
+        title: "Semnul că abordarea începe să ajute",
+        paragraphs: [
+          "Nu neapărat că plecarea devine veselă, ci că apar mai puține rupturi mari: mai puține reamintiri repetate, mai puține certuri din nimic și mai multe momente în care copilul poate duce singur la capăt pasul pe care îl are în față.",
+        ],
+      },
+    ],
+    takeaways: [
+      "La tranziții, un singur pas clar ajută mai mult decât o listă lungă.",
+      "Limbajul scurt și ordinea recognoscibilă scad supraîncărcarea copilului.",
+      "Încetinirea de la plecare nu înseamnă automat sfidare; poate însemna că sistemul are nevoie de mai puțină complexitate.",
+    ],
+    sources: [
+      {
+        title: "InBrief: Executive Function",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resources/inbriefs/inbrief-executive-function/",
+        note: "Harvard explică faptul că funcțiile executive și autoreglarea includ memoria de lucru, flexibilitatea mentală și autocontrolul, abilități solicitate intens în momentele de schimbare și tranziție. Publicat la 20 mai 2012.",
+      },
+      {
+        title: "Activities Guide: Enhancing and Practicing Executive Function Skills with Children from Infancy to Adolescence",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/activities-guide-enhancing-and-practicing-executive-function-skills/",
+        note: "Ghidul Harvard spune că aceste abilități se dezvoltă prin interacțiuni și practică, motiv pentru care adulții pot susține cooperarea prin structură simplă și pași pe care copilul îi poate exersa. Publicat la 6 mai 2014.",
+      },
+    ],
+    en: {
+      title: "One clear step before leaving",
+      summary:
+        "During departures between two homes, children cooperate more easily when the adult gives one concrete step at a time instead of throwing the whole list at them at once.",
+      intro:
+        "The Harvard Center on the Developing Child describes executive function as the system that helps children hold relevant information in mind, shift gears, and put the brakes on impulses. Those are exactly the skills a child needs when they have to leave an activity, gather their things, and head out. That is why long speeches tend to help less at transition time, while one calm, clear step helps more.",
+      sections: [
+        {
+          title: "Why departures trigger blockage so quickly",
+          paragraphs: [
+            "For a child, leaving does not just mean putting on shoes. At the same time, they need to stop what they are doing, remember what comes next, absorb the adult's urgency, and manage their own discomfort.",
+            "When you give five instructions at once, you are demanding too much from the very system that is already under strain. It is not always opposition; often it is overload.",
+          ],
+        },
+        {
+          title: "What one clear step sounds like",
+          paragraphs: [
+            "The goal is not to explain the whole plan but to make the next move easy to execute. Short, concrete language reduces noise and helps the child get started.",
+          ],
+          bullets: [
+            "Now we put the cars in the box.",
+            "When that is done, we go to shoes.",
+            "First the water bottle goes in the bag, then we head out.",
+            "I will help with the zip after you put on your hoodie.",
+          ],
+        },
+        {
+          title: "The order that most often helps",
+          paragraphs: [
+            "It is worth keeping the same big sequence most of the time: tidy up, shoes, bag, out. It does not need to be perfect, but when the order stays recognisable, the child does not have to rebuild the whole route each time.",
+            "You can announce only the next step, not the whole sequence. Once that step is finished, you offer the next one. That supports both working memory and the ability to shift gears without immediately dropping into a fight.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "At departure time, long explanations and extra pressure often increase the freeze. If you want movement, it helps to reduce complexity rather than raise your volume.",
+          ],
+          bullets: [
+            "Do not give the full instruction list in one sentence.",
+            "Do not mix leaving with a lecture about earlier behaviour.",
+            "Do not change the order every time unless you need to.",
+            "Do not read every slowdown as unwillingness.",
+          ],
+        },
+        {
+          title: "The sign it is starting to help",
+          paragraphs: [
+            "Not necessarily that leaving becomes cheerful, but that there are fewer major ruptures: fewer repeated reminders, fewer arguments from nowhere, and more moments when the child can complete the step in front of them on their own.",
+          ],
+        },
+      ],
+      takeaways: [
+        "At transition time, one clear step helps more than a long list.",
+        "Short language and recognisable order reduce overload for the child.",
+        "Slow movement during departures does not automatically mean defiance; it may mean the system needs less complexity.",
+      ],
+    },
+  },
+  {
+    slug: "doua-alegeri-bune-cand-copilul-se-blocheaza",
+    enSlug: "two-good-choices-when-your-child-gets-stuck",
+    title: "Două alegeri bune când copilul se blochează",
+    summary:
+      "În loc de negocieri largi sau ordine rigide, două opțiuni bune îi pot oferi copilului suficient control cât să poată schimba ritmul fără să intre în luptă.",
+    intro:
+      "Harvard include flexibilitatea mentală și autocontrolul între piesele de bază ale autoreglării. Asta contează mult în co-parenting, unde copilul trebuie des să schimbe planul, casa sau ritmul. Când îl vezi că se înțepenește, două alegeri bune nu sunt un truc de manipulare, ci o formă de sprijin: îi oferi cadru clar și un strop de control în interiorul lui.",
+    image: {
+      src: "/blog/two-good-choices.svg",
+      alt: "Copil care primește două alegeri bune și clare într-un moment de blocaj",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-17",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce alegerile mici ajută când apare blocajul",
+        paragraphs: [
+          "Când copilul simte că totul i se întâmplă din afară, rezistența crește repede. O alegere mică nu schimbă realitatea de bază, dar poate reduce senzația de a fi împins cu totul.",
+          "În același timp, alegerea îl obligă blând să intre în mișcare: să compare, să decidă și să facă următorul pas. Asta poate susține flexibilitatea fără să deschidă o negociere infinită.",
+        ],
+      },
+      {
+        title: "Cum arată o alegere bună",
+        paragraphs: [
+          "Opțiunile trebuie să fie ambele acceptabile pentru adult și suficient de simple pentru copil. Nu oferi zece variante și nu întreba ceva la care nu ești dispus să accepți și răspunsul.",
+        ],
+        bullets: [
+          "Vrei să iei ursulețul sau cartea în mașină?",
+          "Îți pui mai întâi hanoracul sau pantofii?",
+          "Vrei să mergi tu până la ușă sau te țin eu de mână?",
+          "Facem poza de rămas-bun acum sau după ce te încalți?",
+        ],
+      },
+      {
+        title: "Unde merge bine și unde nu",
+        paragraphs: [
+          "Alegerile mici merg bine când scopul rămâne fix, dar drumul poate avea două variante. De exemplu: plecăm, ne spălăm, urcăm în mașină, intrăm în casă. În aceste momente, alegerea poate scădea fricțiunea.",
+          "Nu este o soluție bună când tema este siguranța sau o limită nenegociabilă. Acolo mesajul trebuie să rămână clar și direct, nu ambalat artificial ca opțiune.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Dacă alegerea e falsă sau prea largă, copilul simte repede și încrederea scade. Scopul nu e să-l păcălești să coopereze, ci să-i ușurezi trecerea spre ceea ce tot trebuie făcut.",
+        ],
+        bullets: [
+          "Nu întreba dacă plecăm când știi că plecarea nu este opțională.",
+          "Nu oferi opțiuni pe care apoi le retragi nervos.",
+          "Nu deschide trei negocieri noi după ce ai oferit deja două variante bune.",
+          "Nu transforma alegerea într-un test de ascultare.",
+        ],
+      },
+      {
+        title: "Semnul că metoda este potrivită",
+        paragraphs: [
+          "Copilul nu devine brusc încântat de schimbare, dar iese mai repede din împietrire. Vezi mai puține lupte despre tot și mai multe momente în care poate face o alegere mică fără să se prăbușească emoțional.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Două opțiuni bune pot reduce senzația de control pierdut în timpul schimbărilor.",
+      "Alegerile ajută doar dacă ambele variante sunt reale și acceptabile.",
+      "Nu oferim opțiuni la limite de siguranță, ci acolo unde drumul poate varia fără cost pentru copil.",
+    ],
+    sources: [
+      {
+        title: "InBrief: Executive Function",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resources/inbriefs/inbrief-executive-function/",
+        note: "Harvard include flexibilitatea mentală și autocontrolul între componentele funcțiilor executive, ceea ce susține folosirea unor alegeri simple pentru a exersa schimbarea de plan fără supraîncărcare. Publicat la 20 mai 2012.",
+      },
+      {
+        title: "Activities Guide: Enhancing and Practicing Executive Function Skills with Children from Infancy to Adolescence",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/activities-guide-enhancing-and-practicing-executive-function-skills/",
+        note: "Ghidul Harvard subliniază că autoreglarea se consolidează prin practică și interacțiuni adecvate vârstei, nu doar prin corecții verbale, ceea ce face utile structurile simple cu alegeri limitate. Publicat la 6 mai 2014.",
+      },
+    ],
+    en: {
+      title: "Two good choices when your child gets stuck",
+      summary:
+        "Instead of wide-open negotiation or rigid commands, two good options can give the child enough control to shift gears without dropping into a fight.",
+      intro:
+        "Harvard lists mental flexibility and self-control among the core pieces of self-regulation. That matters a lot in co-parenting, where a child often has to switch plans, homes, or pace. When you see them getting stuck, two good choices are not a manipulation trick but a form of support: you provide a clear frame and a small amount of control inside it.",
+      sections: [
+        {
+          title: "Why small choices help when the system gets stuck",
+          paragraphs: [
+            "When a child feels everything is being done to them from the outside, resistance rises quickly. A small choice does not change the basic reality, but it can reduce the feeling of being pushed all the way through it.",
+            "At the same time, the choice gently asks them to move: compare, decide, and take the next step. That can support flexibility without opening an endless negotiation.",
+          ],
+        },
+        {
+          title: "What a good choice looks like",
+          paragraphs: [
+            "Both options need to be acceptable to the adult and simple enough for the child. Do not offer ten alternatives, and do not ask a question if you are not willing to accept the answer.",
+          ],
+          bullets: [
+            "Do you want to take the teddy or the book in the car?",
+            "Do you want hoodie first or shoes first?",
+            "Do you want to walk to the door yourself or hold my hand?",
+            "Do we do the goodbye photo now or after you get dressed?",
+          ],
+        },
+        {
+          title: "Where it works well and where it does not",
+          paragraphs: [
+            "Small choices work well when the goal stays fixed but the route can have two versions. For example: we are leaving, washing, getting into the car, or coming inside. In those moments, choice can lower friction.",
+            "It is not a good tool when the issue is safety or a non-negotiable limit. There the message needs to stay clear and direct, not dressed up as an artificial option.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "If the choice is fake or too wide, the child feels it quickly and trust drops. The point is not to trick them into cooperation but to ease the move toward what still needs to happen.",
+          ],
+          bullets: [
+            "Do not ask whether we are leaving when leaving is not optional.",
+            "Do not offer options you then angrily take away.",
+            "Do not open three new negotiations after you already gave two good options.",
+            "Do not turn the choice into a listening test.",
+          ],
+        },
+        {
+          title: "The sign the method fits",
+          paragraphs: [
+            "The child does not suddenly become delighted by change, but they come out of the freeze more quickly. You see fewer all-or-nothing fights and more moments when they can make a small decision without falling apart emotionally.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Two good options can reduce the feeling of lost control during change.",
+        "Choices help only when both options are real and acceptable.",
+        "Do not offer options around safety limits; use them where the route can vary without cost to the child.",
+      ],
+    },
+  },
+  {
+    slug: "jocurile-scurte-de-asteptare-care-antreneaza-frana",
+    enSlug: "short-waiting-games-that-build-the-brake",
+    title: "Jocurile scurte de așteptare care antrenează frâna",
+    summary:
+      "Momentele mici de așteptare dintre două case pot deveni ocazii de conectare și practică pentru autocontrol, dacă alegi jocuri simple care cer pornire, oprire și schimbare de ritm.",
+    intro:
+      "Harvard spune clar că funcțiile executive nu apar gata făcute, ci se dezvoltă prin interacțiuni și practică. Asta e util de ținut minte în co-parenting: nu toate momentele dintre două case trebuie umplute cu explicații sau ecrane. Uneori, două minute de joc simplu în mașină, pe hol sau la ușă îi oferă copilului exact exercițiul de care are nevoie ca să-și regleze corpul și atenția.",
+    image: {
+      src: "/blog/waiting-games-brake.svg",
+      alt: "Părinte și copil jucându-se scurt în așteptare pentru a exersa autocontrolul",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-17",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce merită folosite chiar în timpii morți",
+        paragraphs: [
+          "Așteptarea este unul dintre locurile unde se vede repede cât de greu îi este copilului să stea, să schimbe ritmul sau să-și frâneze impulsul. Tocmai de aceea, aceste minute mici pot deveni exercițiu bun, nu doar sursă de conflict.",
+          "Când jocul este scurt și repetabil, copilul primește atât conectare, cât și practică pentru oprire, pornire și atenție comună.",
+        ],
+      },
+      {
+        title: "Trei jocuri foarte simple",
+        paragraphs: [
+          "Nu ai nevoie de materiale speciale. Important este să păstrezi jocul scurt, jucăuș și suficient de ușor încât copilul să poată reuși.",
+        ],
+        bullets: [
+          "Stop-pornim: mergeți doi pași, apoi te oprești și spui calm stop; după o secundă, spui acum mergem.",
+          "Bate și așteaptă: tu bați un ritm simplu din palme sau pe genunchi, copilul îl repetă după o pauză scurtă.",
+          "Schimbăm regula: la verde spunem hop, la albastru spunem shh; după câteva ture inversezi regula și râdeți de încurcături.",
+        ],
+      },
+      {
+        title: "Cum le folosești fără să devină încă o cerință",
+        paragraphs: [
+          "Aceste jocuri nu sunt teme de performanță. Dacă le transformi în test, dispar exact beneficiile de conectare și reglare pe care le cauți.",
+          "Mai util este să intri tu primul în ritm, să accepți greșelile și să te oprești cât încă e plăcut. Două minute bune ajută mai mult decât zece minute în care copilul simte că iar trebuie să facă ceva corect.",
+        ],
+      },
+      {
+        title: "Când merg cel mai bine",
+        paragraphs: [
+          "Funcționează bine înainte de plecare, în primele minute după preluare, în sala de așteptare, la semaforul emoțional de dinaintea intrării în casă sau oriunde vezi că energia copilului are nevoie de un canal simplu și comun.",
+        ],
+        bullets: [
+          "În mașină, fără obiecte care cad sau agită și mai mult.",
+          "Pe hol, în timp ce așteptați liftul sau cheia.",
+          "La ușă, înainte de ritualul de rămas-bun.",
+          "După sosire, înainte să treci la întrebări sau corecturi.",
+        ],
+      },
+      {
+        title: "Semnul că jocul își face treaba",
+        paragraphs: [
+          "Nu că micile jocuri rezolvă totul, ci că scad tensiunea de intrare în moment. Copilul ajunge mai ușor în contact cu tine, iar tu ai un pod scurt între agitație și următorul pas al zilei.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Momentele de așteptare pot deveni exerciții scurte pentru autocontrol și conectare.",
+      "Jocurile simple de stop-pornire și schimbare de regulă exersează frâna și flexibilitatea.",
+      "Merită să rămână scurte și jucăușe, nu transformate în test sau corecție.",
+    ],
+    sources: [
+      {
+        title: "Activities Guide: Enhancing and Practicing Executive Function Skills with Children from Infancy to Adolescence",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/activities-guide-enhancing-and-practicing-executive-function-skills/",
+        note: "Harvard arată că jocurile și activitățile adecvate vârstei pot întări componente ale autoreglării și funcțiilor executive, inclusiv atenția, controlul impulsului și flexibilitatea. Publicat la 6 mai 2014.",
+      },
+      {
+        title: "A Guide to Executive Function",
+        publisher: "Harvard Center on the Developing Child",
+        url: "https://developingchild.harvard.edu/resource-guides/guide-executive-function/",
+        note: "Ghidul rezumă funcțiile executive ca abilități de a planifica, a focaliza atenția, a schimba viteza și a gestiona informația, motiv pentru care jocurile scurte de așteptare pot fi folosite ca practică blândă în viața de zi cu zi. Pagina a fost accesată în cadrul ghidului activ în 2026.",
+      },
+    ],
+    en: {
+      title: "Short waiting games that build the brake",
+      summary:
+        "The small waiting moments between two homes can become opportunities for connection and self-control practice if you choose simple games that involve stop, start, and shifting pace.",
+      intro:
+        "Harvard is clear that executive function skills do not arrive fully formed; they grow through interaction and practice. That matters in co-parenting: not every between-homes moment needs to be filled with explanations or screens. Sometimes two minutes of simple play in the car, in the hallway, or at the door gives the child exactly the practice they need to regulate their body and attention.",
+      sections: [
+        {
+          title: "Why they are worth using in dead time",
+          paragraphs: [
+            "Waiting is one of the places where you quickly see how hard it is for a child to stay still, shift pace, or brake an impulse. That is exactly why these tiny minutes can become useful practice rather than just another conflict source.",
+            "When the game is short and repeatable, the child gets both connection and practice for stopping, starting, and sharing attention.",
+          ],
+        },
+        {
+          title: "Three very simple games",
+          paragraphs: [
+            "You do not need special materials. What matters is keeping the game short, playful, and easy enough for the child to succeed.",
+          ],
+          bullets: [
+            "Stop-we-go: take two steps, then stop and calmly say stop; after a second, say now we go.",
+            "Clap and wait: you clap a simple rhythm on your hands or knees, and the child copies it after a brief pause.",
+            "Rule switch: on green we say hop, on blue we say shh; after a few rounds, reverse the rule and laugh at the mix-ups.",
+          ],
+        },
+        {
+          title: "How to use them without turning them into another demand",
+          paragraphs: [
+            "These games are not performance tasks. If you turn them into a test, you lose the very benefits of connection and regulation you were looking for.",
+            "It helps more to enter the rhythm yourself first, allow mistakes, and stop while it is still pleasant. Two good minutes help more than ten minutes where the child feels they have to get something right again.",
+          ],
+        },
+        {
+          title: "When they work best",
+          paragraphs: [
+            "They work well before leaving, in the first minutes after pickup, in a waiting room, at the emotional traffic light before walking into the house, or anywhere you can see the child's energy needs a simple shared channel.",
+          ],
+          bullets: [
+            "In the car, without objects that fall or stir things up further.",
+            "In the hallway while you wait for the lift or keys.",
+            "At the door before the goodbye ritual.",
+            "After arrival, before you move into questions or corrections.",
+          ],
+        },
+        {
+          title: "The sign the game is doing its job",
+          paragraphs: [
+            "Not that the small games solve everything, but that they lower the tension of entering the moment. The child comes into contact with you more easily, and you gain a short bridge between agitation and the next step of the day.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Waiting moments can become short exercises for self-control and connection.",
+        "Simple stop-start and rule-switch games practice the brake and flexibility.",
+        "They work best when they stay short and playful, not turned into a test or correction.",
+      ],
+    },
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {
