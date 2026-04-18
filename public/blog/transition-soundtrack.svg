@@ -1,0 +1,38 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#F9FBF7"/>
+  <circle cx="184" cy="130" r="80" fill="#F7DFE3"/>
+  <circle cx="1018" cy="144" r="88" fill="#DCEFFD"/>
+  <rect x="90" y="522" width="1020" height="122" rx="30" fill="#E5EDE5"/>
+  <circle cx="360" cy="230" r="72" fill="#F5D1AF"/>
+  <path d="M296 228C296 193.758 323.758 166 358 166H378C412.242 166 440 193.758 440 228V246H296V228Z" fill="#4A3B36"/>
+  <circle cx="344" cy="232" r="5" fill="#312723"/>
+  <circle cx="380" cy="232" r="5" fill="#312723"/>
+  <path d="M346 256C356.333 264 366.667 264 377 256" stroke="#A56D63" stroke-width="4" stroke-linecap="round"/>
+  <rect x="280" y="292" width="176" height="214" rx="42" fill="#1F3A36"/>
+  <rect x="316" y="490" width="34" height="92" rx="17" fill="#F5D1AF"/>
+  <rect x="384" y="490" width="34" height="92" rx="17" fill="#F5D1AF"/>
+  <rect x="300" y="574" width="62" height="22" rx="11" fill="#8B6D58"/>
+  <rect x="372" y="574" width="62" height="22" rx="11" fill="#8B6D58"/>
+  <circle cx="770" cy="256" r="64" fill="#F7D9BE"/>
+  <path d="M714 254C714 223.072 739.072 198 770 198C800.928 198 826 223.072 826 254V270H714V254Z" fill="#6A86A7"/>
+  <circle cx="750" cy="258" r="5" fill="#465A72"/>
+  <circle cx="786" cy="258" r="5" fill="#465A72"/>
+  <path d="M752 282C762 289.333 772 289.333 782 282" stroke="#A97267" stroke-width="4" stroke-linecap="round"/>
+  <rect x="712" y="318" width="116" height="182" rx="36" fill="#B8D7F2"/>
+  <rect x="734" y="488" width="28" height="80" rx="14" fill="#F7D9BE"/>
+  <rect x="776" y="488" width="28" height="80" rx="14" fill="#F7D9BE"/>
+  <rect x="722" y="560" width="50" height="18" rx="9" fill="#6B86A0"/>
+  <rect x="772" y="560" width="50" height="18" rx="9" fill="#6B86A0"/>
+  <rect x="510" y="220" width="122" height="172" rx="24" fill="#FFFFFF" stroke="#D8E3DB" stroke-width="8"/>
+  <circle cx="570" cy="278" r="36" fill="#DFF3EC"/>
+  <path d="M554 278C554 269.163 561.163 262 570 262C578.837 262 586 269.163 586 278V314H554V278Z" fill="#5F8E7E"/>
+  <path d="M606 266C622 254 642 256 654 270" stroke="#E29AAC" stroke-width="10" stroke-linecap="round"/>
+  <path d="M614 318C630 306 650 308 662 322" stroke="#E29AAC" stroke-width="10" stroke-linecap="round"/>
+  <path d="M602 220C618 208 638 210 650 224" stroke="#79A9CF" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="674" cy="206" r="14" fill="#79A9CF"/>
+  <circle cx="680" cy="258" r="14" fill="#E29AAC"/>
+  <circle cx="688" cy="310" r="14" fill="#E29AAC"/>
+  <path d="M462 396C516 352 602 348 676 396" stroke="#E7C7A3" stroke-width="18" stroke-linecap="round"/>
+  <path d="M214 574H988" stroke="#CBD5CB" stroke-width="12" stroke-linecap="round"/>
+  <path d="M296 606H904" stroke="#CBD5CB" stroke-width="12" stroke-linecap="round"/>
+</svg>

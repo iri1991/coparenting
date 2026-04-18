@@ -107,6 +107,413 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "nu-striga-instructiunea-din-alta-camera-inainte-de-plecare",
+    enSlug: "dont-shout-the-instruction-from-the-other-room-before-leaving",
+    title: "Nu striga instrucțiunea din altă cameră înainte de plecare",
+    summary:
+      "Când vrei o tranziție mai lină, ajută să intri mai întâi în contact cu copilul și abia apoi să-i ceri să se miște; mesajul ajunge mai bine, iar rezistența scade fără să ridici tonul.",
+    intro:
+      "În multe case, conflictul de dinainte de plecare începe cu o propoziție strigată din bucătărie, de pe hol sau din cealaltă cameră: hai, acum, imediat, pune pantofii, ieșim. Child Mind Institute recomandă un pas mai simplu înainte de orice instrucțiune: captează atenția copilului. Contact vizual, apropiere, o mână ușoară pe umăr sau o rugăminte scurtă de a repeta ce a auzit schimbă mult felul în care mesajul intră în sistemul lui.",
+    image: {
+      src: "/blog/attention-before-transition.svg",
+      alt: "Părinte care se apropie de copil și îi captează calm atenția înainte de plecare",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-18",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce mesajul strigat ajunge prost",
+        paragraphs: [
+          "Într-o tranziție, copilul trebuie deja să oprească ceva, să schimbe ritmul și să treacă spre altceva. Dacă instrucțiunea vine de la distanță, în timp ce este absorbit într-un joc, un ecran sau o activitate, problema nu este doar voința. Adesea mesajul pur și simplu nu intră suficient de bine.",
+          "Child Mind Institute explică foarte practic faptul că, înainte să ceri mișcare, merită să faci o conexiune scurtă ca să te asiguri că informația se așază. Fără acel pas, părintele ajunge ușor să repete, să ridice tonul și să creadă că opoziția este mai mare decât este de fapt.",
+        ],
+      },
+      {
+        title: "Cum captezi atenția fără să transformi momentul într-un control",
+        paragraphs: [
+          "Nu ai nevoie de un discurs lung. Ai nevoie de apropiere și de o propoziție simplă. Mergi lângă copil, coboară la nivelul lui dacă se poate și livrează mesajul doar după ce vezi că te-a înregistrat.",
+        ],
+        bullets: [
+          "Fă un contact vizual scurt sau așază-te lângă el pentru câteva secunde.",
+          "Pune o mână ușoară pe umăr dacă îi este confortabil și dacă asta îl organizează.",
+          "Spune un singur pas clar: acum punem pantofii sau după carte mergem la baie.",
+          "Roagă-l să repete scurt ce urmează, mai ales dacă se pierde ușor în activitate.",
+        ],
+      },
+      {
+        title: "Unde se vede cel mai repede diferența",
+        paragraphs: [
+          "Mai ales în momentele în care înainte părea că nu ascultă deloc: plecarea spre școală, intrarea în baie, ieșirea din parc, predarea între case sau oprirea unui ecran. Când mesajul ajunge mai bine, nu mai este nevoie să împingi tranziția doar prin volum.",
+          "În familiile cu două case, asta contează și mai mult fiindcă sistemul copilului poate fi deja încărcat de schimbare. O cerere scurtă, livrată după conectare, cere mai puțină energie decât o serie de instrucțiuni strigate din fundal.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Când copilul pare că nu răspunde, tentația este să adaugi mai multe cuvinte și mai multă presiune. De obicei asta crește bruiajul, nu cooperarea.",
+        ],
+        bullets: [
+          "Nu da trei instrucțiuni dintr-odată din altă cameră.",
+          "Nu presupune că a auzit bine doar pentru că tu ai vorbit tare.",
+          "Nu transforma repetarea mesajului într-o critică despre caracterul copilului.",
+          "Nu cere contact și apoi deschide imediat o negociere lungă.",
+        ],
+      },
+      {
+        title: "Semnul că prinde",
+        paragraphs: [
+          "Auzi mai puține reamintiri consecutive și vezi mai des că primul pas începe fără explozie mare. Nu pentru că tranzițiile devin plăcute peste noapte, ci pentru că mesajul ajunge într-un copil care a fost întâi găsit, nu doar comandat.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Înainte de instrucțiune, contactul scurt ajută mesajul să ajungă mai bine.",
+      "Apropierea, contactul vizual și un singur pas clar reduc nevoia de a ridica tonul.",
+      "Când copilul te-a auzit cu adevărat, tranziția cere de obicei mai puțină forță.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute recomandă explicit captarea atenției înaintea instrucțiunii prin contact vizual, apropiere, atingere ușoară pe umăr sau cererea ca mesajul să fie repetat, nu strigat de la distanță. Pagina indică ultima revizuire sau actualizare la 15 septembrie 2025.",
+      },
+    ],
+    en: {
+      title: "Don't shout the instruction from the other room before leaving",
+      summary:
+        "If you want a smoother transition, it helps to connect with your child first and only then ask them to move; the message lands better and resistance drops without raising your voice.",
+      intro:
+        "In many homes, the pre-departure conflict starts with a sentence shouted from the kitchen, hallway or another room: come on, now, right away, put your shoes on, we're leaving. Child Mind Institute suggests a simpler step before any instruction: get the child's attention. Eye contact, moving closer, a light hand on the shoulder or a short request to repeat what they heard can change a great deal about how the message enters their system.",
+      sections: [
+        {
+          title: "Why shouted messages land badly",
+          paragraphs: [
+            "In a transition, the child already has to stop one thing, shift pace and move toward something else. If the instruction comes from far away while they're absorbed in a game, a screen or an activity, the issue is not always willpower. Often the message simply isn't landing well enough.",
+            "Child Mind Institute explains very practically that before asking for movement, it's worth making a brief connection to make sure the information settles. Without that step, the parent easily ends up repeating, raising their voice and assuming the resistance is bigger than it really is.",
+          ],
+        },
+        {
+          title: "How to get attention without turning the moment into control",
+          paragraphs: [
+            "You do not need a long speech. You need proximity and one simple sentence. Go near the child, get closer to their level if you can, and deliver the message only once you see that they have actually registered you.",
+          ],
+          bullets: [
+            "Make brief eye contact or sit next to them for a few seconds.",
+            "Put a light hand on their shoulder if that feels comfortable and helps organise them.",
+            "State one clear step: now we put on shoes or after the book we go to the bathroom.",
+            "Ask them to repeat back what comes next, especially if they get lost easily in what they're doing.",
+          ],
+        },
+        {
+          title: "Where the difference shows up fastest",
+          paragraphs: [
+            "Especially in the moments that used to look like they weren't listening at all: leaving for school, going into the bathroom, leaving the park, handovers between homes or turning off a screen. When the message lands better, you no longer have to push the transition through volume alone.",
+            "In two-home families this matters even more because the child's system may already be loaded by change. A brief request delivered after connection takes less energy than a string of instructions shouted from the background.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "When the child seems not to respond, the temptation is to add more words and more pressure. Usually that increases noise, not cooperation.",
+          ],
+          bullets: [
+            "Do not give three instructions at once from another room.",
+            "Do not assume they heard well just because you spoke loudly.",
+            "Do not turn message repetition into a character criticism.",
+            "Do not ask for connection and then open a long negotiation immediately.",
+          ],
+        },
+        {
+          title: "The sign it is landing",
+          paragraphs: [
+            "You hear fewer consecutive reminders and more often see the first step start without a major blow-up. Not because transitions suddenly become pleasant, but because the message is reaching a child who was first found, not only commanded.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Before instruction, brief connection helps the message land better.",
+        "Proximity, eye contact and one clear step reduce the need to raise your voice.",
+        "When the child has truly heard you, the transition usually needs less force.",
+      ],
+    },
+  },
+  {
+    slug: "repetitia-de-proba-pentru-tranzitiile-care-se-blocheaza",
+    enSlug: "the-dry-run-for-transitions-that-keep-getting-stuck",
+    title: "Repetiția de probă pentru tranzițiile care se blochează",
+    summary:
+      "Unele plecări merg mai bine când sunt exersate pe scurt într-un moment calm: copilul vede pașii, corpul îi recunoaște, iar tranziția reală cere mai puțină improvizație și mai puțină luptă.",
+    intro:
+      "Când o tranziție se strică aproape zilnic, e ușor să crezi că trebuie doar să fii mai ferm exact în momentul greu. Child Mind Institute propune o idee mai eficientă: faceți o repetiție scurtă înainte, într-un moment fără presiune. Practica mutării dintr-o activitate în alta îl implică pe copil în proces și îl ajută să se pregătească emoțional pentru ce urmează.",
+    image: {
+      src: "/blog/transition-dry-run.svg",
+      alt: "Părinte și copil exersând împreună pașii unei tranziții dificile într-un moment calm",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-18",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce ajută repetiția făcută când nu arde",
+        paragraphs: [
+          "În vârful tensiunii, copilul are puțin spațiu pentru a învăța ceva nou. Dacă exact atunci îi explici în detaliu cum ar fi trebuit să procedeze, cel mai probabil primești și mai multă opoziție sau îngheț.",
+          "O repetiție de probă mută învățarea într-un moment mai accesibil. Copilul poate vedea succesiunea pașilor, poate anticipa finalul activității și își poate lega corpul de o rutină recognoscibilă înainte să apară presiunea reală.",
+        ],
+      },
+      {
+        title: "Ce merită exersat",
+        paragraphs: [
+          "Nu repeta toată ziua. Alege exact tranziția care se blochează des și parcurgeți-o scurt, aproape ca un joc. În co-parenting, asta poate însemna pregătirea pentru plecarea spre cealaltă casă, intrarea în baie, închiderea ecranului sau coborârea la mașină.",
+        ],
+        bullets: [
+          "Spune pașii pe rând: terminăm jocul, strângem, luăm geanta, punem pantofii, ieșim.",
+          "Lasă copilul să joace și rolul celui care anunță, nu doar pe cel care execută.",
+          "Faceți o repetiție foarte scurtă cu figurine, cu plușuri sau chiar pe bune, dar fără grabă.",
+          "Leagă exersarea de același limbaj pe care îl vei folosi și în momentul real.",
+        ],
+      },
+      {
+        title: "Cum o păstrezi ușoară și utilă",
+        paragraphs: [
+          "Scopul nu este să demonstrezi cine are dreptate, ci să reduci necunoscutul. Dacă repetiția devine predică, copilul o va respinge exact ca pe tranziția reală.",
+        ],
+        bullets: [
+          "Ține-o sub două-trei minute pentru copiii mici.",
+          "Folosește umor, voce jucăușă sau o provocare blândă: hai să vedem cum pleacă ursul.",
+          "Oprește-te după o încercare reușită, nu continua până se satură.",
+          "Dacă apare frustrare, simplifică și taie un pas, nu adăuga explicații.",
+        ],
+      },
+      {
+        title: "Când merită combinată cu un preview",
+        paragraphs: [
+          "Pentru tranzițiile mai grele, repetiția merge bine împreună cu o avertizare scurtă din timp. Practica făcută într-un moment calm și mesajul reluat înainte de tranziția reală îi dau copilului două ancore: una învățată și una proaspăt amintită.",
+        ],
+      },
+      {
+        title: "Semnul că ajută",
+        paragraphs: [
+          "Nu neapărat că dispare complet protestul, ci că traseul devine mai recognoscibil. Copilul începe să știe ce urmează, intră mai puțin în negocieri fără capăt și are nevoie de mai puține corecturi pentru primul pas.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Tranzițiile grele se pot învăța mai bine când sunt exersate scurt într-un moment calm.",
+      "Repetiția funcționează dacă rămâne simplă, scurtă și aproape de pașii reali.",
+      "Scopul ei este să reducă surpriza și improvizația, nu să câștige o dispută.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute recomandă role-play și preview pentru tranzițiile dificile, explicând că practicarea mutării dintr-o activitate în alta îi ajută pe copii să se pregătească emoțional pentru eveniment. Pagina indică ultima revizuire sau actualizare la 15 septembrie 2025.",
+      },
+    ],
+    en: {
+      title: "The dry run for transitions that keep getting stuck",
+      summary:
+        "Some departures go better when you rehearse them briefly during a calm moment: the child sees the steps, their body starts to recognise them, and the real transition needs less improvisation and less fighting.",
+      intro:
+        "When a transition breaks down almost every day, it's easy to think you simply need to be firmer in the hard moment itself. Child Mind Institute suggests a more effective idea: do a short rehearsal beforehand, in a moment without pressure. Practising the move from one activity to another engages the child in the process and helps them prepare emotionally for what is coming.",
+      sections: [
+        {
+          title: "Why rehearsal helps when the house is calm",
+          paragraphs: [
+            "At the peak of tension, the child has very little room to learn anything new. If you explain in detail right then how they should have handled it, you will most likely get even more opposition or freezing.",
+            "A dry run moves the learning into a more accessible moment. The child can see the sequence of steps, anticipate the end of the activity and begin linking their body to a recognisable routine before the real pressure appears.",
+          ],
+        },
+        {
+          title: "What is worth rehearsing",
+          paragraphs: [
+            "Do not rehearse the whole day. Choose the exact transition that often gets stuck and walk through it briefly, almost like a game. In co-parenting, this can mean preparing to leave for the other home, getting into the bath, turning off a screen or heading down to the car.",
+          ],
+          bullets: [
+            "State the steps one by one: we finish the game, tidy up, take the bag, put on shoes, go out.",
+            "Let the child play the role of the person who announces the change, not only the one who follows it.",
+            "Do a very short rehearsal with figures, soft toys or in real life, but without hurry.",
+            "Tie the practice to the same wording you will use in the real moment.",
+          ],
+        },
+        {
+          title: "How to keep it light and useful",
+          paragraphs: [
+            "The goal is not to prove who is right, but to reduce the unknown. If the rehearsal turns into a lecture, the child will resist it just as they resist the real transition.",
+          ],
+          bullets: [
+            "Keep it under two or three minutes for younger children.",
+            "Use humour, a playful voice or a gentle challenge: let's see how the teddy leaves.",
+            "Stop after one successful try; don't continue until they are fed up.",
+            "If frustration appears, simplify and cut a step rather than adding more explanation.",
+          ],
+        },
+        {
+          title: "When it is worth pairing with a preview",
+          paragraphs: [
+            "For harder transitions, rehearsal works well together with a brief advance warning. Practice done in a calm moment and the message repeated before the real transition give the child two anchors: one learned and one freshly recalled.",
+          ],
+        },
+        {
+          title: "The sign it helps",
+          paragraphs: [
+            "Not necessarily that all protest disappears, but that the route becomes more recognisable. The child starts knowing what comes next, enters fewer endless negotiations and needs fewer corrections for the first step.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Hard transitions can be learned better when rehearsed briefly in a calm moment.",
+        "Rehearsal works if it stays simple, short and close to the real steps.",
+        "Its purpose is to reduce surprise and improvisation, not to win an argument.",
+      ],
+    },
+  },
+  {
+    slug: "cantecul-scurt-care-ajuta-la-schimbarea-de-ritm",
+    enSlug: "the-short-song-that-helps-with-shifting-gears",
+    title: "Cântecul scurt care ajută la schimbarea de ritm",
+    summary:
+      "Un „soundtrack” recognoscibil pentru plecare, baie sau strânsul jucăriilor poate muta tranziția din terenul negocierii în terenul rutinei și al jocului scurt.",
+    intro:
+      "Copiii mici răspund adesea mai bine la o tranziție când ea are același sunet de fiecare dată. Child Mind Institute recomandă ideea de soundtrack pentru tranzițiile repetitive, tocmai pentru că muzica sau un mic cântec făcut în casă poate face schimbarea mai previzibilă și mai puțin abruptă. Nu este magie. Este structură livrată într-o formă pe care corpul copilului o recunoaște repede.",
+    image: {
+      src: "/blog/transition-soundtrack.svg",
+      alt: "Părinte și copil folosind un cântec scurt pentru a face o tranziție de rutină mai ușoară",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-18",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce merge uneori mai bine decât încă o avertizare",
+        paragraphs: [
+          "Când adultul repetă de multe ori aceeași instrucțiune, copilul aude ușor doar presiunea crescândă. Un cântec sau o frază ritmată scurtă păstrează mesajul, dar schimbă tonul. Tranziția nu mai intră doar prin comandă, ci și prin repetiție recognoscibilă.",
+          "Pentru unii copii, mai ales cei mici, ritmul este o punte bună între activitate și pasul următor. Nu elimină emoția, dar poate reduce surpriza și poate organiza mai rapid corpul pentru schimbare.",
+        ],
+      },
+      {
+        title: "Unde poți folosi un soundtrack util",
+        paragraphs: [
+          "Nu trebuie pus peste tot. Funcționează mai ales în momentele repetitive în care familia se împotmolește des și unde un ritual scurt ajută mai mult decât o discuție lungă.",
+        ],
+        bullets: [
+          "La strânsul jucăriilor înainte de plecare sau de cină.",
+          "La intrarea în baie sau în pijama.",
+          "La coborârea spre mașină înainte de școală ori handover.",
+          "La pașii de sosire într-o casă: geantă, apă, spălat mâini, liniștit puțin.",
+        ],
+      },
+      {
+        title: "Cum alegi ceva care chiar poate fi folosit",
+        paragraphs: [
+          "Cel mai bun cântec nu este neapărat cel mai frumos. Este cel pe care îl poți repeta calm și fără efort, chiar și într-o zi obosită. Poate fi o melodie foarte scurtă, o rimă inventată sau doar aceeași propoziție spusă pe același ritm.",
+        ],
+        bullets: [
+          "Ține-l la 10-20 de secunde, nu la un mini-spectacol.",
+          "Păstrează același cântec pentru aceeași tranziție timp de câteva zile sau săptămâni.",
+          "Spune și pasul concret în interiorul lui: punem jucării, spălăm mâini, mergem la ușă.",
+          "Dacă sunt două case, nu trebuie să fie aceeași melodie, dar ajută să existe aceeași logică: cântec scurt, apoi primul pas clar.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Dacă soundtrack-ul devine încă o formă de presiune sau de spectacol forțat, își pierde rostul. El trebuie să ușureze schimbarea, nu să o încarce.",
+        ],
+        bullets: [
+          "Nu cânta mai tare și mai tare ca să acoperi rezistența.",
+          "Nu folosi cântecul ca sarcasm sau rușinare.",
+          "Nu schimba melodia zilnic dacă tocmai predictibilitatea este ce cauți.",
+          "Nu îl prelungi când copilul a pornit deja spre pasul următor.",
+        ],
+      },
+      {
+        title: "Semnul că funcționează",
+        paragraphs: [
+          "Copilul începe să recunoască semnalul și pornește mai repede spre primul pas. Uneori chiar intră în joc și cântă cu tine. Nu pentru că ai făcut tranziția distractivă cu orice preț, ci pentru că ai făcut-o recognoscibilă.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un soundtrack scurt poate face tranziția mai previzibilă și mai puțin abruptă.",
+      "Funcționează cel mai bine în momente repetitive și cu pași simpli, clari.",
+      "Nu ai nevoie de un spectacol; ai nevoie de același semnal ușor de repetat.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute propune ideea ca fiecare tranziție să aibă propriul soundtrack, în special pentru copiii mici, tocmai pentru a face rutina mai ușor de implementat și schimbarea mai ușor de suportat. Pagina indică ultima revizuire sau actualizare la 15 septembrie 2025.",
+      },
+    ],
+    en: {
+      title: "The short song that helps with shifting gears",
+      summary:
+        "A recognisable soundtrack for leaving, bath time or tidying toys can move the transition out of negotiation and into routine and brief play.",
+      intro:
+        "Young children often respond better to a transition when it has the same sound each time. Child Mind Institute recommends giving repetitive transitions their own soundtrack because music or a tiny homemade song can make change feel more predictable and less abrupt. It isn't magic. It's structure delivered in a form the child's body recognises quickly.",
+      sections: [
+        {
+          title: "Why it can work better than one more warning",
+          paragraphs: [
+            "When the adult repeats the same instruction again and again, the child easily hears only the rising pressure. A song or a short rhythmic phrase keeps the message but changes the tone. The transition no longer arrives only as a command, but also as a recognisable repetition.",
+            "For some children, especially younger ones, rhythm is a helpful bridge between the current activity and the next step. It does not remove the emotion, but it can reduce surprise and organise the body for change more quickly.",
+          ],
+        },
+        {
+          title: "Where you can use a helpful soundtrack",
+          paragraphs: [
+            "You do not need it everywhere. It works best in repetitive moments where the family often gets stuck and a short ritual helps more than a long discussion.",
+          ],
+          bullets: [
+            "Tidying toys before leaving or before dinner.",
+            "Moving into bath time or pyjamas.",
+            "Heading down to the car before school or a handover.",
+            "Arrival steps in one home: bag, water, hand washing, settling a bit.",
+          ],
+        },
+        {
+          title: "How to choose something you can actually use",
+          paragraphs: [
+            "The best song is not necessarily the prettiest one. It is the one you can repeat calmly and without effort, even on a tired day. It can be a very short tune, an invented rhyme or simply the same sentence spoken in the same rhythm.",
+          ],
+          bullets: [
+            "Keep it to 10-20 seconds, not a mini performance.",
+            "Use the same song for the same transition for a few days or weeks.",
+            "Include the concrete step inside it: we tidy toys, wash hands, go to the door.",
+            "If there are two homes, it doesn't have to be the exact same melody, but it helps to keep the same logic: short song, then one clear step.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "If the soundtrack becomes another form of pressure or a forced performance, it loses the point. It is supposed to ease the shift, not load it further.",
+          ],
+          bullets: [
+            "Do not sing louder and louder to drown out resistance.",
+            "Do not use the song sarcastically or to shame.",
+            "Do not change the tune every day if predictability is what you need.",
+            "Do not prolong it once the child has already started the next step.",
+          ],
+        },
+        {
+          title: "The sign it works",
+          paragraphs: [
+            "The child starts recognising the signal and moves more quickly toward the first step. Sometimes they even join in and sing with you. Not because you made the transition fun at all costs, but because you made it recognisable.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A short soundtrack can make the transition more predictable and less abrupt.",
+        "It works best in repetitive moments with simple, clear steps.",
+        "You do not need a performance; you need the same signal that is easy to repeat.",
+      ],
+    },
+  },
+  {
     slug: "mai-bine-trei-reguli-decat-zece-intre-doua-case",
     enSlug: "three-shared-rules-work-better-than-ten-across-two-homes",
     title: "Mai bine trei reguli decât zece între două case",
