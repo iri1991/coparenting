@@ -107,6 +107,405 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "copilul-are-voie-sa-se-bucure-de-celalalt-parinte",
+    enSlug: "your-child-is-allowed-to-enjoy-the-other-parent",
+    title: "Copilul are voie să se bucure de celălalt părinte",
+    summary:
+      "Când copilul vine vesel după timp petrecut în cealaltă casă, are nevoie de spațiu pentru bucurie și siguranță, nu de teste de loialitate sau grimase greu de dus.",
+    intro:
+      "Uneori cel mai greu nu este când copilul plânge după celălalt părinte, ci când se întoarce bine, plin de povești și atașat de ce a trăit acolo. HealthyChildren avertizează că, după separare, copiii au nevoie să poată rămâne apropiați de ambii părinți fără să se simtă vinovați. Asta înseamnă că adultul are o muncă emoțională discretă: să nu transforme bucuria copilului într-un test despre pe cine iubește mai mult.",
+    image: {
+      src: "/blog/child-can-enjoy-other-parent.svg",
+      alt: "Copil care împărtășește liniștit o amintire plăcută din cealaltă casă, în fața unui părinte calm",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-21",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce momentul acesta e atât de sensibil",
+        paragraphs: [
+          "Când copilul spune a fost frumos sau vrea să arate o poză, adultul poate simți instant pierdere, gelozie sau teamă că relația lui se subțiază. Dar pentru copil, acel moment nu este o comparație strategică. Este o încercare normală de a ține împreună cele două părți ale vieții lui.",
+          "HealthyChildren subliniază că cei mici se adaptează mai bine când pot avea relații apropiate cu ambii părinți. Dacă entuziasmul pentru celălalt adult este primit cu răceală, tăcere tensionată sau remarci ironice, copilul învață repede că unele bucurii trebuie ascunse într-una dintre case.",
+        ],
+      },
+      {
+        title: "Cum răspunzi fără să intri în competiție",
+        paragraphs: [
+          "Nu trebuie să joci teatru și nici să produci o reacție perfectă. Ajută mai mult o primire simplă și stabilă. Când copilul povestește, rolul tău nu este să recuperezi teren, ci să arăți că relația lui cu tine poate suporta adevărul fără să se fractureze.",
+        ],
+        bullets: [
+          "Spune scurt: mă bucur că ai avut un moment bun acolo.",
+          "Rămâi curios pe detaliul copilului, nu pe evaluarea celuilalt părinte.",
+          "Primește fotografia, povestea sau gluma fără să schimbi imediat subiectul.",
+          "Dacă te înțeapă emoțional, amână reacția mare pentru un spațiu adult, nu pentru secunda copilului.",
+        ],
+      },
+      {
+        title: "Ce merită evitat în secunda aceea",
+        paragraphs: [
+          "Copilul nu are cum să poarte simultan bucuria lui și nesiguranța adultului. De aceea, micile reacții aparent neînsemnate pot încărca mult atmosfera.",
+        ],
+        bullets: [
+          "Nu răspunde cu atunci stai mai mult acolo dacă ți-a plăcut atât.",
+          "Nu cere imediat dovadă că și cu tine îi este bine.",
+          "Nu micșora experiența celuilalt părinte prin ironii.",
+          "Nu folosi povestea copilului ca pretext să afli informații despre viața de la cealaltă casă.",
+        ],
+      },
+      {
+        title: "Ce faci dacă te doare totuși",
+        paragraphs: [
+          "Durerea adultului nu este rușinoasă, dar are nevoie de alt container. O discuție cu un prieten, un jurnal, o terapie sau pur și simplu câteva minute înainte să răspunzi mai mult pot proteja copilul de o tensiune care nu îi aparține.",
+          "Cu cât copilul simte mai clar că are voie să iubească doi părinți fără să rănească pe nimeni, cu atât relația cu tine devine mai sigură. Nu mai trebuie să te menajeze și nici să-și fragmenteze povestea între două lumi.",
+        ],
+      },
+      {
+        title: "Semnul că abordarea ajută",
+        paragraphs: [
+          "Copilul continuă să-ți spună ce a trăit în cealaltă casă, fără să se uite imediat dacă te-ai închis la față. Asta nu înseamnă că e ușor pentru tine în fiecare zi, ci că el nu este pus să administreze starea ta emoțională.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Copilul are nevoie să poată iubi și povesti despre ambii părinți fără vinovăție.",
+      "O reacție scurtă, calmă și necompetitivă protejează relația mai bine decât o justificare grăbită.",
+      "Durerea adultului merită îngrijită în afara copilului, nu pusă pe umerii lui.",
+    ],
+    sources: [
+      {
+        title: "Traps Divorced or Separating Parents Should Avoid",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/Traps-Divorced-or-Separating-Parents-Should-Avoid.aspx",
+        note: "HealthyChildren explică faptul că cei mici trebuie să poată rămâne apropiați de ambii părinți fără să se simtă prinși la mijloc, geloșiți sau constrânși să-și ascundă afecțiunea pentru unul dintre ei. Pagină accesată la 21 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Your child is allowed to enjoy the other parent",
+      summary:
+        "When your child comes back happy after time in the other home, they need room for joy and safety, not loyalty tests or heavy facial reactions.",
+      intro:
+        "Sometimes the harder moment is not when the child misses the other parent, but when they return in good shape, full of stories and visibly attached to what they lived there. HealthyChildren warns that after separation, children need to be able to stay close to both parents without feeling guilty. That means the adult has a quiet emotional job: not turning the child's joy into a test of who they love more.",
+      sections: [
+        {
+          title: "Why this moment is so sensitive",
+          paragraphs: [
+            "When the child says it was fun or wants to show a photo, the adult may instantly feel loss, jealousy or fear that their own bond is thinning. But for the child, that moment is not a strategic comparison. It is a normal attempt to hold together the two parts of their life.",
+            "HealthyChildren stresses that children adjust better when they can keep close relationships with both parents. If enthusiasm for the other adult is met with coldness, tense silence or ironic remarks, the child quickly learns that some joys need to be hidden in one of the homes.",
+          ],
+        },
+        {
+          title: "How to respond without entering competition",
+          paragraphs: [
+            "You do not need to perform and you do not need a perfect reaction. A simple, steady reception helps more. When the child is telling the story, your role is not to win back ground, but to show that your relationship can tolerate the truth without cracking.",
+          ],
+          bullets: [
+            "Say briefly: I'm glad you had a good moment there.",
+            "Stay curious about the child's detail, not your evaluation of the other parent.",
+            "Receive the photo, story or joke without changing the subject immediately.",
+            "If you feel emotionally stung, delay the big reaction for an adult space, not the child's second.",
+          ],
+        },
+        {
+          title: "What is worth avoiding in that second",
+          paragraphs: [
+            "The child cannot carry both their joy and the adult's insecurity at the same time. That is why apparently small reactions can load the atmosphere so quickly.",
+          ],
+          bullets: [
+            "Do not answer with then stay there longer if you liked it so much.",
+            "Do not immediately ask for proof that things are good with you too.",
+            "Do not shrink the other parent's experience through irony.",
+            "Do not use the child's story as a pretext to gather information about the other home.",
+          ],
+        },
+        {
+          title: "What to do if it still hurts",
+          paragraphs: [
+            "Adult pain is not shameful, but it needs a different container. A conversation with a friend, a journal, therapy or simply a few minutes before you say more can protect the child from tension that is not theirs.",
+            "The more clearly the child feels allowed to love two parents without hurting anyone, the safer your relationship becomes. They no longer need to manage you or split their story into two worlds.",
+          ],
+        },
+        {
+          title: "The sign the approach helps",
+          paragraphs: [
+            "The child keeps telling you what happened in the other home without immediately checking whether your face has closed. That does not mean it feels easy every day. It means they are not being asked to manage your emotional state.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Children need room to love and talk about both parents without guilt.",
+        "A brief, calm and non-competitive response protects the bond better than a rushed defence.",
+        "Adult hurt deserves care outside the child, not on the child's shoulders.",
+      ],
+    },
+  },
+  {
+    slug: "nu-spune-esti-exact-ca-mama-sau-tata-la-nervi",
+    enSlug: "dont-say-youre-just-like-your-mom-or-dad-in-anger",
+    title: "Nu spune „ești exact ca mama” sau „ca tata” la nervi",
+    summary:
+      "Când copilul îți amintește de fostul partener într-un moment greu, propoziția aruncată din rană îl lovește pe copil direct în identitate, nu doar în comportament.",
+    intro:
+      "HealthyChildren atrage atenția asupra unui risc foarte concret după separare: adultul rănit poate ajunge să atace, în copil, exact trăsăturile care îi amintesc de celălalt părinte. Replica tu ești exact ca mama ta sau exact ca tatăl tău pare o ieșire de moment, dar pentru copil transmite ceva mult mai adânc: partea aceea din mine este respinsă.",
+    image: {
+      src: "/blog/not-just-like-other-parent.svg",
+      alt: "Părinte care se oprește înainte să spună o replică dură, în timp ce copilul îl privește",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-21",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce replica lovește atât de adânc",
+        paragraphs: [
+          "Copilul nu aude doar o observație despre un gest. Aude că o parte din felul lui de a fi seamănă cu cineva pe care adultul îl disprețuiește, iar asta poate activa rușine, confuzie și teamă de respingere.",
+          "HealthyChildren explică limpede că astfel de formulări pot afecta serios bunăstarea copilului. În loc să primească un reper despre ce comportament trebuie schimbat, el primește un mesaj despre cine este și despre ce parte din el ar putea deveni indezirabilă.",
+        ],
+      },
+      {
+        title: "Ce spui în loc",
+        paragraphs: [
+          "Ajută să cobori imediat din zona identității în zona faptelor. Copilul are nevoie de limită și direcție, nu de o etichetă care amestecă relația ta de cuplu cu relația lui cu tine.",
+        ],
+        bullets: [
+          "Descrie comportamentul concret: ai trântit ușa, ai țipat, ai lovit fratele.",
+          "Spune limita fără comparații: nu te las să vorbești așa, refacem mai calm.",
+          "Dacă ești prea activat, fă o pauză scurtă înainte să răspunzi mai mult.",
+          "Păstrează critica pe momentul prezent, nu pe asemănările dintre adulți.",
+        ],
+      },
+      {
+        title: "Ce se întâmplă dacă ai spus-o deja",
+        paragraphs: [
+          "Nu ajută să te comporți ca și cum nu s-a întâmplat. Când replica a ieșit, repararea trebuie să fie clară. Poți spune simplu: ce am spus despre tine și mama sau tata nu a fost corect. Eram furios, dar nu trebuia să te rănesc așa.",
+          "Reparația nu șterge imediat efectul, dar îi arată copilului că adultul își poate recunoaște greșeala și poate separa conflictul dintre părinți de identitatea lui.",
+        ],
+      },
+      {
+        title: "Cum previi repetarea",
+        paragraphs: [
+          "De obicei replica nu apare din senin. Ea vine pe fond de stres nerezolvat, conflict vechi sau senzația că trăiești iar aceeași rană. Dacă observi tiparul, nu trata situația doar ca pe o problemă de limbaj.",
+        ],
+        bullets: [
+          "Notează ce comportamente ale copilului îți aprind rapid vechea poveste.",
+          "Pregătește dinainte două-trei propoziții neutre pentru momentele grele.",
+          "Mută descărcarea emoțională spre adulți de încredere sau suport specializat.",
+          "Cu cât rezolvi mai mult rana adultă în afara copilului, cu atât îl vezi mai clar pe el, nu pe fostul partener proiectat peste el.",
+        ],
+      },
+      {
+        title: "Semnul că mergi într-o direcție mai bună",
+        paragraphs: [
+          "Corectezi mai des comportamentul fără să ataci persoana. Copilul nu mai intră atât de repede în rușine sau apărare totală, iar conflictul rămâne mai mult despre ce s-a întâmplat acum, nu despre cine este el în esență.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Comparațiile de tip ești exact ca mama sau tata rănesc identitatea copilului, nu doar comportamentul.",
+      "Limitele ajută mai mult când sunt concrete și orientate spre fapta prezentă.",
+      "Dacă replica a ieșit, reparația clară este mai utilă decât tăcerea sau justificarea.",
+    ],
+    sources: [
+      {
+        title: "Traps Divorced or Separating Parents Should Avoid",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/Traps-Divorced-or-Separating-Parents-Should-Avoid.aspx",
+        note: "HealthyChildren avertizează explicit că remarci precum ești exact ca mama ta sau tatăl tău pot crea rușine și teamă de respingere, pentru că ating identitatea copilului și relația lui cu ambii părinți. Pagină accesată la 21 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Don't say 'you're just like your mom' or 'your dad' in anger",
+      summary:
+        "When your child reminds you of your former partner in a hard moment, the sentence thrown from the wound hits the child's identity, not only the behaviour.",
+      intro:
+        "HealthyChildren points to a very concrete risk after separation: a hurt adult can end up attacking in the child the exact traits that remind them of the other parent. The sentence you're just like your mother or just like your father may feel like a quick release, but for the child it carries something much deeper: that part of me is rejected.",
+      sections: [
+        {
+          title: "Why the sentence cuts so deeply",
+          paragraphs: [
+            "The child does not hear only an observation about a gesture. They hear that part of the way they are resembles someone the adult despises, and that can trigger shame, confusion and fear of rejection.",
+            "HealthyChildren explains clearly that such wording can seriously affect the child's well-being. Instead of getting guidance about what behaviour needs changing, they receive a message about who they are and which part of them may become unwanted.",
+          ],
+        },
+        {
+          title: "What to say instead",
+          paragraphs: [
+            "It helps to come down immediately from identity into facts. The child needs a limit and direction, not a label that mixes your couple conflict into your relationship with them.",
+          ],
+          bullets: [
+            "Describe the concrete behaviour: you slammed the door, you shouted, you hit your brother.",
+            "State the limit without comparisons: I won't let you speak like that; let's try again more calmly.",
+            "If you are too activated, take a short pause before saying more.",
+            "Keep the criticism on the present moment, not on similarities between adults.",
+          ],
+        },
+        {
+          title: "What happens if you already said it",
+          paragraphs: [
+            "It does not help to behave as if nothing happened. When the sentence came out, repair needs to be clear. You can say simply: what I said about you and your mom or dad was not fair. I was angry, but I should not have hurt you like that.",
+            "Repair does not erase the effect immediately, but it shows the child that the adult can own the mistake and separate the parental conflict from the child's identity.",
+          ],
+        },
+        {
+          title: "How to prevent repetition",
+          paragraphs: [
+            "Usually the sentence does not appear out of nowhere. It comes on top of unresolved stress, old conflict or the sense that you are living the same wound again. If you notice the pattern, do not treat it as only a language issue.",
+          ],
+          bullets: [
+            "Notice which child behaviours quickly light up the old story in you.",
+            "Prepare two or three neutral phrases in advance for hard moments.",
+            "Move emotional discharge toward trusted adults or specialised support.",
+            "The more you work through the adult wound away from the child, the more clearly you can see them rather than your former partner projected onto them.",
+          ],
+        },
+        {
+          title: "The sign you are moving in a better direction",
+          paragraphs: [
+            "You correct behaviour more often without attacking the person. The child is less likely to collapse into shame or total defensiveness, and the conflict stays more about what happened now, not about who they essentially are.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Comparisons like you're just like your mom or dad wound the child's identity, not only behaviour.",
+        "Limits help more when they stay concrete and focused on the present action.",
+        "If the sentence came out, clear repair is more useful than silence or justification.",
+      ],
+    },
+  },
+  {
+    slug: "copilul-nu-trebuie-sa-devina-omul-casei-dupa-separare",
+    enSlug: "your-child-does-not-need-to-become-the-man-of-the-house",
+    title: "Copilul nu trebuie să devină „omul casei” după separare",
+    summary:
+      "După o despărțire, copilul poate părea matur sau dornic să ajute, dar are nevoie în continuare să rămână copil, nu să primească pe umeri roluri emoționale sau de îngrijire prea grele pentru vârsta lui.",
+    intro:
+      "HealthyChildren avertizează că separarea poate împinge uneori adulții să se sprijine prea mult pe copilul mai mare ori pe cel mai cooperant. Fraze ca tu ești omul casei acum sau am nevoie să ai grijă de mine pot părea recunoaștere, dar încarcă copilul cu o responsabilitate care nu îi aparține. Când rolurile se inversează, siguranța scade chiar dacă la exterior copilul pare foarte cuminte.",
+    image: {
+      src: "/blog/not-man-of-the-house.svg",
+      alt: "Copil ajutând cu o sarcină mică, în timp ce adultul păstrează clar rolul de sprijin principal",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-21",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "Cum arată presiunea mascată în responsabilitate",
+        paragraphs: [
+          "Nu apare doar în propoziții mari. Uneori se vede când copilul devine locul unde adultul se descarcă, mediatorul fraților, liniștitorul casei sau persoana care trebuie să țină moralul sus. La suprafață pare maturitate. În interior poate fi anxietate și vigilență.",
+          "HealthyChildren spune direct că părinții sunt cei care trebuie să ofere confort și siguranță copilului, nu invers. Când copilul simte că trebuie să te stabilizeze pe tine, el nu mai are destul spațiu să-și trăiască propria ajustare la separare.",
+        ],
+      },
+      {
+        title: "Ce ajutor este sănătos și ce devine prea mult",
+        paragraphs: [
+          "Copiii pot avea contribuții potrivite vârstei și chiar se simt bine când sunt utili. Diferența este între o sarcină clară, limitată, și un rol emoțional pe termen lung.",
+        ],
+        bullets: [
+          "Este sănătos să pui masa, să strângă jucării sau să-i amintești de ghiozdanul lui.",
+          "Devine prea mult când copilul trebuie să te liniștească, să aibă grijă de starea ta sau să țină locul partenerului lipsă.",
+          "Este în regulă să apreciezi ajutorul lui fără să-i spui că de el depinde echilibrul casei.",
+          "Dacă îi ceri ajutor cu un frate mai mic, rămâi tu adultul care supraveghează și reglează situația.",
+        ],
+      },
+      {
+        title: "Cum vorbești fără să-l împingi într-un rol prea mare",
+        paragraphs: [
+          "Limbajul face diferența. Copilul are nevoie să audă că ajutorul lui contează, dar și că greul rămâne la adulți.",
+        ],
+        bullets: [
+          "Spune: mulțumesc că ai ajutat cu farfuriile, nu: ce m-aș face fără tine.",
+          "Spune: e treaba mea să mă ocup de asta, tu poți să fii copil.",
+          "Dacă observi că te consolează des, răspunde: apreciez grija ta, dar eu mă ocup de emoția mea.",
+          "Păstrează cerințele potrivite vârstei, nu adaptate la singurătatea adultului.",
+        ],
+      },
+      {
+        title: "Semne că rolul a devenit prea greu",
+        paragraphs: [
+          "Copilul pare mereu atent la dispoziția ta, se simte vinovat când se joacă, nu poate pleca liniștit spre cealaltă casă sau se poartă mult prea matur pentru vârsta lui. Uneori apar și iritabilitate, retragere sau izbucniri tocmai pentru că presiunea a fost ținută prea mult înăuntru.",
+          "Când vezi aceste semne, nu este un eșec să reduci imediat încărcarea și să cauți mai mult sprijin adult. Dimpotrivă, asta repară rolurile acolo unde s-au încurcat.",
+        ],
+      },
+      {
+        title: "Semnul că lucrurile se reașază",
+        paragraphs: [
+          "Copilul ajută în continuare, dar nu pare responsabil pentru starea casei. Are din nou loc să se joace, să protesteze normal, să plece și să se întoarcă fără sentimentul că te lasă singur cu greul vieții.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Ajutorul potrivit vârstei este sănătos; rolul de sprijin emoțional pentru adult nu este.",
+      "Copilul are nevoie să știe că problemele mari rămân la adulți, chiar dacă el contribuie în casă.",
+      "Când reduci presiunea de a fi omul casei, îi redai spațiu pentru propria ajustare.",
+    ],
+    sources: [
+      {
+        title: "Traps Divorced or Separating Parents Should Avoid",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/Traps-Divorced-or-Separating-Parents-Should-Avoid.aspx",
+        note: "HealthyChildren avertizează împotriva transformării copilului în sprijin emoțional sau în omul casei după separare și insistă că rolul adultului este să ofere confort și siguranță copilului. Pagină accesată la 21 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Your child does not need to become 'the man of the house' after separation",
+      summary:
+        "After a separation, a child may look mature or eager to help, but they still need to remain a child, not carry emotional or caregiving roles that are too heavy for their age.",
+      intro:
+        "HealthyChildren warns that separation can sometimes push adults to lean too heavily on the older child or the most cooperative one. Phrases like you're the man of the house now or I need you to take care of me may sound like appreciation, but they load the child with responsibility that is not theirs. When roles reverse, safety drops even if on the surface the child looks very well behaved.",
+      sections: [
+        {
+          title: "What pressure disguised as responsibility looks like",
+          paragraphs: [
+            "It does not show up only in big statements. Sometimes it appears when the child becomes the place where the adult unloads, the sibling mediator, the house soother or the person who needs to keep morale up. On the surface it can look like maturity. Inside it can be anxiety and vigilance.",
+            "HealthyChildren states directly that parents are the ones who should offer comfort and security to children, not the other way around. When the child feels they must stabilise you, they no longer have enough room to live through their own adjustment to the separation.",
+          ],
+        },
+        {
+          title: "What kind of help is healthy and what becomes too much",
+          paragraphs: [
+            "Children can have age-appropriate contributions and may even feel good when they are useful. The difference is between a clear, limited task and a long-term emotional role.",
+          ],
+          bullets: [
+            "It is healthy to set the table, tidy toys or remember their own school bag.",
+            "It becomes too much when the child has to calm you, manage your mood or take the place of the missing partner.",
+            "It is fine to appreciate their help without telling them the balance of the home depends on them.",
+            "If you ask for help with a younger sibling, stay the adult who supervises and regulates the situation.",
+          ],
+        },
+        {
+          title: "How to speak without pushing them into too large a role",
+          paragraphs: [
+            "Language makes a difference. The child needs to hear that their help matters, but that the heavy part stays with adults.",
+          ],
+          bullets: [
+            "Say: thank you for helping with the plates, not: what would I do without you.",
+            "Say: it's my job to handle this; you get to be a child.",
+            "If you notice them comforting you often, respond: I appreciate your care, but I will handle my feeling.",
+            "Keep demands age-appropriate, not adapted to the adult's loneliness.",
+          ],
+        },
+        {
+          title: "Signs the role has become too heavy",
+          paragraphs: [
+            "The child seems always tuned to your mood, feels guilty when they play, cannot leave calmly for the other home or behaves far too maturely for their age. Sometimes irritability, withdrawal or outbursts also appear precisely because the pressure has been held inside for too long.",
+            "When you see these signs, it is not a failure to reduce the load immediately and seek more adult support. On the contrary, that begins to repair roles where they became tangled.",
+          ],
+        },
+        {
+          title: "The sign things are settling back",
+          paragraphs: [
+            "The child still helps, but no longer seems responsible for the emotional state of the home. There is room again for play, ordinary protest, and leaving and returning without the sense that they are abandoning you to the hard parts of life.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Age-appropriate help is healthy; emotional support roles for the adult are not.",
+        "Children need to know the big problems stay with adults, even when they contribute at home.",
+        "Reducing the pressure to be the man of the house gives the child room for their own adjustment.",
+      ],
+    },
+  },
+  {
     slug: "nu-striga-instructiunea-din-alta-camera-inainte-de-plecare",
     enSlug: "dont-shout-the-instruction-from-the-other-room-before-leaving",
     title: "Nu striga instrucțiunea din altă cameră înainte de plecare",
