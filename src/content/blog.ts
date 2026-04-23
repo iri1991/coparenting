@@ -107,6 +107,335 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "preview-ul-zilei-care-pregateste-copilul-pentru-schimbarea-de-casa",
+    enSlug: "the-day-preview-that-prepares-a-child-for-changing-homes",
+    title: "Preview-ul zilei care pregătește copilul pentru schimbarea de casă",
+    summary:
+      "O prezentare scurtă a zilei, spusă dimineața și reluată calm, poate reduce surpriza copilului înainte de o tranziție între două case.",
+    intro:
+      "Pentru un adult, schimbarea de casă de la ora 17:00 poate părea doar un detaliu de calendar. Pentru copil, aceeași schimbare poate însemna alt drum, alt miros, alte reguli, alt pat și altă energie emoțională. Child Mind Institute recomandă preview-urile zilei ca sprijin pentru copiii care se blochează la tranziții: copilul află din timp ce urmează, iar corpul lui are timp să se pregătească.",
+    image: {
+      src: "/blog/day-preview-two-homes.svg",
+      alt: "Calendar simplu cu două case și un copil care vede din timp pașii zilei",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-23",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce ajută preview-ul",
+        paragraphs: [
+          "Copiii nu se opun mereu tranziției pentru că nu vor să coopereze. Uneori se opun pentru că schimbarea apare prea brusc. Când dimineața aud pe scurt cum va arăta ziua, au mai puține lucruri de descifrat exact în momentul plecării.",
+          "Preview-ul nu este o negociere și nici o lecție lungă. Este o hartă mică: întâi școală, apoi bunica te ia, apoi mergi la mama sau la tata, iar seara ai pijamaua și cartea ta acolo.",
+        ],
+      },
+      {
+        title: "Cum îl spui fără să încarci copilul",
+        paragraphs: [
+          "Un preview bun are ton neutru și propoziții simple. Nu trebuie să explici de ce adulții au ales programul și nici să verifici dacă celălalt părinte va face totul la fel. Copilul are nevoie să știe ce îl privește direct.",
+        ],
+        bullets: [
+          "Spune momentul schimbării: după școală, după gustare sau la ora 17:00.",
+          "Numește adultul care preia copilul, fără comentarii despre celălalt părinte.",
+          "Include un reper plăcut și concret: cartea, plușul, pijamaua sau un joc scurt.",
+          "Repetă seara sau înainte de plecare doar dacă ajută, nu ca presiune.",
+        ],
+      },
+      {
+        title: "Formula de 20 de secunde",
+        paragraphs: [
+          "Poți folosi aceeași formulă în zilele de tranziție: azi este zi de schimbare. După grădiniță te ia tata. Geanta ta este pregătită. Dacă îți este greu când plecăm, facem respirația de trei ori și apoi mergem.",
+          "Când mesajul rămâne la fel, copilul nu trebuie să citească starea adultului ca să afle ce urmează. Predictibilitatea devine un mic sprijin de reglare.",
+        ],
+      },
+      {
+        title: "Ce evităm",
+        paragraphs: [
+          "Evităm formulările care transformă preview-ul în vină: sper să nu faci iar scandal, să nu mă pui în situații sau vezi că îl superi pe tata dacă plângi. Copilul poate primi informația fără să primească și responsabilitatea emoțiilor adulților.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un preview scurt al zilei reduce surpriza înainte de schimbarea de casă.",
+      "Copilul are nevoie de informații concrete, nu de explicații despre conflictul adulților.",
+      "Repetarea calmă a aceleiași formule ajută mai mult decât discursurile lungi.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute recomandă rutine, preview-uri ale zilei și anunțuri înainte de tranziții pentru a ajuta copiii să se pregătească emoțional. Pagină accesată la 23 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "The day preview that prepares a child for changing homes",
+      summary:
+        "A short preview of the day, said in the morning and repeated calmly, can reduce surprise before a transition between two homes.",
+      intro:
+        "For an adult, the home change at 5 p.m. may look like a calendar detail. For a child, the same change can mean a different road, smell, rules, bed and emotional atmosphere. Child Mind Institute recommends day previews as support for children who get stuck around transitions: the child learns what is coming, and their body has time to prepare.",
+      sections: [
+        {
+          title: "Why the preview helps",
+          paragraphs: [
+            "Children do not always resist transitions because they refuse to cooperate. Sometimes they resist because the change arrives too suddenly. When they hear a short version of the day in the morning, they have fewer things to decode exactly at departure time.",
+            "The preview is not a negotiation and not a long lesson. It is a small map: first school, then grandma picks you up, then you go to mum or dad, and tonight your pyjamas and book are there.",
+          ],
+        },
+        {
+          title: "How to say it without loading the child",
+          paragraphs: [
+            "A good preview has a neutral tone and simple sentences. You do not need to explain why the adults chose the schedule, and you do not need to check whether the other parent will do everything the same way. The child needs to know what directly affects them.",
+          ],
+          bullets: [
+            "Name the moment of the change: after school, after snack or at 5 p.m.",
+            "Name the adult who picks the child up, without comments about the other parent.",
+            "Include a concrete pleasant anchor: the book, soft toy, pyjamas or a short game.",
+            "Repeat in the evening or before leaving only if it helps, not as pressure.",
+          ],
+        },
+        {
+          title: "The 20-second formula",
+          paragraphs: [
+            "You can use the same formula on transition days: today is a changeover day. After kindergarten, dad picks you up. Your bag is ready. If leaving feels hard, we do the three breaths and then we go.",
+            "When the message stays the same, the child does not need to read the adult's mood to find out what comes next. Predictability becomes a small regulation support.",
+          ],
+        },
+        {
+          title: "What to avoid",
+          paragraphs: [
+            "Avoid turning the preview into blame: I hope you don't make a scene again, don't put me in that position, or remember you'll upset dad if you cry. The child can receive information without also receiving responsibility for adult emotions.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A short day preview reduces surprise before a home change.",
+        "The child needs concrete information, not explanations about adult conflict.",
+        "Calm repetition of the same formula helps more than long speeches.",
+      ],
+    },
+  },
+  {
+    slug: "numaratoarea-inversa-care-nu-grabeste-copilul-ci-il-pregateste",
+    enSlug: "the-countdown-that-prepares-instead-of-rushing-the-child",
+    title: "Numărătoarea inversă care nu grăbește copilul, ci îl pregătește",
+    summary:
+      "Anunțurile de tip 20-10-5 minute pot transforma plecarea dintr-o surpriză tensionată într-o schimbare previzibilă.",
+    intro:
+      "În zilele cu plecări între două case, mulți părinți ajung să anunțe schimbarea abia când trebuie să se închidă fermoarul gecii. Child Mind Institute descrie countdown-ul ca pe un instrument simplu pentru tranziții: copilul află când se apropie schimbarea și ce are de făcut, înainte ca adultul să fie deja în grabă.",
+    image: {
+      src: "/blog/transition-countdown.svg",
+      alt: "Ceas blând cu trei repere de timp înainte de plecarea copilului între două case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-23",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "Countdown-ul nu este comandă repetată",
+        paragraphs: [
+          "Diferența dintre ajutor și presiune stă în ton. Un countdown bun nu sună ca hai odată, ți-am spus de zece ori. Sună ca o orientare: în 20 de minute plecăm, în 10 minute închidem jocul, în 5 minute punem pantofii.",
+          "Pentru copil, aceste repere dau timp să termine mental activitatea în care era prins. Tranziția devine un drum cu semne, nu o ușă trântită brusc.",
+        ],
+      },
+      {
+        title: "Cum îl aplici în co-parenting",
+        paragraphs: [
+          "Într-o familie cu două case, countdown-ul ajută mai ales când copilul schimbă nu doar activitatea, ci și adultul, mașina, casa și așteptările. Poți păstra aceeași structură indiferent cine face plecarea.",
+        ],
+        bullets: [
+          "La 20 de minute: anunță calm ce urmează și ce obiecte se iau.",
+          "La 10 minute: cere un singur pas, de exemplu să aleagă hanoracul.",
+          "La 5 minute: mută atenția pe acțiune, nu pe discuții despre program.",
+          "La plecare: folosește aceeași frază scurtă de închidere.",
+        ],
+      },
+      {
+        title: "Când copilul tot protestează",
+        paragraphs: [
+          "Countdown-ul nu garantează o plecare fără lacrimi. El doar scade surpriza și îți dă o structură mai calmă. Dacă apare protestul, poți valida pe scurt și rămâne la pasul concret: știu că vrei să mai construiești, este greu să te oprești; acum punem piesele în cutie și luăm geanta.",
+          "Când adultul revine la aceeași secvență, copilul învață că emoția este permisă, dar tranziția nu devine o negociere infinită.",
+        ],
+      },
+      {
+        title: "Pentru copiii care nu simt timpul",
+        paragraphs: [
+          "Unii copii nu înțeleg ușor ce înseamnă 10 minute. Ajută un timer vizual, o melodie scurtă sau o rutină legată de obiecte: când cântecul se termină, închidem rucsacul; când nisipul se scurge, mergem la ușă.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Countdown-ul bun pregătește, nu amenință.",
+      "Reperele 20-10-5 minute dau copilului timp să iasă din activitatea curentă.",
+      "Validarea emoției poate sta lângă limita clară: plecăm când este timpul.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute recomandă anunțuri înainte de tranziție și countdown-uri repetate, de exemplu la 20, 10 și 5 minute, pentru ca cei mici să se pregătească emoțional. Pagină accesată la 23 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "The countdown that prepares instead of rushing the child",
+      summary:
+        "20-10-5 minute warnings can turn leaving from a tense surprise into a predictable change.",
+      intro:
+        "On days with departures between two homes, many parents announce the change only when the jacket zipper already needs to close. Child Mind Institute describes countdowns as a simple tool for transitions: the child learns when the change is approaching and what they need to do before the adult is already rushed.",
+      sections: [
+        {
+          title: "A countdown is not a repeated command",
+          paragraphs: [
+            "The difference between support and pressure is tone. A helpful countdown does not sound like come on, I told you ten times. It sounds like orientation: in 20 minutes we leave, in 10 minutes we close the game, in 5 minutes we put on shoes.",
+            "For the child, these markers give time to mentally finish the activity they were absorbed in. The transition becomes a road with signs, not a door suddenly slammed shut.",
+          ],
+        },
+        {
+          title: "How to use it in co-parenting",
+          paragraphs: [
+            "In a two-home family, the countdown helps especially when the child is changing not only the activity, but also the adult, car, home and expectations. You can keep the same structure no matter who handles departure.",
+          ],
+          bullets: [
+            "At 20 minutes: calmly name what comes next and what objects go along.",
+            "At 10 minutes: ask for one step, such as choosing the hoodie.",
+            "At 5 minutes: move attention to action, not schedule discussions.",
+            "At departure: use the same short closing phrase.",
+          ],
+        },
+        {
+          title: "When the child still protests",
+          paragraphs: [
+            "The countdown does not guarantee a departure without tears. It only lowers the surprise and gives you a calmer structure. If protest appears, you can validate briefly and return to the concrete step: I know you want to keep building, it is hard to stop; now we put the pieces in the box and take the bag.",
+            "When the adult returns to the same sequence, the child learns that the emotion is allowed, but the transition does not become an endless negotiation.",
+          ],
+        },
+        {
+          title: "For children who do not feel time",
+          paragraphs: [
+            "Some children do not easily understand what 10 minutes means. A visual timer, a short song or an object-based routine can help: when the song ends, we close the backpack; when the sand runs out, we go to the door.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A good countdown prepares, it does not threaten.",
+        "The 20-10-5 minute markers give the child time to leave the current activity.",
+        "Validating the emotion can sit next to the clear limit: we leave when it is time.",
+      ],
+    },
+  },
+  {
+    slug: "lauda-pasul-mic-dupa-o-tranzitie-reusita",
+    enSlug: "praise-the-small-step-after-a-successful-transition",
+    title: "Laudă pasul mic după o tranziție reușită",
+    summary:
+      "Când observi exact ce a mers bine la plecare, copilul primește o hartă practică pentru data viitoare, nu doar o evaluare generală.",
+    intro:
+      "În co-parenting, adulții observă foarte ușor tranzițiile care se blochează: lacrimi, refuzuri, negocieri, obiecte uitate. Tranzițiile care merg suficient de bine trec adesea necomentate. Child Mind Institute recomandă lauda specifică atunci când copilul reușește să schimbe ritmul, pentru că ea întărește comportamentul pe care vrem să îl vedem din nou.",
+    image: {
+      src: "/blog/small-step-praise-transition.svg",
+      alt: "Părinte care observă calm un pas mic reușit al copilului după o tranziție",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-23",
+    readingTimeMinutes: 4,
+    sections: [
+      {
+        title: "De ce lauda generală nu ajunge mereu",
+        paragraphs: [
+          "Bravo sau ai fost cuminte sunt mesaje calde, dar nu spun copilului exact ce să repete. După o tranziție dificilă, copilul are nevoie de detalii: ai închis tableta când a sunat timerul, ai luat geanta fără să alergăm, ai spus că îți este greu și tot ai venit la ușă.",
+          "Lauda specifică nu înseamnă să ignori emoția. Înseamnă să arăți copilului că ai văzut efortul mic din mijlocul unei schimbări mari.",
+        ],
+      },
+      {
+        title: "Ce merită observat",
+        paragraphs: [
+          "Nu aștepta o tranziție perfectă. Dacă perfecțiunea devine criteriul, copilul care s-a străduit dar a plâns tot simte că a eșuat. Caută o acțiune mică, concretă și repetabilă.",
+        ],
+        bullets: [
+          "Ai venit la mine după primul anunț.",
+          "Ai pus plușul în geantă fără să îl aruncăm pe fugă.",
+          "Ai spus sunt supărat, în loc să lovești ușa.",
+          "Ai urcat în mașină chiar dacă încă îți era greu.",
+        ],
+      },
+      {
+        title: "Mini-recompensele pot fi temporare",
+        paragraphs: [
+          "Child Mind Institute notează că recompensele mici pot ajuta uneori tranzițiile, apoi pot fi retrase treptat. În două case, asta nu trebuie să devină o competiție între părinți. Poate fi ceva simplu și previzibil: un abțibild pe fișa de plecare, alegerea melodiei din mașină sau primul minut de poveste.",
+          "Important este ca recompensa să marcheze efortul, nu să cumpere iubirea copilului sau să transforme fiecare plecare într-o negociere.",
+        ],
+      },
+      {
+        title: "Cum sună o propoziție bună",
+        paragraphs: [
+          "Încearcă formula: am observat că ai făcut X, deși era greu; asta ne-a ajutat să Y. De exemplu: am observat că ai pus pantofii după timer, deși voiai să mai stai la joc; asta ne-a ajutat să plecăm fără să ne grăbim.",
+          "Propoziția rămâne scurtă. Nu adăuga imediat dar data viitoare să nu mai plângi. Copilul are nevoie să simtă că pasul bun chiar a fost văzut.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Lauda specifică arată copilului ce comportament poate repeta la următoarea tranziție.",
+      "Nu aștepta perfecțiunea; observă pasul mic făcut în direcția bună.",
+      "Recompensele mici pot fi utile temporar dacă nu devin mită sau competiție între case.",
+    ],
+    sources: [
+      {
+        title: "How Can We Help Kids With Transitions?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/how-can-we-help-kids-with-transitions/",
+        note: "Child Mind Institute recomandă recunoașterea tranzițiilor reușite, lauda specifică și, uneori, recompense mici care pot fi retrase treptat. Pagină accesată la 23 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Praise the small step after a successful transition",
+      summary:
+        "When you notice exactly what went well at departure, the child receives a practical map for next time, not just a general evaluation.",
+      intro:
+        "In co-parenting, adults very easily notice transitions that get stuck: tears, refusal, negotiations, forgotten objects. Transitions that go well enough often pass without comment. Child Mind Institute recommends specific praise when the child manages to change gears, because it reinforces the behaviour we want to see again.",
+      sections: [
+        {
+          title: "Why general praise is not always enough",
+          paragraphs: [
+            "Well done or you were good are warm messages, but they do not tell the child exactly what to repeat. After a hard transition, the child needs details: you closed the tablet when the timer rang, you took the bag without us rushing, you said it was hard and still came to the door.",
+            "Specific praise does not mean ignoring the emotion. It means showing the child that you saw the small effort inside a big change.",
+          ],
+        },
+        {
+          title: "What is worth noticing",
+          paragraphs: [
+            "Do not wait for a perfect transition. If perfection becomes the standard, the child who tried but still cried feels like they failed. Look for one small, concrete and repeatable action.",
+          ],
+          bullets: [
+            "You came to me after the first reminder.",
+            "You put the soft toy in the bag without us throwing it in while rushing.",
+            "You said I am upset instead of hitting the door.",
+            "You got into the car even though it still felt hard.",
+          ],
+        },
+        {
+          title: "Small rewards can be temporary",
+          paragraphs: [
+            "Child Mind Institute notes that small rewards can sometimes help transitions, then be phased out gradually. In two homes, this does not need to become a competition between parents. It can be simple and predictable: a sticker on the departure chart, choosing the song in the car or the first minute of the story.",
+            "The important part is that the reward marks effort, not that it buys the child's love or turns every departure into a negotiation.",
+          ],
+        },
+        {
+          title: "What a good sentence sounds like",
+          paragraphs: [
+            "Try the formula: I noticed you did X, even though it was hard; that helped us Y. For example: I noticed you put on your shoes after the timer, even though you wanted more game time; that helped us leave without rushing.",
+            "Keep the sentence short. Do not immediately add but next time don't cry. The child needs to feel that the good step was truly seen.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Specific praise shows the child what behaviour they can repeat at the next transition.",
+        "Do not wait for perfection; notice the small step in the right direction.",
+        "Small rewards can help temporarily if they do not become bribes or competition between homes.",
+      ],
+    },
+  },
+  {
     slug: "copilul-are-voie-sa-se-bucure-de-celalalt-parinte",
     enSlug: "your-child-is-allowed-to-enjoy-the-other-parent",
     title: "Copilul are voie să se bucure de celălalt părinte",
