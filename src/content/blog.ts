@@ -107,6 +107,363 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "ritualurile-mici-de-apartenenta-care-il-ajuta-pe-copil-intre-doua-case",
+    enSlug: "small-belonging-rituals-that-help-a-child-between-two-homes",
+    title: "Ritualurile mici de apartenență care îl ajută pe copil între două case",
+    summary:
+      "Un semn repetat, o replică familiară sau un obicei mic pot da copilului continuitate și sentiment de apartenență chiar dacă zilele se împart între două case.",
+    intro:
+      "Când un copil se mută regulat între două case, adulții caută adesea soluții mari: programe perfecte, explicații multe, reguli foarte detaliate. Dar uneori sprijinul cel mai stabil vine din lucruri mici și recognoscibile. Raising Children Network arată că ritualurile de familie dau siguranță, identitate și apartenență, iar în perioade de schimbare precum separarea sau mutarea ajută copilul să simtă că lumea rămâne previzibilă chiar dacă nu este identică peste tot.",
+    image: {
+      src: "/blog/belonging-rituals-two-homes.svg",
+      alt: "Două case legate prin ritualuri mici de apartenență și un copil între ele",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-27",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează mai mult decât pare",
+        paragraphs: [
+          "Un ritual mic îi spune copilului: aici știu cum începe și cum se încheie momentul. Când asta se repetă, corpul are mai puțin de ghicit. Nu rezolvă tot stresul, dar reduce senzația că fiecare zi trebuie descifrată de la zero.",
+          "Apartenența nu vine doar din timp petrecut împreună, ci și din semne recognoscibile. O expresie spusă seara, o strângere de mână la plecare sau aceeași frază înainte de somn devin repere emoționale care traversează mai ușor schimbările de context.",
+        ],
+      },
+      {
+        title: "Ce ritualuri mici merg bine în două case",
+        paragraphs: [
+          "Nu ai nevoie de ceva spectaculos. De obicei funcționează cel mai bine lucrurile scurte, calde și ușor de repetat, fără cost și fără pregătire mare.",
+        ],
+        bullets: [
+          "aceeași replică de reconectare la sosire: mă bucur că ești aici",
+          "un gest recognoscibil la plecare: îmbrățișare, atingere de palme sau semn secret",
+          "o propoziție scurtă înainte de somn, spusă în același fel",
+          "o mini-tradiție săptămânală simplă: clătite sâmbătă, ceai și poveste, plimbare de 10 minute",
+          "un obiect mic cu semnificație stabilă, nu ca să înlocuiască relația, ci ca să îi amintească de continuitate",
+        ],
+      },
+      {
+        title: "Cum le coordonezi fără să transformi totul în control reciproc",
+        paragraphs: [
+          "Cele două case nu trebuie să copieze fiecare detaliu. Ajută mai mult să existe câteva repere compatibile decât două sisteme identice impuse cu tensiune. Unele ritualuri pot fi comune, altele pot rămâne specifice fiecărei case.",
+          "Dacă vorbești cu celălalt părinte despre asta, mesajul util este practic: ce semn a prins bine și ce păstrăm pentru predictibilitate. Nu este nevoie să negociați tot stilul familiei. Copilul are nevoie de punți, nu de un manual comun perfect.",
+        ],
+      },
+      {
+        title: "Când ritualul începe să apese",
+        paragraphs: [
+          "Dacă ritualul devine test, obligație sau motiv de conflict, își pierde rostul. Un copil obosit nu trebuie forțat să repete gluma, să spună replica completă sau să pară emoționat exact cum speră adultul.",
+          "Semnul bun este simplitatea: ritualul se întâmplă ușor și aduce o mică așezare. Dacă începe să irite, îl scurtezi, îl schimbi sau îl lași să evolueze.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Ritualurile mici dau copilului continuitate și apartenență între două case.",
+      "Nu trebuie să fie elaborate; contează să fie calde, scurte și repetabile.",
+      "Două case nu au nevoie de ritualuri identice, ci de repere suficient de previzibile.",
+    ],
+    sources: [
+      {
+        title: "Why are family traditions & rituals important?",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-life/routines-rituals-relationships/family-rituals",
+        note: "Explică de ce ritualurile de familie susțin siguranța, identitatea și apartenența și de ce sunt deosebit de utile în perioade de schimbare, inclusiv separare sau divorț. Pagină accesată la 27 aprilie 2026.",
+      },
+      {
+        title: "Routines for families: how & why they work",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/babies/family-life/routines-rituals/family-routines",
+        note: "Leagă rutina de predictibilitate, siguranță și sentimentul că acasă există ordine recognoscibilă pentru copil. Pagină accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Small belonging rituals that help a child between two homes",
+      summary:
+        "A repeated sign, a familiar phrase or a small habit can give a child continuity and belonging even when life is split between two homes.",
+      intro:
+        "When a child moves regularly between two homes, adults often look for big solutions: perfect schedules, lots of explanations, very detailed rules. But sometimes the steadiest support comes from small, recognisable things. Raising Children Network shows that family rituals give security, identity and belonging, and during times of change like separation or moving house they help a child feel the world stays predictable even when it is not identical everywhere.",
+      sections: [
+        {
+          title: "Why it matters more than it seems",
+          paragraphs: [
+            "A small ritual tells the child: here I know how this moment begins and ends. When this repeats, the body has less to guess about. It does not solve all stress, but it reduces the feeling that every day must be decoded from scratch.",
+            "Belonging does not come only from time spent together, but also from recognisable signs. A phrase said at night, a handshake at departure or the same sentence before sleep become emotional markers that travel more easily across changing contexts.",
+          ],
+        },
+        {
+          title: "What small rituals work well across two homes",
+          paragraphs: [
+            "You do not need anything spectacular. Usually the most effective things are short, warm and easy to repeat, without cost or much preparation.",
+          ],
+          bullets: [
+            "the same reconnection phrase on arrival: I'm glad you're here",
+            "a recognisable departure gesture: hug, palm tap or secret sign",
+            "one short sentence before sleep, said in the same way",
+            "a simple weekly mini-tradition: Saturday pancakes, tea and a story, a 10-minute walk",
+            "a small object with stable meaning, not to replace the relationship but to remind the child of continuity",
+          ],
+        },
+        {
+          title: "How to coordinate them without turning everything into mutual control",
+          paragraphs: [
+            "The two homes do not need to copy every detail. It helps more to have a few compatible anchors than two identical systems imposed with tension. Some rituals can be shared, while others can remain specific to each home.",
+            "If you speak with the other parent about this, the useful message is practical: which cue worked well and what we keep for predictability. There is no need to negotiate the whole family style. The child needs bridges, not a perfect shared manual.",
+          ],
+        },
+        {
+          title: "When the ritual starts to press on the child",
+          paragraphs: [
+            "If the ritual becomes a test, an obligation or a reason for conflict, it loses its purpose. A tired child should not be forced to repeat the joke, say the full line or look emotional in exactly the way the adult hopes for.",
+            "The good sign is simplicity: the ritual happens easily and brings a small settling. If it starts to irritate, shorten it, change it or let it evolve.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Small rituals give a child continuity and belonging across two homes.",
+        "They do not need to be elaborate; they need to be warm, short and repeatable.",
+        "Two homes do not need identical rituals, only anchors that are predictable enough.",
+      ],
+    },
+  },
+  {
+    slug: "cititul-aceleiasi-povesti-in-ambele-case-poate-linisti-tranzitia",
+    enSlug: "reading-the-same-story-in-both-homes-can-soften-a-transition",
+    title: "Cititul aceleiași povești în ambele case poate liniști tranziția",
+    summary:
+      "O carte familiară, citită scurt și fără grabă, poate funcționa ca un pod de reglare între două case, mai ales în zilele aglomerate sau după handover.",
+    intro:
+      "Cititul împreună este adesea văzut doar ca activitate de limbaj sau rutină de seară. Dar Raising Children Network îl descrie și ca timp de apropiere, relație și concentrare comună. Pentru un copil care trece între două case, aceeași poveste sau același tip de carte poate deveni un reper liniștitor: nu pentru că rezolvă tot, ci pentru că aduce ceva recognoscibil într-un moment cu multe schimbări.",
+    image: {
+      src: "/blog/shared-story-two-homes.svg",
+      alt: "Un copil ascultă aceeași poveste într-un colț de citit legat între două case",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-04-26",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ajută o poveste familiară",
+        paragraphs: [
+          "Când cartea este deja cunoscută, copilul nu mai consumă energie pe noutate și poate folosi momentul pentru a se așeza. Ritmul, repetiția și imaginile familiare coboară tensiunea mai ușor decât multe întrebări puse imediat după sosire.",
+          "Nu trebuie să fie aceeași carte pentru totdeauna, dar o perioadă de repetiție ajută. Copiii mici învață și se liniștesc adesea tocmai prin reluare, nu prin varietate continuă.",
+        ],
+      },
+      {
+        title: "Cum folosești cititul ca ritual de reglare",
+        paragraphs: [
+          "Important este cadrul, nu performanța. Câteva minute într-un loc liniștit, cu telefonul lăsat deoparte și cu voce recognoscibilă, pot face mai mult decât o sesiune lungă când copilul este deja obosit.",
+        ],
+        bullets: [
+          "Alege o carte scurtă, cu imagini clare și suficientă repetiție.",
+          "Ține momentul la 5-10 minute dacă ziua a fost încărcată.",
+          "Lasă copilul să stea aproape și să întoarcă paginile dacă vrea.",
+          "Vorbește despre imagini mai mult decât pune întrebări de verificare.",
+          "Oprește-te înainte să devină sarcină; nu trebuie terminată cartea de fiecare dată.",
+        ],
+      },
+      {
+        title: "Ce merge bine în două case",
+        paragraphs: [
+          "Poate ajuta să existe una sau două cărți-punte: același titlu în ambele case sau două cărți foarte asemănătoare ca ritm. În felul acesta, copilul recunoaște experiența chiar dacă spațiul este diferit.",
+          "Dacă nu vrei să dublezi exact cartea, păstrează măcar forma: aceeași replică la început, același loc de citit, același cântec scurt înainte sau după poveste. Continuitatea poate sta și în ritual, nu doar în obiect.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Cititul nu ajută dacă este folosit ca test de atenție, lecție de morală sau interogatoriu despre ce s-a întâmplat în cealaltă casă. Scopul principal este reglarea și relația.",
+          "Dacă un copil nu are chef să asculte, poți citi doar două pagini sau doar privi imaginile împreună. Flexibilitatea păstrează ritualul viu.",
+        ],
+      },
+    ],
+    takeaways: [
+      "O poveste familiară poate funcționa ca pod de reglare între două case.",
+      "Cititul ajută mai mult când rămâne scurt, cald și fără verificări.",
+      "Continuitatea poate sta în aceeași carte sau în aceeași formă de ritual.",
+    ],
+    sources: [
+      {
+        title: "Reading and storytelling with children",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/babies/play-learning/literacy-reading-stories/reading-storytelling",
+        note: "Descrie cititul împreună ca sprijin pentru limbaj, concentrare, relație și reglare prin rutină, apropiere și repetiție. Pagină accesată la 27 aprilie 2026.",
+      },
+      {
+        title: "Why are family traditions & rituals important?",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-life/routines-rituals-relationships/family-rituals",
+        note: "Arată de ce ritualurile mici, inclusiv cititul repetat înainte de somn, pot oferi confort în locuri diferite și în perioade de schimbare. Pagină accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "Reading the same story in both homes can soften a transition",
+      summary:
+        "A familiar book, read briefly and without rush, can work as a regulation bridge between two homes, especially on busy days or after handover.",
+      intro:
+        "Reading together is often seen only as a language activity or bedtime routine. But Raising Children Network also describes it as time for closeness, relationship and shared focus. For a child moving between two homes, the same story or the same kind of book can become a calming anchor: not because it solves everything, but because it brings something recognisable into a moment with many changes.",
+      sections: [
+        {
+          title: "Why a familiar story helps",
+          paragraphs: [
+            "When the book is already known, the child spends less energy on novelty and can use the moment to settle. Rhythm, repetition and familiar pictures lower tension more easily than many questions asked right after arrival.",
+            "It does not have to be the same book forever, but a period of repetition helps. Young children often learn and settle precisely through revisiting, not through constant variety.",
+          ],
+        },
+        {
+          title: "How to use reading as a regulation ritual",
+          paragraphs: [
+            "What matters is the frame, not the performance. A few minutes in a quiet place, with the phone put aside and a recognisable voice, can do more than a long session when the child is already tired.",
+          ],
+          bullets: [
+            "Choose a short book with clear pictures and enough repetition.",
+            "Keep the moment to 5-10 minutes if the day has been heavy.",
+            "Let the child stay close and turn the pages if they want.",
+            "Talk about the pictures more than you ask checking questions.",
+            "Stop before it becomes a task; you do not need to finish the book every time.",
+          ],
+        },
+        {
+          title: "What works well across two homes",
+          paragraphs: [
+            "It can help to have one or two bridge books: the same title in both homes or two books with a very similar rhythm. That way the child recognises the experience even if the space is different.",
+            "If you do not want to duplicate the exact book, keep at least the form: the same opening line, the same reading spot, the same short song before or after the story. Continuity can live in the ritual, not only in the object.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Reading does not help if it is used as an attention test, a moral lesson or an interrogation about what happened in the other home. The main goal is regulation and relationship.",
+            "If a child is not in the mood to listen, you can read only two pages or simply look at the pictures together. Flexibility keeps the ritual alive.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A familiar story can work as a regulation bridge between two homes.",
+        "Reading helps more when it stays short, warm and free of testing.",
+        "Continuity can live in the same book or in the same ritual shape.",
+      ],
+    },
+  },
+  {
+    slug: "cand-copilul-este-suprastimulat-nu-neaparat-neascultator",
+    enSlug: "when-your-child-is-overstimulated-not-necessarily-disobedient",
+    title: "Când copilul este suprastimulat, nu neapărat neascultător",
+    summary:
+      "După drumuri, școală, zgomot și schimbări de ritm, unele izbucniri înseamnă prea mult input, nu lipsă de voință; mai întâi reduci stimularea, apoi ceri cooperare.",
+    intro:
+      "În familiile cu două case, o zi obișnuită poate aduna foarte multe tranziții: trezire, grădiniță sau școală, trafic, handover, alt spațiu, alți oameni, alt ritm. Raising Children Network explică faptul că suprastimularea apare când copilul primește mai multe experiențe, senzații, zgomote și activitate decât poate procesa în acel moment. De aceea, uneori copilul nu este mai puțin cooperant din răutate, ci pur și simplu are sistemul deja prea încărcat.",
+    image: {
+      src: "/blog/overstimulated-child-quiet-landing.svg",
+      alt: "Copil care primește un colț liniștit și o aterizare calmă după o zi plină",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-25",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Cum arată suprastimularea în viața reală",
+        paragraphs: [
+          "Uneori apare ca plâns, izbucnire, agățare, refuzul unor lucruri simple sau iritabilitate fără explicație clară. Alteori copilul pare brusc foarte neîndemânatic, cere mai mult ajutor sau spune nu la lucruri pe care de obicei le face fără dificultate.",
+          "Dacă te uiți doar la comportament, poți citi momentul ca opoziție. Dacă te uiți la toată ziua, vezi alt tablou: prea multe schimbări, prea puțin timp de așezare și prea multe cerințe una după alta.",
+        ],
+      },
+      {
+        title: "Ce ajuți în primele 10 minute",
+        paragraphs: [
+          "Primul ajutor nu este discursul. Este aterizarea. Un copil suprastimulat beneficiază mai mult de ton coborât, mai puțin zgomot și o cerință simplă decât de explicații lungi sau de corectare rapidă.",
+        ],
+        bullets: [
+          "Scade volumul general: televizor oprit, mai puține voci, mai puține întrebări.",
+          "Oferă un reper corporal simplu: apă, gustare, schimbat hainele, stat aproape.",
+          "Folosește o singură instrucțiune scurtă, nu o listă întreagă.",
+          "Lasă 5 minute de liniștire înainte să ceri teme, duș sau rezolvări.",
+          "Dacă plânge sau protestează, stai aproape și amână discuția de logică pentru după calmare.",
+        ],
+      },
+      {
+        title: "De ce argumentele intră prost exact atunci",
+        paragraphs: [
+          "Când sistemul este deja supraîncărcat, copilul procesează greu încă un val de cerințe. De aceea întrebările rapide, explicațiile lungi sau negocierile insistente tind să mărească haosul în loc să-l reducă.",
+          "Ajută mai mult să numești pe scurt ce vezi, să faci o pauză și să aștepți să coboare intensitatea. Limita rămâne, dar intră mai bine după ce corpul nu mai este în alarmă maximă.",
+        ],
+      },
+      {
+        title: "Când merită urmărit un pattern",
+        paragraphs: [
+          "Dacă izbucnirile apar frecvent după aceleași combinații de oboseală, ecrane, drum lung, handover târziu sau program prea plin, problema nu este doar comportamentul din acea clipă. Este arhitectura zilei.",
+          "Ține minte ce a precedat momentul și ce a ajutat la revenire. Uneori cea mai bună intervenție nu este o replică mai bună, ci o zi cu o treaptă mai puțin de stimulare înainte de tranziția importantă.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Unele izbucniri vin din suprastimulare, nu din rea-voință.",
+      "În primele minute ajută mai mult liniștirea mediului decât argumentele.",
+      "Dacă vezi un tipar repetat, merită ajustată structura zilei, nu doar reacția la episod.",
+    ],
+    sources: [
+      {
+        title: "Overstimulation: babies and children",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/newborns/behaviour/common-concerns/overstimulation",
+        note: "Descrie semnele frecvente ale suprastimulării și subliniază că mulți copii au nevoie de timp liniștit și mediu familiar pentru a se calma. Pagină accesată la 27 aprilie 2026.",
+      },
+      {
+        title: "Calming down for children: how to help",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/school-age/behaviour/behaviour-management-tips-tools/helping-children-calm-down-3-8-years",
+        note: "Propune pași practici: observi emoția, o numești, faci pauză, susții calmarea și abia apoi revii la problemă sau limită. Pagină accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "When your child is overstimulated, not necessarily disobedient",
+      summary:
+        "After travel, school, noise and rhythm shifts, some outbursts mean too much input, not lack of will; first reduce stimulation, then ask for cooperation.",
+      intro:
+        "In two-home families, an ordinary day can collect many transitions: waking up, nursery or school, traffic, handover, another space, other people, another rhythm. Raising Children Network explains that overstimulation happens when a child gets more experiences, sensations, noise and activity than they can process at that moment. That is why sometimes the child is not less cooperative out of defiance, but simply already overloaded.",
+      sections: [
+        {
+          title: "What overstimulation looks like in real life",
+          paragraphs: [
+            "Sometimes it looks like crying, exploding, clinging, refusing simple things or irritability with no clear explanation. Other times the child suddenly seems very clumsy, asks for more help or says no to things they normally do without much difficulty.",
+            "If you look only at the behaviour, you can read the moment as opposition. If you look at the whole day, you see something else: too many shifts, too little settling time and too many demands stacked one after another.",
+          ],
+        },
+        {
+          title: "What helps in the first 10 minutes",
+          paragraphs: [
+            "The first help is not a speech. It is a landing. An overstimulated child benefits more from a lower tone, less noise and one simple request than from long explanations or quick correction.",
+          ],
+          bullets: [
+            "Lower the overall volume: TV off, fewer voices, fewer questions.",
+            "Offer a simple body anchor: water, snack, changing clothes, staying close.",
+            "Use one short instruction, not a whole list.",
+            "Give 5 minutes to settle before asking for homework, a shower or problem-solving.",
+            "If they cry or protest, stay near and postpone the logic talk until after calming down.",
+          ],
+        },
+        {
+          title: "Why arguments land badly at exactly that moment",
+          paragraphs: [
+            "When the system is already overloaded, the child processes another wave of demands poorly. That is why rapid-fire questions, long explanations or insistent negotiations tend to increase the chaos instead of lowering it.",
+            "It helps more to briefly name what you see, pause and wait for the intensity to come down. The limit still stands, but it lands better after the body is no longer in peak alarm.",
+          ],
+        },
+        {
+          title: "When it is worth tracking a pattern",
+          paragraphs: [
+            "If outbursts often come after the same mix of tiredness, screens, long travel, late handover or an overfull schedule, the problem is not only the behaviour in that second. It is the architecture of the day.",
+            "Notice what came before and what helped recovery. Sometimes the best intervention is not a better sentence, but a day with one less layer of stimulation before the important transition.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Some outbursts come from overstimulation, not bad intent.",
+        "In the first minutes, calming the environment helps more than arguing.",
+        "If you see a repeated pattern, adjust the structure of the day, not only your response to the episode.",
+      ],
+    },
+  },
+  {
     slug: "preview-ul-zilei-care-pregateste-copilul-pentru-schimbarea-de-casa",
     enSlug: "the-day-preview-that-prepares-a-child-for-changing-homes",
     title: "Preview-ul zilei care pregătește copilul pentru schimbarea de casă",
