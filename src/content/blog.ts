@@ -5094,6 +5094,423 @@ const blogArticles: BlogArticle[] = [
       ],
     },
   },
+  {
+    slug: "cand-copilul-sare-la-cel-mai-rau-scenariu-dupa-o-schimbare",
+    enSlug: "when-your-child-jumps-to-the-worst-case-after-a-change",
+    title: "Când copilul sare la cel mai rău scenariu după o schimbare",
+    summary:
+      "După o modificare de program sau o veste nouă, unii copii ajung foarte repede la concluzia că urmează ceva grav. Un răspuns scurt, concret și realist îi poate readuce înapoi la ce știm acum.",
+    intro:
+      "Nu toți copiii reacționează la schimbare prin plâns sau opoziție. Unii reacționează prin scenarii negre: sigur nu mai vii, sigur se strică tot weekendul, sigur iar o să mă mut. HealthyChildren arată că stilul de gândire catastrofică poate influența felul în care copilul trece prin separare și schimbări, iar părinții pot modela o evaluare mai realistă a situației. Asta nu înseamnă să negi emoția. Înseamnă să nu lași mintea copilului singură cu cea mai dură variantă.",
+    image: {
+      src: "/blog/worst-case-change.svg",
+      alt: "Copil îngrijorat între două case, cu un nor de gânduri și un părinte care aduce claritate",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-27",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Cum recunoști gândirea de tip cel mai rău scenariu",
+        paragraphs: [
+          "De obicei apare repede și sună absolut: niciodată, mereu, sigur, gata. Uneori pornește de la ceva mic, cum ar fi o schimbare de oră, și ajunge imediat la o concluzie mare despre relație sau siguranță.",
+          "Copilul nu face asta ca să dramatizeze în mod calculat. De multe ori încearcă să umple foarte repede un gol de informație. Dacă schimbarea îl prinde obosit, grăbit sau deja încărcat, mintea lui poate merge direct spre varianta cea mai amenințătoare.",
+        ],
+      },
+      {
+        title: "Ce ajută în primele 30 de secunde",
+        paragraphs: [
+          "Mai întâi reduci temperatura, apoi explici. Un răspuns util nu este lung și nu încearcă să rezolve toată viața copilului într-o singură propoziție.",
+        ],
+        bullets: [
+          "Numește pe scurt ce auzi: pari speriat că se schimbă tot.",
+          "Spune ce știi sigur acum: azi te ia tata la 18:00, iar mâine mergi la școală normal.",
+          "Corectează blând saltul la concluzie: faptul că ora se schimbă nu înseamnă că dispar planurile.",
+          "Dă următorul reper concret: îți spun din nou după cină cum arată mâine.",
+        ],
+      },
+      {
+        title: "Cum vorbești realist, nu fals liniștitor",
+        paragraphs: [
+          "Copilul are nevoie de speranță credibilă, nu de promisiuni absolute. Dacă spui nu se va schimba niciodată nimic și apoi apare o excepție, anxietatea poate crește.",
+          "Mai util este limbajul de tipul: acum planul este acesta, dacă apare ceva nou te anunțăm din timp, noi ne ocupăm de partea de adulți. Asta ține realitatea întreagă și îi lasă copilului mai puțin spațiu pentru scenarii inventate.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Când un copil sare la cel mai rău scenariu, ironia sau explicațiile prea lungi îl împing adesea și mai departe în alarmă. La fel și întrebările puse pe ton de interogatoriu despre de ce gândește așa.",
+        ],
+        bullets: [
+          "Nu răspunde cu nu mai exagera.",
+          "Nu promite certitudini pe care nu le poți controla.",
+          "Nu turna detalii de conflict adult ca să demonstrezi de ce s-a schimbat ceva.",
+          "Nu transforma discuția într-o lecție despre logică exact în momentul fricii.",
+        ],
+      },
+      {
+        title: "Semnul că abordarea începe să prindă",
+        paragraphs: [
+          "Copilul nu devine imediat senin, dar coboară din propozițiile totale și poate reveni la următorul pas concret. În loc de sigur se strică tot, începe să poată întreba ce facem diseară sau cine mă ia mâine.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Unii copii reacționează la schimbare prin scenarii catastrofice, nu doar prin protest.",
+      "Ajută mai mult un răspuns scurt, concret și realist decât o prelegere lungă.",
+      "Scopul nu este să negi emoția, ci să o aduci înapoi lângă faptele pe care le știți acum.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "AAP explică faptul că stilul de gândire optimist versus catastrofic influențează adaptarea copilului și spune explicit că părinții îl pot ajuta să evalueze realist situațiile și să nu presupună direct varianta cea mai rea. Ultima actualizare indicată pe pagină: 29 septembrie 2020.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP recomandă să reasiguri copilul că este în siguranță, iubit și că rutina zilnică rămâne cât mai previzibilă. Pagina a fost accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "When your child jumps to the worst case after a change",
+      summary:
+        "After a schedule shift or a new piece of news, some children quickly conclude that something terrible is about to happen. A short, concrete and realistic response can bring them back to what is actually known now.",
+      intro:
+        "Not all children react to change with crying or open resistance. Some react with dark scenarios: you're definitely not coming, the whole weekend is ruined, I'm definitely moving again. HealthyChildren shows that catastrophic thinking can shape how a child copes with separation and change, and that parents can model a more realistic reading of the situation. That does not mean dismissing the emotion. It means not leaving the child's mind alone with the harshest version.",
+      sections: [
+        {
+          title: "How to recognise worst-case thinking",
+          paragraphs: [
+            "It usually appears quickly and sounds absolute: never, always, definitely, it's over. Sometimes it starts from something small, like a time change, and jumps straight to a big conclusion about the relationship or safety.",
+            "The child is not doing this as a calculated drama. Often they are trying to fill an information gap very quickly. If the change catches them tired, rushed or already loaded, their mind may go straight to the most threatening option.",
+          ],
+        },
+        {
+          title: "What helps in the first 30 seconds",
+          paragraphs: [
+            "Lower the temperature first, then explain. A useful response is not long and does not try to solve the child's whole life in one sentence.",
+          ],
+          bullets: [
+            "Name briefly what you hear: you sound scared that everything is changing.",
+            "Say what you know for sure right now: dad is picking you up at 6 pm today, and tomorrow you go to school as usual.",
+            "Gently correct the jump to the conclusion: the time changing does not mean the plans disappear.",
+            "Give the next concrete anchor: I'll tell you again after dinner what tomorrow looks like.",
+          ],
+        },
+        {
+          title: "How to speak realistically instead of offering false reassurance",
+          paragraphs: [
+            "A child needs believable hope, not absolute promises. If you say nothing will ever change and then an exception appears, anxiety can grow.",
+            "It helps more to use language like: this is the plan right now, if something new comes up we'll tell you in time, we're handling the adult part. That keeps reality intact and gives the child less room for invented disaster scenarios.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "When a child jumps to the worst case, irony or long explanations often push them further into alarm. The same goes for interrogation-style questions about why they think that way.",
+          ],
+          bullets: [
+            "Do not answer with you're overreacting.",
+            "Do not promise certainties you cannot control.",
+            "Do not pour in adult conflict details to prove why something changed.",
+            "Do not turn the moment of fear into a lesson in logic.",
+          ],
+        },
+        {
+          title: "The sign the approach is starting to land",
+          paragraphs: [
+            "The child does not become instantly cheerful, but they step down from all-or-nothing statements and return to the next concrete step. Instead of everything is ruined, they can begin asking what we're doing tonight or who is picking me up tomorrow.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Some children react to change with catastrophic scenarios, not only with protest.",
+        "A short, concrete and realistic response helps more than a long lecture.",
+        "The aim is not to deny the emotion, but to bring it back next to the facts you actually know now.",
+      ],
+    },
+  },
+  {
+    slug: "un-adult-sigur-in-plus-il-poate-ajuta-pe-copil-dupa-separare",
+    enSlug: "one-safe-adult-more-can-help-a-child-after-separation",
+    title: "Un adult sigur în plus îl poate ajuta pe copil după separare",
+    summary:
+      "Pe lângă părinți, un profesor, bunic, nașă sau alt adult de încredere poate deveni un punct de sprijin calm pentru copil în perioadele cu multe schimbări.",
+    intro:
+      "Uneori părinții cred că trebuie să țină totul doar în interiorul familiei, mai ales după separare. Dar HealthyChildren notează că acei copii care reușesc să caute și să primească sprijin și de la alți oameni se adaptează mai bine la schimbări. Pentru copil, un adult sigur în plus nu înseamnă tabără nouă sau alianță. Înseamnă încă un loc unde poate fi văzut fără să simtă că trebuie să protejeze pe cineva.",
+    image: {
+      src: "/blog/safe-adult-support.svg",
+      alt: "Copil conectat calm cu un părinte și un alt adult de încredere",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-27",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează un adult în plus",
+        paragraphs: [
+          "În familiile cu două case, copilul poate simți uneori că fiecare cuvânt este greu de dozat: dacă spun asta, pe cine supăr? dacă plâng aici, ce înseamnă pentru celălalt părinte? Un adult exterior conflictului poate reduce această presiune.",
+          "Nu este vorba despre a înlocui relația cu părintele. Este vorba despre a lărgi cercul de siguranță al copilului. Uneori tocmai un adult mai puțin încărcat emoțional poate primi mai ușor o teamă, o rușine sau o întrebare repetată.",
+        ],
+      },
+      {
+        title: "Cine poate fi acest adult",
+        paragraphs: [
+          "Nu ai nevoie de un profil perfect. Ai nevoie de un om stabil, cald și discret, care nu transformă ce aude într-un comentariu despre celălalt părinte.",
+        ],
+        bullets: [
+          "un bunic care știe să asculte fără să interogheze",
+          "un profesor sau consilier școlar care vede copilul regulat",
+          "o mătușă, un naș sau un prieten apropiat al familiei",
+          "un specialist, dacă deja există o relație bună și copilul se simte în siguranță",
+        ],
+      },
+      {
+        title: "Cum îl prezinți copilului fără presiune",
+        paragraphs: [
+          "Nu îl anunța ca pe o soluție pentru că tu nu mai faci față. Mai util este să normalizezi ideea că oamenii au mai multe locuri de sprijin, nu unul singur.",
+          "Poți spune simplu: dacă ai vreodată chef să vorbești și cu doamna învățătoare, cu bunica sau cu nașa, e în regulă. Nu trebuie să alegi între noi. Uneori ajută să ai încă un adult bun lângă tine.",
+        ],
+      },
+      {
+        title: "Ce rol are adultul și ce rol nu are",
+        paragraphs: [
+          "Adultul de sprijin nu este mediatorul conflictului dintre părinți și nici informatorul unei tabere. Rolul lui este să ofere reglare, ascultare și continuitate, nu să adune probe despre ce se întâmplă în cealaltă casă.",
+        ],
+        bullets: [
+          "Nu îl pune să trimită rapoarte despre copil către unul dintre părinți fără claritate și consimțământ.",
+          "Nu îl transforma în locul unde se discută cine are dreptate între adulți.",
+          "Nu folosi relația copilului cu acel adult ca probă de loialitate.",
+          "Lasă sprijinul să rămână calm, repetabil și previzibil.",
+        ],
+      },
+      {
+        title: "Semnul că ajută cu adevărat",
+        paragraphs: [
+          "Copilul are încă emoții, dar nu mai pare atât de singur cu ele. Începe să spună mai ușor ce îl apasă, acceptă mai bine tranzițiile sau știe deja la cine poate merge când i se face greu la școală ori după o schimbare de plan.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un adult de încredere din afara conflictului poate fi o resursă reală pentru copil.",
+      "Sprijinul bun nu înlocuiește părinții, ci lărgește cercul de siguranță.",
+      "Adultul de sprijin nu trebuie transformat în mediator, spion sau arbitru.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "AAP arată că acei copii care pot căuta și primi sprijin de la alți oameni se adaptează mai bine schimbărilor asociate separării și recomandă explicit încurajarea contactului cu un adult sau prieten de încredere. Ultima actualizare indicată pe pagină: 29 septembrie 2020.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP recomandă menținerea rutinei, reasigurarea copilului că este iubit și apelul la pediatru sau consilier familial când este nevoie de sprijin în plus. Pagina a fost accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "One safe adult more can help a child after separation",
+      summary:
+        "Alongside parents, a teacher, grandparent, godparent or another trusted adult can become a calm support point for a child during periods of heavy change.",
+      intro:
+        "Sometimes parents feel everything has to stay strictly inside the family, especially after separation. But HealthyChildren notes that children who are able to seek and receive support from other people adapt better to change. For a child, one more safe adult does not mean a new camp or alliance. It means one more place where they can be seen without feeling they have to protect anyone.",
+      sections: [
+        {
+          title: "Why one more adult matters",
+          paragraphs: [
+            "In two-home families, a child may sometimes feel every word has to be carefully measured: if I say this, who do I upset? if I cry here, what does it mean for the other parent? An adult outside the conflict can lower that pressure.",
+            "This is not about replacing the parent relationship. It is about widening the child's circle of safety. Sometimes an adult who is carrying less emotional charge can receive a fear, a shame or a repeated question more easily.",
+          ],
+        },
+        {
+          title: "Who this adult can be",
+          paragraphs: [
+            "You do not need a perfect profile. You need someone stable, warm and discreet, who does not turn what they hear into commentary about the other parent.",
+          ],
+          bullets: [
+            "a grandparent who knows how to listen without interrogating",
+            "a teacher or school counsellor who sees the child regularly",
+            "an aunt, godparent or close family friend",
+            "a specialist, if there is already a good relationship and the child feels safe",
+          ],
+        },
+        {
+          title: "How to introduce the idea without pressure",
+          paragraphs: [
+            "Do not present it as a solution because you are no longer coping. It helps more to normalise the idea that people have more than one place of support, not just one.",
+            "You can say simply: if you ever feel like talking with your teacher, grandma or godmother too, that's okay. You do not have to choose between us. Sometimes it helps to have one more good adult beside you.",
+          ],
+        },
+        {
+          title: "What this adult's role is and is not",
+          paragraphs: [
+            "A support adult is not the mediator of the parents' conflict and not an informant for one side. Their role is regulation, listening and continuity, not collecting evidence about what happens in the other home.",
+          ],
+          bullets: [
+            "Do not ask them to send reports about the child to one parent without clarity and consent.",
+            "Do not turn them into the place where adults argue about who is right.",
+            "Do not use the child's relationship with that adult as a loyalty test.",
+            "Let the support remain calm, repeatable and predictable.",
+          ],
+        },
+        {
+          title: "The sign it is genuinely helping",
+          paragraphs: [
+            "The child still has emotions, but does not seem quite so alone with them. They begin saying more easily what is weighing on them, accept transitions a bit better or already know who they can go to when school feels hard or a plan suddenly changes.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A trusted adult outside the conflict can be a real resource for a child.",
+        "Good support does not replace parents; it widens the child's circle of safety.",
+        "A support adult should not be turned into a mediator, spy or referee.",
+      ],
+    },
+  },
+  {
+    slug: "cum-vorbesti-cu-copilul-despre-bani-dupa-separare",
+    enSlug: "how-to-talk-with-your-child-about-money-after-separation",
+    title: "Cum vorbești cu copilul despre bani după separare",
+    summary:
+      "Mulți copii nu întreabă direct despre bani, dar se tem de mutări, lipsuri sau schimbări mari. Un răspuns simplu și proporționat îi poate liniști fără să-l împovăreze cu grija adultă.",
+    intro:
+      "Când familia trece prin separare, unii copii nu spun imediat că îi sperie ideea banilor. Dar HealthyChildren amintește clar că întrebări precum vom fi săraci, ne mutăm sau schimb școala sunt printre grijile frecvente, chiar și atunci când rămân nespuse. Pentru părinte, provocarea este fină: să nu minți, dar nici să nu descarci pe copil toată nesiguranța logistică a adulților.",
+    image: {
+      src: "/blog/money-talk-separation.svg",
+      alt: "Părinte și copil vorbind calm la masă despre schimbări practice și siguranță",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-27",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce tema banilor apare repede în mintea copilului",
+        paragraphs: [
+          "Copilul nu are nevoie să audă facturi sau discuții legale ca să simtă că ceva mare se mișcă în familie. Prinde tonul, vede tensiunea și încearcă să umple golurile cu propriile concluzii.",
+          "De aceea întrebarea despre bani rareori este doar despre bani. De multe ori înseamnă: mai sunt în siguranță? rămân la aceeași școală? o să pierd lucruri importante din viața mea?",
+        ],
+      },
+      {
+        title: "Cum răspunzi fără să încarci copilul",
+        paragraphs: [
+          "Răspunsul bun este scurt, adevărat și orientat spre siguranță. Nu trebuie să îl transformi într-o conversație despre bugetul familiei.",
+        ],
+        bullets: [
+          "Începe cu baza: noi ne ocupăm de banii familiei, nu este grija ta să rezolvi asta.",
+          "Spune ce știi concret: acum mergi la aceeași școală și locuiești în aceleași două case.",
+          "Dacă ceva nu este încă decis, spune direct: încă lucrăm la asta și îți vom spune din timp.",
+          "Întreabă ce anume îl sperie cel mai mult, ca să nu răspunzi la altă întrebare decât cea reală.",
+        ],
+      },
+      {
+        title: "Când copilul întreabă direct dacă veți fi săraci",
+        paragraphs: [
+          "Nu râde și nu minimaliza. Pentru copil, întrebarea poate fi foarte serioasă. Poți răspunde calm: nu, nu ești în pericol și nu depinde de tine să ții familia în picioare.",
+          "Dacă există într-adevăr schimbări practice la orizont, le poți numi la nivelul pe care îl poate duce: unele lucruri se pot schimba, dar tu vei ști din timp și noi ne ocupăm de partea asta.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Copilul nu este colegul tău de stres financiar. Dacă îl transformi în confident despre bani, poate începe să se simtă vinovat pentru cheltuieli normale sau să creadă că trebuie să fie mereu foarte cuminte ca să nu vă împovăreze.",
+        ],
+        bullets: [
+          "Nu spune nu ne permitem din cauza celuilalt părinte.",
+          "Nu împărtăși sume, datorii sau reproșuri pe care copilul nu le poate procesa.",
+          "Nu folosi tema banilor ca argument de loialitate.",
+          "Nu-l lăsa să creadă că trebuie să renunțe la nevoi obișnuite ca să repare situația adulților.",
+        ],
+      },
+      {
+        title: "Semnul că discuția a ajutat",
+        paragraphs: [
+          "Copilul pune întrebări mai concrete și mai puțin panicarde, ori revine la joacă fără aceeași tensiune. Nu pentru că a primit toate răspunsurile, ci pentru că știe mai clar ce este al adulților și ce rămâne stabil pentru el.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Întrebările despre bani ascund adesea întrebări despre siguranță și stabilitate.",
+      "Copilul are nevoie de adevăr proporționat, nu de tot stresul financiar al adulților.",
+      "Ajută să spui clar ce rămâne responsabilitatea părinților și ce știe copilul sigur acum.",
+    ],
+    sources: [
+      {
+        title: "How to Talk to Your Children about Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Talk-to-Your-Children-about-Divorce.aspx",
+        note: "AAP enumeră explicit între grijile copiilor întrebările despre mutare, schimbarea școlii și banii familiei și recomandă claritate, onestitate și reasigurare că vor rămâne în siguranță și iubiți. Ultima actualizare indicată pe pagină: 29 septembrie 2020.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP recomandă discuții timpurii și repetate despre întrebările practice ale copilului, inclusiv despre mutare, școală și siguranță, cu accent pe faptul că el este iubit și protejat. Pagina a fost accesată la 27 aprilie 2026.",
+      },
+    ],
+    en: {
+      title: "How to talk with your child about money after separation",
+      summary:
+        "Many children do not ask directly about money, but they worry about moving, lacking things or major disruption. A simple and proportionate response can calm them without loading them with adult worries.",
+      intro:
+        "When a family goes through separation, some children do not immediately say that money fears them. But HealthyChildren clearly notes that questions like are we going to be poor, are we moving or do I need to change schools are among the common worries, even when they stay unspoken. For the parent, the challenge is precise: do not lie, but do not unload the full logistical insecurity of adulthood onto the child either.",
+      sections: [
+        {
+          title: "Why money shows up quickly in a child's mind",
+          paragraphs: [
+            "A child does not need to hear about bills or legal discussions to sense that something big is moving in the family. They catch the tone, see the tension and try to fill the gaps with their own conclusions.",
+            "That is why a money question is rarely only about money. Very often it means: am I still safe? do I stay at the same school? am I going to lose important parts of my life?",
+          ],
+        },
+        {
+          title: "How to answer without loading the child",
+          paragraphs: [
+            "A good response is short, truthful and safety-oriented. You do not need to turn it into a conversation about the family budget.",
+          ],
+          bullets: [
+            "Start with the base: we handle the family's money, it is not your job to solve that.",
+            "Say what you know concretely: right now you are going to the same school and living in the same two homes.",
+            "If something is not decided yet, say so directly: we're still working that out and we'll tell you in time.",
+            "Ask what scares them most, so you do not answer a different question than the real one.",
+          ],
+        },
+        {
+          title: "When the child asks directly if you are going to be poor",
+          paragraphs: [
+            "Do not laugh it off and do not minimise it. For the child, the question may be very serious. You can answer calmly: no, you are not in danger, and it is not your job to hold the family up.",
+            "If practical changes really may be coming, you can name them at a level they can carry: some things may change, but you will know in time and we are handling that part.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Your child is not your colleague in financial stress. If you turn them into a confidant about money, they may start feeling guilty for normal expenses or believe they need to be especially easy so they do not burden you.",
+          ],
+          bullets: [
+            "Do not say we can't afford this because of the other parent.",
+            "Do not share amounts, debts or reproaches the child cannot process.",
+            "Do not use money as a loyalty argument.",
+            "Do not let the child believe they must give up ordinary needs to repair the adults' situation.",
+          ],
+        },
+        {
+          title: "The sign the conversation helped",
+          paragraphs: [
+            "The child asks more concrete and less panicked questions, or returns to play without the same tension. Not because they received every answer, but because they know more clearly what belongs to adults and what remains stable for them.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Questions about money often hide questions about safety and stability.",
+        "A child needs proportionate truth, not the full financial stress of the adults.",
+        "It helps to state clearly what remains the parents' responsibility and what the child knows for sure right now.",
+      ],
+    },
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {
