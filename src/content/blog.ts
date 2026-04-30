@@ -107,6 +107,399 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "predarea-la-scoala-sau-gradinita-poate-fi-mai-usoara-decat-la-usa",
+    enSlug: "school-or-daycare-handover-can-be-easier-than-the-doorway",
+    title: "Predarea la școală sau grădiniță poate fi mai ușoară decât la ușă",
+    summary:
+      "Pentru unii copii, schimbul făcut la școală sau grădiniță reduce tensiunea de la ușă și îi lasă să treacă între case printr-un cadru deja cunoscut.",
+    intro:
+      "Nu toate handover-urile grele au nevoie de mai multe explicații. Uneori au nevoie de mai puțină încărcătură. Raising Children Network arată că, dacă despărțirea față în față este prea tensionată sau copilul se desprinde foarte greu, schimbul făcut la școală sau grădiniță poate fi mai ușor: un părinte lasă copilul, celălalt îl ia. Pentru mulți copii, locul familiar și trecerea prin rutina zilei reduc intensitatea momentului.",
+    image: {
+      src: "/blog/school-handover.svg",
+      alt: "Copil lăsat calm la școală, cu două case sugerate discret în fundal",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-04-30",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ușa casei poate fi partea cea mai grea",
+        paragraphs: [
+          "La ușă se adună multe lucruri deodată: separarea, privirile dintre adulți, graba, bagajele și anticiparea schimbării. Chiar dacă nimeni nu spune ceva grav, corpul copilului poate simți acel loc ca pe un vârf de tensiune.",
+          "Când schimbul se mută într-un spațiu deja cunoscut, copilul nu mai trece direct dintr-o emoție mare în alta. Între cele două case apare o punte: rutina de școală sau de grădiniță.",
+        ],
+      },
+      {
+        title: "Când merită luată în calcul această variantă",
+        paragraphs: [
+          "Nu este o regulă universală. Dar poate ajuta mai ales când copilul se agață intens la plecare, când adulții escaladează repede față în față sau când predarea devine repetat punctul cel mai dur al zilei.",
+        ],
+        bullets: [
+          "plânsul pornește mai ales la despărțirea din prag, nu pe tot parcursul zilei",
+          "discuțiile dintre adulți se încarcă ușor în prezența copilului",
+          "copilul intră mai bine în ritm după ce trece printr-un cadru familiar",
+          "schimbul direct a devenit mai mult loc de fricțiune decât loc de sprijin",
+        ],
+      },
+      {
+        title: "Cum o faci fără să pară dispariție",
+        paragraphs: [
+          "Faptul că schimbul se întâmplă prin școală nu înseamnă că pleci pe furiș. Copilul are nevoie să știe clar cine îl lasă, cine îl ia și când se revede cu fiecare părinte.",
+          "Mesajul bun rămâne scurt și predictibil: azi te las eu, după program te ia tata/mama, iar diseară dormi acolo. Claritatea liniștește mai mult decât multe justificări.",
+        ],
+        bullets: [
+          "anunță schimbul din timp, cu aceeași formulă de fiecare dată",
+          "salutul de dimineață rămâne cald și scurt, nu prelungit",
+          "profesorii sau educatorii știu dinainte cine preia copilul",
+          "informațiile logistice circulă adult la adult, nu prin copil",
+        ],
+      },
+      {
+        title: "Semnul că varianta ajută",
+        paragraphs: [
+          "Nu înseamnă că dispar toate emoțiile. Dar scad agățarea din prag, negocierile lungi și tensiunea dintre adulți în fața copilului. Tranziția devine mai puțin spectaculoasă și, tocmai de aceea, mai ușor de dus.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Pentru unii copii, școala sau grădinița oferă un cadru mai lin pentru schimbul dintre case.",
+      "Schimbul prin instituție ajută mai ales când ușa a devenit loc de tensiune repetată.",
+      "Copilul are în continuare nevoie de anunț clar și rămas-bun scurt, nu de dispariție.",
+    ],
+    sources: [
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Recomandă ca, atunci când copilul se desparte greu sau schimburile directe sunt prea tensionate, handover-ul să poată avea loc la școală ori la child care, cu un părinte la lăsare și celălalt la preluare. Pagină accesată la 30 aprilie 2026.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/adjusting-to-divorce.aspx",
+        note: "AAP subliniază importanța rutinei zilnice și a faptului că școala trebuie să știe cine poate prelua copilul și pe cine contactează în situații practice sau urgente. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+    ],
+    en: {
+      title: "A school or daycare handover can be easier than the doorway",
+      summary:
+        "For some children, changing homes through school or daycare lowers the tension at the doorway and lets them move between homes through a setting they already know.",
+      intro:
+        "Not every hard handover needs more explanation. Sometimes it needs less emotional charge. Raising Children Network notes that if face-to-face separations are too tense or the child struggles to let go, a changeover through school or daycare can be easier: one parent drops off, the other picks up. For many children, the familiar setting and the rhythm of the day soften the intensity of the moment.",
+      sections: [
+        {
+          title: "Why the doorway can be the hardest part",
+          paragraphs: [
+            "At the door, many things pile up at once: separation, the looks between adults, the rush, the bag and the anticipation of change. Even when nobody says anything dramatic, the child's body can experience that spot as the peak of tension.",
+            "When the handover moves into a familiar environment, the child no longer has to jump straight from one big feeling into another. A bridge appears between the two homes: the routine of school or daycare.",
+          ],
+        },
+        {
+          title: "When this option is worth considering",
+          paragraphs: [
+            "It is not a universal rule. But it can help especially when the child clings intensely at departure, when the adults escalate quickly face to face, or when the handover itself has become the hardest point of the day.",
+          ],
+          bullets: [
+            "crying starts mainly in the doorway, not throughout the whole day",
+            "adult conversations become charged easily in front of the child",
+            "the child settles better after passing through a familiar routine",
+            "the direct handover has become more friction than support",
+          ],
+        },
+        {
+          title: "How to do it without making it feel like disappearance",
+          paragraphs: [
+            "A school-based handover does not mean sneaking away. The child still needs to know clearly who is dropping them off, who is picking them up and when they will see each parent again.",
+            "The useful message stays short and predictable: I drop you off today, dad/mum picks you up after the program, and you sleep there tonight. Clarity settles more than long justifications.",
+          ],
+          bullets: [
+            "announce the handover in advance using the same wording each time",
+            "keep the goodbye warm and short, not stretched out",
+            "make sure teachers or educators already know who is collecting the child",
+            "keep logistical information flowing adult to adult, not through the child",
+          ],
+        },
+        {
+          title: "The sign it is helping",
+          paragraphs: [
+            "It does not mean every emotion disappears. But there is less clinging in the doorway, less long negotiation and less tension between adults in front of the child. The transition becomes less dramatic and, for that very reason, easier to carry.",
+          ],
+        },
+      ],
+      takeaways: [
+        "For some children, school or daycare offers a smoother frame for moving between homes.",
+        "An institutional handover can help when the doorway has become a repeated tension point.",
+        "The child still needs a clear preview and a short goodbye, not disappearance.",
+      ],
+    },
+  },
+  {
+    slug: "cand-programul-dintre-doua-case-trebuie-revizuit-pentru-ca-copilul-a-crescut",
+    enSlug: "when-the-two-home-schedule-needs-review-because-your-child-has-grown",
+    title: "Când programul dintre două case trebuie revizuit pentru că copilul a crescut",
+    summary:
+      "Un program care a mers la 4 ani poate deveni obositor la 9 sau rigid la 13; a-l revizui nu înseamnă eșec, ci adaptare la copilul real.",
+    intro:
+      "În co-parenting, adulții se agață uneori de programul care a funcționat la început pentru că oferă structură și reduce renegocierea. Dar copilul crește. Apar teme, sport, prieteni, somn diferit și nevoia de mai multă autonomie. Raising Children Network spune explicit că, pe măsură ce copilul are alte angajamente și alte nevoi, aranjamentele dintre case pot avea nevoie de ajustări. Un program bun nu este doar stabil. Este și suficient de viu încât să țină pasul cu copilul.",
+    image: {
+      src: "/blog/growing-schedule-review.svg",
+      alt: "Calendar între două case, adaptat pe măsură ce copilul crește și are mai multe activități",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-04-29",
+    readingTimeMinutes: 6,
+    sections: [
+      {
+        title: "Semne că nu mai vorbim doar despre rezistență la schimbare",
+        paragraphs: [
+          "Uneori adulții citesc orice protest ca pe o lipsă de cooperare. Dar dacă apar constant oboseală mare, uitări de teme, refuz legat de activități, stres înainte de antrenamente sau sentimentul că săptămâna copilului este mereu în contratimp, merită privit și programul, nu doar comportamentul.",
+          "Un program poate rămâne corect pentru adulți și totuși să nu mai fie potrivit pentru etapa de dezvoltare a copilului. Asta nu îl face greșit moral. Îl face depășit practic.",
+        ],
+      },
+      {
+        title: "Ce se schimbă de obicei când copilul crește",
+        paragraphs: [
+          "Pe măsură ce apare viața de școală și apoi cea socială, copilul are nevoie de mai multă continuitate locală: timp pentru teme, prieteni, echipamente, ore de somn și predictibilitate legată de cine îl duce și îl ia.",
+        ],
+        bullets: [
+          "mai multe lucruri de coordonat pentru școală și activități",
+          "mai multă importanță a prieteniilor și a apartenenței la grup",
+          "mai multă sensibilitate la nopți fragmentate și drumuri dese",
+          "nevoia de a fi consultat, fără a fi pus să aleagă între părinți",
+        ],
+      },
+      {
+        title: "Cum revizuiești fără să transformi copilul în arbitru",
+        paragraphs: [
+          "Copilul merită ascultat, dar nu trebuie să primească povara deciziei finale. Întrebarea utilă nu este pe cine alegi, ci ce parte din săptămână te obosește cel mai mult, ce te ajută și ce te încurcă.",
+          "Discuția bună între adulți pornește de la observații concrete: somn, drumuri, teme, activități, punctualitate, stres. Cu cât formula este mai practică, cu atât scade riscul de a aluneca în dreptate veche sau competiție.",
+        ],
+        bullets: [
+          "aduceți exemple clare din ultimele săptămâni, nu impresii generale",
+          "căutați mai întâi ajustări mici: o noapte, o oră, cine duce la sport, cum circulă echipamentul",
+          "spuneți copilului ce se schimbă doar după ce adulții au o variantă suficient de clară",
+          "evitați să îi cereți copilului să transmită preferințe sau nemulțumiri între case",
+        ],
+      },
+      {
+        title: "Semnul că schimbarea merge în direcția bună",
+        paragraphs: [
+          "Nu trebuie să rezulte un program perfect. Dar copilul pare mai puțin grăbit, doarme mai așezat, uită mai rar lucruri importante și are mai puține explozii legate exact de zilele încărcate. Acesta este de obicei semnul că programul începe să servească viața copilului, nu invers.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un program bun la o vârstă poate deveni obositor la alta.",
+      "Revizuirea programului trebuie să pornească din nevoile concrete ale copilului, nu din loialități.",
+      "Copilul merită consultat, dar nu pus să decidă între părinți.",
+    ],
+    sources: [
+      {
+        title: "Separation, divorce, children in two homes",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Arată că rutina predictibilă ajută, dar spune și că pe măsură ce copilul crește și apar angajamente școlare, sociale sau sportive, aranjamentele dintre case pot avea nevoie de ajustări. Pagină accesată la 30 aprilie 2026.",
+      },
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/adjusting-to-divorce.aspx",
+        note: "AAP recomandă păstrarea rutinei zilnice cât mai stabile și a unui program regulat de timp petrecut cu copilul, tocmai pentru a susține sentimentul de predictibilitate. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+    ],
+    en: {
+      title: "When the two-home schedule needs review because your child has grown",
+      summary:
+        "A schedule that worked at 4 may feel exhausting at 9 or too rigid at 13; revisiting it is not failure, but adaptation to the real child.",
+      intro:
+        "In co-parenting, adults sometimes cling to the schedule that worked at the beginning because it provides structure and reduces renegotiation. But the child grows. Homework, sport, friends, different sleep needs and more autonomy appear. Raising Children Network explicitly notes that as children take on new commitments and needs, arrangements between homes may need adjusting. A good schedule is not only stable. It is also alive enough to keep pace with the child.",
+      sections: [
+        {
+          title: "Signs we are no longer talking only about resistance to change",
+          paragraphs: [
+            "Sometimes adults read every protest as lack of cooperation. But if you see repeated heavy tiredness, forgotten homework, resistance around activities, stress before training or the feeling that the child's week is always out of sync, it is worth looking at the schedule, not only the behaviour.",
+            "A schedule can remain fair to adults and still stop fitting the child's developmental stage. That does not make it morally wrong. It makes it practically outdated.",
+          ],
+        },
+        {
+          title: "What usually changes as the child gets older",
+          paragraphs: [
+            "As school life and then social life expand, the child often needs more local continuity: time for homework, friendships, equipment, sleep and predictability about who drops them off and picks them up.",
+          ],
+          bullets: [
+            "more school and activity logistics to coordinate",
+            "more importance placed on friendships and group belonging",
+            "more sensitivity to fragmented nights and frequent travel",
+            "a need to be consulted without being asked to choose between parents",
+          ],
+        },
+        {
+          title: "How to review the plan without turning the child into the referee",
+          paragraphs: [
+            "The child deserves to be heard, but they should not carry the final decision. The useful question is not which parent do you choose, but which part of the week is most tiring, what helps and what gets in the way.",
+            "A good adult conversation starts from concrete observations: sleep, travel, homework, activities, punctuality, stress. The more practical the frame, the less likely it is to slide into old grievances or competition.",
+          ],
+          bullets: [
+            "bring clear examples from recent weeks, not only general impressions",
+            "look first for small adjustments: one night, one hour, who handles sport, how equipment moves",
+            "tell the child what is changing only after the adults have a sufficiently clear version",
+            "avoid asking the child to relay preferences or complaints between homes",
+          ],
+        },
+        {
+          title: "The sign the change is moving in the right direction",
+          paragraphs: [
+            "You do not need a perfect schedule. But the child seems less rushed, sleeps more steadily, forgets fewer important things and has fewer blowups tied exactly to overloaded days. That is usually the sign that the plan is beginning to serve the child's life, not the other way around.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A schedule that fit one age can become tiring at another.",
+        "Reviewing the plan should start from the child's concrete needs, not from loyalty pressures.",
+        "The child deserves consultation, but not the burden of choosing between parents.",
+      ],
+    },
+  },
+  {
+    slug: "ce-faci-cand-o-vizita-promisa-se-schimba-in-ultimul-moment",
+    enSlug: "what-to-do-when-a-promised-visit-changes-at-the-last-minute",
+    title: "Ce faci când o vizită promisă se schimbă în ultimul moment",
+    summary:
+      "Când un plan promis cade, copilul are nevoie de adevăr simplu, reparație concretă și adulți care nu se apără prin promisiuni noi pe care nu le controlează.",
+    intro:
+      "În familiile cu două case, un plan ratat doare mai tare decât pare. Pentru adult poate fi o problemă logistică sau un conflict de calendar. Pentru copil poate suna ca: m-am bazat pe asta și acum nu știu dacă ce mi se promite se ține. HealthyChildren insistă că rutina regulată și respectarea promisiunilor de timp petrecut împreună sunt foarte importante pentru ajustarea copilului după separare. Când planul totuși cade, nu contează doar motivul. Contează felul în care repari.",
+    image: {
+      src: "/blog/changed-visit-repair.svg",
+      alt: "Calendar schimbat cu blândețe și un părinte care repară calm o vizită mutată",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-04-28",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce doare atât de mult o promisiune schimbată",
+        paragraphs: [
+          "Copilul nu procesează doar informația că programul s-a modificat. Procesează și siguranța relațională din spatele ei. Dacă se întâmplă des sau este anunțat în grabă, poate începe să se întrebe cât de reale sunt planurile viitoare.",
+          "Asta nu înseamnă că orice schimbare produce o rană mare. Înseamnă că predictibilitatea și respectarea promisiunilor sunt parte din sentimentul de bază că adulții sunt de încredere.",
+        ],
+      },
+      {
+        title: "Cum spui vestea fără să îl încarci",
+        paragraphs: [
+          "Mesajul bun este scurt, sincer și fără detalii de conflict dintre adulți. Copilul are nevoie să știe ce se schimbă, ce rămâne sigur și când va avea următorul reper clar.",
+        ],
+        bullets: [
+          "spune direct schimbarea: azi nu mai ajung să te iau la 18:00",
+          "numește emoția fără s-o împingi jos: știu că e dezamăgitor și are sens să te superi",
+          "spune ce știi sigur acum: te ia mama/tata, iar eu te sun diseară la 19:30",
+          "evită explicațiile lungi despre cine a greșit sau de ce a fost imposibil",
+        ],
+      },
+      {
+        title: "Ce înseamnă reparație concretă",
+        paragraphs: [
+          "Reparația nu este o avalanșă de promisiuni noi. Este un pas mic, clar și realizabil. Copilul se liniștește mai mult din ceea ce se întâmplă efectiv decât din formulări mari.",
+          "Dacă nu controlezi data exactă a recuperării, nu o promite ca certitudine. Mai onest este să spui când vei reveni cu informație clară și apoi chiar să revii.",
+        ],
+        bullets: [
+          "alege un următor contact concret: apel, mesaj audio, vizită confirmată",
+          "revino la ora promisă cu actualizare, chiar dacă răspunsul nu e perfect încă",
+          "ține promisiunea mică pe care o faci acum, nu inventa una mai mare",
+          "dacă planurile schimbate se repetă, adulții trebuie să refacă logistica, nu doar discursul",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Copilul nu are nevoie să fie martorul frustrării adulte. Nici să fie rugat să îl liniștească pe părinte, nici să aleagă cu cine să țină. Scopul este să îl scoți din haos, nu să îl introduci și mai adânc în el.",
+        ],
+        bullets: [
+          "nu da vina pe celălalt părinte în fața copilului",
+          "nu promite cu siguranță ceva ce încă nu controlezi",
+          "nu cere copilului să înțeleagă ca un adult și să treacă repede peste",
+          "nu dispărea după ce ai anunțat schimbarea; follow-up-ul contează mult",
+        ],
+      },
+    ],
+    takeaways: [
+      "Când o vizită promisă se schimbă, copilul are nevoie de claritate și reparație, nu de justificări lungi.",
+      "Promisiunea mică ținută ajută mai mult decât promisiunea mare incertă.",
+      "Dacă anulările devin repetate, problema este de logistică adultă, nu de rezistență a copilului.",
+    ],
+    sources: [
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/family-life/family-dynamics/types-of-families/Pages/adjusting-to-divorce.aspx",
+        note: "AAP spune că un program regulat de timp petrecut cu copilul poate fi reconfortant și că este foarte important ca părinții să își respecte promisiunile de a-l vizita sau de a petrece timp cu el. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "Completează ideea că adaptarea merge mai bine când conflictul dintre părinți este redus, ambii rămân implicați pozitiv și rutina copilului este protejată cât mai mult. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+    ],
+    en: {
+      title: "What to do when a promised visit changes at the last minute",
+      summary:
+        "When a promised plan falls through, the child needs simple truth, concrete repair and adults who do not defend themselves with new promises they cannot control.",
+      intro:
+        "In two-home families, a missed plan hurts more than it seems. For the adult it may feel like a logistical problem or a calendar conflict. For the child it may sound like: I counted on this and now I don't know whether what I am promised will happen. HealthyChildren stresses that a regular routine and following through on promised time together matter a great deal for a child's adjustment after separation. When the plan still falls apart, it is not only the reason that matters. It is how you repair.",
+      sections: [
+        {
+          title: "Why a changed promise can hurt so much",
+          paragraphs: [
+            "The child is not processing only the information that the schedule changed. They are also processing the relational safety behind it. If it happens often or is announced in a rush, they may start wondering how real future plans are.",
+            "That does not mean every change creates a major wound. It means predictability and follow-through are part of the basic feeling that adults are dependable.",
+          ],
+        },
+        {
+          title: "How to say it without loading the child",
+          paragraphs: [
+            "The useful message is short, honest and free of adult conflict details. The child needs to know what is changing, what remains certain and when the next clear anchor will be.",
+          ],
+          bullets: [
+            "say the change directly: I can't pick you up at 6:00 today",
+            "name the emotion without pushing it down: I know this is disappointing and it makes sense to be upset",
+            "say what you know for sure right now: mum/dad is picking you up, and I will call tonight at 7:30",
+            "avoid long explanations about who failed or why it became impossible",
+          ],
+        },
+        {
+          title: "What concrete repair looks like",
+          paragraphs: [
+            "Repair is not an avalanche of new promises. It is one small, clear and realistic next step. Children settle more from what actually happens than from big wording.",
+            "If you do not control the exact make-up date yet, do not promise it as certain. It is more honest to say when you will return with clear information and then actually return.",
+          ],
+          bullets: [
+            "choose one concrete next contact: a call, a voice note, a confirmed visit",
+            "come back at the promised time with an update, even if the answer is not perfect yet",
+            "keep the small promise you make now instead of inventing a bigger one",
+            "if changed plans happen repeatedly, the adults need to fix the logistics, not only the wording",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "The child does not need to witness adult frustration. They also do not need to soothe the parent or choose whose side to take. The aim is to move them out of chaos, not deeper into it.",
+          ],
+          bullets: [
+            "don't blame the other parent in front of the child",
+            "don't promise certainty you still do not control",
+            "don't ask the child to understand it like an adult and move on quickly",
+            "don't disappear after announcing the change; follow-through matters a lot",
+          ],
+        },
+      ],
+      takeaways: [
+        "When a promised visit changes, the child needs clarity and repair, not long justifications.",
+        "A small promise kept helps more than a big uncertain promise.",
+        "If cancellations become repetitive, the problem is adult logistics, not child resistance.",
+      ],
+    },
+  },
+  {
     slug: "ritualurile-mici-de-apartenenta-care-il-ajuta-pe-copil-intre-doua-case",
     enSlug: "small-belonging-rituals-that-help-a-child-between-two-homes",
     title: "Ritualurile mici de apartenență care îl ajută pe copil între două case",
