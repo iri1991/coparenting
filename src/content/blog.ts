@@ -107,6 +107,335 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "aceeasi-ordine-si-aceeasi-ora-pot-face-despartirea-mai-usoara",
+    enSlug: "the-same-order-and-the-same-time-can-make-goodbyes-easier",
+    title: "Aceeași ordine și aceeași oră pot face despărțirea mai ușoară",
+    summary:
+      "Când despărțirea se întâmplă cam la aceeași oră și în aceeași ordine, copilul are mai puține surprize de gestionat și mai multă încredere în ce urmează.",
+    intro:
+      "În familiile cu două case, multă energie se consumă nu doar pe emoția despărțirii, ci pe imprevizibilul din jurul ei. HealthyChildren arată că aceeași rutină de predare, făcută în același fel și cât de des se poate la aceeași oră, reduce factorii neașteptați și îl ajută pe copil să construiască încredere: știe ce vine, în ce ordine și că adultul rămâne consecvent.",
+    image: {
+      src: "/blog/predictable-goodbye-routine.svg",
+      alt: "Două persoane și un copil lângă o rutină vizuală simplă de despărțire",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-05-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce consecvența scade intensitatea",
+        paragraphs: [
+          "Pentru un copil mic, despărțirea nu înseamnă doar că un adult pleacă. Înseamnă și schimbare de ritm, de spațiu, de așteptare și uneori de persoană care îl preia. Când toate acestea se întâmplă altfel de fiecare dată, corpul copilului rămâne în gardă.",
+          "O rutină recognoscibilă nu șterge emoția, dar o face mai previzibilă. Asta îi dă copilului mai puțin de ghicit și mai mult de urmat.",
+        ],
+      },
+      {
+        title: "Ce înseamnă concret o rutină bună de predare",
+        paragraphs: [
+          "Nu trebuie să fie sofisticată. Din contră, cu cât este mai scurtă și mai repetabilă, cu atât ajută mai mult. Ideea nu este perfecțiunea, ci recognoscibilul.",
+        ],
+        bullets: [
+          "aceeași ordine: îmbrăcat, geantă, îmbrățișare, o frază scurtă, plecare",
+          "cam aceeași oră, atunci când programul permite",
+          "aceeași persoană care predă, dacă asta este realist pentru familia voastră",
+          "aceeași formulă de rămas-bun, fără multe variații pe loc",
+        ],
+      },
+      {
+        title: "Cum păstrezi rutina fără să devină rigidă",
+        paragraphs: [
+          "Consecvența nu înseamnă că totul trebuie să fie militar. Înseamnă că elementele de bază rămân stabile chiar și când ziua nu este perfectă. Dacă azi copilul e mai obosit sau plânge mai tare, cadrul rămâne același.",
+          "De multe ori exact asta îl ajută: faptul că adultul nu improvizează la fiecare emoție mare și nu schimbă planul din zece în zece secunde.",
+        ],
+      },
+      {
+        title: "Semnul că rutina începe să funcționeze",
+        paragraphs: [
+          "Nu este lipsa totală a plânsului. Mai realist, vei vedea mai puține negocieri, mai puține surprize care explodează în ultimul minut și o trecere mai rapidă spre următorul pas al zilei.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Aceeași ordine și aceeași oră reduc numărul de surprize pe care copilul trebuie să le gestioneze.",
+      "O rutină bună de despărțire este scurtă, recognoscibilă și ușor de repetat.",
+      "Consecvența ajută chiar și atunci când emoția nu dispare complet.",
+    ],
+    sources: [
+      {
+        title: "How to Ease Your Child’s Separation Anxiety",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/ages-stages/toddler/Pages/Soothing-Your-Childs-Separation-Anxiety.aspx",
+        note: "HealthyChildren recomandă aceeași rutină de despărțire, făcută cât se poate de similar și la aceeași oră, pentru a reduce factorii neașteptați și a crește încrederea copilului. Pagina indică ultima actualizare la 6 ianuarie 2025.",
+      },
+    ],
+    en: {
+      title: "The same order and the same time can make goodbyes easier",
+      summary:
+        "When separation happens at roughly the same time and in the same order, the child has fewer surprises to manage and more trust in what comes next.",
+      intro:
+        "In two-home families, a lot of energy is spent not only on the emotion of separation, but on the unpredictability around it. HealthyChildren notes that using the same drop-off routine in the same way, and as often as possible at the same time, reduces unexpected factors and helps the child build trust: they know what comes next, in what order, and that the adult stays consistent.",
+      sections: [
+        {
+          title: "Why consistency lowers the intensity",
+          paragraphs: [
+            "For a young child, separation is not only about one adult leaving. It is also a change in pace, place, expectations and sometimes in the person taking over. When all of that happens differently every time, the child's body stays on alert.",
+            "A recognisable routine does not erase the emotion, but it makes it more predictable. That gives the child less to guess and more to follow.",
+          ],
+        },
+        {
+          title: "What a useful drop-off routine looks like in practice",
+          paragraphs: [
+            "It does not need to be elaborate. In fact, the shorter and more repeatable it is, the more it helps. The goal is not perfection but recognisability.",
+          ],
+          bullets: [
+            "the same order: getting dressed, bag, hug, one short sentence, leaving",
+            "roughly the same time whenever the schedule allows",
+            "the same adult doing the drop-off when that is realistic for your family",
+            "the same goodbye wording, without many last-minute variations",
+          ],
+        },
+        {
+          title: "How to keep the routine without making it rigid",
+          paragraphs: [
+            "Consistency does not mean everything has to feel military. It means the core pieces stay stable even when the day is not perfect. If the child is more tired today or cries more intensely, the frame still stays the same.",
+            "That is often exactly what helps: the adult does not improvise around every big feeling and does not change the plan every ten seconds.",
+          ],
+        },
+        {
+          title: "The sign the routine is starting to work",
+          paragraphs: [
+            "It is not total absence of tears. More realistically, you will see less negotiation, fewer last-minute surprises blowing up, and a quicker shift into the next part of the day.",
+          ],
+        },
+      ],
+      takeaways: [
+        "The same order and the same time reduce the number of surprises the child has to manage.",
+        "A good goodbye routine is short, recognisable and easy to repeat.",
+        "Consistency helps even when the emotion does not disappear completely.",
+      ],
+    },
+  },
+  {
+    slug: "spune-cand-revii-in-repere-pe-care-copilul-le-intelege",
+    enSlug: "say-when-youll-be-back-in-landmarks-your-child-understands",
+    title: "Spune când revii în repere pe care copilul le înțelege",
+    summary:
+      "Pentru mulți copii mici, „după somn” sau „după gustare” liniștește mai mult decât „la 17:30”, pentru că vorbește în timpul pe care îl pot simți.",
+    intro:
+      "Când copilul întreabă când revii, tentația adultului este să răspundă exact. Dar exactitatea de ceas nu este neapărat claritate pentru un copil mic. HealthyChildren recomandă să descrii întoarcerea în repere pe care copilul le înțelege: după somn, înainte de gustare, după trei somnuri. Timpul spus în limbaj de copil este mai ușor de ținut în minte și mai puțin abstract într-un moment încărcat.",
+    image: {
+      src: "/blog/child-time-return.svg",
+      alt: "Ceas mare și repere simple ale zilei, precum somn și gustare",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ora exactă nu liniștește mereu",
+        paragraphs: [
+          "Un copil mic nu trăiește ziua în intervale de 30 de minute. O trăiește în rutine: mic dejun, grădiniță, somn, gustare, baie, poveste. De aceea, un răspuns foarte precis poate suna bine pentru adult și totuși să nu ofere sprijin real copilului.",
+          "În schimb, un reper recognoscibil îi dă ceva concret de așteptat. Nu trebuie să calculeze. Trebuie doar să știe ce urmează înainte de revedere.",
+        ],
+      },
+      {
+        title: "Cum traduci timpul în limbaj de copil",
+        paragraphs: [
+          "Mesajul bun este simplu și stabil. Nu îi dai prea multe detalii, dar îi oferi un cadru pe care îl poate urmări pe parcursul zilei.",
+        ],
+        bullets: [
+          "„vin după somn și înainte de gustare”",
+          "„te ia tata după grădiniță”",
+          "„mă întorc după trei somnuri” pentru o absență mai lungă",
+          "„după ce termini școala și ieși pe poartă” pentru copiii mai mari",
+        ],
+      },
+      {
+        title: "Ce e important să eviți",
+        paragraphs: [
+          "Nu promite un reper pe care nu îl poți respecta. Dacă spui după somn și ajungi mult mai târziu, copilul nu învață doar răbdare, ci și neîncredere. Mai bine formulezi puțin mai larg și corect.",
+          "Nici avalanșa de explicații nu ajută. În momentele de despărțire, două propoziții clare sunt de obicei mai utile decât un discurs complet.",
+        ],
+      },
+      {
+        title: "Când merită să repeți mesajul",
+        paragraphs: [
+          "Dacă emoția este mare, copilul poate întreba din nou și din nou. Asta nu înseamnă neapărat că nu a auzit. Înseamnă adesea că are nevoie să audă aceeași informație încă o dată, în același fel.",
+          "Repetiția calmă construiește siguranță mai bine decât iritarea sau schimbarea răspunsului de la o întrebare la alta.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Reperele precum somnul, gustarea sau numărul de nopți sunt adesea mai utile decât ora exactă.",
+      "Claritatea bună pentru copil nu este maximul de detaliu, ci limbajul pe care îl poate urmări.",
+      "Spune doar ce poți respecta; promisiunea ținută liniștește mai mult decât precizia aparentă.",
+    ],
+    sources: [
+      {
+        title: "How to Ease Your Child’s Separation Anxiety",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/ages-stages/toddler/Pages/Soothing-Your-Childs-Separation-Anxiety.aspx",
+        note: "HealthyChildren recomandă ca întoarcerea adultului să fie explicată în repere pe înțelesul copilului, precum somnuri, gustări sau momente recognoscibile ale zilei. Pagina indică ultima actualizare la 6 ianuarie 2025.",
+      },
+    ],
+    en: {
+      title: "Say when you’ll be back in landmarks your child understands",
+      summary:
+        "For many young children, “after nap” or “before snack” is more soothing than “at 5:30 pm,” because it speaks in the time they can actually feel.",
+      intro:
+        "When a child asks when you will be back, the adult's instinct is often to answer precisely. But clock precision is not necessarily clarity for a young child. HealthyChildren recommends describing your return in landmarks the child understands: after nap, before snack, after three sleeps. Time described in child language is easier to hold in mind and less abstract in an emotionally loaded moment.",
+      sections: [
+        {
+          title: "Why the exact hour does not always soothe",
+          paragraphs: [
+            "A young child does not live the day in 30-minute intervals. They live it in routines: breakfast, nursery or school, nap, snack, bath, story. That is why a very precise answer can sound good to the adult and still offer little real support to the child.",
+            "A recognisable landmark gives them something concrete to wait for. They do not have to calculate. They only have to know what comes before reunion.",
+          ],
+        },
+        {
+          title: "How to translate time into child language",
+          paragraphs: [
+            "A useful message is simple and stable. You do not give too many details, but you offer a frame the child can follow across the day.",
+          ],
+          bullets: [
+            "\"I'm back after nap and before snack.\"",
+            "\"Dad picks you up after daycare.\"",
+            "\"I'll be back after three sleeps\" for a longer absence.",
+            "\"After school, when you come out the gate\" for older children.",
+          ],
+        },
+        {
+          title: "What is important to avoid",
+          paragraphs: [
+            "Do not promise a landmark you cannot keep. If you say after nap and arrive much later, the child is not only learning patience, but also distrust. It is better to phrase it a little wider and keep it true.",
+            "An avalanche of explanation does not help either. During separation moments, two clear sentences are usually more useful than a complete speech.",
+          ],
+        },
+        {
+          title: "When it is worth repeating the message",
+          paragraphs: [
+            "If the emotion is big, the child may ask again and again. That does not necessarily mean they did not hear you. It often means they need to hear the same information one more time, in the same form.",
+            "Calm repetition builds safety better than irritation or changing the answer from one question to the next.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Landmarks like nap, snack or number of sleeps are often more useful than the exact time.",
+        "Good clarity for the child is not maximum detail but language they can actually track.",
+        "Say only what you can keep; a kept promise soothes more than apparent precision.",
+      ],
+    },
+  },
+  {
+    slug: "nu-reveni-dupa-ramas-bun-ca-sa-verifici-daca-s-a-linistit",
+    enSlug: "dont-go-back-after-goodbye-just-to-check-if-theyre-calm",
+    title: "Nu reveni după rămas-bun ca să verifici dacă s-a liniștit",
+    summary:
+      "Când adultul se întoarce după un rămas-bun greu, poate reactiva exact anxietatea pe care încerca să o reducă și poate face despărțirea următoare mai grea.",
+    intro:
+      "După o despărțire grea, mulți părinți rămân cu impulsul de a se întoarce încă o dată: să mai dea o îmbrățișare, să mai explice, să verifice dacă plânsul s-a oprit. HealthyChildren avertizează însă că revenirea după rămas-bun poate prelungi anxietatea de separare și poate porni din nou întregul moment. Copilul nu are nevoie de dispariție rece, dar are nevoie ca finalul să fie clar și promisiunea revederii să rămână stabilă.",
+    image: {
+      src: "/blog/no-second-goodbye.svg",
+      alt: "Două camere legate de o săgeată și un simbol care sugerează un singur rămas-bun clar",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce al doilea rămas-bun complică lucrurile",
+        paragraphs: [
+          "Când adultul reapare după ce plecarea fusese deja anunțată, copilul primește două mesaje contradictorii: s-a terminat și totuși nu s-a terminat. Pentru un copil activat, asta poate reaprinde speranța că plecarea mai poate fi oprită.",
+          "De aceea, al doilea rămas-bun este adesea mai greu decât primul. Nu pentru că adultul a fost lipsit de afecțiune, ci pentru că a făcut finalul mai puțin clar.",
+        ],
+      },
+      {
+        title: "Ce faci în loc să te întorci",
+        paragraphs: [
+          "Cea mai utilă secvență rămâne simplă: apropiere, mesaj scurt, plecare. Dacă știi că momentul va fi greu, pune sprijinul înainte, nu după.",
+        ],
+        bullets: [
+          "oferă toată atenția și afecțiunea înainte de a spune la revedere",
+          "păstrează formula scurtă și recognoscibilă",
+          "lasă adultului care rămâne sau educatorului rolul de a continua reglarea",
+          "ține-ți promisiunea de revenire la momentul spus",
+        ],
+      },
+      {
+        title: "Dacă deja ai făcut asta de câteva ori",
+        paragraphs: [
+          "Nu ai stricat definitiv nimic. Dar merită să schimbi modelul clar și repetat. Poți spune simplu: data viitoare îți spun la revedere, te îmbrățișez și apoi plec; ne revedem după somn/după grădiniță.",
+          "Copilul nu are nevoie să îi explici lung de ce ai greșit. Are nevoie să trăiască de câteva ori noua variantă consecventă.",
+        ],
+      },
+      {
+        title: "Când merită cerut sprijin suplimentar",
+        paragraphs: [
+          "HealthyChildren notează că anxietatea de separare zilnică persistentă după anii de preșcolar merită discutată cu pediatrul. Dacă despărțirile rămân foarte intense, durează mult și apar în multe contexte, e rezonabil să ceri ajutor.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Revenirea după rămas-bun poate prelungi sau reactiva anxietatea de separare.",
+      "Ajută mai mult un final clar și scurt decât mai multe plecări succesive.",
+      "Dacă dificultatea rămâne zilnică și intensă după anii de preșcolar, discuția cu pediatrul este justificată.",
+    ],
+    sources: [
+      {
+        title: "How to Ease Your Child’s Separation Anxiety",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/English/ages-stages/toddler/Pages/Soothing-Your-Childs-Separation-Anxiety.aspx",
+        note: "HealthyChildren arată că întoarcerea adultului după o despărțire grea poate relansa anxietatea și recomandă consecvență, explicații simple și revenirea la momentul promis. Pagina indică ultima actualizare la 6 ianuarie 2025.",
+      },
+    ],
+    en: {
+      title: "Don’t go back after goodbye just to check if they’ve calmed down",
+      summary:
+        "When an adult returns after a hard goodbye, they can reactivate the very anxiety they were trying to reduce and make the next separation harder.",
+      intro:
+        "After a difficult separation, many parents feel the urge to go back once more: for one more hug, one more explanation, one more check to see if the crying stopped. HealthyChildren warns, however, that returning after goodbye can prolong separation anxiety and restart the whole moment. The child does not need a cold disappearance, but they do need the ending to be clear and the promise of reunion to stay stable.",
+      sections: [
+        {
+          title: "Why the second goodbye makes things harder",
+          paragraphs: [
+            "When the adult reappears after the departure had already been announced, the child receives two contradictory messages: it is over and yet it is not over. For an activated child, that can reignite the hope that the leaving can still be stopped.",
+            "That is why the second goodbye is often harder than the first. Not because the adult lacked affection, but because the ending became less clear.",
+          ],
+        },
+        {
+          title: "What to do instead of going back",
+          paragraphs: [
+            "The most useful sequence stays simple: closeness, one short message, leaving. If you know the moment will be hard, place the support before goodbye, not after it.",
+          ],
+          bullets: [
+            "offer full attention and affection before you say goodbye",
+            "keep the wording short and recognisable",
+            "let the remaining adult or educator continue the regulation",
+            "keep your promise to return at the time you named",
+          ],
+        },
+        {
+          title: "If you have already done this a few times",
+          paragraphs: [
+            "You have not ruined anything permanently. But it is worth changing the pattern clearly and repeatedly. You can say simply: next time I say goodbye, hug you and then I leave; we see each other after nap/after daycare.",
+            "The child does not need a long explanation of why you got it wrong. They need to live through the new, consistent version a few times.",
+          ],
+        },
+        {
+          title: "When extra support is worth seeking",
+          paragraphs: [
+            "HealthyChildren notes that persistent daily separation anxiety after the preschool years is worth discussing with the paediatrician. If separations stay very intense, last a long time and happen across many contexts, it is reasonable to ask for help.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Going back after goodbye can prolong or reactivate separation anxiety.",
+        "A clear, short ending helps more than several successive departures.",
+        "If the difficulty stays daily and intense after the preschool years, talking to the paediatrician is warranted.",
+      ],
+    },
+  },
+  {
     slug: "predarea-la-scoala-sau-gradinita-poate-fi-mai-usoara-decat-la-usa",
     enSlug: "school-or-daycare-handover-can-be-easier-than-the-doorway",
     title: "Predarea la școală sau grădiniță poate fi mai ușoară decât la ușă",
