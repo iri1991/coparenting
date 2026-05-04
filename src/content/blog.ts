@@ -107,6 +107,345 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cand-nu-ai-ziua-exacta-muta-ritualul-nu-si-apropierea",
+    enSlug: "when-you-dont-have-the-exact-day-move-the-ritual-not-the-closeness",
+    title: "Când nu ai ziua exactă, mută ritualul, nu și apropierea",
+    summary:
+      "În co-parenting, copilul poate simți sărbătoarea și dacă o trăiți cu o zi înainte sau după, atâta timp cât ritualul rămâne recognoscibil și liniștit.",
+    intro:
+      "Raising Children Network recomandă flexibilitate și creativitate pentru zilele mari din an, inclusiv ideea că unii părinți sărbătoresc înainte sau după ziua exactă. Pentru copil, apropierea nu stă doar în data din calendar, ci în felul în care adultul păstrează reperele importante: cum începeți, ce faceți împreună și ce ton are toată ziua.",
+    image: {
+      src: "/blog/celebration-shift-ritual.svg",
+      alt: "Copil între două case, cu un calendar și elemente de sărbătoare similare",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-05-04",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce data exactă nu este singurul lucru care contează",
+        paragraphs: [
+          "Pentru adulți, ziua exactă poate avea o încărcătură mare. Pentru copil, mai ales când există două case, siguranța vine adesea din repere recognoscibile: micul vostru dejun special, desertul care apare mereu sau felul în care îi spui că astăzi sărbătoriți împreună.",
+          "Asta nu înseamnă că data nu contează deloc. Înseamnă doar că mutarea sărbătorii cu o zi nu o golește de sens dacă relația și ritualul rămân întregi.",
+        ],
+      },
+      {
+        title: "Ce merită să muți odată cu sărbătoarea",
+        paragraphs: [
+          "Când nu ai copilul în ziua exactă, nu încerca să reproduci tot. Alege două sau trei elemente care chiar vă reprezintă și mută-le intenționat.",
+        ],
+        bullets: [
+          "o rutină de dimineață pe care copilul o recunoaște imediat",
+          "un desert, un cântec sau o glumă care aparține familiei voastre",
+          "un moment clar de conectare: plimbare, joc, citit sau pregătit masa împreună",
+          "o formulă simplă: astăzi facem sărbătoarea noastră",
+        ],
+      },
+      {
+        title: "Cum vorbești despre asta fără ton de compensație",
+        paragraphs: [
+          "Copilul nu are nevoie să simtă că primește o variantă mai slabă sau că trebuie să îți repare tristețea. Îl ajută mai mult un mesaj simplu și sigur: nu suntem împreună în ziua exactă, dar avem timpul nostru și îl vom folosi bine.",
+          "Cu cât adultul vorbește mai așezat, cu atât copilul are mai puțină nevoie să aleagă între loialități sau să compare casele în capul lui.",
+        ],
+      },
+      {
+        title: "Ce e util să eviți",
+        paragraphs: [
+          "Sărbătorile mutate devin grele când sunt încărcate cu concurs, vină sau multe explicații adulte.",
+        ],
+        bullets: [
+          "nu spune că adevărata sărbătoare ar fi fost cu tine dacă situația era corectă",
+          "nu transforma ziua mutată într-un maraton de cadouri sau activități ca să compensezi",
+          "nu cere copilului să declare la cine a fost mai frumos",
+          "nu încărca momentul cu detalii despre negocierile dintre adulți",
+        ],
+      },
+    ],
+    takeaways: [
+      "O sărbătoare mutată poate rămâne importantă dacă ritualul și tonul relației sunt recognoscibile.",
+      "Copilul are nevoie de câteva repere stabile, nu de o copie perfectă a zilei exacte.",
+      "Tonul calm al adultului scade presiunea de comparație dintre case.",
+    ],
+    sources: [
+      {
+        title: "Co-parenting: how to get it right",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/co-parenting/co-parenting",
+        note: "Raising Children Network recomandă flexibilitate și creativitate pentru sărbători după separare, inclusiv sărbătorirea înainte sau după ziua exactă și focalizarea pe timpul petrecut împreună, nu doar pe data din calendar. Pagina a fost accesată la 4 mai 2026.",
+      },
+    ],
+    en: {
+      title: "When you don’t have the exact day, move the ritual, not the closeness",
+      summary:
+        "In co-parenting, a child can still feel the celebration even if you mark it a day earlier or later, as long as the ritual stays recognisable and calm.",
+      intro:
+        "Raising Children Network recommends flexibility and creativity for the big days of the year, including the idea that some parents celebrate before or after the exact day. For a child, closeness does not live only in the calendar date, but in the way the adult protects the important landmarks: how you start, what you do together, and the tone of the whole day.",
+      sections: [
+        {
+          title: "Why the exact date is not the only thing that matters",
+          paragraphs: [
+            "For adults, the exact date can carry a lot of emotional weight. For a child, especially across two homes, security often comes from recognisable landmarks: your special breakfast, the dessert that always appears, or the way you say that today you are celebrating together.",
+            "That does not mean the date does not matter at all. It only means that moving the celebration by a day does not empty it of meaning when the relationship and the ritual stay intact.",
+          ],
+        },
+        {
+          title: "What is worth moving together with the celebration",
+          paragraphs: [
+            "When you do not have your child on the exact day, do not try to reproduce everything. Choose two or three elements that truly belong to you and move them on purpose.",
+          ],
+          bullets: [
+            "a morning routine your child recognises immediately",
+            "a dessert, song or joke that belongs to your family",
+            "one clear connection moment: a walk, a game, reading or preparing food together",
+            "one simple sentence: today we are doing our celebration",
+          ],
+        },
+        {
+          title: "How to talk about it without a compensation tone",
+          paragraphs: [
+            "Your child does not need to feel they are getting a weaker version or that they have to repair your sadness. A simple, steady message helps more: we are not together on the exact day, but we have our time and we will use it well.",
+            "The more settled the adult sounds, the less the child needs to choose between loyalties or compare the homes in their head.",
+          ],
+        },
+        {
+          title: "What is useful to avoid",
+          paragraphs: [
+            "Moved celebrations become heavy when they are loaded with competition, guilt or too many adult explanations.",
+          ],
+          bullets: [
+            "do not say the real celebration would have been with you if the situation were fair",
+            "do not turn the moved day into a marathon of gifts or activities to make up for it",
+            "do not ask the child to declare where it felt nicer",
+            "do not load the moment with details about the adults' negotiations",
+          ],
+        },
+      ],
+      takeaways: [
+        "A moved celebration can still matter when the ritual and relationship tone stay recognisable.",
+        "A child needs a few stable landmarks, not a perfect copy of the exact day.",
+        "A calm adult tone lowers comparison pressure between homes.",
+      ],
+    },
+  },
+  {
+    slug: "spune-din-timp-cum-va-arata-ziua-speciala-intre-doua-case",
+    enSlug: "say-in-advance-what-the-special-day-will-look-like-between-two-homes",
+    title: "Spune din timp cum va arăta ziua specială între două case",
+    summary:
+      "Când copilul știe dinainte cine îl ia, unde doarme și ce se întâmplă în ziua de naștere sau de sărbătoare, are mai puține goluri pe care să le umple cu anxietate.",
+    intro:
+      "Raising Children Network recomandă să vorbești din timp cu copilul despre aranjamentele pentru ziua de naștere și alte zile speciale. În familiile cu două case, claritatea dinainte scade mult din agitația emoțională de pe moment: copilul nu mai încearcă să afle în grabă cine vine, când pleacă și dacă urmează vreo surpriză greu de dus.",
+    image: {
+      src: "/blog/special-day-advance-plan.svg",
+      alt: "Calendar simplu cu două case și marcaje pentru o zi specială",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-05-04",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce explicația dinainte contează atât de mult",
+        paragraphs: [
+          "În zilele speciale, copilul nu are doar emoție plăcută. Are și multe întrebări logistice: unde sunt dimineața, cine vine după mine, unde desfac tortul, când îl văd pe celălalt părinte. Dacă răspunsurile rămân în aer până în ultimul moment, tensiunea crește.",
+          "Explicația dinainte nu fură farmecul. Din contră, îi dă copilului loc să se bucure fără să stea de pază la fiecare schimbare de plan.",
+        ],
+      },
+      {
+        title: "Ce merită spus concret",
+        paragraphs: [
+          "Nu e nevoie de un discurs lung. Ajută mai mult câteva repere clare, spuse cu suficient timp înainte și repetate aproape la fel dacă mai întreabă.",
+        ],
+        bullets: [
+          "unde începe ziua și unde se termină",
+          "cine face preluarea sau predarea",
+          "care este momentul principal: tort, vizită, masă, ieșire",
+          "dacă există și un apel, o vizită scurtă sau o a doua celebrare în cealaltă casă",
+        ],
+      },
+      {
+        title: "Când îl incluzi și pe copil în discuție",
+        paragraphs: [
+          "În funcție de vârstă, copilul poate avea un cuvânt de spus în detalii mici: ce desert preferă, ce joc vrea după masă sau ce obiect vrea să ia cu el. Asta e diferit de a-l pune să decidă între părinți.",
+          "Implicarea sănătoasă înseamnă alegere în interiorul unui cadru deja stabilit de adulți, nu responsabilitatea de a arbitra planul.",
+        ],
+      },
+      {
+        title: "Ce face planul mai ușor de ținut",
+        paragraphs: [
+          "Dacă ziua e importantă, merită să pui planul și într-o formă vizibilă: un calendar comun, o notiță simplă sau chiar o propoziție repetată în aceiași termeni de amândoi părinții. Nu pentru control, ci pentru coerență.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Vorbitul din timp despre zilele speciale reduce incertitudinea, nu magia.",
+      "Copilul are nevoie de câteva repere logistice clare, repetate calm.",
+      "Îl poți implica în detalii mici fără să îl pui să aleagă între părinți.",
+    ],
+    sources: [
+      {
+        title: "Co-parenting: how to get it right",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/co-parenting/co-parenting",
+        note: "Raising Children Network recomandă să vorbești în avans cu copilul despre aranjamentele pentru ziua de naștere și alte zile speciale și, în funcție de vârstă, să-l incluzi în discuții. Pagina a fost accesată la 4 mai 2026.",
+      },
+    ],
+    en: {
+      title: "Say in advance what the special day will look like between two homes",
+      summary:
+        "When a child knows ahead of time who is picking them up, where they will sleep, and what happens on a birthday or holiday, they have fewer gaps to fill with anxiety.",
+      intro:
+        "Raising Children Network recommends talking with your child in advance about arrangements for birthdays and other special days. In two-home families, that early clarity reduces a lot of the emotional scrambling in the moment: the child no longer has to rush to find out who is coming, when they are leaving, and whether a difficult surprise is ahead.",
+      sections: [
+        {
+          title: "Why the explanation beforehand matters so much",
+          paragraphs: [
+            "On special days, a child does not only have pleasant excitement. They also carry many logistical questions: where am I in the morning, who picks me up, where do we cut the cake, when do I see the other parent. If those answers stay vague until the last minute, tension rises.",
+            "An explanation beforehand does not remove the magic. It actually gives the child more room to enjoy the day without standing guard against every change of plan.",
+          ],
+        },
+        {
+          title: "What is worth saying concretely",
+          paragraphs: [
+            "You do not need a long speech. A few clear landmarks help more, shared early enough and repeated in nearly the same words if the child asks again.",
+          ],
+          bullets: [
+            "where the day starts and where it ends",
+            "who handles the pick-up or handover",
+            "what the main moment is: cake, visit, meal, outing",
+            "whether there is also a call, a short visit or a second celebration in the other home",
+          ],
+        },
+        {
+          title: "When to include the child in the discussion",
+          paragraphs: [
+            "Depending on age, the child can have a voice in small details: which dessert they prefer, what game they want after the meal, or which object they want to take along. That is different from asking them to decide between parents.",
+            "Healthy involvement means choice inside a frame already set by the adults, not the responsibility of arbitrating the plan.",
+          ],
+        },
+        {
+          title: "What makes the plan easier to hold",
+          paragraphs: [
+            "If the day matters, it is worth putting the plan into a visible form too: a shared calendar, a simple note or even one sentence repeated in the same terms by both parents. Not for control, but for coherence.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Talking in advance about special days reduces uncertainty, not magic.",
+        "A child needs a few clear logistical landmarks, repeated calmly.",
+        "You can involve the child in small details without making them choose between parents.",
+      ],
+    },
+  },
+  {
+    slug: "coordonati-cadourile-mari-ca-sa-nu-transformati-sarbatoarea-intr-o-comparatie",
+    enSlug: "coordinate-big-gifts-so-the-celebration-doesnt-turn-into-a-comparison",
+    title: "Coordonați cadourile mari ca să nu transformați sărbătoarea într-o comparație",
+    summary:
+      "Când părinții își spun din timp ce cadouri mari pregătesc, copilul este scutit de dubluri, competiție și presiunea de a reacționa „corect” în două case.",
+    intro:
+      "Raising Children Network recomandă ca părinții să împărtășească informații despre cadourile mai mari cumpărate pentru ocazii speciale, ca să evite dublurile. În realitate, beneficiul nu este doar logistic. Coordonarea reduce și riscul ca sărbătoarea să alunece într-o comparație între case sau într-un test de loialitate pe care copilul nu ar trebui să-l ducă.",
+    image: {
+      src: "/blog/big-gifts-coordination.svg",
+      alt: "Două cadouri mari coordonate între două case, cu copilul în centru",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-05-04",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce dublurile nu sunt doar o problemă practică",
+        paragraphs: [
+          "Două trotinete sau două seturi foarte asemănătoare nu înseamnă doar bani cheltuiți de două ori. Uneori îi transmit copilului că adulții nu lucrează deloc ca echipă în jurul lui și că fiecare casă încearcă să conteze mai mult.",
+          "Chiar și când nimeni nu spune asta cu voce tare, copilul poate simți presiunea: cum reacționez, pe cine bucur mai tare, ce povestesc și unde.",
+        ],
+      },
+      {
+        title: "Ce înseamnă coordonare suficientă",
+        paragraphs: [
+          "Nu este nevoie să negociați fiecare cadou mic. Dar pentru lucrurile mari sau memorabile, puțină claritate înainte poate scuti multă tensiune după.",
+        ],
+        bullets: [
+          "anunțați din timp dacă luați un obiect mare sau scump",
+          "spuneți dacă este deja cumpărat ori doar o idee",
+          "clarificați dacă darul rămâne într-o casă sau circulă între ele",
+          "evitați să puneți copilul să țină secret un cadou important de celălalt părinte",
+        ],
+      },
+      {
+        title: "Cum păstrezi accentul pe copil, nu pe scor",
+        paragraphs: [
+          "Scopul nu este să faceți cadourile egale sau să vă monitorizați unul pe altul. Scopul este ca ziua copilului să nu devină o scenă unde adulții se compară în valoare, surprize sau generozitate.",
+          "De multe ori, un plan suficient de bun înseamnă doar că fiecare știe care este piesa mare a zilei și restul poate rămâne simplu.",
+        ],
+      },
+      {
+        title: "Ce îl ajută pe copil să simtă",
+        paragraphs: [
+          "Când adulții coordonează calm lucrurile mari, copilul primește mesajul că nu trebuie să administreze el echilibrul dintre case. Poate să se bucure de ce primește fără să se teamă că reacția lui va răni pe cineva.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Coordonarea cadourilor mari evită nu doar dublurile, ci și comparațiile dintre case.",
+      "Nu trebuie negociat tot; ajunge claritate pentru lucrurile mari și memorabile.",
+      "Copilul se bucură mai liber când nu trebuie să gestioneze loialități în jurul cadourilor.",
+    ],
+    sources: [
+      {
+        title: "Co-parenting: how to get it right",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/co-parenting/co-parenting",
+        note: "Raising Children Network recomandă să împărtășești cu celălalt părinte informații despre cadourile mai mari pentru ocazii speciale, pentru a evita dublurile. Pagina a fost accesată la 4 mai 2026.",
+      },
+    ],
+    en: {
+      title: "Coordinate big gifts so the celebration doesn’t turn into a comparison",
+      summary:
+        "When parents tell each other ahead of time which big gifts they are planning, the child is spared duplicates, competition and the pressure to react 'correctly' in two homes.",
+      intro:
+        "Raising Children Network recommends that parents share information about larger gifts bought for special occasions so they can avoid doubling up. In practice, the benefit is not only logistical. Coordination also reduces the risk that the celebration slides into a comparison between homes or into a loyalty test the child should never have to carry.",
+      sections: [
+        {
+          title: "Why duplicates are not only a practical problem",
+          paragraphs: [
+            "Two scooters or two very similar sets are not only money spent twice. Sometimes they also tell the child that the adults are not working as a team around them at all, and that each home is trying to matter more.",
+            "Even when nobody says that aloud, the child can feel the pressure: how do I react, who do I make happier, what do I tell and where.",
+          ],
+        },
+        {
+          title: "What enough coordination looks like",
+          paragraphs: [
+            "You do not need to negotiate every small gift. But for big or memorable items, a little clarity beforehand can spare a lot of tension afterwards.",
+          ],
+          bullets: [
+            "say early if you are buying something large or expensive",
+            "say whether it is already bought or still just an idea",
+            "clarify whether the gift stays in one home or moves between them",
+            "avoid asking the child to keep an important gift secret from the other parent",
+          ],
+        },
+        {
+          title: "How to keep the focus on the child, not the score",
+          paragraphs: [
+            "The goal is not to make gifts equal or to monitor one another. The goal is that the child's day does not become a stage where adults compare value, surprises or generosity.",
+            "Very often, a good-enough plan only means that each parent knows the big piece of the day and the rest can stay simple.",
+          ],
+        },
+        {
+          title: "What this helps the child feel",
+          paragraphs: [
+            "When adults calmly coordinate the big things, the child gets the message that they do not need to manage the balance between homes. They can enjoy what they receive without worrying that their reaction will hurt someone.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Coordinating big gifts avoids not only duplicates but also comparisons between homes.",
+        "You do not need to negotiate everything; clarity around big memorable items is enough.",
+        "A child enjoys gifts more freely when they do not have to manage loyalties around them.",
+      ],
+    },
+  },
+  {
     slug: "aceeasi-ordine-si-aceeasi-ora-pot-face-despartirea-mai-usoara",
     enSlug: "the-same-order-and-the-same-time-can-make-goodbyes-easier",
     title: "Aceeași ordine și aceeași oră pot face despărțirea mai ușoară",
