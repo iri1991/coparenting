@@ -483,6 +483,9 @@ export const en: Translations = {
       articlesAvailable: "{{n}} articles available",
       recentLabel: "Recent articles",
       publishedRecently: "Published recently",
+      paginationNav: "Blog article pagination",
+      previousPage: "Previous page",
+      nextPage: "Next page",
     },
   },
   app: {

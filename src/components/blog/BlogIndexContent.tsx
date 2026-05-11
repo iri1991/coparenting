@@ -12,15 +12,25 @@ interface Props {
   featured: BlogArticleWithCategory | null;
   recentWithoutFeatured: BlogArticleWithCategory[];
   categories: BlogCategoryWithTranslation[];
+  currentPage: number;
+  totalPages: number;
 }
 
-export function BlogIndexContent({ articles, featured, recentWithoutFeatured, categories }: Props) {
+export function BlogIndexContent({
+  articles,
+  featured,
+  recentWithoutFeatured,
+  categories,
+  currentPage,
+  totalPages,
+}: Props) {
   const { lang, t } = useLanguage();
   const bl = t.blog;
   const ix = bl.index;
 
   const isEn = lang === "en";
   const blogBase = isEn ? "/en/blog" : "/blog";
+  const pageHref = (page: number) => (page <= 1 ? blogBase : `${blogBase}?page=${page}`);
 
   return (
     <>
@@ -128,6 +138,54 @@ export function BlogIndexContent({ articles, featured, recentWithoutFeatured, ca
               <BlogArticleCard key={article.slug} article={article} />
             ))}
           </div>
+
+          {totalPages > 1 ? (
+            <nav
+              aria-label={ix.paginationNav}
+              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+            >
+              <Link
+                href={pageHref(currentPage - 1)}
+                aria-disabled={currentPage === 1}
+                className={`inline-flex rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  currentPage === 1
+                    ? "pointer-events-none border-[#e7dbcf] bg-white/70 text-stone-400"
+                    : "border-[#dcc8b5] bg-white text-stone-700 hover:bg-[#f8f0e8]"
+                }`}
+              >
+                {ix.previousPage}
+              </Link>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                  <Link
+                    key={pageNumber}
+                    href={pageHref(pageNumber)}
+                    aria-current={pageNumber === currentPage ? "page" : undefined}
+                    className={`inline-flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-sm font-semibold transition ${
+                      pageNumber === currentPage
+                        ? "bg-[#1f3a36] text-white"
+                        : "border border-[#dcc8b5] bg-white text-stone-700 hover:bg-[#f8f0e8]"
+                    }`}
+                  >
+                    {pageNumber}
+                  </Link>
+                ))}
+              </div>
+
+              <Link
+                href={pageHref(currentPage + 1)}
+                aria-disabled={currentPage === totalPages}
+                className={`inline-flex rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  currentPage === totalPages
+                    ? "pointer-events-none border-[#e7dbcf] bg-white/70 text-stone-400"
+                    : "border-[#dcc8b5] bg-white text-stone-700 hover:bg-[#f8f0e8]"
+                }`}
+              >
+                {ix.nextPage}
+              </Link>
+            </nav>
+          ) : null}
         </div>
       </section>
     </>

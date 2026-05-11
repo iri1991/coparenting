@@ -5,7 +5,6 @@ import {
   blogTitle,
   blogTitleEn,
   getAllBlogArticles,
-  getFeaturedBlogArticle,
   getBlogCategoriesWithTranslation,
 } from "@/content/blog";
 import { BlogShell } from "@/components/blog/BlogShell";
@@ -14,20 +13,37 @@ import { brandName, ogImage, siteUrl } from "@/lib/seo";
 import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
 
 const canonicalPath = "/blog";
+const BLOG_PAGE_SIZE = 12;
 
-export async function generateMetadata(): Promise<Metadata> {
+export const dynamic = "force-dynamic";
+
+function parsePageParam(page: string | string[] | undefined) {
+  const raw = Array.isArray(page) ? page[0] : page;
+  const parsed = Number.parseInt(raw ?? "1", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}): Promise<Metadata> {
   const { pathname, lang } = await getSharePathMeta();
+  const { page } = await searchParams;
+  const currentPage = parsePageParam(page);
   const isEn = lang === "en";
   const titleBase = isEn ? blogTitleEn : blogTitle;
   const description = isEn ? blogDescriptionEn : blogDescription;
   const pageTitle = `${titleBase} | ${brandName}`;
-  const ogUrl = ogPublicUrl(siteUrl, pathname);
+  const pathWithPage = currentPage > 1 ? `${pathname}?page=${currentPage}` : pathname;
+  const canonicalUrl = currentPage > 1 ? `${siteUrl}${pathWithPage}` : `${siteUrl}${pathname}`;
+  const ogUrl = ogPublicUrl(siteUrl, pathWithPage);
 
   return {
     title: titleBase,
     description,
     alternates: {
-      canonical: pathname,
+      canonical: canonicalUrl,
       languages: {
         ro: `${siteUrl}${canonicalPath}`,
         en: `${siteUrl}/en${canonicalPath}`,
@@ -60,12 +76,24 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function BlogIndexPage() {
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page } = await searchParams;
+  const requestedPage = parsePageParam(page);
   const articles = getAllBlogArticles();
-  const featured = getFeaturedBlogArticle();
+  const featured = articles.length
+    ? articles[Math.floor(Math.random() * articles.length)]
+    : null;
   const recentWithoutFeatured = featured
     ? articles.filter((article) => article.slug !== featured.slug)
     : articles;
+  const totalPages = Math.max(1, Math.ceil(recentWithoutFeatured.length / BLOG_PAGE_SIZE));
+  const currentPage = Math.min(requestedPage, totalPages);
+  const pageStart = (currentPage - 1) * BLOG_PAGE_SIZE;
+  const paginatedArticles = recentWithoutFeatured.slice(pageStart, pageStart + BLOG_PAGE_SIZE);
   const categories = getBlogCategoriesWithTranslation();
 
   const jsonLd = {
@@ -96,8 +124,10 @@ export default function BlogIndexPage() {
       <BlogIndexContent
         articles={articles}
         featured={featured}
-        recentWithoutFeatured={recentWithoutFeatured}
+        recentWithoutFeatured={paginatedArticles}
         categories={categories}
+        currentPage={currentPage}
+        totalPages={totalPages}
       />
     </BlogShell>
   );

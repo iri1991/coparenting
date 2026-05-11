@@ -481,6 +481,9 @@ export const ro = {
       articlesAvailable: "{{n}} articole disponibile",
       recentLabel: "Articole recente",
       publishedRecently: "Publicate recent",
+      paginationNav: "Paginare articole blog",
+      previousPage: "Pagina anterioară",
+      nextPage: "Pagina următoare",
     },
   },
   app: {
