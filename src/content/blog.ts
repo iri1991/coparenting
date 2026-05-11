@@ -107,6 +107,389 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "cu-un-copil-mai-mare-vorbele-ies-mai-usor-umar-la-umar",
+    enSlug: "with-an-older-child-words-come-easier-side-by-side",
+    title: "Cu un copil mai mare, vorbele ies mai ușor umăr la umăr",
+    summary:
+      "După o schimbare de casă, mulți copii mai mari și adolescenți vorbesc mai ușor în mașină, la o plimbare sau făcând ceva împreună decât într-o discuție frontală.",
+    intro:
+      "CDC recomandă crearea unor ocazii regulate de conversație în activitățile obișnuite ale zilei, nu doar în momente solemne. În co-parenting, asta contează mult mai ales cu un copil mai mare: după handover, între teme și cină sau pe drumul spre o activitate, o discuție umăr la umăr este adesea mai ușor de dus decât un \"hai să vorbim\" spus direct, cu multă presiune în el.",
+    image: {
+      src: "/blog/side-by-side-checkin.svg",
+      alt: "Părinte și copil mai mare stând unul lângă altul într-o conversație calmă",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-05-11",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce discuția frontală poate închide copilul",
+        paragraphs: [
+          "Pentru mulți copii mai mari, mai ales după o zi lungă sau o schimbare între case, contactul vizual continuu și tonul de interogatoriu cresc apărarea mai repede decât apropierea. Nu pentru că nu au nimic de spus, ci pentru că simt că trebuie să livreze ceva corect, complet sau emoțional convingător.",
+          "În schimb, când vorbiți în timp ce conduceți, mergeți sau strângeți ceva împreună, corpul nu mai simte aceeași presiune. Conversația are mai mult aer și mai puțin examen.",
+        ],
+      },
+      {
+        title: "Unde merită așezat check-in-ul",
+        paragraphs: [
+          "CDC spune clar că aceste conversații pot deveni o parte normală a activităților zilnice. Asta e util de tradus concret în viața dintre două case: nu aștepți doar momentul perfect, ci folosești ferestrele care există deja.",
+        ],
+        bullets: [
+          "în mașină, după preluare, fără să pornești imediat cu întrebările grele",
+          "la o plimbare scurtă cu câinele sau până la magazin",
+          "în timp ce pregătiți ceva simplu de mâncare",
+          "seara, când strângeți camera sau pregătiți ghiozdanul pentru a doua zi",
+        ],
+      },
+      {
+        title: "Cum sună o deschidere bună",
+        paragraphs: [
+          "O deschidere bună nu cere raport complet și nici nu împinge copilul să aleagă între loialități. Ea invită, nu forțează.",
+        ],
+        bullets: [
+          "„Care a fost partea cea mai bună și partea cea mai grea azi?”",
+          "„Ce îți ocupă mintea acum?”",
+          "„Cum a fost pentru tine schimbarea de azi?”",
+          "„Nu trebuie să-mi spui tot acum. Dacă vrei, îmi zici puțin pe drum.”",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Dacă transformi fereastra de conectare într-o verificare despre cealaltă casă, copilul învață repede să ofere răspunsuri scurte, sigure și fără miez. Scopul nu este colectarea de date, ci păstrarea unei punți relaționale.",
+        ],
+        bullets: [
+          "nu începe cu „și acolo ce ai făcut?” ca și cum verifici un dosar",
+          "nu cere contact emoțional intens exact în primul minut după preluare",
+          "nu corecta imediat fiecare detaliu sau interpretare",
+          "nu transforma tăcerea într-o acuzație de tipul „niciodată nu vorbești cu mine”",
+        ],
+      },
+    ],
+    takeaways: [
+      "Cu copiii mai mari, conversațiile bune apar adesea în mers, nu la comandă.",
+      "Check-in-urile puse în activitățile zilnice sunt mai ușor de tolerat decât discuțiile solemne.",
+      "Scopul este deschiderea relației, nu raportul despre cealaltă casă.",
+    ],
+    sources: [
+      {
+        title: "Conversation Tips for Connecting Conversations",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/healthy-youth/connecting-conversations/index.html",
+        note: "CDC recomandă ocazii regulate de conversație integrate în activitățile zilnice și explică faptul că aceste check-in-uri susțin conexiunea și starea de bine a copiilor și adolescenților. Pagina indică data de 29 noiembrie 2024.",
+      },
+    ],
+    en: {
+      title: "With an older child, words come easier side by side",
+      summary:
+        "After a home change, many older children and teens talk more easily in the car, on a walk, or while doing something together than in a face-to-face talk.",
+      intro:
+        "The CDC recommends creating regular opportunities for conversation inside ordinary daily activities, not only in formal moments. In co-parenting, that matters even more with an older child: after a handover, between homework and dinner, or on the way to an activity, a side-by-side conversation is often easier to carry than a direct we need to talk loaded with pressure.",
+      sections: [
+        {
+          title: "Why a face-to-face talk can shut the child down",
+          paragraphs: [
+            "For many older children, especially after a long day or a change between homes, continuous eye contact and an interview tone raise defensiveness faster than closeness. Not because they have nothing to say, but because they feel they must deliver something correct, complete, or emotionally convincing.",
+            "By contrast, when you talk while driving, walking, or tidying something together, the body does not feel the same pressure. The conversation has more air and less exam feeling.",
+          ],
+        },
+        {
+          title: "Where it is worth placing the check-in",
+          paragraphs: [
+            "The CDC is clear that these conversations can become a normal part of daily activities. That is useful to translate concretely into two-home life: you do not wait only for a perfect moment, you use the windows that already exist.",
+          ],
+          bullets: [
+            "in the car, after pickup, without starting immediately with the heavy questions",
+            "on a short walk with the dog or to the shop",
+            "while making something simple to eat together",
+            "in the evening while tidying the room or packing the school bag for the next day",
+          ],
+        },
+        {
+          title: "What a good opening sounds like",
+          paragraphs: [
+            "A good opening does not demand a full report and does not push the child to choose between loyalties either. It invites instead of forcing.",
+          ],
+          bullets: [
+            "\"What was the best part and the hardest part of today?\"",
+            "\"What is taking up space in your mind right now?\"",
+            "\"How was today's switch for you?\"",
+            "\"You don't have to tell me everything now. If you want, you can tell me a bit on the way.\"",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "If you turn the connection window into an inspection of the other home, the child quickly learns to give short, safe, low-content answers. The goal is not data collection, but keeping a relational bridge open.",
+          ],
+          bullets: [
+            "do not open with and what did you do there? as if you are checking a file",
+            "do not demand intense emotional contact in the first minute after pickup",
+            "do not immediately correct every detail or interpretation",
+            "do not turn silence into an accusation such as you never talk to me",
+          ],
+        },
+      ],
+      takeaways: [
+        "With older children, good conversations often appear in motion, not on command.",
+        "Check-ins embedded in daily activities are easier to tolerate than formal talks.",
+        "The goal is relationship openness, not a report about the other home.",
+      ],
+    },
+  },
+  {
+    slug: "repeta-ce-ai-auzit-inainte-sa-spui-ce-crezi",
+    enSlug: "repeat-what-you-heard-before-you-say-what-you-think",
+    title: "Repetă ce ai auzit înainte să spui ce crezi",
+    summary:
+      "Când copilul mai mare sau adolescentul spune ceva dificil despre cealaltă casă, despre școală sau despre tine, ajută să reflectezi întâi ce ai auzit, înainte să explici, corectezi sau repari.",
+    intro:
+      "CDC descrie ascultarea activă foarte simplu: lași copilul să termine, apoi repeți în cuvintele tale ce ai auzit, ca să arăți că ai înțeles. În co-parenting, acest pas e valoros tocmai în momentele cele mai sensibile, când ai impulsul să te aperi, să verifici sau să intri repede cu soluția. Reflectarea nu înseamnă că ești de acord cu tot. Înseamnă că nu sari peste partea în care copilul trebuie să se simtă auzit.",
+    image: {
+      src: "/blog/reflect-before-advice.svg",
+      alt: "Două persoane cu bule de dialog care arată ascultare și reflectare calmă",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-11",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce explicația prea rapidă strică momentul",
+        paragraphs: [
+          "Când copilul spune „nu vreau să mai merg”, „e mai ușor acolo” sau „m-am simțit prost când ai zis asta”, adultul aude imediat riscul: respingere, critică, nedreptate, poate chiar conflict între case. De aceea, mulți părinți sar repede în clarificări.",
+          "Problema este că un copil sau adolescent care nu se simte auzit se va apăra și mai tare. În loc să intre în conversație, va începe să taie din detalii, să ridice tonul sau să spună și mai absolut ce simte.",
+        ],
+      },
+      {
+        title: "Cum arată reflectarea în practică",
+        paragraphs: [
+          "Nu este terapie și nu cere vorbe sofisticate. Este doar un pas clar între ce a spus copilul și ce vrei tu să adaugi.",
+        ],
+        bullets: [
+          "„Aud că azi schimbarea te-a obosit rău.”",
+          "„Înțeleg că ți s-a părut că n-am ascultat când ai spus că ai nevoie de pauză.”",
+          "„Sună ca și cum te-ai simțit prins între două planuri.”",
+          "„Lasă-mă să văd dacă am înțeles bine: te-ai enervat mai mult pe grabă decât pe schimbarea în sine.”",
+        ],
+      },
+      {
+        title: "Abia apoi vine partea ta",
+        paragraphs: [
+          "După ce ai reflectat și copilul simte că mesajul lui a intrat, ai mult mai multe șanse să poți adăuga și perspectiva ta. Poți clarifica, poți pune limită sau poți corecta o informație, dar fără să sari peste fundație.",
+          "De multe ori, tocmai această ordine scade intensitatea. Copilul nu mai simte că trebuie să lupte pentru dreptul de a avea o experiență proprie.",
+        ],
+        bullets: [
+          "„Înțeleg că ți-a fost greu. Totuși, programul de azi rămâne acesta.”",
+          "„Aud că te-ai simțit criticat. Hai să repar cum am spus-o, fără să pierdem ideea importantă.”",
+          "„Poate am înțeles bine emoția, dar am nevoie și de un detaliu concret ca să te pot ajuta.”",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Unele răspunsuri închid conversația chiar dacă sunt rostite calm. În special comparațiile, contraargumentele prea rapide și întrebările care sună a interogatoriu.",
+        ],
+        bullets: [
+          "nu răspunde imediat cu „nu e adevărat”",
+          "nu muta instant conversația pe ce a făcut celălalt părinte",
+          "nu cere dovezi complete înainte să recunoști trăirea copilului",
+          "nu transforma reflectarea într-o tehnică rece sau ironică",
+        ],
+      },
+    ],
+    takeaways: [
+      "Reflectarea scurtă înainte de explicații reduce apărarea și crește șansa unei conversații reale.",
+      "A auzi nu înseamnă a fi de acord; înseamnă a nu sări peste experiența copilului.",
+      "Limitele și clarificările intră mai bine după ce copilul se simte înțeles.",
+    ],
+    sources: [
+      {
+        title: "Conversation Tips for Connecting Conversations",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/healthy-youth/connecting-conversations/index.html",
+        note: "CDC definește ascultarea activă ca ascultare fără întrerupere, urmată de reformularea a ceea ce ai auzit în propriile cuvinte, pentru a arăta copilului sau adolescentului că a fost înțeles. Pagina indică data de 29 noiembrie 2024.",
+      },
+    ],
+    en: {
+      title: "Repeat what you heard before you say what you think",
+      summary:
+        "When an older child or teen says something difficult about the other home, school, or you, it helps to reflect back what you heard before you explain, correct, or repair.",
+      intro:
+        "The CDC describes active listening very simply: let your child finish, then repeat in your own words what you heard so you can show that you understood. In co-parenting, this step matters most in the most sensitive moments, when your instinct is to defend yourself, fact-check, or rush toward a solution. Reflection does not mean agreeing with everything. It means not skipping the part where the child needs to feel heard.",
+      sections: [
+        {
+          title: "Why explaining too quickly spoils the moment",
+          paragraphs: [
+            "When a child says I don't want to go anymore, it's easier there, or I felt bad when you said that, the adult immediately hears the risk: rejection, criticism, unfairness, maybe even conflict between homes. That is why many parents jump quickly into clarification.",
+            "The problem is that a child or teen who does not feel heard will defend harder. Instead of entering the conversation, they start cutting details, raising their tone, or speaking in even more absolute terms.",
+          ],
+        },
+        {
+          title: "What reflection looks like in practice",
+          paragraphs: [
+            "It is not therapy and does not require sophisticated wording. It is simply one clear step between what the child said and what you want to add.",
+          ],
+          bullets: [
+            "\"I hear that today's switch exhausted you.\"",
+            "\"I understand that it felt like I wasn't listening when you said you needed a break.\"",
+            "\"It sounds like you felt caught between two plans.\"",
+            "\"Let me see if I got this right: you were angrier about the rush than about the change itself.\"",
+          ],
+        },
+        {
+          title: "Your part comes after that",
+          paragraphs: [
+            "After you reflect and the child feels that the message landed, you have a much better chance of adding your perspective. You can clarify, set a limit, or correct a fact, but without skipping the foundation.",
+            "Very often, this order itself lowers the intensity. The child no longer feels they have to fight for the right to have their own experience.",
+          ],
+          bullets: [
+            "\"I understand that this felt hard. Even so, today's plan stays the same.\"",
+            "\"I hear that you felt criticised. Let me repair how I said it without losing the important point.\"",
+            "\"I may have the feeling right, but I also need one concrete detail so I can help.\"",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Some responses shut the conversation down even when they are spoken calmly. Especially comparisons, overly fast counterarguments, and questions that sound like an interrogation.",
+          ],
+          bullets: [
+            "do not answer immediately with that's not true",
+            "do not instantly move the conversation to what the other parent did",
+            "do not demand complete proof before you acknowledge the child's experience",
+            "do not turn reflection into a cold or ironic technique",
+          ],
+        },
+      ],
+      takeaways: [
+        "Brief reflection before explanation lowers defensiveness and increases the chance of a real conversation.",
+        "Hearing does not mean agreeing; it means not skipping over the child's experience.",
+        "Limits and clarifications land better after the child feels understood.",
+      ],
+    },
+  },
+  {
+    slug: "daca-adolescentul-nu-vrea-sa-vorbeasca-acum-lasa-usa-deschisa",
+    enSlug: "if-your-teen-doesnt-want-to-talk-now-leave-the-door-open",
+    title: "Dacă adolescentul nu vrea să vorbească acum, lasă ușa deschisă",
+    summary:
+      "În familiile cu două case, tăcerea de după o schimbare nu înseamnă automat rupere de relație. Adesea ajută mai mult disponibilitatea calmă și repetată decât presiunea de a vorbi pe loc.",
+    intro:
+      "CDC recomandă răbdare și consecvență: copiii și adolescenții nu vor dori mereu să împărtășească imediat, iar relația are nevoie de timp pentru a crește. În co-parenting, tentația este mare să apeși exact când simți distanță: după un weekend, după o ceartă sau când copilul vine închis din cealaltă casă. Totuși, insistența poate suna pentru el ca obligație, nu ca sprijin. Ușa deschisă contează mai mult decât interogatoriul la termen.",
+    image: {
+      src: "/blog/open-door-teen-talk.svg",
+      alt: "O ușă întredeschisă și un părinte disponibil într-un spațiu calm",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-11",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce tăcerea nu înseamnă neapărat respingere",
+        paragraphs: [
+          "Unii adolescenți au nevoie să proceseze înainte să vorbească. Alții testează dacă spațiul oferit de adult este real sau dacă orice deschidere va fi urmată de prea multe întrebări, evaluări sau concluzii despre cealaltă casă.",
+          "Când citești imediat tăcerea ca pe o insultă sau o retragere definitivă, riști să răspunzi cu presiune exact acolo unde copilul avea nevoie de puțin timp.",
+        ],
+      },
+      {
+        title: "Ce poți spune fără să presezi",
+        paragraphs: [
+          "Mesajul bun rămâne cald și clar: nu te las singur cu asta, dar nici nu te forțez să vorbești acum.",
+        ],
+        bullets: [
+          "„E în regulă dacă nu vrei să vorbești acum. Sunt aici când ești gata.”",
+          "„Dacă vrei să spui doar o parte acum și restul mai târziu, merge și așa.”",
+          "„Dacă îți e mai ușor să vorbim în mașină sau la plimbare, facem așa.”",
+          "„Dacă vrei să vorbești cu alt adult de încredere, e în regulă și asta.”",
+        ],
+      },
+      {
+        title: "Cum rămâi disponibil fără să stai deasupra lui",
+        paragraphs: [
+          "Disponibilitatea nu înseamnă să revii din zece în zece minute cu „acum vrei?”. Înseamnă să păstrezi tonul locuibil și să creezi din nou, peste o zi sau două, o ocazie scurtă și normală de apropiere.",
+          "Copilul observă rapid diferența dintre prezență și supraveghere. Când știe că nu va fi pedepsit emoțional pentru tăcere, îi este mai ușor să revină.",
+        ],
+        bullets: [
+          "ține ritmul casei previzibil chiar dacă nu a vorbit încă",
+          "revino mai târziu cu o invitație scurtă, nu cu reproș",
+          "păstrează același ton și când răspunsul este „nu acum”",
+          "arată disponibilitate și prin gesturi simple: ceai, drum împreună, întrebare scurtă înainte de culcare",
+        ],
+      },
+      {
+        title: "Când merită cerut sprijin în plus",
+        paragraphs: [
+          "Dacă tăcerea vine la pachet cu retragere severă, somn foarte dereglat, izbucniri frecvente, anxietate puternică sau semne că adolescentul se simte copleșit, nu este nevoie să aștepți la nesfârșit. CDC recomandă apelul la un profesionist calificat când există îngrijorări legate de starea emoțională sau adaptarea comportamentală.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un adolescent care nu vorbește acum nu spune neapărat că nu mai are nevoie de tine.",
+      "Presiunea pentru confesiune rapidă poate închide exact relația pe care vrei s-o protejezi.",
+      "Disponibilitatea calmă, repetată și fără reproș este adesea mai eficientă decât insistența.",
+    ],
+    sources: [
+      {
+        title: "Conversation Tips for Connecting Conversations",
+        publisher: "CDC",
+        url: "https://www.cdc.gov/healthy-youth/connecting-conversations/index.html",
+        note: "CDC recomandă răbdare și consecvență, sugerează formule explicite pentru situațiile în care adolescentul nu vrea să vorbească încă și indică apelul la un profesionist când există îngrijorări privind starea emoțională sau comportamentală. Pagina indică data de 29 noiembrie 2024.",
+      },
+    ],
+    en: {
+      title: "If your teen doesn’t want to talk now, leave the door open",
+      summary:
+        "In two-home families, silence after a change does not automatically mean a broken bond. Calm, repeated availability often helps more than pressure to talk on the spot.",
+      intro:
+        "The CDC recommends patience and consistency: children and teens will not always want to share immediately, and the relationship needs time to grow. In co-parenting, the temptation is strong to press exactly when you feel distance: after a weekend, after an argument, or when your child arrives shut down from the other home. But insistence can sound like obligation, not support. An open door matters more than a deadline-based interrogation.",
+      sections: [
+        {
+          title: "Why silence does not necessarily mean rejection",
+          paragraphs: [
+            "Some teens need time to process before they talk. Others are testing whether the space offered by the adult is real or whether any opening will be followed by too many questions, evaluations, or conclusions about the other home.",
+            "If you immediately read silence as an insult or permanent withdrawal, you may answer with pressure exactly where the child needed a little time.",
+          ],
+        },
+        {
+          title: "What you can say without pressing",
+          paragraphs: [
+            "A useful message stays warm and clear: I am not leaving you alone with this, but I am not forcing you to talk right now either.",
+          ],
+          bullets: [
+            "\"It's okay if you don't want to talk now. I'm here when you're ready.\"",
+            "\"If you want to say only part of it now and the rest later, that's fine too.\"",
+            "\"If it's easier to talk in the car or on a walk, we can do that.\"",
+            "\"If you'd rather talk to another trusted adult, that's okay too.\"",
+          ],
+        },
+        {
+          title: "How to stay available without hovering",
+          paragraphs: [
+            "Availability does not mean coming back every ten minutes with now do you want to talk? It means keeping the tone livable and creating another short, ordinary opportunity for closeness a day or two later.",
+            "A child notices very quickly the difference between presence and surveillance. When they know they will not be emotionally punished for silence, it becomes easier to come back.",
+          ],
+          bullets: [
+            "keep the rhythm of the home predictable even if they have not spoken yet",
+            "come back later with a short invitation, not a reproach",
+            "keep the same tone even when the answer is not now",
+            "show availability through simple gestures too: tea, a shared ride, a short question before bed",
+          ],
+        },
+        {
+          title: "When extra support is worth seeking",
+          paragraphs: [
+            "If the silence comes together with severe withdrawal, very disrupted sleep, frequent outbursts, strong anxiety, or signs that the teen feels overwhelmed, you do not need to wait forever. The CDC recommends reaching out to a qualified professional when there are concerns about emotional well-being or behavioural adjustment.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A teen who is not talking now is not necessarily saying they no longer need you.",
+        "Pressure for quick disclosure can close the very relationship you are trying to protect.",
+        "Calm, repeated, non-reproachful availability is often more effective than insistence.",
+      ],
+    },
+  },
+  {
     slug: "cand-nu-ai-ziua-exacta-muta-ritualul-nu-si-apropierea",
     enSlug: "when-you-dont-have-the-exact-day-move-the-ritual-not-the-closeness",
     title: "Când nu ai ziua exactă, mută ritualul, nu și apropierea",
