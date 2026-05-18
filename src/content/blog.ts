@@ -6955,6 +6955,357 @@ const blogArticles: BlogArticle[] = [
       ],
     },
   },
+  {
+    slug: "daca-v-a-auzit-certandu-va-repara-rapid-scena-pentru-copil",
+    enSlug: "if-your-child-heard-you-arguing-repair-the-scene-quickly",
+    title: "Dacă v-a auzit certându-vă, repară rapid scena pentru copil",
+    summary:
+      "După un conflict auzit din greșeală, copilul are nevoie de o explicație scurtă și sigură, nu de tăcere tensionată sau de detalii despre cine a avut dreptate.",
+    intro:
+      "HealthyChildren recomandă explicit ca, dacă un copil vă aude criticându-vă sau certându-vă, să îi explicați că oamenii spun uneori lucruri dureroase când sunt supărați. În familiile cu două case, acest pas contează mult. Copilul nu trebuie să rămână singur cu scene pe care le-a auzit și pe care încearcă apoi să le explice din loialitate, teamă sau vină.",
+    image: {
+      src: "/blog/repair-after-overheard-argument.svg",
+      alt: "Doi adulți calmând tensiunea și revenind cu un mesaj clar către copil după o ceartă auzită",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-18",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce tăcerea de după ceartă nu ajută prea mult",
+        paragraphs: [
+          "Când copilul aude fragmente de conflict, mintea lui nu rămâne goală. Umple rapid golurile cu explicații proprii: poate e din cauza mea, poate urmează ceva grav, poate trebuie să aleg cu cine țin.",
+          "Dacă adulții se poartă apoi ca și cum nu s-a întâmplat nimic, tensiunea nu dispare. Devine doar mai greu de înțeles și mai ușor de purtat singur.",
+        ],
+      },
+      {
+        title: "Ce merită spus simplu și repede",
+        paragraphs: [
+          "Mesajul util nu este lung și nici juridic. El repară exact ce trebuie reparat: copilul să știe că a auzit un moment urât, că nu este responsabil pentru el și că adulții se ocupă de partea lor.",
+        ],
+        bullets: [
+          "„Ai auzit o discuție urâtă și îmi pare rău că s-a întâmplat așa.”",
+          "„Când oamenii sunt supărați, uneori spun lucruri care rănesc.”",
+          "„Nu este din cauza ta și nu e treaba ta să repari asta.”",
+          "„Noi ne ocupăm de problema dintre adulți. Tu ești în siguranță.”",
+        ],
+      },
+      {
+        title: "Ce să nu transformi în explicație",
+        paragraphs: [
+          "Copilul nu are nevoie de proces verbal. Dacă folosești momentul ca să demonstrezi cine a greșit, îl pui iar în mijlocul conflictului pe care pretinzi că îl clarifici.",
+        ],
+        bullets: [
+          "nu relua toată cearta în fața copilului",
+          "nu cere copilului să confirme ce a auzit sau cui îi dă dreptate",
+          "nu folosi replica „dar tu știi cum e mama/tata” ca să-ți justifici ieșirea",
+          "nu transforma reparația într-o descărcare emoțională adultă",
+        ],
+      },
+      {
+        title: "Semne că merită să revii la conversație",
+        paragraphs: [
+          "Dacă după conflict copilul devine mai lipit de tine, mai agitat la tranziții, întreabă repetat dacă urmează alte schimbări sau pare foarte atent la tonul dintre adulți, merită să revii scurt peste o zi sau două.",
+          "Nu pentru a redeschide scena, ci pentru a reconfirma același mesaj: nu este responsabil pentru conflict și nu trebuie să îl gestioneze.",
+        ],
+      },
+    ],
+    takeaways: [
+      "După o ceartă auzită, copilul are nevoie de reparație explicită, nu de tăcere tensionată.",
+      "Mesajul bun este scurt: s-a întâmplat ceva urât, nu e vina ta, adulții se ocupă.",
+      "Explicațiile despre cine a avut dreptate îl trag din nou pe copil în mijloc.",
+    ],
+    sources: [
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP recomandă evitarea certurilor în fața copilului și, dacă aude critici sau replici dure, explicarea faptului că oamenii spun uneori lucruri care rănesc atunci când sunt supărați. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+    ],
+    en: {
+      title: "If your child heard you arguing, repair the scene quickly",
+      summary:
+        "After a conflict the child overheard by accident, they need a short, steady explanation, not tense silence or details about who was right.",
+      intro:
+        "HealthyChildren explicitly recommends that if a child hears parents criticising or arguing, they should be told that people sometimes say hurtful things when they are angry. In two-home families, this matters a great deal. The child should not be left alone with fragments of a scene they then try to explain through loyalty, fear or guilt.",
+      sections: [
+        {
+          title: "Why silence after the argument does not help much",
+          paragraphs: [
+            "When a child hears conflict, their mind does not stay blank. It quickly fills the gaps with its own explanations: maybe this is because of me, maybe something serious is coming, maybe I have to choose sides.",
+            "If adults then act as if nothing happened, the tension does not disappear. It only becomes harder to understand and easier to carry alone.",
+          ],
+        },
+        {
+          title: "What is worth saying simply and quickly",
+          paragraphs: [
+            "A useful message is not long and not legalistic. It repairs exactly what needs repair: the child knows they heard an ugly moment, that they are not responsible for it and that the adults are handling their part.",
+          ],
+          bullets: [
+            "\"You heard an upsetting conversation and I'm sorry it happened like that.\"",
+            "\"When people are angry, they sometimes say things that hurt.\"",
+            "\"This is not because of you and it's not your job to fix it.\"",
+            "\"We are handling the adult problem. You are safe.\"",
+          ],
+        },
+        {
+          title: "What not to turn into an explanation",
+          paragraphs: [
+            "The child does not need minutes from the meeting. If you use the moment to prove who was wrong, you place them back in the middle of the conflict you claim to be clarifying.",
+          ],
+          bullets: [
+            "do not replay the whole argument in front of the child",
+            "do not ask the child to confirm what they heard or who they agree with",
+            "do not use you know what mum/dad is like to justify your outburst",
+            "do not turn the repair into adult emotional unloading",
+          ],
+        },
+        {
+          title: "Signs it is worth coming back to the conversation",
+          paragraphs: [
+            "If after the conflict the child becomes clingier, more agitated around transitions, asks repeatedly whether more changes are coming or seems hyper-aware of the adults' tone, it is worth returning briefly a day or two later.",
+            "Not to reopen the scene, but to repeat the same message: they are not responsible for the conflict and do not need to manage it.",
+          ],
+        },
+      ],
+      takeaways: [
+        "After an overheard argument, the child needs explicit repair, not tense silence.",
+        "A good message is short: something upsetting happened, it is not your fault, the adults are handling it.",
+        "Explanations about who was right pull the child back into the middle.",
+      ],
+    },
+  },
+  {
+    slug: "nu-muta-toate-ancorele-copilului-odata-dupa-separare",
+    enSlug: "dont-move-all-of-your-childs-anchors-at-once-after-separation",
+    title: "Nu muta toate ancorele copilului odată după separare",
+    summary:
+      "Când familia trece prin separare, copilul se reglează mai ușor dacă școala, prietenii și rutina lui rămân cât mai recognoscibile.",
+    intro:
+      "HealthyChildren recomandă să păstrezi pe cât posibil rutina zilnică, școala, prietenii și mediul copilului cât mai puțin schimbate. În practică, asta nu înseamnă că totul poate rămâne identic. Înseamnă că, dacă deja se schimbă casa sau programul, merită să nu mai miști în același timp și toate celelalte puncte de sprijin pe care copilul se baza ca să se simtă orientat.",
+    image: {
+      src: "/blog/steady-anchors-after-separation.svg",
+      alt: "Copil cu repere stabile precum școala, prietenii și rutina, în timp ce familia trece prin schimbare",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-05-18",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce schimbările multe se adună mai tare decât par",
+        paragraphs: [
+          "Pentru adult, schimbările pot apărea pe liste separate: locuință, program, activități, cine duce copilul, ce se întâmplă în weekend. Pentru copil, toate intră în același sistem nervos și pot suna ca o singură întrebare mare: pe ce mă mai pot baza acum?",
+          "De aceea, uneori copilul nu reacționează doar la separare în sine, ci la suprapunerea ei cu prea multe mutări de reper în același timp.",
+        ],
+      },
+      {
+        title: "Ce merită protejat primul",
+        paragraphs: [
+          "Nu poți controla tot, dar poți alege ce ancore rămân cât mai previzibile în primele luni. HealthyChildren pune accent tocmai pe lucrurile obișnuite care îi țin copilului viața recognoscibilă.",
+        ],
+        bullets: [
+          "școala sau grădinița, dacă nu există un motiv serios pentru schimbare",
+          "prieteniile și activitățile la care copilul ține cu adevărat",
+          "orele de somn, mesele și secvența de seară",
+          "adulții care îl duc și îl iau, când se poate păstra același tipar",
+        ],
+      },
+      {
+        title: "Cum vorbești când unele ancore totuși se schimbă",
+        paragraphs: [
+          "Dacă nu poți evita o schimbare de școală, de casă sau de program, copilul are nevoie să știe ce rămâne totuși stabil. Nu îl ajuți promițând că nimic nu se schimbă. Îl ajuți arătând clar care sunt piesele care rămân la locul lor.",
+          "Poți spune simplu: da, dormi în două case, dar mergi la aceeași școală și fotbalul de joi rămâne. Sau: mutăm casa, dar bunica te ia în continuare miercurea și păstrăm povestea de seară.",
+        ],
+      },
+      {
+        title: "Semnul că ai păstrat destule repere",
+        paragraphs: [
+          "Nu este absența totală a emoției. Mai realist, copilul își revine mai repede după zilele de schimbare, uită mai puține lucruri importante și nu pare să trăiască fiecare săptămână ca pe un nou început haotic.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Copilul se reglează mai ușor când nu se schimbă toate reperele odată.",
+      "Școala, prieteniile și rutina zilnică sunt ancore reale, nu detalii secundare.",
+      "Când ceva se schimbă inevitabil, ajută să spui clar ce rămâne stabil.",
+    ],
+    sources: [
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP recomandă păstrarea pe cât posibil a rutinei copilului, a prietenilor, a școlii și a mediului său zilnic, pentru ca perioada de separare să fie mai ușor de dus. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+    ],
+    en: {
+      title: "Don’t move all of your child’s anchors at once after separation",
+      summary:
+        "When a family goes through separation, children regulate more easily if school, friends and everyday routines stay as recognisable as possible.",
+      intro:
+        "HealthyChildren recommends keeping the child's daily routine, school, friendships and environment as unchanged as possible. In practice, that does not mean everything can stay identical. It means that if the home or schedule is already changing, it is worth not moving every other support point at the same time.",
+      sections: [
+        {
+          title: "Why many changes add up more than they seem",
+          paragraphs: [
+            "For the adult, changes may appear on separate lists: housing, schedule, activities, who drops off, what happens at the weekend. For the child, they all enter the same nervous system and can sound like one big question: what can I still rely on now?",
+            "That is why sometimes the child is not reacting only to the separation itself, but to too many landmarks shifting at once.",
+          ],
+        },
+        {
+          title: "What is worth protecting first",
+          paragraphs: [
+            "You cannot control everything, but you can choose which anchors stay as predictable as possible in the first months. HealthyChildren puts the emphasis exactly on the ordinary things that keep life recognisable.",
+          ],
+          bullets: [
+            "school or nursery, unless there is a serious reason to change it",
+            "friendships and activities the child truly cares about",
+            "sleep times, meals and the evening sequence",
+            "the adults who drop off and pick up, when the same pattern can be kept",
+          ],
+        },
+        {
+          title: "How to talk when some anchors still change",
+          paragraphs: [
+            "If you cannot avoid a school, home or schedule change, the child needs to know what still stays steady. You do not help by promising that nothing changes. You help by showing clearly which pieces remain in place.",
+            "You can say simply: yes, you sleep in two homes, but you go to the same school and Thursday football stays. Or: we are moving house, but grandma still picks you up on Wednesdays and we keep the bedtime story.",
+          ],
+        },
+        {
+          title: "The sign you kept enough landmarks",
+          paragraphs: [
+            "It is not the total absence of emotion. More realistically, the child recovers faster after changeover days, forgets fewer important things and does not seem to live every week as a fresh chaotic beginning.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Children regulate more easily when not every landmark changes at once.",
+        "School, friendships and daily routine are real anchors, not secondary details.",
+        "When something must change, it helps to say clearly what remains stable.",
+      ],
+    },
+  },
+  {
+    slug: "un-program-repetabil-il-linisteste-mai-mult-decat-improvizatia",
+    enSlug: "a-repeatable-schedule-soothes-more-than-improvisation",
+    title: "Un program repetabil îl liniștește mai mult decât improvizația",
+    summary:
+      "După separare, un ritm clar al timpului petrecut împreună și promisiunile ținute îi oferă copilului mai multă siguranță decât planurile mari schimbate din mers.",
+    intro:
+      "HealthyChildren notează că un program regulat săptămânal sau lunar poate fi reconfortant pentru copil și insistă că este foarte important ca părinții să își respecte promisiunile de a-l vizita sau de a petrece timp cu el. În viața reală, asta înseamnă că liniștea nu vine din promisiuni spectaculoase, ci dintr-un ritm recognoscibil: copilul știe când urmează să vă vedeți și învață că adultul chiar apare în locul promis, la momentul promis.",
+    image: {
+      src: "/blog/repeatable-visit-rhythm.svg",
+      alt: "Calendar repetabil între două case, cu vizite previzibile și repere clare pentru copil",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-05-18",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ritmul bate intensitatea",
+        paragraphs: [
+          "Un copil nu se liniștește mai ales din cât de grandios a fost un weekend sau un apel. Se liniștește din faptul că relația nu depinde de noroc, chef sau crize de ultim moment.",
+          "Când programul este recognoscibil, corpul copilului nu mai trebuie să stea mereu de pază: oare se ține, oare se schimbă, oare trebuie să întreb din nou?",
+        ],
+      },
+      {
+        title: "Cum arată un program suficient de bun",
+        paragraphs: [
+          "Nu există o formulă universală, dar există un criteriu simplu: copilul poate anticipa ușor ce urmează. Un ritm bun este mai degrabă repetabil decât sofisticat.",
+        ],
+        bullets: [
+          "aceeași zi pentru apelul scurt sau același interval recognoscibil",
+          "un tipar de vizite care nu se rescrie în fiecare săptămână dacă nu este necesar",
+          "anunțarea din timp a schimbărilor reale, nu în ultimul minut",
+          "promisiuni mici și ținute, în loc de compensații mari și incerte",
+        ],
+      },
+      {
+        title: "Ce strică rapid sentimentul de siguranță",
+        paragraphs: [
+          "Pentru copil, improvizația repetată nu este doar logistică. Poate suna ca neclaritate în relație. Mai ales dacă un adult promite mult ca să repare vină sau tensiune și apoi nu poate livra.",
+        ],
+        bullets: [
+          "nu promite întâlniri sau recuperări pe care nu le controlezi",
+          "nu lăsa copilul să afle ultimul despre o schimbare importantă",
+          "nu rescrie programul pentru fiecare dispoziție adultă",
+          "nu trata dezamăgirea copilului ca lipsă de maturitate",
+        ],
+      },
+      {
+        title: "Ce poate face diferența chiar de săptămâna asta",
+        paragraphs: [
+          "Dacă programul este haotic, nu trebuie să reinventezi totul într-o zi. Poți începe cu un singur reper foarte stabil: un apel scurt la aceeași oră, aceeași formulă de preluare sau o regulă clară despre când confirmați weekendul următor.",
+          "Copilul nu are nevoie de perfecțiune calendaristică. Are nevoie de suficiente repere repetate încât să nu poarte el anxietatea organizării.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un ritm repetabil liniștește mai mult decât planurile mari schimbate des.",
+      "Copilul citește promisiunile ținute ca pe un semn de siguranță relațională.",
+      "Dacă programul este haotic, începe cu un reper mic și foarte stabil.",
+    ],
+    sources: [
+      {
+        title: "Adjusting to Divorce",
+        publisher: "HealthyChildren.org / American Academy of Pediatrics",
+        url: "https://www.healthychildren.org/english/family-life/family-dynamics/types-of-families/pages/adjusting-to-divorce.aspx?form=HealthyChildren",
+        note: "AAP spune că un program regulat săptămânal sau lunar poate fi reconfortant și subliniază că părinții trebuie să își respecte promisiunile de a-l vizita sau de a petrece timp cu copilul. Pagina indică ultima actualizare la 16 decembrie 2025.",
+      },
+    ],
+    en: {
+      title: "A repeatable schedule soothes more than improvisation",
+      summary:
+        "After separation, a clear rhythm of time together and promises kept give the child more safety than big plans changed on the fly.",
+      intro:
+        "HealthyChildren notes that a regular weekly or monthly schedule can be comforting for a child and stresses that parents should follow through on promises to visit or spend time together. In real life, that means calm comes less from spectacular promises and more from a recognisable rhythm: the child knows when they will see you and learns that the adult actually shows up where and when they said they would.",
+      sections: [
+        {
+          title: "Why rhythm beats intensity",
+          paragraphs: [
+            "A child is not soothed mainly by how grand a weekend or a call was. They are soothed by the fact that the relationship does not depend on luck, mood or last-minute crises.",
+            "When the schedule is recognisable, the child's body no longer has to stay on guard all the time: will it happen, will it change, do I need to ask again?",
+          ],
+        },
+        {
+          title: "What a good-enough schedule looks like",
+          paragraphs: [
+            "There is no universal formula, but there is a simple test: the child can easily anticipate what comes next. A good rhythm is more repeatable than sophisticated.",
+          ],
+          bullets: [
+            "the same day for the short call or the same recognisable window",
+            "a visit pattern that is not rewritten every week unless necessary",
+            "real changes announced in advance, not at the last minute",
+            "small promises kept instead of big uncertain compensation",
+          ],
+        },
+        {
+          title: "What quickly damages the sense of safety",
+          paragraphs: [
+            "For a child, repeated improvisation is not only logistics. It can sound like uncertainty in the relationship itself, especially if an adult promises a lot to repair guilt or tension and then cannot deliver.",
+          ],
+          bullets: [
+            "do not promise visits or make-up time you do not control",
+            "do not let the child be the last to hear about an important change",
+            "do not rewrite the schedule for every adult mood shift",
+            "do not treat the child's disappointment as immaturity",
+          ],
+        },
+        {
+          title: "What can make a difference this very week",
+          paragraphs: [
+            "If the schedule is chaotic, you do not need to redesign everything in a day. You can start with one very stable landmark: one short call at the same time, the same handover wording or one clear rule about when the next weekend gets confirmed.",
+            "The child does not need calendar perfection. They need enough repeated landmarks that they are not carrying the anxiety of organisation themselves.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A repeatable rhythm soothes more than big plans that change often.",
+        "Children read kept promises as a sign of relational safety.",
+        "If the schedule is chaotic, start with one small and very stable landmark.",
+      ],
+    },
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {

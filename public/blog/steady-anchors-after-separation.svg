@@ -1,0 +1,25 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="40" fill="#F8FBFF"/>
+  <circle cx="190" cy="566" r="150" fill="#DFF3EC"/>
+  <circle cx="982" cy="152" r="126" fill="#F8E5C8"/>
+  <rect x="138" y="126" width="924" height="468" rx="34" fill="#FFFDF9" stroke="#D7E5F2" stroke-width="8"/>
+  <rect x="198" y="198" width="244" height="172" rx="24" fill="#EDF7FF"/>
+  <rect x="232" y="236" width="176" height="98" rx="18" fill="#FFFFFF"/>
+  <path d="M259 333V273L321 231L381 273V333" stroke="#2E5C82" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M346 333V289H294V333" stroke="#2E5C82" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="478" y="182" width="244" height="214" rx="24" fill="#FFF5E6"/>
+  <circle cx="552" cy="268" r="40" fill="#F4B07A"/>
+  <circle cx="642" cy="268" r="40" fill="#F6C89A"/>
+  <path d="M522 336C538 313 563 301 582 301C601 301 626 313 642 336" stroke="#C66C3A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M612 336C628 313 653 301 672 301C691 301 716 313 732 336" stroke="#C66C3A" stroke-width="10" stroke-linecap="round"/>
+  <rect x="762" y="198" width="234" height="184" rx="24" fill="#EFFAF5"/>
+  <rect x="812" y="242" width="132" height="88" rx="16" fill="#FFFFFF"/>
+  <path d="M828 290H928" stroke="#2A6A5A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M828 318H902" stroke="#8BBFAF" stroke-width="10" stroke-linecap="round"/>
+  <rect x="300" y="432" width="600" height="102" rx="24" fill="#FFFFFF" stroke="#EAD7C5" stroke-width="6"/>
+  <circle cx="384" cy="483" r="30" fill="#F6C89A"/>
+  <path d="M465 483H602" stroke="#C8A27A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M465 515H720" stroke="#D8B491" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="814" cy="483" r="22" fill="#9CC8BE"/>
+  <path d="M804 483L812 491L826 475" stroke="#1F3A36" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
