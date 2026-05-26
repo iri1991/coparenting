@@ -11,11 +11,13 @@ import { BlogShell } from "@/components/blog/BlogShell";
 import { BlogIndexContent } from "@/components/blog/BlogIndexContent";
 import { brandName, ogImage, siteUrl } from "@/lib/seo";
 import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
+import { BLOG_INDEX_SEO_LINKS } from "@/lib/blog-seo-links";
 
 const canonicalPath = "/blog";
 const BLOG_PAGE_SIZE = 12;
 
-export const dynamic = "force-dynamic";
+// Fully static — all articles are build-time data
+export const dynamic = "force-static";
 
 function parsePageParam(page: string | string[] | undefined) {
   const raw = Array.isArray(page) ? page[0] : page;
@@ -42,6 +44,10 @@ export async function generateMetadata({
   return {
     title: titleBase,
     description,
+    keywords: isEn
+      ? ["co-parenting blog", "shared custody", "child routine", "parenting after separation", "HomeSplit"]
+      : ["blog co-parenting", "custodie partajată", "rutine copil", "parenting după separare", "doi părinți", "HomeSplit"],
+    robots: { index: true, follow: true },
     alternates: {
       canonical: canonicalUrl,
       languages: {
@@ -84,9 +90,8 @@ export default async function BlogIndexPage({
   const { page } = await searchParams;
   const requestedPage = parsePageParam(page);
   const articles = getAllBlogArticles();
-  const featured = articles.length
-    ? articles[Math.floor(Math.random() * articles.length)]
-    : null;
+  // Deterministic featured: prefer explicitly marked article, else most recent (articles[0])
+  const featured = articles.find((a) => a.featured) ?? (articles.length ? articles[0] : null);
   const recentWithoutFeatured = featured
     ? articles.filter((article) => article.slug !== featured.slug)
     : articles;
@@ -96,27 +101,42 @@ export default async function BlogIndexPage({
   const paginatedArticles = recentWithoutFeatured.slice(pageStart, pageStart + BLOG_PAGE_SIZE);
   const categories = getBlogCategoriesWithTranslation();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "@id": `${siteUrl}${canonicalPath}#blog`,
-    name: blogTitle,
-    url: `${siteUrl}${canonicalPath}`,
-    description: blogDescription,
-    inLanguage: ["ro-RO", "en"],
-    publisher: { "@type": "Organization", name: brandName, url: siteUrl },
-    blogPost: articles.map((article) => ({
-      "@type": "BlogPosting",
-      headline: article.title,
-      datePublished: article.publishedAt,
-      url: `${siteUrl}/blog/${article.slug}`,
-      articleSection: article.category.title,
-      description: article.summary,
-      ...(article.enSlug
-        ? { url: [`${siteUrl}/blog/${article.slug}`, `${siteUrl}/en/blog/${article.enSlug}`] }
-        : {}),
-    })),
-  };
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "HomeSplit", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}${canonicalPath}` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "@id": `${siteUrl}${canonicalPath}#blog`,
+      name: blogTitle,
+      url: `${siteUrl}${canonicalPath}`,
+      description: blogDescription,
+      inLanguage: ["ro-RO", "en"],
+      publisher: {
+        "@type": "Organization",
+        name: brandName,
+        url: siteUrl,
+        logo: { "@type": "ImageObject", url: `${siteUrl}${ogImage}` },
+      },
+      blogPost: articles.map((article) => ({
+        "@type": "BlogPosting",
+        headline: article.title,
+        datePublished: article.publishedAt,
+        url: `${siteUrl}/blog/${article.slug}`,
+        articleSection: article.category.title,
+        description: article.summary,
+        ...(article.enSlug
+          ? { sameAs: `${siteUrl}/en/blog/${article.enSlug}` }
+          : {}),
+      })),
+    },
+  ];
 
   return (
     <BlogShell>
@@ -128,6 +148,7 @@ export default async function BlogIndexPage({
         categories={categories}
         currentPage={currentPage}
         totalPages={totalPages}
+        seoLinks={BLOG_INDEX_SEO_LINKS}
       />
     </BlogShell>
   );

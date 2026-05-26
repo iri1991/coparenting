@@ -13,6 +13,7 @@ import { SeoHero } from "@/components/seo/SeoHero";
 import { SeoFeatureGrid } from "@/components/seo/SeoFeatureGrid";
 import { SeoCTA } from "@/components/seo/SeoCTA";
 import { SeoInternalLinks } from "@/components/seo/SeoInternalLinks";
+import { SeoBlogLinks } from "@/components/seo/SeoBlogLinks";
 import { SeoFaqAccordion } from "@/components/seo/SeoFaqAccordion";
 import { siteUrl } from "@/lib/seo";
 
@@ -261,6 +262,7 @@ export default function CustodieComunaPage() {
         ]}
       />
 
+      <SeoBlogLinks categorySlug="coparenting" categoryLabel="co-parenting &amp; custodie" />
       <SeoCTA heading="Organizează custodia comună mai simplu" />
     </SeoPageShell>
   );

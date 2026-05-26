@@ -15,6 +15,7 @@ import { SeoHero } from "@/components/seo/SeoHero";
 import { SeoFeatureGrid } from "@/components/seo/SeoFeatureGrid";
 import { SeoCTA } from "@/components/seo/SeoCTA";
 import { SeoInternalLinks } from "@/components/seo/SeoInternalLinks";
+import { SeoBlogLinks } from "@/components/seo/SeoBlogLinks";
 import { SeoFaqAccordion } from "@/components/seo/SeoFaqAccordion";
 import { siteUrl } from "@/lib/seo";
 
@@ -288,6 +289,7 @@ export default function ProgramCopilPage() {
         ]}
       />
 
+      <SeoBlogLinks categorySlug="rutine-si-tranzitii" categoryLabel="rutine &amp; tranziții" />
       <SeoCTA heading="Organizează programul copilului acum" />
     </SeoPageShell>
   );

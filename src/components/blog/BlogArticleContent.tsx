@@ -5,20 +5,23 @@ import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { BlogArticleWithCategory } from "@/content/blog";
 import { formatBlogDate, articleSlugForLang } from "@/content/blog";
+import type { BlogSeoLink } from "@/lib/blog-seo-links";
 
 interface Props {
   articleRo: BlogArticleWithCategory;
   articleEn: BlogArticleWithCategory | null;
   relatedRo: BlogArticleWithCategory[];
   relatedEn: BlogArticleWithCategory[];
+  seoLinks: BlogSeoLink[];
 }
 
-export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn }: Props) {
+export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn, seoLinks }: Props) {
   const { lang, t } = useLanguage();
 
   const article = lang === "en" && articleEn ? articleEn : articleRo;
   const related = lang === "en" ? relatedEn : relatedRo;
   const hasEnglish = Boolean(articleEn);
+  const isEn = lang === "en";
 
   return (
     <>
@@ -34,15 +37,25 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
 
       <section className="px-4 pb-16 pt-4 sm:px-6">
         <div className="mx-auto max-w-6xl">
-          <Link href={lang === "en" ? "/en/blog" : "/blog"} className="text-sm font-semibold text-[#1f3a36] hover:text-[#172c2a]">
-            {t.blog.backToBlog}
-          </Link>
+          {/* Breadcrumb */}
+          <nav aria-label="breadcrumb" className="flex items-center gap-2 text-sm text-stone-500">
+            <Link href={isEn ? "/en/blog" : "/blog"} className="font-semibold text-[#1f3a36] hover:text-[#172c2a]">
+              {t.blog.backToBlog}
+            </Link>
+            <span aria-hidden>›</span>
+            <Link
+              href={`${isEn ? "/en" : ""}/blog/categorie/${articleRo.categorySlug}`}
+              className="hover:text-stone-700"
+            >
+              {article.category.title}
+            </Link>
+          </nav>
 
           <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
             <article className="overflow-hidden rounded-[2.25rem] border border-white/70 bg-white/85 shadow-[0_24px_70px_rgba(28,25,23,0.08)] backdrop-blur">
               <div className={`bg-gradient-to-br ${article.category.surfaceClassName} px-6 py-8 sm:px-8 sm:py-10`}>
                 <Link
-                  href={`/blog/categorie/${article.category.slug}`}
+                  href={`${isEn ? "/en" : ""}/blog/categorie/${article.category.slug}`}
                   className={`inline-flex rounded-full px-4 py-1.5 text-sm font-semibold ${article.category.badgeClassName}`}
                 >
                   {article.category.title}
@@ -102,6 +115,7 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
             </article>
 
             <aside className="space-y-6 lg:sticky lg:top-28">
+              {/* Takeaways */}
               <section className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_16px_44px_rgba(28,25,23,0.06)] backdrop-blur">
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">{t.blog.summaryLabel}</p>
                 <ul className="mt-4 space-y-3">
@@ -114,10 +128,32 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
                 </ul>
               </section>
 
+              {/* Cross-links to SEO pages — always visible in sidebar */}
+              {seoLinks.length > 0 && (
+                <section className="rounded-[2rem] border border-[#ead9c8] bg-[#fcf8f4] p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
+                    {isEn ? "Related guides" : "Ghiduri conexe"}
+                  </p>
+                  <ul className="mt-4 space-y-3">
+                    {seoLinks.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="block text-sm font-semibold text-[#1f3a36] hover:text-[#172c2a]"
+                        >
+                          {link.label} →
+                        </Link>
+                        <p className="mt-0.5 text-xs leading-5 text-stone-500">{link.description}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {/* Sources */}
               <section className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_16px_44px_rgba(28,25,23,0.06)] backdrop-blur">
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">{t.blog.sourcesLabel}</p>
                 <ul className="mt-4 space-y-4">
-                  {/* Sources are always in the original language (URLs/publishers don't change) */}
                   {articleRo.sources.map((source) => (
                     <li key={source.url}>
                       <a
@@ -143,8 +179,9 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
         </div>
       </section>
 
+      {/* Related articles */}
       {related.length ? (
-        <section className="px-4 pb-20 sm:px-6">
+        <section className="px-4 pb-12 sm:px-6">
           <div className="mx-auto max-w-6xl">
             <div className="mb-5">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">{t.blog.relatedLabel}</p>
@@ -158,6 +195,36 @@ export function BlogArticleContent({ articleRo, articleEn, relatedRo, relatedEn 
           </div>
         </section>
       ) : null}
+
+      {/* Cross-links — full-width section below related (mobile-friendly alternative) */}
+      {seoLinks.length > 0 && (
+        <section className="px-4 pb-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
+                {isEn ? "Explore" : "Explorează"}
+              </p>
+              <h2 className="landing-display mt-2 text-3xl text-stone-900">
+                {isEn ? "Guides & tools for your situation" : "Ghiduri și instrumente pentru situația ta"}
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {seoLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex flex-col gap-2 rounded-[1.75rem] border border-[#ead9c8] bg-white/80 p-5 shadow-[0_8px_24px_rgba(28,25,23,0.05)] transition hover:-translate-y-0.5 hover:border-[#d4b99c] hover:shadow-[0_12px_32px_rgba(28,25,23,0.08)] backdrop-blur"
+                >
+                  <span className="text-sm font-bold text-stone-900 group-hover:text-[#1f3a36]">
+                    {link.label} →
+                  </span>
+                  <span className="text-sm leading-6 text-stone-600">{link.description}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

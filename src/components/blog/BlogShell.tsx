@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { landingDisplay, landingSans } from "@/components/landing/landingFonts";
+import { BlogBackToAppButton } from "@/components/blog/BlogBackToAppButton";
+
 export function BlogShell({ children }: { children: ReactNode }) {
   return (
     <div
@@ -17,6 +19,7 @@ export function BlogShell({ children }: { children: ReactNode }) {
       <LandingHeader />
       <main>{children}</main>
       <LandingFooter />
+      <BlogBackToAppButton />
     </div>
   );
 }
