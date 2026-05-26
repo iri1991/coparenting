@@ -16,7 +16,7 @@ export default async function SetupPage({
   const params = await searchParams;
   const planParam = params?.plan;
   if (session.user.familyId) {
-    redirect(planParam ? `/?plan=${planParam}` : "/");
+    redirect(planParam ? `/app?plan=${planParam}` : "/app");
   }
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">

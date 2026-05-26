@@ -33,7 +33,7 @@ export default async function JoinPage({
   }
 
   if (session.user.familyId) {
-    redirect("/");
+    redirect("/app");
   }
 
   if (!token) {
