@@ -1,0 +1,27 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="36" fill="#F7F1E7"/>
+  <rect x="64" y="64" width="1072" height="592" rx="30" fill="#FFFBF6"/>
+  <path d="M118 560C230 470 340 430 472 430C622 430 711 500 792 546C858 584 934 606 1080 606V656H118V560Z" fill="#D5E8DA"/>
+  <rect x="298" y="248" width="172" height="274" rx="30" fill="#CBAA78"/>
+  <circle cx="384" cy="182" r="66" fill="#F1C7A7"/>
+  <path d="M354 169C364 160 374 156 384 156C394 156 404 160 414 169" stroke="#5B4637" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="362" cy="186" r="6" fill="#5B4637"/>
+  <circle cx="406" cy="186" r="6" fill="#5B4637"/>
+  <path d="M371 213C379 219 389 219 397 213" stroke="#5B4637" stroke-width="7" stroke-linecap="round"/>
+  <path d="M374 338C403 355 423 378 437 414" stroke="#A98757" stroke-width="18" stroke-linecap="round"/>
+  <path d="M396 338C419 367 434 400 442 440" stroke="#A98757" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="753" cy="392" r="60" fill="#F1C7A7"/>
+  <rect x="695" y="445" width="116" height="116" rx="28" fill="#8EAFC5"/>
+  <path d="M726 384C735 376 744 372 753 372C762 372 771 376 780 384" stroke="#4B6174" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="734" cy="397" r="5" fill="#4B6174"/>
+  <circle cx="772" cy="397" r="5" fill="#4B6174"/>
+  <path d="M741 421C748 426 758 426 765 421" stroke="#4B6174" stroke-width="6" stroke-linecap="round"/>
+  <path d="M690 526C721 505 742 500 753 500C764 500 786 505 816 526" stroke="#7B9BB1" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="520" cy="186" r="18" fill="#E9F0EA"/>
+  <circle cx="568" cy="158" r="26" fill="#E9F0EA"/>
+  <circle cx="620" cy="182" r="20" fill="#E9F0EA"/>
+  <path d="M496 190C520 206 540 211 561 211C584 211 603 204 628 188" stroke="#AAC6B2" stroke-width="8" stroke-linecap="round"/>
+  <rect x="790" y="120" width="222" height="110" rx="22" fill="#1F3A36"/>
+  <text x="901" y="164" text-anchor="middle" fill="#FFF9F2" font-family="Arial, sans-serif" font-size="26" font-weight="700">modelează calmul</text>
+  <text x="901" y="200" text-anchor="middle" fill="#DDEBE7" font-family="Arial, sans-serif" font-size="22">nu îl forța</text>
+</svg>

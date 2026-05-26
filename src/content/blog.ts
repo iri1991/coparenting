@@ -6955,6 +6955,399 @@ const blogArticles: BlogArticle[] = [
       ],
     },
   },
+  {
+    slug: "la-predare-tonul-tau-devine-reperul-copilului",
+    enSlug: "at-handover-your-tone-becomes-the-childs-cue",
+    title: "La predare, tonul tău devine reperul copilului",
+    summary:
+      "Când vocea adultului coboară prima, corpul copilului are mai multe șanse să iasă din alertă fără să fie împins, grăbit sau certat.",
+    intro:
+      "Child Mind Institute explică limpede ideea de co-regulation: calmul adultului poate transmite calm, iar stresul adultului poate transmite stres. În co-parenting, asta contează exact în minutele de handover, când copilul citește din mers tonul, viteza și tensiunea dintre adulți. Uneori, înainte de orice explicație bună, copilul are nevoie să audă o voce care nu îl împinge mai sus în alertă.",
+    image: {
+      src: "/blog/handover-tone-cue.svg",
+      alt: "Doi părinți vorbind calm la predare, în timp ce copilul rămâne aproape și orientat",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-05-26",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce tonul schimbă scena atât de repede",
+        paragraphs: [
+          "La predare, copilul nu urmărește doar cuvintele. Urmărește ritmul, volumul, fețele și cât de încordat sună totul. Dacă vocea adultului vine deja cu grabă, iritare sau corectare, corpul copilului poate interpreta momentul ca pe un nou pericol, chiar și atunci când planul era clar.",
+          "Un ton calm nu rezolvă totul singur, dar reduce zgomotul din care copilul trebuie să înțeleagă ce urmează. Asta îi lasă mai mult loc pentru cooperare.",
+        ],
+      },
+      {
+        title: "Cum sună un ton care reglează, nu aprinde",
+        paragraphs: [
+          "Nu e vorba să vorbești artificial de dulce. E mai util să fii clar, scurt și așezat, ca și cum i-ai oferi copilului o balustradă, nu o alarmă.",
+        ],
+        bullets: [
+          "coboară puțin volumul înainte să dai instrucțiunea",
+          "spune o singură propoziție pe rând, nu trei lucruri simultan",
+          "lasă logistica dintre adulți pentru după ce copilul s-a mișcat deja în pasul următor",
+          "dacă simți că te-ai încărcat, fă o pauză de o respirație înainte să vorbești din nou",
+        ],
+      },
+      {
+        title: "Ce poți spune la ușă",
+        paragraphs: [
+          "Copilul nu are nevoie de un discurs lung. Are nevoie de câteva cuvinte care îi spun că adultul conduce momentul fără să-l escaladeze.",
+        ],
+        bullets: [
+          "„Te văd. O luăm încet și clar.”",
+          "„Mai întâi geaca, apoi mergem.”",
+          "„Sunt aici. Nu trebuie să faci totul dintr-odată.”",
+          "„Vorbitul îl ținem calm. Pasul următor este ușa.”",
+        ],
+      },
+      {
+        title: "Ce merită evitat între adulți",
+        paragraphs: [
+          "Uneori copilul se aprinde mai puțin din cauza schimbării de casă și mai mult din cauza felului în care schimbarea este livrată. Dacă tonul dintre adulți se întărește, copilul poate prelua tensiunea chiar fără să înțeleagă toate detaliile.",
+        ],
+        bullets: [
+          "nu transforma pragul în loc de clarificări vechi sau mici corecturi reciproce",
+          "nu ridica volumul ca să obții cooperare rapidă",
+          "nu amesteca reasigurarea copilului cu înțepături către celălalt părinte",
+          "nu interpreta imediat reacția copilului ca lipsă de respect",
+        ],
+      },
+    ],
+    takeaways: [
+      "În minutele de handover, copilul citește tonul înainte să proceseze explicația.",
+      "O voce mai joasă și mai clară poate coborî tensiunea mai repede decât o instrucțiune repetată.",
+      "Calmul adultului nu este decor; este parte din sprijinul concret oferit copilului.",
+    ],
+    sources: [
+      {
+        title: "What Is Co-Regulation?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/what-is-co-regulation/",
+        note: "Child Mind Institute explică faptul că stresul adultului poate amplifica stresul copilului, iar tonul calm și modelarea liniștii fac parte din co-reglare. Articolul a fost accesat la 26 mai 2026.",
+      },
+    ],
+    en: {
+      title: "At handover, your tone becomes the child’s cue",
+      summary:
+        "When the adult lowers their voice first, the child’s body has a better chance of coming out of alert without being pushed, rushed, or scolded.",
+      intro:
+        "Child Mind Institute explains co-regulation clearly: adult calm can transmit calm, and adult stress can transmit stress. In co-parenting, that matters exactly in the handover minutes, when the child is reading tone, speed, and tension between adults on the fly. Sometimes, before any good explanation, the child needs to hear a voice that does not push them further into alert.",
+      sections: [
+        {
+          title: "Why tone changes the scene so quickly",
+          paragraphs: [
+            "At handover, the child is not tracking only words. They are tracking rhythm, volume, faces, and how tense everything sounds. If the adult's voice already carries rush, irritation, or correction, the child's body can read the moment as fresh danger, even when the plan was clear.",
+            "A calm tone does not solve everything by itself, but it reduces the noise the child has to sort through to understand what comes next. That leaves more room for cooperation.",
+          ],
+        },
+        {
+          title: "What a regulating tone sounds like",
+          paragraphs: [
+            "This is not about sounding artificially sweet. It is more useful to be clear, short, and settled, as if you are offering the child a handrail, not an alarm.",
+          ],
+          bullets: [
+            "lower the volume a little before giving the instruction",
+            "say one sentence at a time instead of three things at once",
+            "leave adult logistics for after the child has already moved into the next step",
+            "if you feel yourself loading up, pause for one breath before speaking again",
+          ],
+        },
+        {
+          title: "What you can say at the door",
+          paragraphs: [
+            "The child does not need a long speech. They need a few words that show the adult is leading the moment without escalating it.",
+          ],
+          bullets: [
+            "\"I see you. We'll do this slowly and clearly.\"",
+            "\"First the coat, then we go.\"",
+            "\"I'm here. You do not have to do everything all at once.\"",
+            "\"We'll keep the talking calm. The next step is the door.\"",
+          ],
+        },
+        {
+          title: "What is worth avoiding between adults",
+          paragraphs: [
+            "Sometimes the child flares up less because of the home change itself and more because of how the change is delivered. If the tone between adults hardens, the child can absorb that tension even without understanding every detail.",
+          ],
+          bullets: [
+            "do not turn the doorway into a place for old clarifications or small mutual corrections",
+            "do not raise the volume to force faster cooperation",
+            "do not mix reassurance for the child with jabs at the other parent",
+            "do not immediately read the child's reaction as disrespect",
+          ],
+        },
+      ],
+      takeaways: [
+        "In handover minutes, the child reads tone before they process explanation.",
+        "A lower, clearer voice can reduce tension faster than a repeated instruction.",
+        "Adult calm is not decorative; it is part of the concrete support the child receives.",
+      ],
+    },
+  },
+  {
+    slug: "cand-copilul-se-blocheaza-coboara-la-nivelul-lui-inainte-sa-explici",
+    enSlug: "when-your-child-freezes-get-on-their-level-before-you-explain",
+    title: "Când copilul se blochează, coboară la nivelul lui înainte să explici",
+    summary:
+      "Într-un moment de blocaj sau plâns la tranziție, apropierea fizică și propoziția potrivită ajută adesea mai mult decât explicația spusă de sus și din grabă.",
+    intro:
+      "În recomandările despre co-reglare, Child Mind Institute insistă pe un gest simplu: apropie-te de nivelul copilului, privește-l în felul în care poate tolera și numește ce vezi cu un ton egal. În două case, asta este util exact când copilul cade pe podea, se agață de toc sau spune că nu pleacă nicăieri. Explicația corectă există, dar de multe ori intră abia după ce copilul simte că nu este abordat din poziție de presiune.",
+    image: {
+      src: "/blog/get-on-child-level-transition.svg",
+      alt: "Părinte aplecat la nivelul copilului într-un moment de blocaj la tranziție",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-05-26",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce explicația de sus nu ajunge unde trebuie",
+        paragraphs: [
+          "Când copilul este deja în alertă, corpul lui nu primește bine discursuri lungi, argumente sau corectări de la distanță. Poate auzi doar presiunea. Asta face ca și o explicație bună să sune ca încă o cerință.",
+          "Coborând la nivelul lui, schimbi mesajul de bază: nu vin peste tine, vin lângă tine. Asta nu elimină limita, dar face contactul posibil.",
+        ],
+      },
+      {
+        title: "Cum arată intervenția scurtă",
+        paragraphs: [
+          "Ținta nu este să îl convingi în zece secunde. Ținta este să micșorezi suficient intensitatea încât copilul să poată auzi următorul pas.",
+        ],
+        bullets: [
+          "apropie-te fizic fără să invadezi sau să tragi de copil",
+          "dacă suportă, stai aproape de nivelul ochilor lui; dacă nu, rămâi jos și ușor lateral",
+          "numește emoția sau starea pe care o vezi: speriat, furios, blocat, copleșit",
+          "abia apoi spune pasul următor, cât mai mic",
+        ],
+      },
+      {
+        title: "Formule care ajută mai mult",
+        paragraphs: [
+          "Când numești ce vezi, nu aprobi orice comportament. Îi arăți copilului că cineva a înțeles că momentul este greu, iar asta reduce nevoia de a demonstra și mai tare.",
+        ],
+        bullets: [
+          "„Pari foarte blocat acum.”",
+          "„Văd că e prea mult dintr-odată.”",
+          "„E greu să schimbi casa acum. Sunt aici.”",
+          "„Întâi ne ridicăm împreună, apoi vedem pasul următor.”",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Unele reacții cresc intensitatea fără să vrem, mai ales când adultul simte că trebuie să rezolve scena repede pentru că se uită și celălalt părinte sau pentru că există întârziere.",
+        ],
+        bullets: [
+          "nu explica lung din picioare, peste copil",
+          "nu cere contact vizual forțat dacă îl agită și mai tare",
+          "nu interpreta imediat că face teatru sau manipulare",
+          "nu sări direct la consecințe înainte să existe puțin contact",
+        ],
+      },
+    ],
+    takeaways: [
+      "În blocaj, apropierea fizică potrivită ajută adesea mai mult decât logica spusă de sus.",
+      "Numele emoției poate deschide uşa spre cooperare fără să slăbească limita.",
+      "Pasul următor intră mai bine după ce copilul simte că ai coborât lângă el, nu peste el.",
+    ],
+    sources: [
+      {
+        title: "What Is Co-Regulation?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/what-is-co-regulation/",
+        note: "Articolul recomandă, în momente de dereglare, apropierea de nivelul copilului, numirea emoției și folosirea unui ton calm înaintea oricărei corectări ample. Accesat la 26 mai 2026.",
+      },
+    ],
+    en: {
+      title: "When your child freezes, get on their level before you explain",
+      summary:
+        "In a transition meltdown or freeze, physical closeness and the right sentence often help more than an explanation delivered from above and in a rush.",
+      intro:
+        "In its co-regulation guidance, Child Mind Institute stresses a simple move: get on the child's level, make contact in the way they can tolerate, and name what you see in an even tone. In two-home life, that matters exactly when a child drops to the floor, clings to the doorway, or says they are not going anywhere. The correct explanation still exists, but it often only lands after the child feels they are not being approached from a position of pressure.",
+      sections: [
+        {
+          title: "Why an explanation from above does not land",
+          paragraphs: [
+            "When a child is already in alert, their body does not receive long speeches, arguments, or distance corrections very well. They may hear only pressure. That makes even a good explanation sound like one more demand.",
+            "By getting on their level, you change the basic message: I am not coming down on you, I am coming alongside you. That does not erase the limit, but it makes contact possible.",
+          ],
+        },
+        {
+          title: "What the short intervention looks like",
+          paragraphs: [
+            "The goal is not to convince the child in ten seconds. The goal is to lower the intensity enough that they can hear the next step.",
+          ],
+          bullets: [
+            "move physically closer without invading or pulling at the child",
+            "if they can tolerate it, stay near eye level; if not, stay low and slightly to the side",
+            "name the emotion or state you see: scared, angry, stuck, overwhelmed",
+            "only then say the next step, as small as possible",
+          ],
+        },
+        {
+          title: "Phrases that help more",
+          paragraphs: [
+            "When you name what you see, you are not approving every behavior. You are showing the child that someone understood the moment is hard, and that reduces the need to prove it even harder.",
+          ],
+          bullets: [
+            "\"You look really stuck right now.\"",
+            "\"I can see this is too much all at once.\"",
+            "\"It is hard to change homes right now. I'm here.\"",
+            "\"First we stand up together, then we look at the next step.\"",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Some reactions raise the intensity without meaning to, especially when the adult feels they must solve the scene quickly because the other parent is watching or because there is a delay.",
+          ],
+          bullets: [
+            "do not give a long explanation while standing over the child",
+            "do not force eye contact if it agitates them more",
+            "do not immediately assume it is drama or manipulation",
+            "do not jump straight to consequences before there is a little contact",
+          ],
+        },
+      ],
+      takeaways: [
+        "In a freeze, the right physical approach often helps more than logic delivered from above.",
+        "Naming the emotion can open the door to cooperation without weakening the limit.",
+        "The next step lands better after the child feels you came down beside them, not down on them.",
+      ],
+    },
+  },
+  {
+    slug: "daca-nu-vrea-sa-se-calmeze-cu-tine-incepe-tu-exercitiul",
+    enSlug: "if-they-wont-calm-with-you-start-the-exercise-yourself",
+    title: "Dacă nu vrea să se calmeze cu tine, începe tu exercițiul",
+    summary:
+      "Când copilul refuză respirația sau alt exercițiu de calmare, modelarea liniștită funcționează adesea mai bine decât insistarea să participe imediat.",
+    intro:
+      "Child Mind Institute spune ceva foarte folositor pentru scenele tensionate: dacă copilul nu vrea să facă exercițiul cu tine, fă-l tu. În loc să transformi calmarea într-o nouă cerință, îi arăți cum arată reglarea în timp real. În co-parenting, asta merge bine după preluare, în mașină înainte de plecare sau acasă, când copilul a trecut deja prin prea multe schimbări pentru a mai coopera la comandă.",
+    image: {
+      src: "/blog/model-calm-exercise.svg",
+      alt: "Părinte care modelează calm un exercițiu de respirație în timp ce copilul îl observă",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-05-26",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce insistența poate strica exact momentul",
+        paragraphs: [
+          "Când copilul este deja încordat, invitația bună poate suna ca ordin dacă o repeți de prea multe ori. Hai, respiră acum, calmează-te, fă exercițiul ajunge repede să însemne că trebuie să se regleze pe ritmul adultului, nu pe cât poate corpul lui în acel moment.",
+          "Modelarea schimbă logica. Nu-l obligi să intre imediat în exercițiu; îi arăți o ieșire posibilă din intensitate.",
+        ],
+      },
+      {
+        title: "Cum îl faci fără să pară tehnică de manual",
+        paragraphs: [
+          "Alege ceva foarte scurt și familiar. Important nu este să iasă perfect, ci să fie recognoscibil și suficient de simplu încât copilul să poată intra dacă vrea.",
+        ],
+        bullets: [
+          "spune pe scurt: „Eu fac două respirații, mă ajută să-mi cobor corpul.”",
+          "fă respirația lent, vizibil, fără să-l privești ca pe un test",
+          "poți adăuga un gest simplu: mâna pe piept, pe burtă sau o strângere ușoară a palmelor",
+          "dacă doar privește, lasă asta să fie suficient pentru moment",
+        ],
+      },
+      {
+        title: "Unde merge bine în viața dintre două case",
+        paragraphs: [
+          "Nu trebuie păstrat doar pentru crize mari. Cu cât exercițiul apare și în momente mici, cu atât copilul îl recunoaște mai ușor când tensiunea chiar urcă.",
+        ],
+        bullets: [
+          "în mașină, înainte să coborâți la handover",
+          "imediat după intrarea în casă, înainte de întrebări și corecturi",
+          "la culcare, ca parte din aceeași rutină în ambele case",
+          "înainte de un apel sau o discuție despre o schimbare care îl agită",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Exercițiul ajută mai mult când rămâne invitație și model, nu probă de cooperare.",
+        ],
+        bullets: [
+          "nu transforma respirația într-un test: vezi că poți dacă vrei",
+          "nu cere performanță sau număr perfect de respirații",
+          "nu continua la infinit dacă vezi că se irită și mai tare",
+          "nu folosi exercițiul ca să sari peste o limită care tot va trebui pusă după calmare",
+        ],
+      },
+    ],
+    takeaways: [
+      "Dacă copilul refuză exercițiul, modelarea calmă poate ține deschisă ușa fără luptă nouă.",
+      "Un exercițiu scurt și familiar are mai multe șanse să fie preluat decât o tehnică lungă explicată în criză.",
+      "Calmarea merge mai bine ca practică repetată decât ca ordin dat doar în vârful tensiunii.",
+    ],
+    sources: [
+      {
+        title: "What Is Co-Regulation?",
+        publisher: "Child Mind Institute",
+        url: "https://childmind.org/article/what-is-co-regulation/",
+        note: "Child Mind Institute recomandă ca adultul să ghideze un exercițiu de calmare și, dacă copilul refuză, să îl facă el însuși ca model de reglare. Articol accesat la 26 mai 2026.",
+      },
+    ],
+    en: {
+      title: "If they won’t calm with you, start the exercise yourself",
+      summary:
+        "When a child refuses breathing or another calming exercise, calm modeling often works better than insisting they join immediately.",
+      intro:
+        "Child Mind Institute offers something very useful for tense moments: if the child does not want to do the exercise with you, do it yourself. Instead of turning calming down into a fresh demand, you show what regulation looks like in real time. In co-parenting, this works well after pickup, in the car before a transition, or at home when the child has already moved through too many changes to cooperate on command.",
+      sections: [
+        {
+          title: "Why insisting can spoil the exact moment",
+          paragraphs: [
+            "When the child is already tense, even a good invitation can sound like an order if you repeat it too many times. Come on, breathe now, calm down, do the exercise quickly starts to mean they have to regulate on the adult's timing, not on what their body can manage in that moment.",
+            "Modeling changes the logic. You are not forcing them into the exercise right away; you are showing them a possible exit from the intensity.",
+          ],
+        },
+        {
+          title: "How to do it without sounding like a manual",
+          paragraphs: [
+            "Choose something very short and familiar. What matters is not perfection, but that it is recognisable and simple enough for the child to join if they want.",
+          ],
+          bullets: [
+            "say briefly: \"I'm doing two breaths, it helps my body come down.\"",
+            "do the breathing slowly and visibly, without looking at them like a test",
+            "you can add one simple gesture: a hand on the chest, on the belly, or a gentle hand squeeze",
+            "if they only watch, let that be enough for the moment",
+          ],
+        },
+        {
+          title: "Where it works well in two-home life",
+          paragraphs: [
+            "It does not have to be saved only for major crises. The more the exercise appears in small moments too, the easier it is for the child to recognise it when tension really rises.",
+          ],
+          bullets: [
+            "in the car, before you get out for handover",
+            "right after getting home, before questions and corrections",
+            "at bedtime, as part of the same routine in both homes",
+            "before a call or a conversation about a change that agitates them",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "The exercise helps more when it remains an invitation and a model, not a cooperation test.",
+          ],
+          bullets: [
+            "do not turn breathing into a test: see, you can do it if you want",
+            "do not demand performance or a perfect number of breaths",
+            "do not keep going forever if you see it is irritating them more",
+            "do not use the exercise to skip a limit that will still need to be set after calming",
+          ],
+        },
+      ],
+      takeaways: [
+        "If the child refuses the exercise, calm modeling can keep the door open without a new struggle.",
+        "A short, familiar exercise is more likely to be picked up than a long technique explained in crisis.",
+        "Calming works better as repeated practice than as an order used only at the peak of tension.",
+      ],
+    },
+  },
 ];
 
 function compareArticlesByDate(a: BlogArticle, b: BlogArticle) {
