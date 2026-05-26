@@ -6,6 +6,7 @@ import type { BlogArticleWithCategory, BlogCategoryWithTranslation } from "@/con
 import { BlogArticleCard } from "./BlogArticleCard";
 import { articleSlugForLang } from "@/content/blog";
 import { inter } from "@/lib/i18n/interpolate";
+import type { BlogSeoLink } from "@/lib/blog-seo-links";
 
 interface Props {
   articles: BlogArticleWithCategory[];
@@ -14,6 +15,7 @@ interface Props {
   categories: BlogCategoryWithTranslation[];
   currentPage: number;
   totalPages: number;
+  seoLinks: BlogSeoLink[];
 }
 
 export function BlogIndexContent({
@@ -23,6 +25,7 @@ export function BlogIndexContent({
   categories,
   currentPage,
   totalPages,
+  seoLinks,
 }: Props) {
   const { lang, t } = useLanguage();
   const bl = t.blog;
@@ -125,7 +128,7 @@ export function BlogIndexContent({
       </section>
 
       {/* Recent */}
-      <section className="px-4 pb-20 sm:px-6">
+      <section className="px-4 pb-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -188,6 +191,36 @@ export function BlogIndexContent({
           ) : null}
         </div>
       </section>
+
+      {/* Cross-links to SEO landing pages */}
+      {seoLinks.length > 0 && (
+        <section className="px-4 pb-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
+                {isEn ? "Explore" : "Explorează"}
+              </p>
+              <h2 className="landing-display mt-2 text-3xl text-stone-900">
+                {isEn ? "Guides & tools" : "Ghiduri și instrumente"}
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {seoLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex flex-col gap-2 rounded-[1.75rem] border border-[#ead9c8] bg-white/80 p-5 shadow-[0_8px_24px_rgba(28,25,23,0.05)] transition hover:-translate-y-0.5 hover:border-[#d4b99c] hover:shadow-[0_12px_32px_rgba(28,25,23,0.08)] backdrop-blur"
+                >
+                  <span className="text-sm font-bold text-stone-900 group-hover:text-[#1f3a36]">
+                    {link.label} →
+                  </span>
+                  <span className="text-sm leading-6 text-stone-600">{link.description}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

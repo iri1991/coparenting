@@ -12,6 +12,7 @@ import { BlogShell } from "@/components/blog/BlogShell";
 import { BlogCategoryContent } from "@/components/blog/BlogCategoryContent";
 import { brandName, ogImage, siteUrl } from "@/lib/seo";
 import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
+import { getSeoLinksForCategory } from "@/lib/blog-seo-links";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -40,8 +41,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   return {
     title: `${titleBase} | Blog`,
     description,
+    keywords: isEn
+      ? [titleBase, "co-parenting", "parenting after separation", "HomeSplit blog"]
+      : [titleBase, "co-parenting", "separare", "blog HomeSplit", "doi părinți"],
+    robots: { index: true, follow: true },
     alternates: {
-      canonical: pathname,
+      canonical: `${siteUrl}${canonicalPath}`,
       languages: {
         ro: `${siteUrl}${canonicalPath}`,
         en: `${siteUrl}/en${canonicalPath}`,
@@ -75,26 +80,52 @@ export default async function BlogCategoryPage({ params }: CategoryPageProps) {
   const articlesRo = getArticlesForCategory(category.slug, "ro");
   const categoriesWithTranslation = getBlogCategoriesWithTranslation();
   const categoryWithTranslation = categoriesWithTranslation.find((c) => c.slug === category.slug) ?? category;
+  const seoLinks = getSeoLinksForCategory(category.slug);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: `${category.title} | ${brandName}`,
-    url: `${siteUrl}/blog/categorie/${category.slug}`,
-    description: category.description,
-    inLanguage: ["ro-RO", "en"],
-    hasPart: articlesRo.map((article) => ({
-      "@type": "BlogPosting",
-      headline: article.title,
-      url: `${siteUrl}/blog/${article.slug}`,
-      datePublished: article.publishedAt,
-    })),
-  };
+  const categoryUrl = `${siteUrl}/blog/categorie/${category.slug}`;
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "HomeSplit", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
+        { "@type": "ListItem", position: 3, name: category.title, item: categoryUrl },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": `${categoryUrl}#collection`,
+      name: `${category.title} | ${brandName}`,
+      url: categoryUrl,
+      description: category.description,
+      inLanguage: ["ro-RO", "en"],
+      publisher: {
+        "@type": "Organization",
+        name: brandName,
+        url: siteUrl,
+        logo: { "@type": "ImageObject", url: `${siteUrl}${ogImage}` },
+      },
+      hasPart: articlesRo.map((article) => ({
+        "@type": "BlogPosting",
+        headline: article.title,
+        url: `${siteUrl}/blog/${article.slug}`,
+        datePublished: article.publishedAt,
+        description: article.summary,
+      })),
+    },
+  ];
 
   return (
     <BlogShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <BlogCategoryContent category={categoryWithTranslation} articles={articlesRo} />
+      <BlogCategoryContent
+        category={categoryWithTranslation}
+        articles={articlesRo}
+        seoLinks={seoLinks}
+      />
     </BlogShell>
   );
 }

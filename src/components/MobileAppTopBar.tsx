@@ -20,7 +20,7 @@ function getTitle(pathname: string): { title: string; subtitle: string } {
 
 export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }: MobileAppTopBarProps) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = pathname === "/app";
   const [collapsed, setCollapsed] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
@@ -95,7 +95,7 @@ export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }
               lockButton ?? <div className="h-11 w-11" />
             ) : (
               <Link
-                href="/"
+                href="/app"
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700 shadow-[0_12px_28px_rgba(28,25,23,0.08)] backdrop-blur touch-manipulation"
                 aria-label="Înapoi acasă"
               >

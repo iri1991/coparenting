@@ -1,212 +1,74 @@
+/**
+ * / — public marketing homepage.
+ *
+ * Fully prerendered at build time (SSG ○).
+ * No auth check, no DB access, no dynamic imports.
+ *
+ * Authenticated users are redirected here → /app by the middleware.
+ * CTAs in LandingPage point to /register and /login as before.
+ */
 import type { Metadata } from "next";
-import { auth } from "@/lib/auth";
-import { getDb } from "@/lib/mongodb";
-import { getActiveFamily } from "@/lib/family";
-import { redirect } from "next/navigation";
-import { ObjectId } from "mongodb";
-import { LoggedInLayout } from "@/components/LoggedInLayout";
-import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
+import { LandingPage } from "@/components/landing/LandingPage";
 import {
   brandName,
   defaultDescription,
   defaultDescriptionEn,
   defaultTitle,
   defaultTitleEn,
+  geoSummary,
+  geoSummaryEn,
   keywords,
   keywordsEn,
   ogImage,
   siteUrl,
 } from "@/lib/seo";
-import { getSharePathMeta, ogPublicUrl } from "@/lib/share-meta";
 
-function deriveFromType(
-  type: string
-): { parent: ParentType; location: LocationType } {
-  switch (type) {
-    case "tunari":
-      return { parent: "tata", location: "tunari" };
-    case "otopeni":
-      return { parent: "mama", location: "otopeni" };
-    case "together":
-      return { parent: "together", location: "other" };
-    default:
-      return { parent: "tata", location: "other" };
-  }
-}
+// Force static prerendering — no dynamic server-side work at all.
+export const dynamic = "force-static";
 
-function toEvent(doc: {
-  _id: unknown;
-  date: string;
-  type?: string | null;
-  parent?: string | null;
-  location?: string | null;
-  locationLabel?: string | null;
-  title?: string | null;
-  notes?: string | null;
-  startTime?: string | null;
-  endTime?: string | null;
-  created_by: string | null;
-  created_at: Date;
-}): ScheduleEvent {
-  const hasNew = doc.parent != null && doc.location != null;
-  const parent = (hasNew ? doc.parent : deriveFromType(doc.type ?? "other").parent) as ParentType;
-  const location = (hasNew ? doc.location : deriveFromType(doc.type ?? "other").location) as LocationType;
-  return {
-    id: String(doc._id),
-    date: doc.date,
-    parent,
-    location,
-    locationLabel: doc.locationLabel ?? undefined,
-    title: doc.title ?? undefined,
-    notes: doc.notes ?? undefined,
-    startTime: doc.startTime ?? undefined,
-    endTime: doc.endTime ?? undefined,
-    created_by: doc.created_by ?? "",
-    created_at: doc.created_at.toISOString(),
-  };
-}
-
-const HOME_TABS = new Set(["program", "rutine", "hub", "idei"]);
-
-export async function generateMetadata(): Promise<Metadata> {
-  const { pathname, lang } = await getSharePathMeta();
-  const isEn = lang === "en";
-  const title = isEn ? defaultTitleEn : defaultTitle;
-  const description = isEn ? defaultDescriptionEn : defaultDescription;
-  const ogUrl = ogPublicUrl(siteUrl, pathname);
-
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: pathname,
-      languages: {
-        ro: `${siteUrl}/`,
-        en: `${siteUrl}/en`,
-        "x-default": `${siteUrl}/`,
+export const metadata: Metadata = {
+  title: defaultTitle,
+  description: defaultDescription,
+  alternates: {
+    canonical: siteUrl,
+    languages: {
+      ro: `${siteUrl}/`,
+      en: `${siteUrl}/en`,
+      "x-default": `${siteUrl}/`,
+    },
+  },
+  keywords: [...keywords, ...keywordsEn],
+  openGraph: {
+    type: "website",
+    locale: "ro_RO",
+    alternateLocale: ["en_US"],
+    url: siteUrl,
+    siteName: brandName,
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [
+      {
+        url: ogImage,
+        width: 512,
+        height: 512,
+        alt: "HomeSplit — calendar familie și activități copil",
       },
-    },
-    keywords: [...keywords, ...keywordsEn],
-    openGraph: {
-      type: "website",
-      locale: isEn ? "en_US" : "ro_RO",
-      alternateLocale: isEn ? ["ro_RO"] : ["en_US"],
-      url: ogUrl,
-      siteName: brandName,
-      title,
-      description,
-      images: [
-        {
-          url: ogImage,
-          width: 512,
-          height: 512,
-          alt: isEn
-            ? "HomeSplit — family calendar and child activities"
-            : "HomeSplit — calendar familie și activități copil",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
-}
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitleEn,
+    description: defaultDescriptionEn,
+    images: [ogImage],
+  },
+  robots: { index: true, follow: true },
+  other: {
+    // GEO / AI-readable summary sentences injected into <head>
+    "geo:description": geoSummary.join(" "),
+    "geo:description:en": geoSummaryEn.join(" "),
+  },
+};
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ plan?: string; add?: string; blocked?: string; tab?: string; date?: string }>;
-}) {
-  const session = await auth();
-  const params = await searchParams;
-  const planParam = params?.plan;
-  const openAddModal = params?.add === "1";
-  const openBlockedModal = params?.blocked === "1";
-  const tabParam = params?.tab;
-  const initialDashboardTab =
-    typeof tabParam === "string" && HOME_TABS.has(tabParam)
-      ? (tabParam as "program" | "rutine" | "hub" | "idei")
-      : undefined;
-  const dateParam = params?.date;
-  const initialCalendarDate =
-    typeof dateParam === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateParam) ? dateParam : undefined;
-
-  if (!session?.user?.id) {
-    const { LandingPage: Landing } = await import("@/components/landing/LandingPage");
-    return <Landing />;
-  }
-
-  if (!session.user.familyId) {
-    redirect(planParam ? `/setup?plan=${planParam}` : "/setup");
-  }
-
-  const db = await getDb();
-  const familyId = new ObjectId(session.user.familyId);
-  const family = await getActiveFamily(db, familyId);
-  if (!family) {
-    redirect("/family-deactivated");
-  }
-  const [children, residences, eventDocs, userDoc] = await Promise.all([
-    db.collection("children").find({ familyId }).sort({ createdAt: 1 }).toArray(),
-    db.collection("residences").find({ familyId }).sort({ order: 1, createdAt: 1 }).toArray(),
-    db.collection("schedule_events").find({ familyId }).sort({ date: 1 }).toArray(),
-    db.collection("users").findOne(
-      { _id: new ObjectId(session.user.id) },
-      { projection: { chatLastReadAt: 1 } }
-    ),
-  ]);
-
-  const hasChildren = (children as unknown[]).length > 0;
-  const hasResidences = (residences as unknown[]).length > 0;
-  if (!hasChildren || !hasResidences) {
-    redirect(planParam ? `/config?plan=${planParam}` : "/config");
-  }
-
-  const chatLastReadAt = (userDoc as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
-  const chatUnreadFilter: { familyId: ObjectId; createdAt?: { $gt: Date } } = { familyId };
-  if (chatLastReadAt) chatUnreadFilter.createdAt = { $gt: chatLastReadAt };
-  const chatUnreadCount = await db.collection("messages").countDocuments(chatUnreadFilter);
-
-  const events: ScheduleEvent[] = (eventDocs as Parameters<typeof toEvent>[0][]).map((d) => toEvent(d));
-  const familyData = family as { parent1Name?: string; parent2Name?: string; plan?: string; activityCity?: string };
-  const parent1Name = familyData.parent1Name?.trim() || "Părinte 1";
-  const parent2Name = familyData.parent2Name?.trim() || "Părinte 2";
-  const activityCity = familyData.activityCity?.trim();
-  const firstChild = children[0] as unknown as { _id: { toString(): string }; name: string } | undefined;
-  const childName = firstChild?.name || "copilul";
-  const childId = firstChild?._id?.toString() ?? "";
-  const plan = familyData.plan === "pro" || familyData.plan === "family" ? familyData.plan : "free";
-
-  const pendingPlan = planParam === "pro" || planParam === "family" ? planParam : undefined;
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900 flex flex-col">
-      <LoggedInLayout
-        initialEvents={events}
-        currentUserId={session.user.id}
-        plan={plan}
-        pendingPlan={pendingPlan}
-        openAddModalOnMount={openAddModal}
-        openBlockedModalOnMount={openBlockedModal}
-        userName={
-          session.user.name?.trim() ||
-          (session.user.email ? session.user.email.split("@")[0] : null) ||
-          "acolo"
-        }
-        parent1Name={parent1Name}
-        parent2Name={parent2Name}
-        childName={childName}
-        childId={childId}
-        residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
-        initialUnreadCount={chatUnreadCount}
-        isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
-        activityCity={activityCity}
-        initialDashboardTab={initialDashboardTab}
-        initialCalendarDate={initialCalendarDate}
-      />
-    </div>
-  );
+export default function HomePage() {
+  return <LandingPage />;
 }

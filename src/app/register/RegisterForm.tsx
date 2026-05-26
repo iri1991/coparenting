@@ -20,7 +20,7 @@ export function RegisterForm() {
   const planParam = searchParams.get("plan");
   const planQuery =
     planParam === "pro" || planParam === "family" ? `?plan=${encodeURIComponent(planParam)}` : "";
-  const redirectAfterLogin = planParam === "pro" || planParam === "family" ? `/?plan=${planParam}` : "/";
+  const redirectAfterLogin = planParam === "pro" || planParam === "family" ? `/app?plan=${planParam}` : "/app";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

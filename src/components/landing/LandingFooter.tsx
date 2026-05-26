@@ -17,6 +17,26 @@ export function LandingFooter() {
       { label: fl.pricing, href: "/#preturi" },
       { label: fl.faq, href: "/#intrebari" },
     ],
+    coparenting: [
+      { label: "Co-parenting", href: "/co-parenting" },
+      { label: "Calendar copil", href: "/calendar-copil" },
+      { label: "Program copil", href: "/program-copil" },
+      { label: "Custodie comună", href: "/custodie-comuna" },
+      { label: "Activitățile copilului", href: "/activitati-copil" },
+      { label: "Vacanțe și program", href: "/vacante-si-program" },
+      { label: "Zile indisponibile", href: "/zile-blocate" },
+      { label: "Documente copil", href: "/documente-copil" },
+      { label: "Aplicație co-parenting", href: "/aplicatie-co-parenting" },
+      { label: "Părinți separați", href: "/pentru-parinti-separati" },
+    ],
+    companie: [
+      { label: "Despre HomeSplit", href: "/despre" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Descarcă", href: "/download" },
+      { label: fl.terms, href: "/terms" },
+      { label: fl.privacy, href: "/privacy" },
+      { label: fl.cookies, href: "/cookies" },
+    ],
     legal: [
       { label: fl.terms, href: "/terms" },
       { label: fl.privacy, href: "/privacy" },
@@ -25,6 +45,7 @@ export function LandingFooter() {
     contact: [
       { label: fl.support, href: "mailto:me@irinelnicoara.ro" },
       { label: fl.contactLabel, href: "mailto:me@irinelnicoara.ro" },
+      { label: "Contact", href: "/contact" },
     ],
   };
 
@@ -59,9 +80,9 @@ export function LandingFooter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.legal}</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Co-parenting</h4>
               <ul className="mt-4 space-y-3">
-                {footerLinks.legal.map((link) => (
+                {footerLinks.coparenting.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
@@ -78,6 +99,16 @@ export function LandingFooter() {
                     <a href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
                     </a>
+                  </li>
+                ))}
+              </ul>
+              <h4 className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.legal}</h4>
+              <ul className="mt-4 space-y-3">
+                {footerLinks.companie.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
