@@ -1,0 +1,18 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#F5F1E8"/>
+  <rect x="70" y="70" width="1060" height="580" rx="42" fill="#FFFCF6"/>
+  <rect x="116" y="126" width="968" height="468" rx="34" fill="#DDEAE4"/>
+  <circle cx="356" cy="282" r="58" fill="#C98A63"/>
+  <rect x="294" y="342" width="124" height="154" rx="28" fill="#416B63"/>
+  <circle cx="850" cy="274" r="56" fill="#F1B48D"/>
+  <rect x="792" y="334" width="116" height="148" rx="28" fill="#B57955"/>
+  <circle cx="606" cy="386" r="44" fill="#F2C887"/>
+  <rect x="560" y="428" width="92" height="110" rx="22" fill="#6F8FA8"/>
+  <path d="M430 378C486 354 530 352 562 394" stroke="#416B63" stroke-width="16" stroke-linecap="round"/>
+  <path d="M788 380C736 356 694 356 650 394" stroke="#B57955" stroke-width="16" stroke-linecap="round"/>
+  <rect x="452" y="188" width="308" height="118" rx="26" fill="#FFF9EF"/>
+  <rect x="484" y="222" width="244" height="16" rx="8" fill="#D8C4AA"/>
+  <rect x="484" y="252" width="196" height="16" rx="8" fill="#D8C4AA"/>
+  <rect x="170" y="510" width="860" height="54" rx="24" fill="#FFF5E8"/>
+  <text x="240" y="546" fill="#725C47" font-family="Arial, sans-serif" font-size="34" font-weight="700">copilul rămâne persoană, nu logistică</text>
+</svg>

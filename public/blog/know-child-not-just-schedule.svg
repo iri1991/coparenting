@@ -1,0 +1,24 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#FCF5ED"/>
+  <rect x="68" y="68" width="1064" height="584" rx="44" fill="#FFFDF9"/>
+  <rect x="110" y="122" width="980" height="476" rx="36" fill="#F1E1CC"/>
+  <rect x="176" y="170" width="272" height="188" rx="26" fill="#FFFFFF"/>
+  <rect x="204" y="208" width="216" height="20" rx="10" fill="#D5E6F7"/>
+  <rect x="204" y="246" width="164" height="20" rx="10" fill="#D5E6F7"/>
+  <rect x="204" y="284" width="196" height="20" rx="10" fill="#D5E6F7"/>
+  <rect x="610" y="184" width="316" height="180" rx="28" fill="#E5F0EA"/>
+  <circle cx="708" cy="274" r="54" fill="#F1B48D"/>
+  <circle cx="834" cy="262" r="64" fill="#D79B74"/>
+  <rect x="656" y="324" width="108" height="126" rx="26" fill="#6A8D7A"/>
+  <rect x="784" y="324" width="118" height="136" rx="26" fill="#C97F55"/>
+  <path d="M768 364C784 348 800 342 816 342" stroke="#7B5E45" stroke-width="16" stroke-linecap="round"/>
+  <rect x="236" y="430" width="720" height="118" rx="28" fill="#FFF8EE"/>
+  <circle cx="314" cy="490" r="34" fill="#F6D46A"/>
+  <circle cx="468" cy="490" r="34" fill="#C9B4EA"/>
+  <circle cx="622" cy="490" r="34" fill="#8CC7E8"/>
+  <circle cx="776" cy="490" r="34" fill="#F29AA0"/>
+  <path d="M314 490L468 490L622 490L776 490" stroke="#B89D7C" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 22"/>
+  <rect x="896" y="452" width="32" height="32" rx="16" fill="#6A8D7A"/>
+  <rect x="182" y="384" width="222" height="44" rx="20" fill="#FFFDF9"/>
+  <text x="202" y="414" fill="#6F5A45" font-family="Arial, sans-serif" font-size="28" font-weight="700">mai mult decât programul</text>
+</svg>

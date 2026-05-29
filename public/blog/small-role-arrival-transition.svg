@@ -1,0 +1,23 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#F7F3EA"/>
+  <rect x="72" y="72" width="1056" height="576" rx="40" fill="#FFFDF8"/>
+  <rect x="120" y="124" width="960" height="472" rx="32" fill="#E8F1EC"/>
+  <rect x="120" y="452" width="960" height="144" rx="0" fill="#D8C3A5"/>
+  <rect x="700" y="282" width="210" height="170" rx="20" fill="#F6E6C8"/>
+  <rect x="736" y="314" width="140" height="18" rx="9" fill="#D89D44"/>
+  <rect x="736" y="348" width="110" height="18" rx="9" fill="#D89D44"/>
+  <rect x="736" y="382" width="150" height="18" rx="9" fill="#D89D44"/>
+  <circle cx="390" cy="284" r="58" fill="#F0B48F"/>
+  <rect x="330" y="344" width="120" height="138" rx="28" fill="#5B8E7D"/>
+  <rect x="310" y="390" width="72" height="30" rx="15" fill="#5B8E7D"/>
+  <rect x="398" y="390" width="86" height="30" rx="15" fill="#5B8E7D"/>
+  <rect x="474" y="430" width="188" height="18" rx="9" fill="#8A5B33"/>
+  <rect x="650" y="422" width="110" height="72" rx="16" fill="#F9F4E8"/>
+  <rect x="684" y="398" width="44" height="42" rx="12" fill="#F0B48F"/>
+  <path d="M544 432C579 418 610 406 650 422" stroke="#5B8E7D" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="818" cy="206" r="40" fill="#F4DCC2"/>
+  <path d="M802 206H834" stroke="#7B5E45" stroke-width="10" stroke-linecap="round"/>
+  <path d="M818 190V222" stroke="#7B5E45" stroke-width="10" stroke-linecap="round"/>
+  <rect x="170" y="152" width="208" height="84" rx="20" fill="#FFF7E8"/>
+  <text x="194" y="205" fill="#6F5A45" font-family="Arial, sans-serif" font-size="34" font-weight="700">pas de sosire</text>
+</svg>

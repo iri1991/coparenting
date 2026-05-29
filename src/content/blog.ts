@@ -107,6 +107,445 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "un-rol-mic-la-sosire-poate-linisti-tranzitia",
+    enSlug: "a-small-role-on-arrival-can-soothe-the-transition",
+    title: "Un rol mic la sosire poate liniști tranziția",
+    summary:
+      "După o schimbare între case, un pas mic și util îl poate ajuta pe copil să intre în noul ritm fără să simtă că este doar mutat dintr-un loc în altul.",
+    intro:
+      "Harvard Center on the Developing Child include un lucru foarte practic în ideea de mattering: copiii simt mai ușor că aparțin când nu sunt doar îngrijiți, ci și chemați să contribuie în mod real, pe măsura lor. În co-parenting, asta poate ajuta mai ales la sosire. O sarcină mică și previzibilă nu transformă copilul în adult și nu rezolvă singură tensiunea, dar îi poate da repede semnalul că are un loc activ în casă, nu doar un traseu de urmat.",
+    image: {
+      src: "/blog/small-role-arrival-transition.svg",
+      alt: "Copil care ajută la așezarea unei căni pe masă după sosirea într-una dintre case",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-05-29",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce ajută un rol mic exact la sosire",
+        paragraphs: [
+          "După o mutare între case, mulți copii intră pentru câteva minute într-un fel de zonă de trecere: nu sunt nici complet relaxați, nici gata de întrebări, reguli sau viteză. Harvard descrie mattering prin două ingrediente: copilul să se simtă valorizat și să simtă că poate adăuga ceva bun în jurul lui.",
+          "Un rol mic la sosire leagă aceste două părți. Copilul nu primește doar instrucțiuni, ci și un semn concret că prezența lui contează aici și acum.",
+        ],
+      },
+      {
+        title: "Ce fel de sarcini merg bine",
+        paragraphs: [
+          "Sarcina bună este clară, scurtă și suficient de ușoară încât să nu deschidă imediat un nou front de luptă. Nu căutăm performanță, ci intrare în ritmul casei.",
+        ],
+        bullets: [
+          "să pună șervețelele sau lingurile la masă",
+          "să așeze sticla de apă la locul ei",
+          "să pună pantofii în același loc de fiecare dată",
+          "să ducă o carte, un hanorac sau ursulețul în colțul lui obișnuit",
+        ],
+      },
+      {
+        title: "Cum îl oferi fără ton de comandă",
+        paragraphs: [
+          "Ajută să sune ca o invitație stabilă, nu ca un test lansat exact când copilul abia a intrat pe ușă. Formula simplă și repetabilă merge mai bine decât improvizația iritată.",
+        ],
+        bullets: [
+          "„Când ajungem, tu pui șervețelele, iar eu aduc apa.”",
+          "„Primul tău pas aici este să pui ghiozdanul pe bancă.”",
+          "„Vrei azi lingurile sau cănile?”",
+          "„Facem pasul nostru de sosire și apoi stăm puțin.”",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Ideea nu este să umpli imediat copilul cu responsabilitate sau să transformi contribuția într-o dovadă de bună-purtare.",
+        ],
+        bullets: [
+          "nu da o sarcină prea mare exact când copilul este obosit sau încărcat",
+          "nu folosi rolul mic ca morală: dacă tot vii aici, măcar fă ceva util",
+          "nu retrage brusc ritualul doar pentru că azi copilul a protestat",
+          "nu cere perfecțiune; important este pasul de intrare, nu execuția impecabilă",
+        ],
+      },
+      {
+        title: "Semnul că începe să ajute",
+        paragraphs: [
+          "Copilul intră puțin mai repede în ritm, știe ce are de făcut în primele minute și are mai puțină nevoie să se agațe doar prin opoziție sau amânare. Nu pentru că l-ai ocupat, ci pentru că i-ai dat un loc recognoscibil în momentul de trecere.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un rol mic și previzibil la sosire poate face tranziția mai puțin abruptă.",
+      "Contribuția contează mai mult când este scurtă, realistă și stabilă.",
+      "Scopul este apartenența, nu performanța sau controlul.",
+    ],
+    sources: [
+      {
+        title: "11 Ways To Help Young Children Develop a Strong Sense of Mattering",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/ways-to-help-children-develop-sense-of-mattering/",
+        note: "Harvard recomandă să încurajăm contribuțiile mici, adecvate vârstei, și arată că acestea pot susține sentimentul copilului că este important și util. Pagina indică publicarea la 26 martie 2026.",
+      },
+      {
+        title: "Mattering in Early Childhood: Building a Strong Foundation for Life",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/working-paper/mattering-in-early-childhood/",
+        note: "Working paper-ul explică faptul că mattering include atât a te simți valorizat, cât și a simți că poți adăuga valoare, inclusiv prin responsabilități mici și reale. Pagina indică publicarea la 3 noiembrie 2025.",
+      },
+    ],
+    en: {
+      title: "A small role on arrival can soothe the transition",
+      summary:
+        "After a move between homes, one small useful step can help a child enter the new rhythm without feeling they are only being moved from one place to another.",
+      intro:
+        "Harvard Center on the Developing Child includes something very practical in the idea of mattering: children more easily feel they belong when they are not only cared for, but also invited to contribute in real, age-appropriate ways. In co-parenting, this can help especially on arrival. A small predictable task does not turn the child into an adult and does not solve tension by itself, but it can quickly signal that they have an active place in the home, not just a route to follow.",
+      sections: [
+        {
+          title: "Why a small role helps right on arrival",
+          paragraphs: [
+            "After moving between homes, many children spend a few minutes in a transition zone: they are neither fully relaxed nor ready for questions, rules or speed. Harvard describes mattering through two ingredients: the child feels valued and feels able to add something good around them.",
+            "A small arrival role connects those two parts. The child does not only receive instructions, but also a concrete sign that their presence matters here and now.",
+          ],
+        },
+        {
+          title: "What kinds of tasks work well",
+          paragraphs: [
+            "A useful task is clear, short and easy enough that it does not immediately open a new struggle. We are not looking for performance, but for an entry into the rhythm of the home.",
+          ],
+          bullets: [
+            "put the napkins or spoons on the table",
+            "place their water bottle where it belongs",
+            "put their shoes in the same spot each time",
+            "carry a book, hoodie or teddy to their usual corner",
+          ],
+        },
+        {
+          title: "How to offer it without a command tone",
+          paragraphs: [
+            "It helps when it sounds like a stable invitation, not a test launched the second the child comes through the door. A simple repeatable line works better than irritated improvisation.",
+          ],
+          bullets: [
+            "\"When we get in, you put the napkins down and I bring the water.\"",
+            "\"Your first step here is putting your school bag on the bench.\"",
+            "\"Do you want the spoons or the cups today?\"",
+            "\"We do our arrival step and then we rest a little.\"",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "The point is not to load the child with responsibility right away or turn contribution into proof of good behaviour.",
+          ],
+          bullets: [
+            "do not give a task that is too big when the child is tired or overloaded",
+            "do not use the role as a lecture: if you're here, at least be useful",
+            "do not abruptly remove the ritual just because the child protested today",
+            "do not demand perfection; the point is the entry step, not flawless execution",
+          ],
+        },
+        {
+          title: "The sign it is starting to help",
+          paragraphs: [
+            "The child enters the rhythm a little faster, knows what comes in the first minutes and needs less to hold on through opposition or delay alone. Not because you kept them busy, but because you gave them a recognisable place in the moment of change.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A small predictable role on arrival can make the transition less abrupt.",
+        "Contribution matters most when it is short, realistic and stable.",
+        "The goal is belonging, not performance or control.",
+      ],
+    },
+  },
+  {
+    slug: "cunoaste-copilul-nu-doar-programul-lui",
+    enSlug: "know-the-child-not-just-the-schedule",
+    title: "Cunoaște copilul, nu doar programul lui",
+    summary:
+      "În familiile cu două case, logistica poate ocupa tot spațiul; copilul are însă nevoie să simtă că părintele îi vede și interesele, nu doar traseul.",
+    intro:
+      "Harvard recomandă simplu: observă ce îl aprinde pe copil, pune întrebări și ascultă. Pentru un părinte care jonglează handover-uri, teme, ore și schimbări, asta poate suna aproape prea mic ca să conteze. Dar tocmai aici e miza. Un copil poate avea programul foarte bine coordonat și totuși să simtă că adulții îi gestionează viața mai mult decât îl cunosc cu adevărat.",
+    image: {
+      src: "/blog/know-child-not-just-schedule.svg",
+      alt: "Părinte care ascultă copilul vorbind despre interesul lui preferat lângă un calendar discret în fundal",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-05-29",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Cum se pierde copilul în spatele logisticii",
+        paragraphs: [
+          "În co-parenting, multe conversații sunt inevitabil despre cine ia, cine duce, ce se mută, ce se schimbă și ce trebuie confirmat. Toate acestea sunt importante. Problema apare când copilul aude mult despre programul lui și prea puțin despre ce îl bucură, îl preocupă sau îl face curios.",
+          "Harvard leagă mattering de experiența de a fi văzut pentru cine ești. Asta înseamnă că relația nu se hrănește doar din organizare bună, ci și din interes real pentru lumea copilului.",
+        ],
+      },
+      {
+        title: "Întrebările mici care spun te văd",
+        paragraphs: [
+          "Nu este nevoie de interviuri lungi. Întrebarea bună este specifică și are loc pentru răspuns, nu doar pentru verificare.",
+        ],
+        bullets: [
+          "„Care parte din desenul ăsta îți place cel mai mult?”",
+          "„La ce te-ai gândit azi de mai multe ori?”",
+          "„Ce personaj, joc sau melodie îți ocupă mintea în perioada asta?”",
+          "„Ce ai vrea să-mi arăți din lumea ta, nu din programul tău?”",
+        ],
+      },
+      {
+        title: "Cum ții firul între două case",
+        paragraphs: [
+          "Interesul nu trebuie reluat de la zero la fiecare preluare. Ajută să păstrezi mici fire de continuitate: aceeași carte începută, aceeași colecție, aceeași poveste despre ce construiește sau ce învață.",
+          "Asta nu înseamnă să ceri raport despre cealaltă casă. Înseamnă doar să îți amintești cine este copilul și dincolo de programul care îl poartă între două locuri.",
+        ],
+        bullets: [
+          "lasă la vedere un proiect început împreună ca să poată reintra ușor în el",
+          "notează-ți mental sau într-un loc discret interesul care revine des",
+          "reia cu o propoziție scurtă: data trecută îmi spuneai de planeta cu inele",
+          "arată că ai ținut minte, fără să transformi totul în performanță",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Când întrebările despre interesele copilului devin încă o metodă de control sau de comparație, ele își pierd exact rolul de conectare.",
+        ],
+        bullets: [
+          "nu deturna discuția spre verificări despre ce s-a întâmplat în cealaltă casă",
+          "nu ironiza interesul doar pentru că ți se pare repetitiv sau minor",
+          "nu întrerupe repede cu varianta adultului mai utilă",
+          "nu pune întrebări doar ca preludiu pentru o corectură",
+        ],
+      },
+      {
+        title: "Semnul că relația capătă mai multă adâncime",
+        paragraphs: [
+          "Copilul începe să aducă singur bucăți din lumea lui: îți arată, îți povestește, revine la un subiect sau te caută nu doar pentru ajutor practic, ci și pentru a împărți ceva important pentru el. Acolo se vede că nu e doar coordonat, ci și cunoscut.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Logistica bună nu înlocuiește nevoia copilului de a fi cunoscut ca persoană.",
+      "Întrebările mici și specifice pot deschide mai mult decât o verificare lungă.",
+      "În două case, continuitatea intereselor poate fi o formă puternică de conectare.",
+    ],
+    sources: [
+      {
+        title: "11 Ways To Help Young Children Develop a Strong Sense of Mattering",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/ways-to-help-children-develop-sense-of-mattering/",
+        note: "Harvard recomandă explicit să observăm ce îl entuziasmează pe copil, să punem întrebări și să ascultăm, pentru ca el să se simtă văzut și valorizat pentru cine este. Pagina indică publicarea la 26 martie 2026.",
+      },
+      {
+        title: "Mattering in Early Childhood: Building a Strong Foundation for Life",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/working-paper/mattering-in-early-childhood/",
+        note: "Working paper-ul explică diferența dintre simpla apartenență și sentimentul mai profund că prezența și contribuțiile tale chiar contează. Pagina indică publicarea la 3 noiembrie 2025.",
+      },
+    ],
+    en: {
+      title: "Know the child, not just the schedule",
+      summary:
+        "In two-home families, logistics can take up all the space, but the child still needs to feel that the parent sees their interests, not only their route.",
+      intro:
+        "Harvard offers a simple recommendation: notice what lights the child up, ask questions, and listen. For a parent juggling handovers, homework, timings and changes, that can sound almost too small to matter. But this is exactly the point. A child can have a very well coordinated schedule and still feel that the adults are managing their life more than truly knowing them.",
+      sections: [
+        {
+          title: "How the child gets lost behind the logistics",
+          paragraphs: [
+            "In co-parenting, many conversations are inevitably about who picks up, who drops off, what moves, what changes and what needs confirming. All of that matters. The problem starts when the child hears a lot about their schedule and very little about what delights them, worries them or makes them curious.",
+            "Harvard links mattering to the experience of being seen for who you are. That means a relationship is not fed only by good organisation, but also by real interest in the child's world.",
+          ],
+        },
+        {
+          title: "Small questions that say I see you",
+          paragraphs: [
+            "You do not need long interviews. A useful question is specific and leaves room for an answer, not only for checking.",
+          ],
+          bullets: [
+            "\"Which part of this drawing do you like most?\"",
+            "\"What did you think about more than once today?\"",
+            "\"What character, game or song is taking up space in your mind lately?\"",
+            "\"What would you like to show me from your world, not from your schedule?\"",
+          ],
+        },
+        {
+          title: "How to keep the thread across two homes",
+          paragraphs: [
+            "Interest does not need to restart from zero at every pickup. It helps to keep small threads of continuity: the same book you started, the same collection, the same story about what they are building or learning.",
+            "That does not mean asking for a report about the other home. It only means remembering who the child is beyond the schedule carrying them between two places.",
+          ],
+          bullets: [
+            "keep a shared project visible so they can re-enter it easily",
+            "make a quiet mental note of the interest that keeps returning",
+            "reopen with a short line: last time you were telling me about the planet with rings",
+            "show that you remembered, without turning it into performance",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "When questions about the child's interests become another method of control or comparison, they lose their connection value.",
+          ],
+          bullets: [
+            "do not redirect the conversation into checks about what happened at the other home",
+            "do not mock the interest just because it seems repetitive or small to you",
+            "do not cut in too quickly with the more useful adult version",
+            "do not ask questions only as a lead-in to correction",
+          ],
+        },
+        {
+          title: "The sign the relationship is gaining depth",
+          paragraphs: [
+            "The child starts bringing pieces of their world on their own: they show you things, tell you stories, return to a topic, or come to you not only for practical help but also to share something important to them. That is where you see they are not only coordinated, but known.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Good logistics do not replace a child's need to be known as a person.",
+        "Small specific questions can open more than a long check-in.",
+        "Across two homes, continuity around interests can be a powerful form of connection.",
+      ],
+    },
+  },
+  {
+    slug: "nu-vorbiti-despre-copil-ca-despre-un-dosar",
+    enSlug: "dont-talk-about-your-child-like-a-case-file",
+    title: "Nu vorbiți despre copil ca despre un dosar",
+    summary:
+      "În co-parenting, copilul simte repede când adulții vorbesc despre el doar ca despre program, problemă sau logistică; folosirea numelui și a unui ton de grijă schimbă mult.",
+    intro:
+      "Harvard avertizează să fim atenți la mesajele care îl pot face pe copil să se simtă invizibil sau nedorit și recomandă, în lucrul cu familiile, să tratăm fiecare persoană ca individ, folosindu-i numele și răspunzând cu grijă. În viața dintre două case, acest lucru devine foarte concret. Uneori adulții vorbesc peste copil chiar lângă el: despre program, comportament, costuri, oboseală, întârzieri sau \"cum e\" el. Nu orice coordonare în fața copilului este dăunătoare, dar tonul și felul în care îl păstrezi prezent ca persoană contează mult.",
+    image: {
+      src: "/blog/not-a-case-file-child.svg",
+      alt: "Doi adulți discută calm, iar copilul este inclus vizual și numit cu grijă, nu tratat ca un obiect al discuției",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-05-29",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Cum apare invizibilitatea în conversațiile adulte",
+        paragraphs: [
+          "Se întâmplă ușor: „iar face scene la schimb”, „nu mănâncă nimic”, „vezi că trebuie dus acolo”, „spune-i tu că iar a fost greu”. Chiar și când intenția este practică, copilul poate auzi că se vorbește despre el ca despre o problemă de mutat, reparat sau gestionat.",
+          "Harvard numește asta o zonă de anti-mattering: mesaje care îl pot face pe copil să simtă că nu contează ca persoană întreagă. Mai ales în perioade sensibile, merită să fim atenți nu doar la ce spunem, ci și la felul în care îl lăsăm prezent în conversație.",
+        ],
+      },
+      {
+        title: "Ce schimbă imediat tonul",
+        paragraphs: [
+          "Nu este nevoie de discursuri lungi. Contează gesturile mici prin care copilul rămâne cineva, nu ceva.",
+        ],
+        bullets: [
+          "folosiți numele copilului în loc de formule reci precum bagajul, schimbul sau cazul",
+          "spuneți propozițiile logistice pe scurt și fără etichete despre caracterul lui",
+          "dacă discuția devine mai delicată, mutați-o în alt moment sau în alt canal",
+          "când este potrivit, arătați-i copilului că ați ținut cont și de perspectiva lui",
+        ],
+      },
+      {
+        title: "Cum coordonezi fără să-l transformi în subiect pasiv",
+        paragraphs: [
+          "Uneori copilul trebuie să audă planul: cine îl ia, unde merge, ce urmează. Asta poate fi liniștitor. Diferența este între a-l informa și a vorbi despre el ca și cum n-ar fi acolo.",
+          "O formulă bună sună mai aproape de: „Mara merge azi direct la dans, apoi o iau eu la 6.” O formulă mai grea sună ca: „Ai grijă de ea că iar se dereglează dacă schimbăm.” Prima coordonează. A doua îl reduce pe copil la o dificultate.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Dacă un schimb logistic devine teren de etichetare sau comentariu despre defectele copilului, conversația nu mai este doar practică.",
+        ],
+        bullets: [
+          "nu vorbi despre copil la persoana a treia când este la un pas de voi și poate auzi tot",
+          "nu face rezumatul lui în termeni de problemă: e dificil, e sensibil, e obositor, iarăși face",
+          "nu amesteca coordonarea cu reproșuri între adulți",
+          "nu cere copilului să stea prezent la discuții prea tensionate doar pentru că sunt convenabile logistic",
+        ],
+      },
+      {
+        title: "Semnul că abordarea protejează relația",
+        paragraphs: [
+          "Copilul nu se mai întărește atât de mult exact în momentele de coordonare, tolerează mai bine să audă planul și pare mai puțin defensiv când adulții discută în preajma lui. Asta nu vine din perfecțiune, ci din faptul că a rămas tratat ca persoană, nu ca dosar.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Copilul simte repede dacă este tratat ca persoană sau ca problemă logistică.",
+      "Folosirea numelui și mutarea discuțiilor sensibile în alt spațiu pot schimba mult tonul.",
+      "Coordonarea practică ajută mai mult când nu îl face pe copil invizibil.",
+    ],
+    sources: [
+      {
+        title: "11 Ways To Help Young Children Develop a Strong Sense of Mattering",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/handouts-tools/ways-to-help-children-develop-sense-of-mattering/",
+        note: "Harvard recomandă să fim atenți la mesajele care îi fac pe copii să se simtă invizibili sau nedoriți și, în relația cu familiile, să folosim numele fiecărei persoane și să răspundem cu grijă. Pagina indică publicarea la 26 martie 2026.",
+      },
+      {
+        title: "Mattering in Early Childhood: Building a Strong Foundation for Life",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/working-paper/mattering-in-early-childhood/",
+        note: "Working paper-ul arată că micii copii simt că contează când adulții îi ascultă, îi recunosc și creează contexte în care se simt incluși și importanți. Pagina indică publicarea la 3 noiembrie 2025.",
+      },
+    ],
+    en: {
+      title: "Don't talk about your child like a case file",
+      summary:
+        "In co-parenting, children quickly feel when adults talk about them only as schedule, problem or logistics; using their name and a caring tone changes a lot.",
+      intro:
+        "Harvard warns us to watch for messages that can make a child feel invisible or unwanted and recommends, in work with families, treating each person as an individual, using their name and responding with care. In two-home life, this becomes very concrete. Adults sometimes talk over the child while the child is right there: about schedule, behaviour, costs, tiredness, delays or what the child is like. Not every piece of coordination in front of the child is harmful, but the tone and the way you keep the child present as a person matter a lot.",
+      sections: [
+        {
+          title: "How invisibility appears in adult conversations",
+          paragraphs: [
+            "It happens easily: another scene at the switch, they are eating nothing again, make sure they get there, you tell them it was hard again. Even when the intention is practical, the child can hear that people are talking about them as something to move, fix or manage.",
+            "Harvard frames this as an anti-mattering zone: messages that can make a child feel they do not count as a whole person. Especially in sensitive periods, it is worth noticing not only what we say, but how we let the child remain present in the conversation.",
+          ],
+        },
+        {
+          title: "What immediately changes the tone",
+          paragraphs: [
+            "You do not need long speeches. Small gestures matter through which the child remains someone, not something.",
+          ],
+          bullets: [
+            "use the child's name instead of cold shorthand such as the handover, the switch or the case",
+            "keep logistical sentences brief and free of labels about the child's character",
+            "if the discussion gets more delicate, move it to another moment or channel",
+            "when appropriate, show the child that you took their perspective into account too",
+          ],
+        },
+        {
+          title: "How to coordinate without turning them into a passive subject",
+          paragraphs: [
+            "Sometimes the child does need to hear the plan: who is picking up, where they are going, what comes next. That can be soothing. The difference is between informing them and talking about them as if they were not there.",
+            "A better line sounds closer to: Mara goes straight to dance today, then I pick her up at six. A heavier one sounds like: watch her because she gets dysregulated again if we change things. The first coordinates. The second reduces the child to a difficulty.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "If a logistical exchange becomes a space for labeling or commentary on the child's flaws, the conversation is no longer merely practical.",
+          ],
+          bullets: [
+            "do not talk about the child in the third person when they are one step away and can hear everything",
+            "do not summarise the child as a problem: difficult, sensitive, exhausting, here we go again",
+            "do not mix coordination with adult reproaches",
+            "do not keep the child present for very tense conversations just because it is logistically convenient",
+          ],
+        },
+        {
+          title: "The sign this protects the relationship",
+          paragraphs: [
+            "The child stops hardening quite so much in moments of coordination, tolerates hearing the plan more easily and seems less defensive when adults talk nearby. That does not come from perfection, but from still being treated as a person, not a file.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Children quickly feel whether they are being treated as a person or as a logistics problem.",
+        "Using their name and moving sensitive discussions elsewhere can change the tone a lot.",
+        "Practical coordination helps more when it does not make the child invisible.",
+      ],
+    },
+  },
+  {
     slug: "cu-un-copil-mai-mare-vorbele-ies-mai-usor-umar-la-umar",
     enSlug: "with-an-older-child-words-come-easier-side-by-side",
     title: "Cu un copil mai mare, vorbele ies mai ușor umăr la umăr",
