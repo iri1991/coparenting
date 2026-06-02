@@ -107,6 +107,423 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "nu-i-cere-copilului-sa-aleaga-intre-voi-nici-in-lucrurile-mici",
+    enSlug: "dont-ask-your-child-to-choose-between-you-even-in-small-things",
+    title: "Nu-i cere copilului să aleagă între voi nici în lucrurile mici",
+    summary:
+      "În familiile cu două case, multe întrebări par inofensive, dar pot apăsa pe exact locul sensibil unde copilul simte că trebuie să împace două loialități.",
+    intro:
+      "Raising Children Network spune limpede că nu este în regulă să îi lăsăm pe copii cu impresia că trebuie să ia deciziile mari între părinți. HealthyChildren merge în aceeași direcție: copiii se adaptează mai bine după separare când ambii părinți rămân implicați pozitiv și nu îi pun în mijlocul tensiunii. În viața de zi cu zi, presiunea nu apare doar în întrebările dramatice. Apare și în lucrurile mici, repetate, care îl fac pe copil să simtă că trebuie să aleagă cui îi face pe plac.",
+    image: {
+      src: "/blog/no-choice-between-parents.svg",
+      alt: "Copil aflat între două spații familiale, în timp ce adulții păstrează clar deciziile mari la nivel de adult",
+    },
+    categorySlug: "emotii-si-siguranta",
+    publishedAt: "2026-06-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Cum arată presiunea în forme mici",
+        paragraphs: [
+          "Uneori nu întrebi direct cu cine vrei să stai. Întrebi care casă îi place mai mult, unde vrea să petreacă ziua specială, cu cine vrea să vorbească primul sau la cine i-a fost mai bine. Pentru adult, poate suna ca interes sau apropiere. Pentru copil, toate acestea se pot strânge în același nod: dacă spun un lucru, pe cine rănesc?",
+          "Mai ales după un handover sau după o perioadă încărcată, copilul are nevoie mai degrabă de cadre clare decât de micro-voturi emoționale. Nu fiindcă părerea lui nu contează, ci fiindcă nu este treaba lui să țină în echilibru relația dintre adulți.",
+        ],
+      },
+      {
+        title: "Ce întrebări ajută fără să îl pună la mijloc",
+        paragraphs: [
+          "Copilul poate fi consultat în legătură cu experiența lui, fără să fie transformat în arbitru. Întrebarea bună caută informație despre nevoi, nu verdict despre părinți.",
+        ],
+        bullets: [
+          "„Ce parte din schimbarea de azi a fost mai grea pentru tine?”",
+          "„Ce te-ar ajuta data viitoare să fie mai ușor?”",
+          "„Preferi să facem întâi gustarea sau puțin timp liniștit?”",
+          "„Ce vrei să ținem la fel în ambele case pentru ziua asta?”",
+        ],
+      },
+      {
+        title: "Cum ții deciziile mari la nivel de adult",
+        paragraphs: [
+          "Copiii au nevoie să fie auziți, dar nu să poarte greutatea alegerii finale între doi adulți importanți. Poți spune simplu că voi doi vă ocupați de partea mare, iar el sau ea vă poate spune ce se simte greu, obositor sau liniștitor.",
+          "Această diferență contează mult. Când copilul simte că nu trebuie să salveze emoțiile nimănui, are mai mult spațiu să spună ce trăiește cu adevărat.",
+        ],
+        bullets: [
+          "spune clar: „Noi ne ocupăm de partea de program”",
+          "cere feedback despre ritm, nu despre tabere",
+          "dacă apare o întrebare sensibilă, mut-o în conversația adult-adult",
+          "amintește-i că este în regulă să iubească și să se simtă bine cu amândoi",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Presiunea loialității crește exact când copilul simte că răspunsul lui va fi folosit emoțional de unul dintre părinți.",
+        ],
+        bullets: [
+          "nu cere comparații între case ca formă de reasigurare pentru tine",
+          "nu folosi copilul ca martor pentru cine are dreptate",
+          "nu pune întrebări care sună ca un vot: cu cine vrei, unde e mai bine, pe cine alegi",
+          "nu transforma preferințele mici în concluzii mari despre relație",
+        ],
+      },
+      {
+        title: "Semnul că presiunea scade",
+        paragraphs: [
+          "Copilul începe să spună mai ușor ce i-a fost greu fără să se apere sau să îți spună imediat ce crede că vrei să auzi. Acolo se vede că nu mai pășește pe ouă între voi, ci are un pic mai mult loc să fie pur și simplu copil.",
+        ],
+      },
+    ],
+    takeaways: [
+      "A fi consultat nu este același lucru cu a fi pus să aleagă între părinți.",
+      "Întrebările despre nevoi și ritm ajută mai mult decât comparațiile între case.",
+      "Deciziile mari rămân mai sigure când stau clar la nivel de adult.",
+    ],
+    sources: [
+      {
+        title: "Two homes after separation or divorce: helping children and teenagers adjust",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Raising Children Network recomandă să îi reasigurăm pe copii că nu este treaba lor să ia deciziile mari între părinți și să le validăm dificultatea fără să îi punem la mijloc. Pagina a fost accesată pentru această cercetare la 2 iunie 2026.",
+      },
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org (American Academy of Pediatrics)",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "HealthyChildren arată că adaptarea copilului merge mai bine când ambii părinți rămân implicați pozitiv, reduc conflictul și nu îl împing pe copil în tensiunea dintre ei. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+    ],
+    en: {
+      title: "Don't ask your child to choose between you, even in small things",
+      summary:
+        "In two-home families, many questions look harmless but still press on the exact sore spot where a child feels they must balance two loyalties.",
+      intro:
+        "Raising Children Network is clear that children should not be left feeling that they must make the big decisions between their parents. HealthyChildren points the same way: children adjust better after separation when both parents stay positively involved and do not pull them into adult tension. In daily life, pressure does not appear only in dramatic questions. It also appears in the small repeated ones that make the child feel they must decide whose feelings to protect.",
+      sections: [
+        {
+          title: "What pressure looks like in small forms",
+          paragraphs: [
+            "Sometimes you do not ask directly who they want to be with. You ask which home they like better, where they want to spend a special day, who they want to call first, or where things felt better. To the adult this can sound like interest or closeness. To the child, all of it can gather into the same knot: if I say one thing, who do I hurt?",
+            "Especially after a handover or a loaded week, the child needs clearer frames more than emotional micro-votes. Not because their view does not matter, but because it is not their job to keep the adults' relationship balanced.",
+          ],
+        },
+        {
+          title: "What questions help without putting them in the middle",
+          paragraphs: [
+            "A child can be consulted about their experience without being turned into an umpire. A useful question looks for needs, not a verdict about parents.",
+          ],
+          bullets: [
+            "\"What part of today's switch felt hardest for you?\"",
+            "\"What would help next time feel easier?\"",
+            "\"Do you want a snack first or a little quiet time?\"",
+            "\"What should we keep the same in both homes for this day?\"",
+          ],
+        },
+        {
+          title: "How to keep big decisions at the adult level",
+          paragraphs: [
+            "Children need to be heard, but not to carry the weight of the final decision between two important adults. You can say simply that the two of you will handle the scheduling part, and the child can tell you what feels hard, tiring, or calming.",
+            "That difference matters a lot. When the child feels they do not have to protect anyone's emotions, they have more room to tell you what they are actually living.",
+          ],
+          bullets: [
+            "say clearly: \"We handle the schedule part\"",
+            "ask for feedback about rhythm, not about sides",
+            "if a question is sensitive, move it into the adult-to-adult conversation",
+            "remind them it is okay to love and enjoy both parents",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Loyalty pressure rises exactly when the child senses that their answer will be used emotionally by one parent.",
+          ],
+          bullets: [
+            "do not ask for comparisons between homes to reassure yourself",
+            "do not use the child as proof of who is right",
+            "do not ask questions that sound like a vote: who do you want, where is it better, who do you choose",
+            "do not turn small preferences into big conclusions about the relationship",
+          ],
+        },
+        {
+          title: "The sign the pressure is easing",
+          paragraphs: [
+            "The child starts telling you more easily what felt hard without getting defensive or immediately saying what they think you want to hear. That is where you see they are not tiptoeing between you quite so much, and they have a little more room to simply be a child.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Being consulted is not the same as being asked to choose between parents.",
+        "Questions about needs and rhythm help more than comparisons between homes.",
+        "Big decisions stay safer when they clearly remain at the adult level.",
+      ],
+    },
+  },
+  {
+    slug: "un-loc-al-lui-in-fiecare-casa-il-ajuta-sa-nu-se-simta-in-vizita",
+    enSlug: "a-place-of-their-own-in-each-home-helps-a-child-not-feel-like-a-visitor",
+    title: "Un loc al lui în fiecare casă îl ajută să nu se simtă în vizită",
+    summary:
+      "În viața dintre două case, copilul se așază mai ușor când nu vine doar cu bagajul, ci găsește și un colț recognoscibil care îi spune că aparține acolo.",
+    intro:
+      "Raising Children Network recomandă un lucru foarte concret după separare: copilul să aibă un loc al lui și spațiu pentru lucruri în fiecare casă, chiar dacă nu are propria cameră. Ideea pare mică, dar pentru un copil face diferența dintre a ajunge undeva și a aparține undeva. Când există mereu doar senzația de tranșeu logistic, fiecare sosire poate semăna prea mult cu o vizită. Un colț recognoscibil, stabil și al lui reduce din această senzație.",
+    image: {
+      src: "/blog/place-in-each-home.svg",
+      alt: "Două spații de casă diferite în care copilul are un loc clar pentru lucrurile lui",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-06-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează mai mult decât pare",
+        paragraphs: [
+          "Copiii nu citesc apartenența doar din cuvinte. O citesc și din detalii: unde își pun hanoracul, unde stă ursulețul, unde găsesc pijamaua, unde pot lăsa un desen neterminat. Când toate acestea lipsesc, corpul copilului poate rămâne în modul de oaspete care nu se instalează cu adevărat.",
+          "Nu este nevoie de mobilier nou sau de o cameră separată. Contează mai mult constanța: același sertar, aceeași cutie, același cârlig, aceeași pătură sau același raft pe care copilul îl recunoaște imediat.",
+        ],
+      },
+      {
+        title: "Cum poate arăta practic un loc al lui",
+        paragraphs: [
+          "Raising Children spune că spațiul poate fi creat și creativ, nu doar printr-un dormitor dedicat. Important este să fie clar că acel loc nu trebuie recâștigat la fiecare venire.",
+        ],
+        bullets: [
+          "un sertar sau o cutie doar pentru lucrurile lui",
+          "un cârlig la intrare pentru ghiozdan sau geacă",
+          "un raft mic pentru două-trei obiecte familiare",
+          "un colț cu beanbag, cartea preferată sau o pătură care revine de fiecare dată",
+        ],
+      },
+      {
+        title: "Ce ajută în plus între două case",
+        paragraphs: [
+          "Trecerea e mai ușoară când nu tot ce contează trebuie mutat fizic la fiecare schimb. Dacă poți, ține de bază în ambele case haine esențiale, pijamale, produse de igienă și unul-două obiecte de confort.",
+          "Asta nu înseamnă să interzici obiectele-punte. Din contră, un ursuleț sau o pătură specială poate circula. Dar cu cât mai multe lucruri de bază rămân deja așezate, cu atât mai puțin intră copilul în stresul de tip am uitat ceva important.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Când spațiul copilului este mereu provizoriu, negociat sau criticat, mesajul de apartenență slăbește repede.",
+        ],
+        bullets: [
+          "nu muta constant locul lucrurilor lui fără motiv clar",
+          "nu trata sertarul sau colțul lui ca pe un favor temporar",
+          "nu condiționa accesul la obiectele de bază de comportamentul din ziua respectivă",
+          "nu lăsa întreaga tranziție să depindă de geanta adusă la perfecție de fiecare dată",
+        ],
+      },
+      {
+        title: "Semnul că începe să se simtă mai așezat",
+        paragraphs: [
+          "Copilul intră mai repede în casă, știe unde merge cu lucrurile lui și are mai puțină energie consumată pe orientare și căutare. Nu pentru că decorul rezolvă totul, ci pentru că spațiul îi spune mai repede: aici este și locul tău.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Un loc clar și stabil în fiecare casă poate reduce senzația de vizită permanentă.",
+      "Apartenența se transmite și prin detalii foarte concrete, nu doar prin vorbe.",
+      "Obiectele de bază păstrate în ambele case scad stresul inutil dintre handover-uri.",
+    ],
+    sources: [
+      {
+        title: "Two homes after separation or divorce: helping children and teenagers adjust",
+        publisher: "Raising Children Network",
+        url: "https://raisingchildren.net.au/grown-ups/family-diversity/parenting-after-separation-divorce/helping-children-adjust-two-homes",
+        note: "Raising Children Network recomandă un spațiu al copilului în fiecare casă și sugerează păstrarea obiectelor esențiale în ambele locuri, pentru a susține siguranța și tranzițiile mai line. Pagina a fost accesată pentru această cercetare la 2 iunie 2026.",
+      },
+    ],
+    en: {
+      title: "A place of their own in each home helps a child not feel like a visitor",
+      summary:
+        "In two-home life, a child settles more easily when they do not arrive only with a bag, but also find a recognisable corner that tells them they belong there.",
+      intro:
+        "Raising Children Network recommends something very concrete after separation: the child should have a place of their own and space for their things in each home, even without having their own room. It sounds small, but for a child it can mark the difference between arriving somewhere and belonging somewhere. When life feels only like logistics, every arrival can start to feel too much like a visit. One stable recognisable corner can soften that.",
+      sections: [
+        {
+          title: "Why it matters more than it seems",
+          paragraphs: [
+            "Children do not read belonging only from words. They also read it from details: where they put their hoodie, where the teddy goes, where the pyjamas are, where they can leave an unfinished drawing. When these details are missing, the child's body can stay in visitor mode instead of settling in.",
+            "You do not need new furniture or a separate bedroom. Constancy matters more: the same drawer, the same box, the same hook, the same blanket, or the same shelf that the child recognises right away.",
+          ],
+        },
+        {
+          title: "What a place of their own can look like",
+          paragraphs: [
+            "Raising Children says this space can be created creatively, not only through a dedicated bedroom. What matters is that the child does not have to earn that place back on every arrival.",
+          ],
+          bullets: [
+            "a drawer or box just for their things",
+            "a hook by the door for the school bag or coat",
+            "a small shelf for two or three familiar objects",
+            "a corner with a beanbag, favourite book, or blanket that returns each time",
+          ],
+        },
+        {
+          title: "What else helps across two homes",
+          paragraphs: [
+            "Transitions are easier when not everything important has to move physically at every switch. If you can, keep the basics in both homes: essential clothes, pyjamas, toiletries, and one or two comfort items.",
+            "That does not mean banning bridge objects. On the contrary, a teddy or special blanket can travel. But the more basics are already in place, the less the child enters the stress of I forgot something important.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "When the child's space is always provisional, negotiated, or criticised, the belonging message weakens quickly.",
+          ],
+          bullets: [
+            "do not keep moving their things around without a clear reason",
+            "do not treat their drawer or corner like a temporary favour",
+            "do not tie access to basic items to that day's behaviour",
+            "do not let the whole transition depend on a perfectly packed bag every single time",
+          ],
+        },
+        {
+          title: "The sign they are starting to feel more settled",
+          paragraphs: [
+            "The child comes into the home more easily, knows where to go with their things, and uses less energy on orientation and searching. Not because décor solves everything, but because the space tells them faster: this is your place too.",
+          ],
+        },
+      ],
+      takeaways: [
+        "A clear stable place in each home can reduce the feeling of being a permanent visitor.",
+        "Belonging is communicated through very concrete details, not only through words.",
+        "Keeping essentials in both homes lowers avoidable stress between handovers.",
+      ],
+    },
+  },
+  {
+    slug: "nu-submina-regula-celuilalt-parinte-in-fata-copilului",
+    enSlug: "dont-undermine-the-other-parents-rule-in-front-of-your-child",
+    title: "Nu submina regula celuilalt părinte în fața copilului",
+    summary:
+      "Când copilul îl aude pe un părinte anulându-l pe celălalt, câștigul de moment poate părea mic și dulce, dar costul de siguranță și claritate este mare.",
+    intro:
+      "HealthyChildren, pe baza recomandărilor AAP, spune direct că este important ca părinții să susțină, nu să submineze, autoritatea parentală a celuilalt. În co-parenting, asta nu înseamnă că trebuie să fiți identici sau că nu există dezacorduri reale. Înseamnă că nu transformați copilul în publicul acestor dezacorduri și nu îi cereți să se orienteze printre reguli concurente doar ca să vă simțiți voi validați.",
+    image: {
+      src: "/blog/dont-undermine-other-parent-rule.svg",
+      alt: "Doi părinți transmit un cadru clar copilului fără a se contrazice în fața lui",
+    },
+    categorySlug: "coparenting",
+    publishedAt: "2026-06-02",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Ce se întâmplă când îi faci loc copilului între două autorități",
+        paragraphs: [
+          "Poate suna tentant să spui pe loc: la mine ai voie, tata exagerează, mama iar face reguli fără sens. Pe termen scurt, copilul poate părea că se apropie de tine. Pe termen lung, însă, mesajul devine greu de dus: una dintre figurile mele de sprijin o invalidează pe cealaltă.",
+          "În loc de siguranță, copilul primește confuzie. În loc de limită clară, primește teren pentru negociere anxioasă, testare și loialități amestecate.",
+        ],
+      },
+      {
+        title: "Cum poți răspunde fără să-l contrazici pe celălalt în fața copilului",
+        paragraphs: [
+          "Nu este nevoie să aprobi orice regulă în orice formă. Dar ajută să ții cadrul copilului stabil în acel moment și să lași ajustarea pentru conversația adult-adult.",
+        ],
+        bullets: [
+          "„Știu că nu-ți place regula asta. Vorbesc eu cu mama/tata despre ea, nu tu.”",
+          "„În casa lui/ei aceasta este regula; aici o respectăm fără să facem scandal din ea.”",
+          "„Dacă trebuie schimbat ceva, discutăm noi doi ca adulți.”",
+          "„Poți să-mi spui ce ți se pare greu, dar nu te pun să alegi cine are dreptate.”",
+        ],
+      },
+      {
+        title: "Unde se poartă dezacordul real",
+        paragraphs: [
+          "Dacă o regulă este nerealistă, nepotrivită vârstei sau imposibil de susținut, asta merită discutat. Dar canalul potrivit nu este copilul. HealthyChildren subliniază că o abordare stabilă și consecventă este protectoare, iar copilul face mai bine față când granițele nu variază haotic între case.",
+          "Nu veți obține mereu reguli identice. Dar puteți evita să vă anulați reciproc exact în fața copilului.",
+        ],
+      },
+      {
+        title: "Ce merită evitat",
+        paragraphs: [
+          "Subminarea nu arată doar ca o ceartă mare. Uneori vine în glume, ironii sau excepții acordate demonstrativ.",
+        ],
+        bullets: [
+          "nu spune „la mine nu există prostia asta de regulă”",
+          "nu cere copilului să-ți spună dacă celălalt părinte a aplicat regula corect",
+          "nu oferi pe loc excepția doar ca să pari părintele mai bun",
+          "nu transforma frustrarea adultă într-o alianță cu copilul împotriva celuilalt",
+        ],
+      },
+      {
+        title: "Semnul că abordarea protejează copilul",
+        paragraphs: [
+          "Copilul are mai puțină nevoie să testeze cine cedează primul, vine cu mai puține mesaje de tip dar acolo am voie și pare mai puțin prins între roluri. Asta nu vine din rigiditate, ci din faptul că adulții țin conflictul de autoritate departe de umerii lui.",
+        ],
+      },
+    ],
+    takeaways: [
+      "A susține autoritatea celuilalt părinte nu înseamnă acord total, ci protejarea copilului de duelul adult.",
+      "Dezacordurile reale se discută adult-adult, nu prin copil și nu în fața lui.",
+      "Claritatea dintre case îl ajută pe copil să se simtă mai sigur și mai puțin împărțit.",
+    ],
+    sources: [
+      {
+        title: "How to Support Children after Their Parents Separate or Divorce",
+        publisher: "HealthyChildren.org (American Academy of Pediatrics)",
+        url: "https://www.healthychildren.org/English/healthy-living/emotional-wellness/Building-Resilience/Pages/How-to-Support-Children-after-Parents-Separate-or-Divorce.aspx",
+        note: "HealthyChildren recomandă explicit ca părinții să susțină, nu să submineze, autoritatea parentală a celuilalt și arată că regulile stabile și consecvente sunt protectoare pentru copil după separare. Pagina indică ultima actualizare la 29 septembrie 2020.",
+      },
+    ],
+    en: {
+      title: "Don't undermine the other parent's rule in front of your child",
+      summary:
+        "When a child hears one parent cancel out the other, the short-term win can feel sweet, but the cost to security and clarity is high.",
+      intro:
+        "HealthyChildren, drawing on AAP guidance, says plainly that parents should support rather than undermine each other's parental authority. In co-parenting, that does not mean you must be identical or that real disagreements do not exist. It means you do not turn the child into the audience for those disagreements, and you do not ask them to navigate competing rules just so that you can feel validated.",
+      sections: [
+        {
+          title: "What happens when the child is placed between two authorities",
+          paragraphs: [
+            "It can feel tempting to say in the moment: at my place you're allowed, dad is overreacting, mum is making pointless rules again. In the short term, the child may seem to move closer to you. In the longer term, the message becomes heavy: one of my support figures is invalidating the other.",
+            "Instead of security, the child gets confusion. Instead of a clear limit, they get ground for anxious negotiation, testing, and mixed loyalties.",
+          ],
+        },
+        {
+          title: "How to answer without contradicting the other parent in front of the child",
+          paragraphs: [
+            "You do not need to approve every rule in every form. But it helps to keep the child's frame stable in that moment and leave the adjustment for the adult-to-adult conversation.",
+          ],
+          bullets: [
+            "\"I know you don't like this rule. I'll talk with mum/dad about it, not you.\"",
+            "\"At their home this is the rule; we respect it here without turning it into a fight.\"",
+            "\"If something needs changing, we discuss it as adults.\"",
+            "\"You can tell me what feels hard, but I won't ask you to decide who is right.\"",
+          ],
+        },
+        {
+          title: "Where real disagreement belongs",
+          paragraphs: [
+            "If a rule is unrealistic, not age-appropriate, or impossible to sustain, that does deserve discussion. But the right channel is not the child. HealthyChildren stresses that a stable and consistent approach is protective, and children cope better when boundaries do not swing chaotically between homes.",
+            "You will not always end up with identical rules. But you can still avoid cancelling each other out in front of the child.",
+          ],
+        },
+        {
+          title: "What is worth avoiding",
+          paragraphs: [
+            "Undermining does not show up only as a big fight. Sometimes it comes through jokes, sarcasm, or demonstrative exceptions.",
+          ],
+          bullets: [
+            "do not say at my place we don't have this stupid rule",
+            "do not ask the child to report whether the other parent enforced the rule correctly",
+            "do not offer the exception on the spot just to look like the better parent",
+            "do not turn adult frustration into an alliance with the child against the other parent",
+          ],
+        },
+        {
+          title: "The sign this protects the child",
+          paragraphs: [
+            "The child needs less to test who gives in first, brings fewer lines like but I'm allowed there, and seems less trapped between roles. That does not come from rigidity, but from adults keeping authority conflict off the child's shoulders.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Supporting the other parent's authority does not mean total agreement; it means protecting the child from an adult duel.",
+        "Real disagreements belong in adult-to-adult discussion, not through the child and not in front of them.",
+        "Clarity across homes helps a child feel safer and less divided.",
+      ],
+    },
+  },
+  {
     slug: "un-rol-mic-la-sosire-poate-linisti-tranzitia",
     enSlug: "a-small-role-on-arrival-can-soothe-the-transition",
     title: "Un rol mic la sosire poate liniști tranziția",
