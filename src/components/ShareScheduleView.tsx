@@ -8,6 +8,7 @@ export interface ShareDayEvent {
   parent: ParentType;
   location: LocationType;
   locationLabel?: string;
+  caretakerLabel?: string;
   title?: string;
 }
 
@@ -22,7 +23,12 @@ interface ShareScheduleViewProps {
   days: { date: string; label: string; events: ShareDayEvent[] }[];
 }
 
-function getParentLabel(parent: ParentType, parent1Name: string, parent2Name: string): string {
+function getParentLabel(
+  parent: ParentType,
+  parent1Name: string,
+  parent2Name: string,
+  caretakerLabel?: string
+): string {
   switch (parent) {
     case "tata":
       return parent1Name;
@@ -30,6 +36,8 @@ function getParentLabel(parent: ParentType, parent1Name: string, parent2Name: st
       return parent2Name;
     case "together":
       return "Împreună";
+    case "other":
+      return caretakerLabel?.trim() || "Alt responsabil";
     default:
       return parent1Name;
   }
@@ -57,7 +65,7 @@ function EventLine({
   parent2Name: string;
   residenceNames: string[];
 }) {
-  const parentStr = getParentLabel(event.parent, parent1Name, parent2Name);
+  const parentStr = getParentLabel(event.parent, parent1Name, parent2Name, event.caretakerLabel);
   const locStr = getLocationLabel(event.location, event.locationLabel, residenceNames);
   return (
     <div className="flex items-center gap-2 text-stone-700 dark:text-stone-300">

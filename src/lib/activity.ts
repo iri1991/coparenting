@@ -14,6 +14,7 @@ export type ActivityAction =
   | "family_updated"
   | "proposal_applied"
   | "proposal_approved"
+  | "proposal_declined"
   | "proposal_updated"
   | "child_activity_added"
   | "useful_link_added"

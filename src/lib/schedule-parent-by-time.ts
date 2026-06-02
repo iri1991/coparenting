@@ -50,8 +50,12 @@ export interface DayMinuteSegment {
 }
 
 /**
- * Împarte ziua în segmente [start, end) în minute, pe baza evenimentelor.
- * Dacă niciun eveniment nu are oră, întreaga zi revine la primul slot (comportament vechi).
+ * Împarte ziua în segmente [start, end) în minute, acoperind ÎNTOTDEAUNA întreaga zi
+ * (suma segmentelor = 24h = o zi). Ora de start a fiecărui eveniment marchează o predare:
+ * un părinte deține copilul din momentul lui de start până la următoarea predare.
+ * Primul eveniment deține din miezul nopții; ultimul, până la sfârșitul zilei.
+ *
+ * Dacă niciun eveniment nu are oră, întreaga zi revine primului slot.
  */
 export function buildDaySegments(slots: ScheduleDaySlot[]): DayMinuteSegment[] {
   if (slots.length === 0) return [];
@@ -60,35 +64,33 @@ export function buildDaySegments(slots: ScheduleDaySlot[]): DayMinuteSegment[] {
     return [{ start: 0, end: DAY_MINUTES, parent: sorted[0].parent }];
   }
 
-  const out: DayMinuteSegment[] = [];
+  // Granițe de predare: startul fiecărui eveniment, monoton crescător; primul ancorat la 0.
+  const boundaries: { start: number; parent: ParentType }[] = [];
   let cursor = 0;
-
   for (let i = 0; i < sorted.length; i++) {
     const s = sorted[i];
     const explicitStart = timeStrToMinutes(s.startTime);
-    const start = explicitStart != null ? Math.max(explicitStart, cursor) : cursor;
-    const next = sorted[i + 1];
-    const nextStart = next ? timeStrToMinutes(next.startTime) : null;
-
-    let end = timeStrToMinutes(s.endTime);
-    if (end == null) {
-      end = nextStart != null ? nextStart : DAY_MINUTES;
-    }
-    if (nextStart != null && end > nextStart) end = nextStart;
-
-    end = Math.min(DAY_MINUTES, Math.max(start, end));
-    if (end > start) {
-      out.push({ start, end, parent: s.parent });
-      cursor = end;
-    } else {
-      cursor = Math.max(cursor, start);
-    }
+    const start = i === 0 ? 0 : explicitStart != null ? Math.max(explicitStart, cursor) : cursor;
+    boundaries.push({ start, parent: s.parent });
+    cursor = start;
   }
 
+  const out: DayMinuteSegment[] = [];
+  for (let i = 0; i < boundaries.length; i++) {
+    const start = boundaries[i].start;
+    const end = i + 1 < boundaries.length ? boundaries[i + 1].start : DAY_MINUTES;
+    // Predări simultane (același minut) → segmentul ulterior câștigă; segmentul gol se ignoră.
+    if (end > start) out.push({ start, end, parent: boundaries[i].parent });
+  }
+
+  // Dacă toate granițele coincid (caz degenerat), atribuie ziua primului eveniment.
+  if (out.length === 0) {
+    return [{ start: 0, end: DAY_MINUTES, parent: sorted[0].parent }];
+  }
   return out;
 }
 
-/** Minute cu fiecare părinte (fără gap-uri neacoperite). */
+/** Minute cu fiecare părinte pe zi (suma = 24h, ziua e acoperită integral). */
 export function minutesByParentForDay(slots: ScheduleDaySlot[]): Map<ParentType, number> {
   const map = new Map<ParentType, number>();
   for (const seg of buildDaySegments(slots)) {

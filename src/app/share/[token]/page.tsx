@@ -113,6 +113,7 @@ export default async function SharePage({
     parent?: string | null;
     location?: string | null;
     locationLabel?: string | null;
+    caretakerLabel?: string | null;
     title?: string | null;
   }[]).map((d) => {
     const hasNew = d.parent != null && d.location != null;
@@ -128,6 +129,7 @@ export default async function SharePage({
       parent,
       location,
       locationLabel: d.locationLabel ?? undefined,
+      caretakerLabel: d.caretakerLabel ?? undefined,
       title: d.title ?? undefined,
     };
   });

@@ -13,6 +13,6 @@ export interface WeekProposal {
   days: ProposalDay[];
   /** userId -> ISO date when they approved */
   approvedBy: Record<string, string>;
-  status: "pending" | "approved";
+  status: "pending" | "approved" | "declined";
   createdAt: string;
 }

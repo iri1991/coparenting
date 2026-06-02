@@ -79,6 +79,12 @@ function fullActionSentence(
         ? inter(a.proposalApprovedWeek, { who, week })
         : inter(a.proposalApproved, { who });
     }
+    case "proposal_declined": {
+      const week = typeof payload.weekLabel === "string" ? payload.weekLabel : "";
+      return week
+        ? inter(a.proposalDeclinedWeek, { who, week })
+        : inter(a.proposalDeclined, { who });
+    }
     case "proposal_updated": {
       const week = typeof payload.weekLabel === "string" ? payload.weekLabel : "";
       return week
@@ -134,6 +140,8 @@ function iconForAction(action: ActivityAction) {
       return <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />;
     case "proposal_updated":
       return <Pencil className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
+    case "proposal_declined":
+      return <Ban className="w-4 h-4 text-red-500" />;
     case "child_activity_added":
       return <Users className="w-4 h-4 text-violet-600 dark:text-violet-400" />;
     case "useful_link_added":

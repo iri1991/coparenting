@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Users } from "lucide-react";
+import { User, Users, HeartHandshake } from "lucide-react";
 import type { ParentType } from "@/types/events";
 import { PARENT_COLORS } from "@/types/events";
 import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
@@ -26,6 +26,17 @@ export function ParentIcon({
   if (parent === "together") {
     return (
       <Users
+        size={size}
+        className={className}
+        style={{ color }}
+        aria-label={label}
+      />
+    );
+  }
+
+  if (parent === "other") {
+    return (
+      <HeartHandshake
         size={size}
         className={className}
         style={{ color }}

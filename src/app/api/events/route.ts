@@ -37,6 +37,7 @@ function toEvent(doc: {
   notes?: string | null;
   startTime?: string | null;
   endTime?: string | null;
+  caretakerLabel?: string | null;
   created_by: string | null;
   created_at: Date;
 }): ScheduleEvent {
@@ -53,6 +54,7 @@ function toEvent(doc: {
     notes: doc.notes ?? undefined,
     startTime: doc.startTime ?? undefined,
     endTime: doc.endTime ?? undefined,
+    caretakerLabel: doc.caretakerLabel ?? undefined,
     created_by: doc.created_by ?? "",
     created_at: doc.created_at.toISOString(),
   };
@@ -118,7 +120,7 @@ function getBlockerForEventDate(
   blocks: { userId: string; parentType: string; startDate: string; endDate: string }[]
 ): { userId: string; parentLabel: string } | null {
   const toCheck: ParentType[] =
-    eventParent === "together" ? ["tata", "mama"] : [eventParent];
+    eventParent === "together" ? ["tata", "mama"] : eventParent === "other" ? [] : [eventParent];
   for (const block of blocks) {
     if (toCheck.includes(block.parentType as ParentType) && isDateInBlock(dateStr, block.startDate, block.endDate)) {
       return {
@@ -142,13 +144,15 @@ export async function POST(request: Request) {
     );
   }
   const body = await request.json();
-  const { date, parent, location, locationLabel, title, notes, startTime, endTime } = body;
+  const { date, parent, location, locationLabel, title, notes, startTime, endTime, caretakerLabel } = body;
   if (!date || parent == null || location == null) {
     return NextResponse.json(
       { error: "Data, părintele și locația sunt obligatorii." },
       { status: 400 }
     );
   }
+  const caretakerLabelVal =
+    parent === "other" && typeof caretakerLabel === "string" ? caretakerLabel.trim() || null : null;
   const dateStr = String(date).slice(0, 10);
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
@@ -189,6 +193,7 @@ export async function POST(request: Request) {
     notes: notes ?? null,
     startTime: startTime ?? null,
     endTime: endTime ?? null,
+    caretakerLabel: caretakerLabelVal,
     created_by: session.user.id,
     created_at: now,
   });
@@ -213,7 +218,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
   const body = await request.json();
-  const { id, date, parent, location, locationLabel, title, notes, startTime, endTime, allowPastEdit, pastEditReason } = body;
+  const { id, date, parent, location, locationLabel, title, notes, startTime, endTime, caretakerLabel, allowPastEdit, pastEditReason } = body;
   if (!id) {
     return NextResponse.json({ error: "ID lipsă." }, { status: 400 });
   }
@@ -278,6 +283,15 @@ export async function PATCH(request: Request) {
   if (notes !== undefined) update.notes = notes ?? null;
   if (startTime !== undefined) update.startTime = startTime ?? null;
   if (endTime !== undefined) update.endTime = endTime ?? null;
+  if (caretakerLabel !== undefined || parent !== undefined) {
+    const effectiveParent = parent != null ? parent : currentEvent.parent;
+    update.caretakerLabel =
+      effectiveParent === "other" && typeof caretakerLabel === "string"
+        ? caretakerLabel.trim() || null
+        : effectiveParent === "other"
+          ? currentEvent.caretakerLabel ?? null
+          : null;
+  }
 
   const result = await db.collection("schedule_events").findOneAndUpdate(
     { _id: oid },

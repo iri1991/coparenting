@@ -70,6 +70,7 @@ export async function generateProposalForWeek(
     tata: "tunari",
     mama: "otopeni",
     together: "other",
+    other: "other",
   };
 
   // Heuristică stabilă pentru blocuri 2-3 nopți când ambii sunt disponibili.

@@ -19,7 +19,7 @@ function parseCoord(n: unknown): number | undefined {
 
 function parentFromEventDoc(doc: { parent?: string | null; type?: string | null }): ParentType | null {
   const p = doc.parent;
-  if (p === "tata" || p === "mama" || p === "together") return p;
+  if (p === "tata" || p === "mama" || p === "together" || p === "other") return p;
   const t = doc.type ?? "other";
   if (t === "tunari") return "tata";
   if (t === "otopeni") return "mama";

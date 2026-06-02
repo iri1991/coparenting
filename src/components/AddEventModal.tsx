@@ -43,6 +43,7 @@ export function AddEventModal({
   const [notes, setNotes] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [caretakerLabel, setCaretakerLabel] = useState("");
   const [allowPastEdit, setAllowPastEdit] = useState(false);
   const [pastEditReason, setPastEditReason] = useState("");
 
@@ -57,6 +58,7 @@ export function AddEventModal({
       setNotes(editEvent.notes || "");
       setStartTime(editEvent.startTime || "");
       setEndTime(editEvent.endTime || "");
+      setCaretakerLabel(editEvent.caretakerLabel || "");
       setAllowPastEdit(false);
       setPastEditReason("");
     } else if (initialDate) {
@@ -69,6 +71,7 @@ export function AddEventModal({
       setNotes("");
       setStartTime("");
       setEndTime("");
+      setCaretakerLabel("");
       setAllowPastEdit(false);
       setPastEditReason("");
     } else {
@@ -81,6 +84,7 @@ export function AddEventModal({
       setNotes("");
       setStartTime("");
       setEndTime("");
+      setCaretakerLabel("");
       setAllowPastEdit(false);
       setPastEditReason("");
     }
@@ -93,6 +97,7 @@ export function AddEventModal({
       parent,
       location,
       locationLabel: locationLabel.trim() || undefined,
+      caretakerLabel: caretakerLabel.trim() || undefined,
       created_by: "",
       created_at: "",
     },
@@ -105,6 +110,10 @@ export function AddEventModal({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (parent === "other" && !caretakerLabel.trim()) {
+      alert(ev.caretakerRequired);
+      return;
+    }
     const endDateVal = endDate.trim();
     onSave(
       {
@@ -116,6 +125,7 @@ export function AddEventModal({
         notes: notes.trim() || undefined,
         startTime: startTime.trim() || undefined,
         endTime: endTime.trim() || undefined,
+        caretakerLabel: parent === "other" ? caretakerLabel.trim() || undefined : undefined,
         created_by: currentUserId || "",
         ...(isEditingPastEvent ? { allowPastEdit, pastEditReason: pastEditReason.trim() || undefined } : {}),
         ...(endDateVal && endDateVal >= date ? { endDate: endDateVal } : {}),
@@ -160,83 +170,95 @@ export function AddEventModal({
           </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4 p-4">
-          <div className={`grid gap-2.5 ${!editEvent ? "grid-cols-2" : "grid-cols-1"}`}>
-            <div className="min-w-0">
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                {ev.from}
-              </label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
-              />
-            </div>
-            {!editEvent && (
-              <div className="min-w-0">
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                  {ev.until}
-                </label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  min={date}
-                  className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
-                />
-                {endDate && endDate >= date && (
-                  <p className="mt-1 text-xs text-stone-500">
-                    {ev.rangeHint}
-                  </p>
-                )}
+          <div className="rounded-[1.5rem] border border-white/70 bg-white/60 p-3 space-y-3">
+            <div>
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{ev.startGroup}</p>
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="min-w-0">
+                  <label className="mb-1 block text-[11px] text-stone-400">{ev.dateField}</label>
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <label className="mb-1 block text-[11px] text-stone-400">{ev.timeFieldOpt}</label>
+                  <input
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
+                  />
+                </div>
               </div>
+            </div>
+            <div>
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{ev.endGroup}</p>
+              <div className="grid grid-cols-2 gap-2.5">
+                {!editEvent && (
+                  <div className="min-w-0">
+                    <label className="mb-1 block text-[11px] text-stone-400">{ev.dateField}</label>
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      min={date}
+                      className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
+                    />
+                  </div>
+                )}
+                <div className={`min-w-0 ${editEvent ? "col-span-2" : ""}`}>
+                  <label className="mb-1 block text-[11px] text-stone-400">{ev.timeFieldOpt}</label>
+                  <input
+                    type="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                    className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
+                  />
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-stone-400">{ev.timeHint}</p>
+            {!editEvent && endDate && endDate >= date && (
+              <p className="text-xs text-stone-500">{ev.rangeHint}</p>
             )}
-          </div>
-          <div className="grid grid-cols-2 gap-2.5">
-            <div className="min-w-0">
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                {ev.startTime}
-              </label>
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
-              />
-            </div>
-            <div className="min-w-0">
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
-                {ev.endTime}
-              </label>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                className="app-native-input app-native-picker w-full min-w-0 px-3 py-3 text-[15px]"
-              />
-            </div>
           </div>
           <div>
             <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               {ev.withWhom} {labels.childName}
             </label>
-            <div className="grid grid-cols-3 gap-2">
-              {(["tata", "mama", "together"] as const).map((p) => (
+            <div className="grid grid-cols-4 gap-2">
+              {(["tata", "mama", "together", "other"] as const).map((p) => (
                 <button
                   key={p}
                   type="button"
                   onClick={() => setParent(p)}
                   aria-label={labels.parentLabels[p]}
+                  title={labels.parentLabels[p]}
                   className={`
                     flex items-center justify-center rounded-[1.3rem] border p-4 transition touch-manipulation
                     ${parent === p ? "border-[#c87a5c] bg-[#fff4e9] shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 hover:bg-white/86"}
                   `}
                 >
-                  <ParentIcon parent={p} size={28} />
+                  <ParentIcon parent={p} size={26} />
                 </button>
               ))}
             </div>
+            {parent === "other" && (
+              <div className="mt-2">
+                <label className="mb-1 block text-[11px] text-stone-400">{ev.caretakerName}</label>
+                <input
+                  type="text"
+                  value={caretakerLabel}
+                  onChange={(e) => setCaretakerLabel(e.target.value)}
+                  placeholder={ev.caretakerPlaceholder}
+                  className="app-native-input w-full px-4 py-3 text-sm"
+                />
+              </div>
+            )}
           </div>
           <div>
             <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">

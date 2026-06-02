@@ -30,6 +30,7 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
   const [data, setData] = useState<ProposalResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [approving, setApproving] = useState(false);
+  const [declining, setDeclining] = useState(false);
   const [editing, setEditing] = useState(false);
   const [savingEdit, setSavingEdit] = useState(false);
   const [editableDays, setEditableDays] = useState<WeekProposal["days"]>([]);
@@ -71,6 +72,23 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
       }
     } finally {
       setApproving(false);
+    }
+  }
+
+  async function handleDecline() {
+    if (!data?.proposal || declining) return;
+    if (!confirm(p.declineConfirm)) return;
+    setDeclining(true);
+    try {
+      const res = await fetch("/api/proposals/decline", { method: "POST" });
+      const json = await res.json().catch(() => ({}));
+      if (res.ok) {
+        await fetchProposal();
+      } else {
+        alert(json.error || p.errorDecline);
+      }
+    } finally {
+      setDeclining(false);
     }
   }
 
@@ -189,18 +207,28 @@ export function WeeklyProposalCard({ onApplied, onProposalLoaded }: WeeklyPropos
           {otherApproved ? p.bothApproved : p.youApproved}
         </p>
       ) : (
-        <div className="flex gap-2">
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={startEdit}
+              disabled={approving || declining}
+              className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
+            >
+              {p.modify}
+            </button>
+            <button type="button" onClick={handleApprove} disabled={approving || declining}
+              className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50">
+              {approving ? p.registering : p.approve}
+            </button>
+          </div>
           <button
             type="button"
-            onClick={startEdit}
-            disabled={approving}
-            className="app-native-secondary-button flex-1 px-4 py-3 text-sm font-semibold text-stone-700 disabled:opacity-50"
+            onClick={handleDecline}
+            disabled={approving || declining}
+            className="w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:text-red-700 disabled:opacity-50"
           >
-            {p.modify}
-          </button>
-          <button type="button" onClick={handleApprove} disabled={approving}
-            className="app-native-primary-button flex-1 px-4 py-3 text-sm font-semibold disabled:opacity-50">
-            {approving ? p.registering : p.approve}
+            {declining ? p.declining : p.decline}
           </button>
         </div>
       )}

@@ -36,11 +36,14 @@ function emptyBuckets(): Record<RitualReportCaretaker, RitualReportCaretakerStat
     tata: { ...EMPTY_BUCKET },
     mama: { ...EMPTY_BUCKET },
     together: { ...EMPTY_BUCKET },
+    other: { ...EMPTY_BUCKET },
   };
 }
 
 /** Ziua contează pentru ritual dacă părintele responsabil (sau amândoi) se potrivește cu programul. */
 export function ritualAppliesOnDay(responsible: RitualResponsibleParent, caretaker: ParentType): boolean {
+  // Când copilul e cu un alt responsabil (bunici etc.) nu urmărim ritualurile părinților.
+  if (caretaker === "other") return false;
   if (responsible === "both") return true;
   if (caretaker === "together") return true;
   return responsible === caretaker;

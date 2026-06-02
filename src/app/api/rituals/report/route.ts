@@ -34,7 +34,7 @@ function eventParentFromDoc(doc: {
   const hasNew = doc.parent != null;
   if (hasNew) {
     const p = doc.parent;
-    if (p === "tata" || p === "mama" || p === "together") return p;
+    if (p === "tata" || p === "mama" || p === "together" || p === "other") return p;
     return null;
   }
   return deriveFromType(doc.type ?? "other").parent;

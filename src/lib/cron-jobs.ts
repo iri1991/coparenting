@@ -9,6 +9,8 @@ import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
 import { homeAppUrl } from "@/lib/deep-links";
 import type { ParentType, LocationType } from "@/types/events";
 import { addDaysToDateString } from "@/lib/date-bucharest";
+import { collectOccurrenceSlotsForReminder } from "@/lib/recurring-activity";
+import type { RecurringActivityOverride, Weekday } from "@/types/recurring-activity";
 
 function deriveFromType(type: string): { parent: ParentType; location: LocationType } {
   switch (type) {
@@ -57,7 +59,9 @@ export async function runWeeklyProposalJob() {
     if (plan === "free") continue;
 
     const familyId = fam._id;
-    const existing = await db.collection("schedule_proposals").findOne({ familyId, weekStart, status: "pending" });
+    // Sărim dacă deja există o propunere pentru această săptămână (pending / aprobată / refuzată).
+    // O propunere refuzată nu trebuie regenerată.
+    const existing = await db.collection("schedule_proposals").findOne({ familyId, weekStart });
     if (existing) continue;
 
     const days = await generateProposalForWeek(familyId, weekStart);
@@ -308,6 +312,216 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
     time: nowTimeLabel,
     date: nowDate,
     ritualsMatched: rituals.length,
+    remindersSent,
+  };
+}
+
+/**
+ * Reminder pentru activitățile recurente săptămânale ale copilului (ex. balet, înot).
+ * Rulează pe minut. Pentru fiecare activitate activă verifică dacă ziua + ora (minus lead)
+ * corespund momentului curent (Europe/Bucharest) și notifică responsabilul din acel moment
+ * (părintele care e cu copilul în calendar; dacă e „other"/necunoscut → ambii părinți).
+ */
+export async function runActivityReminderJob(nowTimeLabel: string, nowDate: string) {
+  const db = await getDb();
+
+  function eventParentFromDoc(
+    doc: { type?: string | null; parent?: string | null }
+  ): "tata" | "mama" | "together" | "other" | null {
+    if (doc.parent != null) {
+      if (
+        doc.parent === "tata" ||
+        doc.parent === "mama" ||
+        doc.parent === "together" ||
+        doc.parent === "other"
+      )
+        return doc.parent;
+      return null;
+    }
+    switch (doc.type ?? "other") {
+      case "tunari":
+        return "tata";
+      case "otopeni":
+        return "mama";
+      case "together":
+        return "together";
+      default:
+        return null;
+    }
+  }
+
+  const activities = await db
+    .collection("family_recurring_activities")
+    .find({ active: { $ne: false }, timeLabel: { $type: "string", $ne: "" } })
+    .toArray();
+
+  const familyIds = [
+    ...new Set(
+      (activities as unknown as { familyId: ObjectId }[]).map((a) => a.familyId)
+    ),
+  ];
+  const overrideDocs =
+    familyIds.length > 0
+      ? await db
+          .collection("family_recurring_activity_overrides")
+          .find({ familyId: { $in: familyIds } })
+          .toArray()
+      : [];
+
+  const overrides: RecurringActivityOverride[] = (overrideDocs as {
+    _id: ObjectId;
+    activityId: ObjectId;
+    date: string;
+    timeLabel?: string;
+    skipped?: boolean;
+    replacesDate?: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }[]).map((o) => ({
+    id: String(o._id),
+    activityId: String(o.activityId),
+    date: o.date,
+    timeLabel: o.timeLabel?.trim() || "",
+    skipped: o.skipped === true,
+    replacesDate: o.replacesDate?.trim() || undefined,
+    createdAt: o.createdAt.toISOString(),
+    updatedAt: o.updatedAt.toISOString(),
+  }));
+
+  const slots = collectOccurrenceSlotsForReminder({
+    nowTimeLabel,
+    nowDate,
+    activities: (activities as {
+      _id: ObjectId;
+      familyId: ObjectId;
+      title: string;
+      weekday?: string;
+      timeLabel?: string;
+      reminderLeadMinutes?: number;
+      active?: boolean;
+    }[]).map((a) => {
+      const wd = a.weekday;
+      const weekday: Weekday =
+        wd === "mon" || wd === "tue" || wd === "wed" || wd === "thu" || wd === "fri" || wd === "sat" || wd === "sun"
+          ? wd
+          : "mon";
+      return {
+        _id: String(a._id),
+        familyId: String(a.familyId),
+        title: a.title,
+        weekday,
+        timeLabel: a.timeLabel ?? "",
+        reminderLeadMinutes: a.reminderLeadMinutes ?? 0,
+        active: a.active,
+      };
+    }),
+    overrides,
+  });
+
+  let remindersSent = 0;
+  const familyMembersCache = new Map<
+    string,
+    { memberIds: string[]; usersByParentType: Map<"tata" | "mama", string[]>; familyOid: ObjectId }
+  >();
+  const caretakerByFamilyAndDateCache = new Map<string, "tata" | "mama" | "together" | "other" | null>();
+
+  for (const slot of slots) {
+    const familyOid = new ObjectId(slot.familyId);
+    const activityOid = new ObjectId(slot.activityId);
+    const familyKey = slot.familyId;
+
+    let familyEntry = familyMembersCache.get(familyKey);
+    if (!familyEntry) {
+      const family = await db.collection("families").findOne({ _id: familyOid }, { projection: { memberIds: 1 } });
+      const memberIds = ((family as { memberIds?: string[] } | null)?.memberIds ?? []).map(String);
+      const users = await db
+        .collection("users")
+        .find({ _id: { $in: memberIds.map((id) => new ObjectId(id)) } })
+        .project({ _id: 1, parentType: 1 })
+        .toArray();
+      const usersByParentType = new Map<"tata" | "mama", string[]>();
+      for (const user of users as { _id: ObjectId; parentType?: string }[]) {
+        if (user.parentType !== "tata" && user.parentType !== "mama") continue;
+        const list = usersByParentType.get(user.parentType) ?? [];
+        list.push(String(user._id));
+        usersByParentType.set(user.parentType, list);
+      }
+      familyEntry = { memberIds, usersByParentType, familyOid };
+      familyMembersCache.set(familyKey, familyEntry);
+    }
+
+    const { memberIds, usersByParentType } = familyEntry;
+    if (memberIds.length === 0) continue;
+
+    const activityDate = slot.activityDate;
+    const caretakerCacheKey = `${familyKey}|${activityDate}`;
+    let caretakerNow = caretakerByFamilyAndDateCache.get(caretakerCacheKey);
+    if (caretakerNow === undefined) {
+      const eventNow = await db.collection("schedule_events").findOne(
+        { familyId: familyOid, date: activityDate },
+        {
+          projection: { parent: 1, type: 1, createdAt: 1 },
+          sort: { createdAt: -1, _id: -1 },
+        }
+      );
+      caretakerNow = eventParentFromDoc((eventNow as { parent?: string | null; type?: string | null } | null) ?? {});
+      caretakerByFamilyAndDateCache.set(caretakerCacheKey, caretakerNow);
+    }
+
+    let recipientUserIds: string[];
+    if (caretakerNow === "tata" || caretakerNow === "mama") {
+      recipientUserIds = usersByParentType.get(caretakerNow) ?? [];
+    } else {
+      recipientUserIds = memberIds;
+    }
+    if (recipientUserIds.length === 0) continue;
+
+    const pendingRecipients: string[] = [];
+    for (const uid of recipientUserIds) {
+      const already = await db.collection("activity_reminder_logs").findOne({
+        familyId: familyOid,
+        activityId: activityOid,
+        userId: uid,
+        date: activityDate,
+        timeLabel: nowTimeLabel,
+      });
+      if (!already) pendingRecipients.push(uid);
+    }
+    if (pendingRecipients.length === 0) continue;
+
+    const subs = await getSubscriptionsForUsers(pendingRecipients);
+    if (subs.length === 0) continue;
+
+    const lead = slot.leadMinutes;
+    await sendPushToSubscriptions(subs, {
+      title: `Activitate: ${slot.title}`,
+      body:
+        lead > 0
+          ? `În ${lead} min: „${slot.title}” (la ${slot.timeLabel}).`
+          : `E timpul pentru „${slot.title}” (${slot.timeLabel}).`,
+      url: homeAppUrl({ tab: "rutine", hash: "recurring-activities" }),
+    });
+    remindersSent += subs.length;
+
+    const now = new Date();
+    await db.collection("activity_reminder_logs").insertMany(
+      pendingRecipients.map((uid) => ({
+        familyId: familyOid,
+        activityId: activityOid,
+        userId: uid,
+        date: activityDate,
+        timeLabel: nowTimeLabel,
+        createdAt: now,
+      }))
+    );
+  }
+
+  return {
+    ok: true,
+    time: nowTimeLabel,
+    date: nowDate,
+    activitiesMatched: activities.length,
+    slotsMatched: slots.length,
     remindersSent,
   };
 }

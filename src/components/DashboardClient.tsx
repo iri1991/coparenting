@@ -35,6 +35,7 @@ import { BlogReferencesSection } from "@/components/BlogReferencesSection";
 import type { ChildActivityEntry, UsefulLinkEntry } from "@/types/child-activity";
 import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
+import { RecurringActivitiesCard } from "@/components/RecurringActivitiesCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -335,6 +336,7 @@ export function DashboardClient({
             notes: payload.notes ?? null,
             startTime: payload.startTime ?? null,
             endTime: payload.endTime ?? null,
+            caretakerLabel: payload.caretakerLabel ?? null,
             allowPastEdit: payload.allowPastEdit ?? false,
             pastEditReason: payload.pastEditReason ?? null,
           }),
@@ -374,6 +376,7 @@ export function DashboardClient({
               notes: payload.notes ?? null,
               startTime: payload.startTime ?? null,
               endTime: payload.endTime ?? null,
+              caretakerLabel: payload.caretakerLabel ?? null,
             }),
           });
           const data = await res.json().catch(() => ({}));
@@ -468,6 +471,7 @@ export function DashboardClient({
     let tataMinutes = 0;
     let mamaMinutes = 0;
     let togetherMinutes = 0;
+    let otherMinutes = 0;
     let totalTrackedDays = 0;
 
     for (const [, dayEvents] of byDate) {
@@ -481,17 +485,21 @@ export function DashboardClient({
       tataMinutes += m.get("tata") ?? 0;
       mamaMinutes += m.get("mama") ?? 0;
       togetherMinutes += m.get("together") ?? 0;
+      otherMinutes += m.get("other") ?? 0;
     }
 
     const tataDays = tataMinutes / DAY_MIN;
     const mamaDays = mamaMinutes / DAY_MIN;
     const togetherDays = togetherMinutes / DAY_MIN;
+    const otherDays = otherMinutes / DAY_MIN;
 
+    // „together” se împarte 50/50 între părinți; „other” (alt responsabil) e felie separată.
     const tataWeighted = tataDays + togetherDays * 0.5;
     const mamaWeighted = mamaDays + togetherDays * 0.5;
-    const denom = tataWeighted + mamaWeighted;
+    const denom = tataWeighted + mamaWeighted + otherDays;
     const tataPct = denom > 0 ? Math.round((tataWeighted / denom) * 100) : 0;
     const mamaPct = denom > 0 ? Math.round((mamaWeighted / denom) * 100) : 0;
+    const otherPct = denom > 0 ? Math.round((otherDays / denom) * 100) : 0;
 
     function fmtDayFrac(v: number): string {
       const r = Math.round(v);
@@ -515,10 +523,13 @@ export function DashboardClient({
       tataDaysStr: fmtDayFrac(tataDays),
       mamaDaysStr: fmtDayFrac(mamaDays),
       togetherDaysStr: fmtDayFrac(togetherDays),
+      otherDaysStr: fmtDayFrac(otherDays),
       showTogetherLine: togetherMinutes > 0,
+      showOther: otherMinutes > 0,
       totalTrackedDays,
       tataPct,
       mamaPct,
+      otherPct,
     };
   }, [events, timeReportRange, dateLocale]);
 
@@ -695,9 +706,10 @@ export function DashboardClient({
             : {
                 id: ev.id,
                 date: ev.date,
-                parent: "together",
+                parent: "other",
                 location: "other",
                 locationLabel: interruptCaretaker.trim(),
+                caretakerLabel: interruptCaretaker.trim(),
                 title: ev.title ?? null,
                 notes: ev.notes ?? null,
                 startTime: ev.startTime ?? null,
@@ -918,7 +930,10 @@ export function DashboardClient({
         </div>
       )}
       {activeTab === "rutine" && (
-        <SharedRitualsCard parent1Name={resolvedParent1} parent2Name={resolvedParent2} />
+        <div className="space-y-4">
+          <SharedRitualsCard parent1Name={resolvedParent1} parent2Name={resolvedParent2} />
+          <RecurringActivitiesCard />
+        </div>
       )}
       {activeTab === "idei" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
@@ -994,8 +1009,11 @@ export function DashboardClient({
             <div className="mb-3 h-3 w-full overflow-hidden rounded-full bg-stone-100">
               <div className="float-left h-full bg-[#cb7757]" style={{ width: `${parentTimeReport.tataPct}%` }} />
               <div className="float-left h-full bg-[#e5b18d]" style={{ width: `${parentTimeReport.mamaPct}%` }} />
+              {parentTimeReport.showOther && (
+                <div className="float-left h-full bg-[#8B5CF6]" style={{ width: `${parentTimeReport.otherPct}%` }} />
+              )}
             </div>
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className={`grid gap-3 text-sm ${parentTimeReport.showOther ? "grid-cols-3" : "grid-cols-2"}`}>
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
                 <p className="text-stone-500">{d.timeFor} {resolvedParent1}</p>
                 <p className="font-semibold text-stone-800">
@@ -1010,6 +1028,15 @@ export function DashboardClient({
                   <span className="font-medium text-stone-500"> · {parentTimeReport.mamaPct}%</span>
                 </p>
               </div>
+              {parentTimeReport.showOther && (
+                <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
+                  <p className="text-stone-500">{d.timeReportOther}</p>
+                  <p className="font-semibold text-stone-800">
+                    {parentTimeReport.otherDaysStr} {d.timeReportDaysUnit}
+                    <span className="font-medium text-stone-500"> · {parentTimeReport.otherPct}%</span>
+                  </p>
+                </div>
+              )}
             </div>
             {parentTimeReport.showTogetherLine && (
               <p className="mt-2 text-xs text-stone-500">

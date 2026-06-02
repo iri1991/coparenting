@@ -1,4 +1,4 @@
-import { runEveningReminderJob, runWeeklyProposalJob, runRitualReminderJob, runTreatmentReminderJob } from "@/lib/cron-jobs";
+import { runEveningReminderJob, runWeeklyProposalJob, runRitualReminderJob, runTreatmentReminderJob, runActivityReminderJob } from "@/lib/cron-jobs";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -69,6 +69,15 @@ export function startInternalCronScheduler() {
       }
     } catch (e) {
       console.error("[cron] treatment-reminder failed", e);
+    }
+
+    try {
+      const result = await runActivityReminderJob(nowTimeLabel, nowDate);
+      if (result.remindersSent > 0) {
+        console.log("[cron] activity-reminder ok", result);
+      }
+    } catch (e) {
+      console.error("[cron] activity-reminder failed", e);
     }
 
     if (now.minute !== 0) return;

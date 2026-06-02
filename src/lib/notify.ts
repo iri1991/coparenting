@@ -117,6 +117,23 @@ export async function sendProposalApprovedByOtherNotification(
 }
 
 /**
+ * Notifică celălalt părinte că partenerul a refuzat (declinat) propunerea.
+ */
+export async function sendProposalDeclinedNotification(
+  recipientUserId: string,
+  declinerLabel: string,
+  weekLabel: string
+): Promise<void> {
+  const subs = await getSubscriptionsForUsers([recipientUserId]);
+  if (subs.length === 0) return;
+  await sendPushToSubscriptions(subs, {
+    title: "Propunere refuzată",
+    body: `${declinerLabel} a refuzat propunerea pentru ${weekLabel}. Puteți stabili programul manual.`,
+    url: homeAppUrl({ tab: "program" }),
+  });
+}
+
+/**
  * Notifică ambii părinți că programul a fost aplicat (ambele aprobări).
  */
 export async function sendProposalAppliedNotification(
