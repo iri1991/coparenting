@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
+import { sendAdminNewUserEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -33,6 +34,9 @@ export async function POST(request: Request) {
       passwordHash,
       createdAt: new Date(),
     });
+    sendAdminNewUserEmail(emailNorm).catch((e) =>
+      console.error("[signup] admin email failed", e)
+    );
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error(e);

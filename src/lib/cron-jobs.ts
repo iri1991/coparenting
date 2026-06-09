@@ -11,6 +11,7 @@ import type { ParentType, LocationType } from "@/types/events";
 import { addDaysToDateString } from "@/lib/date-bucharest";
 import { collectOccurrenceSlotsForReminder } from "@/lib/recurring-activity";
 import type { RecurringActivityOverride, Weekday } from "@/types/recurring-activity";
+import { sendInactivityReminderEmail, sendPendingInvitationReminderEmail } from "@/lib/email";
 
 function deriveFromType(type: string): { parent: ParentType; location: LocationType } {
   switch (type) {
@@ -688,4 +689,127 @@ export async function runTreatmentReminderJob(nowTimeLabel: string, nowDate: str
   }
 
   return { ok: true, time: nowTimeLabel, date: nowDate, remindersSent };
+}
+
+/**
+ * Reminder pentru utilizatorii inactivi (nu au folosit aplicația 5+ zile).
+ * Trimite push + email. Deduplică: cel mult un reminder la 5 zile per user.
+ * Rulează zilnic.
+ */
+export async function runInactivityReminderJob() {
+  const db = await getDb();
+  const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
+
+  // Utilizatori inactivi: lastActiveAt absent sau > 5 zile în urmă
+  // ȘI nu au primit deja un reminder în ultimele 5 zile
+  const users = await db.collection("users").find({
+    $and: [
+      {
+        $or: [
+          { lastActiveAt: { $lt: fiveDaysAgo } },
+          { lastActiveAt: { $exists: false } },
+        ],
+      },
+      {
+        $or: [
+          { lastInactivityReminderSentAt: { $lt: fiveDaysAgo } },
+          { lastInactivityReminderSentAt: { $exists: false } },
+        ],
+      },
+      // Cont creat cu cel puțin 5 zile în urmă (nu spam pe utilizatori noi)
+      { createdAt: { $lt: fiveDaysAgo } },
+    ],
+  }).project({ _id: 1, email: 1, name: 1 }).toArray() as {
+    _id: ObjectId;
+    email?: string;
+    name?: string;
+  }[];
+
+  let pushSent = 0;
+  let emailSent = 0;
+  const now = new Date();
+
+  for (const user of users) {
+    const userId = String(user._id);
+    const email = user.email ?? "";
+    if (!email) continue;
+
+    // Push notification
+    const subs = await getSubscriptionsForUsers([userId]);
+    if (subs.length > 0) {
+      await sendPushToSubscriptions(subs, {
+        title: "HomeSplit te așteaptă 👋",
+        body: "Nu ai mai deschis aplicația de câteva zile. Verifică programul copilului.",
+        url: "/",
+      });
+      pushSent += subs.length;
+    }
+
+    // Email
+    const sent = await sendInactivityReminderEmail(email, user.name);
+    if (sent) emailSent++;
+
+    await db.collection("users").updateOne(
+      { _id: user._id },
+      { $set: { lastInactivityReminderSentAt: now } }
+    );
+  }
+
+  return { ok: true, usersChecked: users.length, pushSent, emailSent };
+}
+
+/**
+ * Reminder pentru invitații pending care nu au fost acceptate.
+ * Trimite email la adresa invitată. Deduplică: cel mult o dată la 3 zile per invitație.
+ * Rulează zilnic.
+ */
+export async function runPendingInvitationReminderJob() {
+  const db = await getDb();
+  const now = new Date();
+  const oneDayAgo = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+  const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const baseUrl = process.env.NEXTAUTH_URL?.replace(/\/$/, "") || "https://homesplit.ro";
+
+  const invitations = await db.collection("invitations").find({
+    status: "pending",
+    expiresAt: { $gt: now },
+    createdAt: { $lt: oneDayAgo }, // cel puțin 1 zi de când a fost trimisă
+    $or: [
+      { lastReminderSentAt: { $lt: threeDaysAgo } },
+      { lastReminderSentAt: { $exists: false } },
+    ],
+  }).toArray() as {
+    _id: ObjectId;
+    email: string;
+    token: string;
+    invitedByUserId?: string;
+  }[];
+
+  // Colectează numele invitanților
+  const inviterIds = [...new Set(
+    invitations.map((i) => i.invitedByUserId).filter(Boolean) as string[]
+  )];
+  const inviters = inviterIds.length > 0
+    ? await db.collection("users")
+        .find({ _id: { $in: inviterIds.map((id) => new ObjectId(id)) } })
+        .project({ _id: 1, name: 1 })
+        .toArray() as { _id: ObjectId; name?: string }[]
+    : [];
+  const inviterNameById = new Map(inviters.map((u) => [String(u._id), u.name ?? null]));
+
+  let emailSent = 0;
+  for (const inv of invitations) {
+    const joinUrl = `${baseUrl}/join?token=${inv.token}`;
+    const inviterName = inv.invitedByUserId ? (inviterNameById.get(inv.invitedByUserId) ?? null) : null;
+    const sent = await sendPendingInvitationReminderEmail(inv.email, inviterName, joinUrl);
+    if (sent) {
+      emailSent++;
+      await db.collection("invitations").updateOne(
+        { _id: inv._id },
+        { $set: { lastReminderSentAt: now } }
+      );
+    }
+  }
+
+  return { ok: true, invitationsChecked: invitations.length, emailSent };
 }

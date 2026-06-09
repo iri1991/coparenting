@@ -59,10 +59,18 @@ export const authOptions: NextAuthOptions = {
         const db = await getDb();
         const u = await db.collection("users").findOne(
           { _id: new ObjectId(token.id as string) },
-          { projection: { familyId: 1 } }
+          { projection: { familyId: 1, lastActiveDateKey: 1 } }
         );
         const fid = (u as { familyId?: unknown })?.familyId;
         session.user.familyId = fid != null ? String(fid) : null;
+        // Actualizează lastActiveAt cel mult o dată pe zi
+        const today = new Date().toISOString().slice(0, 10);
+        if ((u as { lastActiveDateKey?: string })?.lastActiveDateKey !== today) {
+          db.collection("users").updateOne(
+            { _id: new ObjectId(token.id as string) },
+            { $set: { lastActiveAt: new Date(), lastActiveDateKey: today } }
+          ).catch(() => {});
+        }
       }
       return session;
     },
