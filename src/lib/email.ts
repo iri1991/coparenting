@@ -127,6 +127,94 @@ export async function sendEmail({ to, subject, html, text }: SendEmailOptions): 
   }
 }
 
+const ADMIN_EMAIL = "me@irinelnicoara.ro";
+
+/**
+ * Notifică adminul că s-a înregistrat un utilizator nou.
+ */
+export async function sendAdminNewUserEmail(newUserEmail: string): Promise<void> {
+  const content = `
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">
+      Un utilizator nou s-a înregistrat pe <strong>HomeSplit</strong>.
+    </p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 0 0 24px;">
+      <tr>
+        <td style="padding: 16px; background-color: ${BRAND.primaryLight}; border-radius: 10px; border: 1px solid ${BRAND.border};">
+          <p style="margin: 0; font-size: 15px; color: ${BRAND.text};">
+            <strong>Email:</strong> ${newUserEmail}
+          </p>
+          <p style="margin: 8px 0 0; font-size: 13px; color: ${BRAND.textMuted};">
+            Data înregistrării: ${new Date().toLocaleString("ro-RO", { timeZone: "Europe/Bucharest" })}
+          </p>
+        </td>
+      </tr>
+    </table>
+    ${emailButtonHtml(`${baseUrl}/admin`, "Deschide Admin")}
+  `;
+  await sendEmail({
+    to: ADMIN_EMAIL,
+    subject: `HomeSplit – Utilizator nou: ${newUserEmail}`,
+    html: wrapEmailHtml(content),
+    text: `Utilizator nou înregistrat: ${newUserEmail}. Admin: ${baseUrl}/admin`,
+  });
+}
+
+/**
+ * Trimite un reminder utilizatorilor inactivi (nu au deschis aplicația de 5+ zile).
+ */
+export async function sendInactivityReminderEmail(to: string, name?: string | null): Promise<boolean> {
+  const greeting = name ? `Bună, ${name}!` : "Bună!";
+  const content = `
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${greeting}</p>
+    <p style="margin: 0 0 16px; font-size: 15px; color: ${BRAND.textMuted};">
+      Nu te-am mai văzut pe <strong>HomeSplit</strong> de câteva zile. Programul copilului
+      te așteaptă — verifică ce mai e de planificat.
+    </p>
+    ${emailButtonHtml(baseUrl, "Deschide HomeSplit")}
+    <p style="margin: 24px 0 0; font-size: 13px; color: ${BRAND.textMuted};">
+      Dacă nu mai dorești aceste notificări, poți dezactiva email-urile din setările contului.
+    </p>
+  `;
+  return sendEmail({
+    to,
+    subject: "HomeSplit – Copilul tău te așteaptă 👋",
+    html: wrapEmailHtml(content),
+    text: `${greeting}\n\nNu te-am mai văzut pe HomeSplit de câteva zile. Intră să verifici programul: ${baseUrl}`,
+  });
+}
+
+/**
+ * Trimite un reminder că invitația în familie nu a fost acceptată.
+ */
+export async function sendPendingInvitationReminderEmail(
+  to: string,
+  invitedByName: string | null | undefined,
+  joinUrl: string
+): Promise<boolean> {
+  const who = invitedByName?.trim() || "un coleg de familie";
+  const content = `
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">Bună!</p>
+    <p style="margin: 0 0 16px; font-size: 15px; color: ${BRAND.textMuted};">
+      <strong>${who}</strong> te-a invitat să te alături familiei pe <strong>HomeSplit</strong>,
+      dar invitația nu a fost acceptată încă.
+    </p>
+    <p style="margin: 0 0 24px; font-size: 15px; color: ${BRAND.textMuted};">
+      Faceți planificarea copilului mai ușoară — acceptă invitația și începeți să coordonați
+      programul împreună.
+    </p>
+    ${emailButtonHtml(joinUrl, "Acceptă invitația")}
+    <p style="margin: 24px 0 0; font-size: 13px; color: ${BRAND.textMuted};">
+      Dacă nu ai cerut această invitație, poți ignora acest email.
+    </p>
+  `;
+  return sendEmail({
+    to,
+    subject: `HomeSplit – ${who} te-a invitat în familie`,
+    html: wrapEmailHtml(content),
+    text: `${who} te-a invitat pe HomeSplit. Acceptă invitația: ${joinUrl}`,
+  });
+}
+
 import type { Db } from "mongodb";
 
 /**

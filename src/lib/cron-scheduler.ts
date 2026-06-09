@@ -1,4 +1,4 @@
-import { runEveningReminderJob, runWeeklyProposalJob, runRitualReminderJob, runTreatmentReminderJob, runActivityReminderJob } from "@/lib/cron-jobs";
+import { runEveningReminderJob, runWeeklyProposalJob, runRitualReminderJob, runTreatmentReminderJob, runActivityReminderJob, runInactivityReminderJob, runPendingInvitationReminderJob } from "@/lib/cron-jobs";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -42,6 +42,8 @@ export function startInternalCronScheduler() {
 
   const eveningHour = Number(process.env.EVENING_REMINDER_HOUR ?? 21);
   const weeklyHour = Number(process.env.WEEKLY_PROPOSAL_HOUR ?? 20);
+  const inactivityHour = Number(process.env.INACTIVITY_REMINDER_HOUR ?? 10);
+  const invitationReminderHour = Number(process.env.INVITATION_REMINDER_HOUR ?? 11);
   const tickMs = 30_000;
 
   const tick = async () => {
@@ -99,6 +101,28 @@ export function startInternalCronScheduler() {
     } catch (e) {
       console.error("[cron] weekly-proposal failed", e);
     }
+
+    try {
+      if (now.hour === inactivityHour) {
+        const result = await runInactivityReminderJob();
+        if (result.emailSent > 0 || result.pushSent > 0) {
+          console.log("[cron] inactivity-reminder ok", result);
+        }
+      }
+    } catch (e) {
+      console.error("[cron] inactivity-reminder failed", e);
+    }
+
+    try {
+      if (now.hour === invitationReminderHour) {
+        const result = await runPendingInvitationReminderJob();
+        if (result.emailSent > 0) {
+          console.log("[cron] invitation-reminder ok", result);
+        }
+      }
+    } catch (e) {
+      console.error("[cron] invitation-reminder failed", e);
+    }
   };
 
   // Run one initial tick after startup, then periodic checks.
@@ -110,6 +134,6 @@ export function startInternalCronScheduler() {
   }, tickMs);
 
   console.log(
-    `[cron] internal scheduler started (tz=${process.env.CRON_TIMEZONE || "Europe/Bucharest"}, evening=${eveningHour}:00, weekly=Sun ${weeklyHour}:00)`
+    `[cron] internal scheduler started (tz=${process.env.CRON_TIMEZONE || "Europe/Bucharest"}, evening=${eveningHour}:00, weekly=Sun ${weeklyHour}:00, inactivity=${inactivityHour}:00, invitation=${invitationReminderHour}:00)`
   );
 }
