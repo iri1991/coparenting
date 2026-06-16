@@ -107,6 +107,351 @@ export const blogCategories: BlogCategory[] = [
 
 const blogArticles: BlogArticle[] = [
   {
+    slug: "primul-minut-fara-telefon-dupa-schimbarea-de-casa",
+    enSlug: "the-first-phone-free-minute-after-a-home-switch",
+    title: "Primul minut fără telefon după schimbarea de casă",
+    summary:
+      "După preluare sau handover, un minut de atenție întreagă spune mai clar „sunt aici” decât orice întrebare pusă cu ochii încă în ecran.",
+    intro:
+      "Harvard Center on the Developing Child descrie interacțiunile bune dintre copil și adult ca schimburi receptive, atente și cu adevărat prezente. În viața de zi cu zi, asta se vede foarte concret în minutele mici de trecere dintre două case. Dacă primul contact vine în timp ce răspunzi la mesaje, verifici mailul sau termini ceva pe telefon, copilul primește un semnal împărțit exact când încearcă să se reașeze. Nu trebuie să faci un ritual mare. Dar primul minut fără telefon poate deveni o ancoră mică și repetabilă de conectare.",
+    image: {
+      src: "/blog/phone-free-minute-transition.svg",
+      alt: "Părinte care pune telefonul deoparte și se conectează calm cu copilul după o schimbare de casă",
+    },
+    categorySlug: "activitati-si-conectare",
+    publishedAt: "2026-06-16",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce contează atât de mult primul minut",
+        paragraphs: [
+          "După o trecere între două spații, copilul nu are nevoie doar de logistică. Are nevoie să simtă unde se așază relația în noul moment. Când adultul este disponibil cu ochii, vocea și corpul lui, copilul intră mai ușor în ritmul următor.",
+          "Ideea nu este că telefonul este mereu dăunător. Ideea este că primul minut după reunire este o fereastră scurtă în care atenția întreagă face mult. În termenii Harvard, relația se hrănește din aceste schimburi mici, nu doar din conversațiile mari planificate special.",
+        ],
+      },
+      {
+        title: "Cum arată practic un minut fără telefon",
+        paragraphs: [
+          "Nu trebuie să inventezi o activitate. Doar să lași agenda adultului să aștepte puțin.",
+        ],
+        bullets: [
+          "Pune telefonul în buzunar sau în geantă înainte să îl întâmpini.",
+          "Privește copilul și observă ce face deja: vine spre tine, se agață de ghiozdan, îți arată ceva sau vrea doar să meargă lângă tine.",
+          "Spune o propoziție simplă despre moment: te văd, ai ajuns; pari obosit; văd că vrei să-mi arăți ceva.",
+          "Oferă o formă de contact pe care copilul o primește: o mână, o îmbrățișare scurtă, mers unul lângă altul.",
+          "Abia după aceea intră în partea practică: apă, gustare, program, următorul pas.",
+        ],
+      },
+      {
+        title: "Dacă apare ceva urgent pe bune",
+        paragraphs: [
+          "Uneori există apeluri sau mesaje care nu pot aștepta. Atunci ajută să nu dispari pur și simplu în ecran. Spune clar ce faci și cât durează: răspund la mesajul acesta și apoi sunt cu tine. Pentru copil, predictibilitatea mică este mai ușor de dus decât atenția care se rupe fără explicație.",
+          "Diferența importantă este între o urgență reală și reflexul adultului de a rămâne cu mintea în altă parte. Dacă vezi că telefonul intră mereu primul, merită schimbată ordinea măcar pentru acest minut.",
+        ],
+      },
+      {
+        title: "Semnul că minutul începe să ajute",
+        paragraphs: [
+          "Copilul vine spre tine puțin mai repede, se așază mai ușor lângă tine sau are mai puțină nevoie să tragă de atenția ta prin opoziție, agitație ori repetat „uită-te la mine”. Nu pentru că ai aplicat o tehnică perfectă, ci pentru că relația a primit loc înaintea restului.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Primul minut după o schimbare de casă merită protejat de multitasking.",
+      "Atenția întreagă scurtă ajută copilul să intre mai ușor în noul ritm.",
+      "Dacă amâni telefonul un minut, mesajul relațional devine mai clar decât orice întrebare.",
+    ],
+    sources: [
+      {
+        title: "Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/key-concept/serve-and-return/",
+        note: "Harvard descrie interacțiunile receptive, atente și de tip back-and-forth ca parte esențială a mediului relațional al copilului și explică de ce atenția adultului contează pentru dezvoltare și reglare. Pagina a fost accesată la 16 iunie 2026.",
+      },
+      {
+        title: "5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/briefs/5-steps-for-brain-building-serve-and-return/",
+        note: "Resursa pentru părinți subliniază schimburile atente și receptive. Recomandarea din acest articol despre „primul minut fără telefon” este o aplicare practică inferată din aceste principii la momentele de reunire și tranziție. Publicată la 19 iunie 2017; accesată la 16 iunie 2026.",
+      },
+    ],
+    en: {
+      title: "The first phone-free minute after a home switch",
+      summary:
+        "After pickup or handover, one minute of full attention says 'I'm here' more clearly than any question asked while still looking at a screen.",
+      intro:
+        "The Center on the Developing Child at Harvard describes good child-adult interactions as responsive, attentive exchanges with real presence. In daily life, that becomes very concrete in the small transition windows between two homes. If the first contact arrives while you are answering messages, checking email, or finishing something on your phone, the child receives split attention exactly when they are trying to settle. You do not need a big ritual. But the first phone-free minute can become a small, repeatable anchor for connection.",
+      sections: [
+        {
+          title: "Why the first minute matters so much",
+          paragraphs: [
+            "After a switch between spaces, the child does not need logistics only. They need to feel where the relationship lands in the new moment. When the adult is available with their eyes, voice, and body, the child enters the next rhythm more easily.",
+            "The point is not that a phone is always harmful. The point is that the first minute after reunion is a short window in which full attention does a lot. In Harvard's terms, the relationship is fed by these small exchanges, not only by the big conversations you plan on purpose.",
+          ],
+        },
+        {
+          title: "What one phone-free minute looks like in practice",
+          paragraphs: [
+            "You do not need to invent an activity. You only need to let the adult agenda wait a little.",
+          ],
+          bullets: [
+            "Put the phone in your pocket or bag before you greet them.",
+            "Look at the child and notice what they are already doing: coming toward you, holding the backpack, showing you something, or wanting only to walk beside you.",
+            "Say one simple sentence about the moment: I see you, you're here; you look tired; I can see you want to show me something.",
+            "Offer a form of contact the child can receive: a hand, a short hug, walking side by side.",
+            "Only after that move into the practical part: water, snack, schedule, next step.",
+          ],
+        },
+        {
+          title: "If something really is urgent",
+          paragraphs: [
+            "Sometimes there are calls or messages that truly cannot wait. Then it helps not to disappear into the screen without warning. Say clearly what you are doing and how long it will take: I need to answer this message and then I'm with you. For the child, small predictability is easier to carry than attention that breaks without explanation.",
+            "The important difference is between a real urgency and the adult reflex to stay mentally elsewhere. If you notice the phone keeps coming first, it is worth changing the order at least for this minute.",
+          ],
+        },
+        {
+          title: "The sign this minute is starting to help",
+          paragraphs: [
+            "The child comes toward you a little faster, settles beside you more easily, or needs less to pull for your attention through opposition, agitation, or repeated 'look at me.' Not because you performed a perfect technique, but because the relationship got space before everything else.",
+          ],
+        },
+      ],
+      takeaways: [
+        "The first minute after a home switch is worth protecting from multitasking.",
+        "Brief full attention helps the child enter the new rhythm more easily.",
+        "If you delay the phone for one minute, the relationship message becomes clearer than any question.",
+      ],
+    },
+  },
+  {
+    slug: "trei-schimburi-scurte-ajuta-mai-mult-decat-un-discurs-la-tranzitie",
+    enSlug: "three-short-exchanges-help-more-than-one-speech-at-transition",
+    title: "Trei schimburi scurte ajută mai mult decât un discurs la tranziție",
+    summary:
+      "Când copilul intră într-o schimbare de ritm, schimburile scurte și receptive prind mai bine decât explicațiile lungi spuse dintr-o singură bucată.",
+    intro:
+      "Harvard compară interacțiunile bune dintre copil și adult cu un joc de tenis: un schimb viu, cu dus-întors. Exact asta lipsește adesea în tranzițiile tensionate. Adultul simte presiune de timp și livrează tot pachetul dintr-o dată: pune pantofii, ia geaca, mergem acum, nu întârziem, după aceea mâncăm și apoi facem tema. Pentru un copil deja încărcat, discursul poate intra doar ca presiune. Trei schimburi scurte, cu pauză și răspuns între ele, ajută de multe ori mai mult.",
+    image: {
+      src: "/blog/three-short-exchanges-transition.svg",
+      alt: "Părinte și copil trec printr-o tranziție în pași scurți și receptivi, nu printr-un monolog grăbit",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-06-16",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "De ce discursul lung se pierde ușor",
+        paragraphs: [
+          "Într-o tranziție, copilul trebuie deja să oprească ceva, să schimbe atenția și să accepte pasul următor. Dacă mai primește și un val lung de informații, nu este surprinzător că rămâne blocat, se opune sau pare că nu ascultă.",
+          "Problema nu este doar cooperarea. Este și cantitatea de input. Când schimbi ritmul în pași scurți, îi dai copilului mai multe șanse să rămână cu tine în schimb, nu să se apere de tot mesajul dintr-odată.",
+        ],
+      },
+      {
+        title: "Cum arată cele trei schimburi",
+        paragraphs: [
+          "Nu este o formulă rigidă. Este doar o ordine mai ușor de dus pentru sistemul copilului.",
+        ],
+        bullets: [
+          "Primul schimb: captezi atenția și anunți un singur pas. De exemplu: ne încălțăm acum.",
+          "Al doilea schimb: aștepți un semn că mesajul a intrat și oferi sprijin scurt dacă e nevoie. Pot să țin eu geaca, tu iei pantofii.",
+          "Al treilea schimb: confirmi mișcarea și abia apoi dai următoarea bucată. Gata pantofii, acum mergem la ușă.",
+        ],
+      },
+      {
+        title: "Ce se schimbă în tonul adultului",
+        paragraphs: [
+          "Schimbul scurt cere mai puțin volum și mai puțină grabă în voce. Nu pentru că devii permisiv, ci pentru că lași loc copilului să intre în acțiune între propoziții.",
+          "Uneori ajută să vorbești aproape ca într-un comentariu de joc: acum luăm pantofii, i-ai găsit, bun, mergem la ușă. Asta ține copilul în relație cu pasul următor în loc să îl înece într-un plan complet.",
+        ],
+      },
+      {
+        title: "Semnul că abordarea prinde",
+        paragraphs: [
+          "Nu vezi neapărat o tranziție perfectă. Vezi mai degrabă că blocajul nu mai explodează la fel de repede. Copilul preia un pas, apoi încă unul, iar tu nu mai simți că trebuie să împingi tot momentul doar prin explicație sau forță în voce.",
+        ],
+      },
+    ],
+    takeaways: [
+      "În tranziții, o propoziție bună urmată de pauză ajută mai mult decât un plan întreg spus dintr-o dată.",
+      "Schimburile scurte reduc inputul și cresc șansa ca mesajul să intre.",
+      "Copilul cooperează mai ușor când are loc să răspundă între pașii adultului.",
+    ],
+    sources: [
+      {
+        title: "Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/key-concept/serve-and-return/",
+        note: "Harvard compară schimburile bune dintre copil și adult cu un joc de tenis și subliniază valoarea interacțiunilor receptive, back-and-forth. Pagina a fost accesată la 16 iunie 2026.",
+      },
+      {
+        title: "5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/briefs/5-steps-for-brain-building-serve-and-return/",
+        note: "Articolul de blog aplică prin inferență principiul schimbului scurt și receptiv la tranzițiile zilnice dintre activități sau case. Publicată la 19 iunie 2017; accesată la 16 iunie 2026.",
+      },
+    ],
+    en: {
+      title: "Three short exchanges help more than one speech at transition",
+      summary:
+        "When a child is entering a rhythm change, short responsive exchanges usually land better than long explanations delivered in one block.",
+      intro:
+        "Harvard compares good child-adult interactions to a tennis match: a lively back-and-forth exchange. That is exactly what is often missing in tense transitions. The adult feels time pressure and delivers the whole package at once: put on your shoes, get your coat, we're leaving now, don't make us late, after that we eat and then we do homework. For a child who is already loaded, the speech may register only as pressure. Three short exchanges, with a pause and a response between them, often help more.",
+      sections: [
+        {
+          title: "Why the long speech gets lost so easily",
+          paragraphs: [
+            "In a transition, the child already has to stop something, shift attention, and accept the next step. If they also receive a long wave of information, it is not surprising that they freeze, resist, or seem not to listen.",
+            "The issue is not only cooperation. It is also input load. When you change rhythm in short steps, you give the child more chances to stay with you in the exchange instead of defending against the whole message at once.",
+          ],
+        },
+        {
+          title: "What the three exchanges look like",
+          paragraphs: [
+            "It is not a rigid formula. It is simply an order that is easier for the child's system to carry.",
+          ],
+          bullets: [
+            "First exchange: capture attention and announce one step only. For example: we're putting on shoes now.",
+            "Second exchange: wait for a sign that the message landed and offer brief support if needed. I can hold the coat, you take the shoes.",
+            "Third exchange: confirm the movement and only then give the next piece. Shoes on, now we go to the door.",
+          ],
+        },
+        {
+          title: "What changes in the adult's tone",
+          paragraphs: [
+            "A short exchange asks for less volume and less rush in the voice. Not because you become permissive, but because you leave room for the child to move between sentences.",
+            "Sometimes it helps to speak almost like a game commentator: now we take the shoes, you found them, good, now we go to the door. That keeps the child in relationship with the next step instead of drowning them in a full plan.",
+          ],
+        },
+        {
+          title: "The sign this approach is landing",
+          paragraphs: [
+            "You do not necessarily see a perfect transition. You see, rather, that the block does not explode as quickly. The child takes one step, then another, and you no longer feel that you must push the whole moment only through explanation or vocal force.",
+          ],
+        },
+      ],
+      takeaways: [
+        "In transitions, one good sentence followed by a pause helps more than a full plan delivered all at once.",
+        "Short exchanges reduce input and increase the chance that the message lands.",
+        "Children cooperate more easily when they have room to respond between adult steps.",
+      ],
+    },
+  },
+  {
+    slug: "urmareste-focusul-copilului-30-de-secunde-inainte-sa-schimbi-directia",
+    enSlug: "follow-your-childs-focus-for-30-seconds-before-changing-direction",
+    title: "Urmărește focusul copilului 30 de secunde înainte să schimbi direcția",
+    summary:
+      "Înainte să muți copilul spre agenda adultului, câteva zeci de secunde petrecute lângă focusul lui actual pot face schimbarea mai ușor de primit.",
+    intro:
+      "Harvard spune clar că interacțiunile bune pornesc din observarea a ceea ce face, vede sau simte copilul și dintr-un răspuns potrivit la acel semnal. În practică, asta nu înseamnă că adultul renunță la direcție. Înseamnă că, înainte să schimbe canalul, intră puțin în locul unde copilul este deja. În multe familii, conflictul nu pornește pentru că pasul următor este imposibil, ci pentru că schimbarea vine prea abrupt peste un focus neterminat.",
+    image: {
+      src: "/blog/follow-focus-before-direction.svg",
+      alt: "Părinte care se oprește câteva secunde lângă focusul copilului înainte de a-l ghida spre următorul pas",
+    },
+    categorySlug: "rutine-si-tranzitii",
+    publishedAt: "2026-06-16",
+    readingTimeMinutes: 5,
+    sections: [
+      {
+        title: "Ce înseamnă să urmărești focusul",
+        paragraphs: [
+          "Poate fi o mașinuță, o bucată de Lego, o poveste, o băltoacă, fermoarul ghiozdanului sau pur și simplu mersul tăcut de lângă tine. Nu ai nevoie să prelungești mult momentul. Ai nevoie doar să-l observi și să intri puțin în el înainte să ceri schimbarea.",
+          "Acele 30 de secunde îi spun copilului: văd unde ești, nu doar unde vreau eu să ajungi. Pentru mulți copii, exact asta reduce apărarea și îi ajută să suporte mai bine următorul pas.",
+        ],
+      },
+      {
+        title: "Cum arată în viața reală",
+        paragraphs: [
+          "Aplicarea este simplă și poate merge în ambele case.",
+        ],
+        bullets: [
+          "Privești ce face copilul și descrii scurt: mai pui încă o piesă sus sau văd că te uiți la melcul acesta.",
+          "Te alături o clipă fără să preiei controlul: mai împingi o mașinuță, te uiți și tu la frunză, asculți ultimele două propoziții.",
+          "Abia apoi faci trecerea: după piesa asta mergem la baie sau după ce melcul intră în iarbă plecăm.",
+          "Dacă se poate, lasă copilul să închidă micro-momentul: tu pui piesa finală, tu spui pa melcului, tu închizi fermoarul.",
+        ],
+      },
+      {
+        title: "De ce nu înseamnă răsfăț sau negociere fără capăt",
+        paragraphs: [
+          "A urmări focusul nu înseamnă să renunți la limită. Înseamnă să construiești podul până la ea. Tot tu ții direcția, doar că nu o arunci de sus peste un copil absorbit deja de altceva.",
+          "De fapt, această scurtă alăturare economisește uneori timp. Un copil care se simte întâlnit intră mai des în schimb decât unul care simte că i se smulge brusc atenția.",
+        ],
+      },
+      {
+        title: "Semnul că începe să funcționeze",
+        paragraphs: [
+          "Trecerea nu mai cere aceeași cantitate de tragere, repetare și opoziție. Copilul poate protesta puțin, dar mută corpul mai ușor spre pasul următor. Acolo vezi că nu doar ai grăbit momentul, ci l-ai și ghidat.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Înainte să redirecționezi, ajută să intri câteva secunde în focusul actual al copilului.",
+      "30 de secunde de atenție comună pot reduce rezistența la schimbare.",
+      "Direcția rămâne la adult, dar podul spre ea se construiește mai blând.",
+    ],
+    sources: [
+      {
+        title: "Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/key-concept/serve-and-return/",
+        note: "Harvard explică valoarea observării semnalelor copilului și a răspunsului atent, inclusiv prin punerea în cuvinte a ceea ce vede, face sau simte copilul. Pagina a fost accesată la 16 iunie 2026.",
+      },
+      {
+        title: "5 Steps for Brain-Building Serve and Return",
+        publisher: "Center on the Developing Child at Harvard University",
+        url: "https://developingchild.harvard.edu/resources/briefs/5-steps-for-brain-building-serve-and-return/",
+        note: "Recomandarea din articol despre a urmări focusul copilului înainte de redirecționare este o aplicare practică inferată din principiul Harvard de a observa, a răspunde și a numi înainte de a cere mai mult. Publicată la 19 iunie 2017; accesată la 16 iunie 2026.",
+      },
+    ],
+    en: {
+      title: "Follow your child's focus for 30 seconds before changing direction",
+      summary:
+        "Before moving a child toward the adult agenda, a few seconds spent beside their current focus can make the shift easier to receive.",
+      intro:
+        "Harvard is clear that good interactions start by noticing what the child is doing, seeing, or feeling and responding to that signal appropriately. In practice, that does not mean the adult gives up direction. It means that before changing the channel, they step briefly into the place where the child already is. In many families, conflict does not start because the next step is impossible, but because the change lands too abruptly on top of an unfinished focus.",
+      sections: [
+        {
+          title: "What it means to follow the child's focus",
+          paragraphs: [
+            "It may be a toy car, a piece of Lego, a story, a puddle, the backpack zipper, or simply walking quietly beside you. You do not need to stretch the moment for long. You only need to notice it and step into it briefly before asking for the change.",
+            "Those 30 seconds tell the child: I see where you are, not only where I want you to go. For many children, that is exactly what lowers defensiveness and helps them tolerate the next step better.",
+          ],
+        },
+        {
+          title: "What it looks like in real life",
+          paragraphs: [
+            "The application is simple and can work in both homes.",
+          ],
+          bullets: [
+            "Look at what the child is doing and describe it briefly: you're adding one more piece on top or I see you're looking at this snail.",
+            "Join for a moment without taking over: push one car, look at the leaf too, listen to the last two sentences.",
+            "Only then make the shift: after this piece we go to the bathroom or after the snail gets into the grass we leave.",
+            "If possible, let the child close the micro-moment: you place the final piece, you say bye to the snail, you zip the bag.",
+          ],
+        },
+        {
+          title: "Why this is not indulgence or endless negotiation",
+          paragraphs: [
+            "Following the focus does not mean giving up the limit. It means building the bridge to it. You still hold the direction; you just do not throw it from above onto a child who is already absorbed elsewhere.",
+            "In fact, this brief joining often saves time. A child who feels met is more likely to step into the exchange than one who feels their attention is being ripped away.",
+          ],
+        },
+        {
+          title: "The sign it is starting to work",
+          paragraphs: [
+            "The shift no longer asks for the same amount of pulling, repeating, and opposition. The child may still protest a little, but their body moves more easily toward the next step. That is where you see you did not only hurry the moment; you also guided it.",
+          ],
+        },
+      ],
+      takeaways: [
+        "Before redirecting, it helps to step for a few seconds into the child's current focus.",
+        "30 seconds of shared attention can reduce resistance to change.",
+        "The adult still holds the direction, but the bridge to it is built more gently.",
+      ],
+    },
+  },
+  {
     slug: "nu-i-cere-copilului-sa-aleaga-intre-voi-nici-in-lucrurile-mici",
     enSlug: "dont-ask-your-child-to-choose-between-you-even-in-small-things",
     title: "Nu-i cere copilului să aleagă între voi nici în lucrurile mici",
