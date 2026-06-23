@@ -7,10 +7,13 @@ import {
   BookHeart,
   BookOpen,
   CalendarDays,
+  CalendarHeart,
   Check,
   Clock3,
   FileText,
+  Gauge,
   Handshake,
+  HeartHandshake,
   House,
   MessageCircleHeart,
   MessageSquare,
@@ -21,6 +24,7 @@ import {
   Smartphone,
   Smile,
   Sparkles,
+  Wallet,
 } from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -51,7 +55,11 @@ const FEATURE_CARD_META: Array<{ icon: LucideIcon; className: string; tone: stri
   { icon: Handshake,    className: "",               tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
   { icon: BookHeart,    className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
   { icon: Smile,        className: "",               tone: "bg-[linear-gradient(135deg,#fbeef0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
-  { icon: MessageCircleHeart, className: "md:col-span-2", tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#edf6f3_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
+  { icon: MessageCircleHeart, className: "",         tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#edf6f3_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
+  { icon: Wallet,       className: "",               tone: "bg-[linear-gradient(135deg,#f8f1dc_0%,#fffdf9_100%)]", iconTone: "bg-[#f4e3b2] text-[#7a5620]" },
+  { icon: CalendarHeart, className: "",              tone: "bg-[linear-gradient(135deg,#fbeaf0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
+  { icon: Gauge,        className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
+  { icon: HeartHandshake, className: "md:col-span-2", tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#fffdf9_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
 ];
 
 const HEALTH_TONES = ["bg-[#fff4e8]", "bg-[#eef4fb]", "bg-[#edf6f3]", "bg-[#f8f1dc]"];

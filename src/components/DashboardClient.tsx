@@ -45,6 +45,10 @@ import { TransitionNoteCard } from "@/components/TransitionNoteCard";
 import { JointDecisionsCard } from "@/components/JointDecisionsCard";
 import { ParentingGuideCard } from "@/components/ParentingGuideCard";
 import { ChildMoodCard } from "@/components/ChildMoodCard";
+import { ExpenseTrackerCard } from "@/components/ExpenseTrackerCard";
+import { SpecialDaysCard } from "@/components/SpecialDaysCard";
+import { CoparentingScoreCard } from "@/components/CoparentingScoreCard";
+import { ContactBalanceCard } from "@/components/ContactBalanceCard";
 import { minutesByParentForDay, timeStrToMinutes } from "@/lib/schedule-parent-by-time";
 
 const POLL_INTERVAL_MS = 15000;
@@ -1000,10 +1004,19 @@ export function DashboardClient({
         <BlogReferencesSection />
       )}
       {activeTab === "hub" && (
+        <CoparentingScoreCard parentType={parentType} />
+      )}
+      {activeTab === "hub" && (
         <JointDecisionsCard parentType={parentType} currentUserId={currentUserId} />
       )}
       {activeTab === "hub" && (
         <ParentingGuideCard parentType={parentType} />
+      )}
+      {activeTab === "hub" && (
+        <ExpenseTrackerCard parentType={parentType} />
+      )}
+      {activeTab === "hub" && (
+        <SpecialDaysCard parentType={parentType} />
       )}
       {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
@@ -1153,6 +1166,9 @@ export function DashboardClient({
           childId={childId}
           childName={resolvedChild}
         />
+      )}
+      {activeTab === "program" && (
+        <ContactBalanceCard parentType={parentType} />
       )}
       {activeTab === "program" && (
       <div className="app-native-surface overflow-hidden rounded-[2rem]">

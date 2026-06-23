@@ -199,6 +199,26 @@ export const en: Translations = {
         text: "When a message looks tense, the app gently warns you and offers to send it after 5 minutes. In that window you can cancel, edit or send it right away. Fewer messages written in anger, fewer conflicts.",
         bullets: ["tone warning", "5-minute cooldown", "cancel or send now"],
       },
+      {
+        title: "Shared expenses, no unclear tallies",
+        text: "Log what you bought for the child — who paid, how much, and how it's split (equal or custom). The app keeps the balance: who owes whom and how much. Settle with one button, and the history stays transparent.",
+        bullets: ["paid by / split", "automatic balance", "settle up and history", "notification on add"],
+      },
+      {
+        title: "Special days, set once",
+        text: "Christmas, the child's birthday, the first day of school: you say who has them, and for holidays you pick automatic year-by-year alternation. You see ahead of time who has them this year and next — no renegotiating the same days.",
+        bullets: ["automatic year alternation", "2-year preview", "annual or one-off"],
+      },
+      {
+        title: "The co-parenting score — an objective picture",
+        text: "A single indicator, computed from real data: how planned the schedule is, how regular communication is, how many decisions are resolved and how many expenses are settled. It replaces impressions with numbers and shows where you can grow.",
+        bullets: ["0–100 score", "four objective signals", "improvement trend"],
+      },
+      {
+        title: "Contact balance — a gentle, timely signal",
+        text: "If one parent goes without days with the child longer than usual and has nothing scheduled, the app gently flags it and suggests a meeting. A preventive tool, not a reproach — regular contact matters enormously for the child.",
+        bullets: ["based on the schedule", "preventive signal", "no blame"],
+      },
     ],
     healthTitle: "Health & treatment",
     healthSubtitle: "Complete medical module, explained briefly.",

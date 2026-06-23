@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { ModalPortal } from "@/components/ModalPortal";
 import {
   GUIDE_CATEGORY_ORDER,
   GUIDE_CATEGORY_LABELS,
@@ -81,6 +82,7 @@ export function AddGuideEntryModal({
   const labelCls = "block text-xs font-semibold text-stone-600 mb-1.5";
 
   return (
+    <ModalPortal>
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
       <div className="app-native-surface-strong w-full max-w-md rounded-[2rem] shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#ead9c8]">
@@ -162,5 +164,6 @@ export function AddGuideEntryModal({
         </form>
       </div>
     </div>
+    </ModalPortal>
   );
 }

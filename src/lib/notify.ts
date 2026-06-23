@@ -269,6 +269,58 @@ export async function sendGuideUpdatedNotification(
 }
 
 /**
+ * Notifică celălalt părinte când se adaugă o cheltuială comună nouă.
+ */
+export async function sendExpenseAddedNotification(
+  db: Db,
+  familyId: ObjectId,
+  actorUserId: string,
+  actorLabel: string,
+  title: string,
+  amountBani: number
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const recipientIds = memberIds.filter((id) => id !== actorUserId);
+  if (recipientIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientIds);
+  if (subs.length === 0) return;
+  const lei = (amountBani / 100).toLocaleString("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  await sendPushToSubscriptions(subs, {
+    title: "Cheltuială nouă",
+    body: `${actorLabel} a adăugat „${title}” (${lei} lei). Vezi soldul în aplicație.`,
+    url: homeAppUrl({ tab: "hub" }),
+  });
+}
+
+/**
+ * Notifică celălalt părinte când se adaugă o zi specială (sărbătoare, ziua copilului).
+ */
+export async function sendSpecialDayAddedNotification(
+  db: Db,
+  familyId: ObjectId,
+  actorUserId: string,
+  actorLabel: string,
+  title: string
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const recipientIds = memberIds.filter((id) => id !== actorUserId);
+  if (recipientIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientIds);
+  if (subs.length === 0) return;
+  await sendPushToSubscriptions(subs, {
+    title: "Zi specială adăugată",
+    body: `${actorLabel} a adăugat „${title}” în calendarul zilelor speciale.`,
+    url: homeAppUrl({ tab: "hub" }),
+  });
+}
+
+/**
  * Notifică ceilalți membri ai familiei când se adaugă un material util nou.
  */
 export async function sendUsefulLinkAddedNotification(

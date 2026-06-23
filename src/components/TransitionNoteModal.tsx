@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
 import { X, Plus, Trash2, ArrowRightLeft } from "lucide-react";
+import { ModalPortal } from "@/components/ModalPortal";
 import { CHILD_MOOD_EMOJI, CHILD_MOOD_ORDER, type ChildMood, type TransitionItem, type TransitionNote } from "@/types/transition-note";
 import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
 
@@ -126,6 +127,7 @@ export function TransitionNoteModal({
   const labelCls = "block text-xs font-semibold text-stone-600 mb-1.5";
 
   return (
+    <ModalPortal>
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
       <div
         className="app-native-surface-strong w-full max-w-md max-h-[88vh] rounded-[2rem] shadow-xl flex flex-col"
@@ -285,5 +287,6 @@ export function TransitionNoteModal({
         </div>
       </div>
     </div>
+    </ModalPortal>
   );
 }
