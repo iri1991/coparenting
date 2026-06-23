@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { ModalPortal } from "@/components/ModalPortal";
 import {
   DECISION_CATEGORY_ORDER,
   DECISION_CATEGORY_LABELS,
@@ -72,6 +73,7 @@ export function AddJointDecisionModal({ isOpen, onClose, onSaved, editDecision }
   const labelCls = "block text-xs font-semibold text-stone-600 mb-1.5";
 
   return (
+    <ModalPortal>
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
       <div
         className="app-native-surface-strong w-full max-w-md rounded-[2rem] shadow-xl"
@@ -155,5 +157,6 @@ export function AddJointDecisionModal({ isOpen, onClose, onSaved, editDecision }
         </form>
       </div>
     </div>
+    </ModalPortal>
   );
 }

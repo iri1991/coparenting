@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { ModalPortal } from "@/components/ModalPortal";
 
 interface Props {
   medicationName: string;
@@ -53,6 +54,7 @@ export function OnDemandAdministerDialog({
   }
 
   return (
+    <ModalPortal>
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 px-4"
       onClick={onClose}
@@ -144,5 +146,6 @@ export function OnDemandAdministerDialog({
         </div>
       </div>
     </div>
+    </ModalPortal>
   );
 }

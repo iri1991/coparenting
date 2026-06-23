@@ -27,7 +27,9 @@ export type ActivityAction =
   | "joint_decision_approved"
   | "joint_decision_declined"
   | "parenting_guide_updated"
-  | "child_mood_logged";
+  | "child_mood_logged"
+  | "expense_added"
+  | "special_day_added";
 
 export interface ActivityPayload {
   date?: string;

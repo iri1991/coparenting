@@ -197,6 +197,26 @@ export const ro = {
         text: "Când un mesaj pare tensionat, aplicația te avertizează blând și îți oferă opțiunea să-l trimiți după 5 minute. În acel timp îl poți anula, edita sau trimite imediat. Mai puține mesaje scrise la nervi, mai puține conflicte.",
         bullets: ["avertizare de ton", "cooldown de 5 minute", "anulează sau trimite acum"],
       },
+      {
+        title: "Cheltuieli comune, fără socoteli neclare",
+        text: "Treci ce ai cumpărat pentru copil — cine a plătit, cât și cum se împarte (egal sau custom). Aplicația ține soldul: cine cui îi datorează și cât. Decontezi cu un buton, iar istoricul rămâne transparent.",
+        bullets: ["plătit de / împărțire", "sold automat", "decontare și istoric", "notificare la adăugare"],
+      },
+      {
+        title: "Zile speciale, stabilite o singură dată",
+        text: "Crăciun, ziua copilului, prima zi de școală: spui cine îl are, iar pentru sărbători alegi alternanța automată pe ani. Vezi din timp cine îl are anul acesta și anul viitor — fără renegocierea acelorași zile.",
+        bullets: ["alternanță automată pe ani", "preview pe 2 ani", "anual sau o singură dată"],
+      },
+      {
+        title: "Scorul de co-parenting — o imagine obiectivă",
+        text: "Un singur indicator, calculat din date reale: cât de planificat e programul, cât de regulată e comunicarea, câte decizii sunt rezolvate și câte cheltuieli decontate. Înlocuiește impresiile cu cifre și arată unde puteți crește.",
+        bullets: ["scor 0–100", "patru semnale obiective", "tendință de îmbunătățire"],
+      },
+      {
+        title: "Echilibrul contactului — un semnal discret la timp",
+        text: "Dacă un părinte rămâne fără zile cu copilul mai mult decât e firesc și nu are nimic programat, aplicația semnalează blând și sugerează o întâlnire. Un instrument preventiv, nu un reproș — contactul regulat contează enorm pentru copil.",
+        bullets: ["bazat pe program", "semnal preventiv", "fără reproșuri"],
+      },
     ],
     healthTitle: "Sănătate & tratament",
     healthSubtitle: "Modul medical complet, explicat pe scurt.",
