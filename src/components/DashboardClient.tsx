@@ -41,6 +41,10 @@ import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { inter } from "@/lib/i18n/interpolate";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
+import { TransitionNoteCard } from "@/components/TransitionNoteCard";
+import { JointDecisionsCard } from "@/components/JointDecisionsCard";
+import { ParentingGuideCard } from "@/components/ParentingGuideCard";
+import { ChildMoodCard } from "@/components/ChildMoodCard";
 import { minutesByParentForDay, timeStrToMinutes } from "@/lib/schedule-parent-by-time";
 
 const POLL_INTERVAL_MS = 15000;
@@ -996,6 +1000,12 @@ export function DashboardClient({
         <BlogReferencesSection />
       )}
       {activeTab === "hub" && (
+        <JointDecisionsCard parentType={parentType} currentUserId={currentUserId} />
+      )}
+      {activeTab === "hub" && (
+        <ParentingGuideCard parentType={parentType} />
+      )}
+      {activeTab === "hub" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <h2 className="text-base font-semibold text-stone-800 mb-2">{d.timeReport}</h2>
         <div className="flex flex-wrap gap-1.5 mb-2">
@@ -1129,6 +1139,20 @@ export function DashboardClient({
       )}
       {activeTab === "program" && childId && (
         <ActiveHealthCard childId={childId} childName={resolvedChild} />
+      )}
+      {activeTab === "program" && (
+        <TransitionNoteCard
+          parentType={parentType}
+          handoverDate={currentParentPeriod?.endDate ?? null}
+        />
+      )}
+      {activeTab === "program" && (
+        <ChildMoodCard
+          parentType={parentType}
+          currentUserId={currentUserId}
+          childId={childId}
+          childName={resolvedChild}
+        />
       )}
       {activeTab === "program" && (
       <div className="app-native-surface overflow-hidden rounded-[2rem]">

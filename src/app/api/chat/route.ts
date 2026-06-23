@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { sendNewChatMessageNotification } from "@/lib/notify";
+import { flushDueScheduledMessages } from "@/lib/scheduled-messages";
 
 const MAX_MESSAGE_LENGTH = 2000;
 const MAX_MESSAGES = 100;
@@ -31,6 +32,11 @@ export async function GET() {
       { status: 403, headers: NO_STORE_JSON }
     );
   }
+
+  // Livrează mesajele programate scadente înainte de a citi lista (flush lazy).
+  await flushDueScheduledMessages(db, familyId).catch((err) =>
+    console.error("[chat] flush scheduled failed", err)
+  );
 
   const memberIds = family.memberIds ?? [];
   const parent1Name = (family as { parent1Name?: string }).parent1Name?.trim() || "Părinte 1";

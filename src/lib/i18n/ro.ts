@@ -172,6 +172,31 @@ export const ro = {
         text: "Propuneri săptămânale, remindere și notificări utile când există o schimbare relevantă.",
         bullets: ["ritualuri la oră fixă", "propunere de duminică", "notificări pentru modificări"],
       },
+      {
+        title: "Nota de predare — momentul cel mai sensibil, fără tensiune",
+        text: "Când predai copilul, lași o notă scurtă: cum se simte, cum a dormit și a mâncat, ce medicație urmează, ce teme are și ce obiecte pleacă cu el. Celălalt părinte preia totul cu context, nu cu întrebări.",
+        bullets: ["stare emoțională", "somn, mâncare, medicație", "checklist de obiecte", "notificare la preluare"],
+      },
+      {
+        title: "Decizii comune, cu acord documentat",
+        text: "Școală, medical, activități, bani: propui o decizie, celălalt părinte aprobă sau cere să discutați. Fiecare alegere importantă rămâne în istoric, cu cine și când — fără „nu am știut” și fără excludere.",
+        bullets: ["propunere și aprobare", "categorii clare", "istoric de decizii", "notificare la răspuns"],
+      },
+      {
+        title: "Ghid parental comun — aceleași reguli în ambele case",
+        text: "Somn, ecrane, mâncare, limite și valori, scrise o singură dată și aplicate la fel în ambele case. Mai puțin „la mama e altfel” și mai multă predictibilitate pentru copil — al doilea factor al echilibrului lui emoțional.",
+        bullets: ["reguli pe categorii", "editabil de ambii părinți", "consistență între case"],
+      },
+      {
+        title: "Jurnalul emoțional al copilului",
+        text: "Un spațiu simplu pentru cum se simte copilul, mai ales după tranziții. Notezi starea cu un emoji și, dacă vrea, ce a spus. Vezi tendința în timp și observi din vreme când are nevoie de mai multă atenție.",
+        bullets: ["stare cu emoji", "vocea copilului", "tendință în timp"],
+      },
+      {
+        title: "Comunicare fără escaladare — o pauză înainte de „trimite”",
+        text: "Când un mesaj pare tensionat, aplicația te avertizează blând și îți oferă opțiunea să-l trimiți după 5 minute. În acel timp îl poți anula, edita sau trimite imediat. Mai puține mesaje scrise la nervi, mai puține conflicte.",
+        bullets: ["avertizare de ton", "cooldown de 5 minute", "anulează sau trimite acum"],
+      },
     ],
     healthTitle: "Sănătate & tratament",
     healthSubtitle: "Modul medical complet, explicat pe scurt.",

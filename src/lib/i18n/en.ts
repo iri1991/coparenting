@@ -174,6 +174,31 @@ export const en: Translations = {
         text: "Weekly proposals, reminders and useful notifications when there's a relevant change.",
         bullets: ["rituals at a fixed time", "Sunday proposal", "notifications for changes"],
       },
+      {
+        title: "Handover note — the most sensitive moment, without tension",
+        text: "When you hand over your child, you leave a short note: how they feel, how they slept and ate, what medication is next, what homework is pending and which items travel with them. The other parent takes over with context, not questions.",
+        bullets: ["emotional state", "sleep, food, medication", "items checklist", "notification on handover"],
+      },
+      {
+        title: "Joint decisions, with a documented agreement",
+        text: "School, medical, activities, money: you propose a decision, the other parent approves or asks to talk. Every important choice stays in history, with who and when — no more “I didn't know” and no exclusion.",
+        bullets: ["propose and approve", "clear categories", "decision history", "notification on response"],
+      },
+      {
+        title: "Shared parenting guide — same rules in both homes",
+        text: "Sleep, screens, food, limits and values, written once and applied the same in both homes. Less “it's different at mom's” and more predictability for the child — the second factor in their emotional balance.",
+        bullets: ["rules by category", "editable by both parents", "consistency across homes"],
+      },
+      {
+        title: "The child's emotional journal",
+        text: "A simple space for how the child feels, especially after transitions. You log the mood with an emoji and, if they want, what they said. You see the trend over time and notice early when they need more attention.",
+        bullets: ["mood with emoji", "the child's voice", "trend over time"],
+      },
+      {
+        title: "Communication without escalation — a pause before “send”",
+        text: "When a message looks tense, the app gently warns you and offers to send it after 5 minutes. In that window you can cancel, edit or send it right away. Fewer messages written in anger, fewer conflicts.",
+        bullets: ["tone warning", "5-minute cooldown", "cancel or send now"],
+      },
     ],
     healthTitle: "Health & treatment",
     healthSubtitle: "Complete medical module, explained briefly.",
