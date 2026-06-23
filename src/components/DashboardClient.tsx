@@ -41,7 +41,7 @@ import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { inter } from "@/lib/i18n/interpolate";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
-import { minutesByParentForDay } from "@/lib/schedule-parent-by-time";
+import { minutesByParentForDay, timeStrToMinutes } from "@/lib/schedule-parent-by-time";
 
 const POLL_INTERVAL_MS = 15000;
 
@@ -363,7 +363,10 @@ export function DashboardClient({
         if (days.length === 0) days.push(start);
 
         let lastError: string | null = null;
-        for (const dateStr of days) {
+        for (let idx = 0; idx < days.length; idx++) {
+          const dateStr = days[idx];
+          const isFirst = idx === 0;
+          const isLast = idx === days.length - 1;
           const res = await fetch("/api/events", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -374,8 +377,8 @@ export function DashboardClient({
               locationLabel: payload.locationLabel ?? null,
               title: payload.title ?? null,
               notes: payload.notes ?? null,
-              startTime: payload.startTime ?? null,
-              endTime: payload.endTime ?? null,
+              startTime: isFirst ? (payload.startTime ?? null) : null,
+              endTime: isLast ? (payload.endTime ?? null) : null,
               caretakerLabel: payload.caretakerLabel ?? null,
             }),
           });
@@ -474,6 +477,21 @@ export function DashboardClient({
     let otherMinutes = 0;
     let totalTrackedDays = 0;
 
+    // Hours per event: startTime-only → time to midnight; endTime-only → midnight to time; both → range; none → 24h
+    function getEventHours(ev: { startTime?: string | null; endTime?: string | null }): number {
+      const st = timeStrToMinutes(ev.startTime);
+      const et = timeStrToMinutes(ev.endTime);
+      if (st !== null && et !== null) return Math.max(0, et - st) / 60;
+      if (st !== null) return (1440 - st) / 60;
+      if (et !== null) return et / 60;
+      return 24;
+    }
+
+    let tataHours = 0;
+    let mamaHours = 0;
+    let tataNights = 0;
+    let mamaNights = 0;
+
     for (const [, dayEvents] of byDate) {
       totalTrackedDays += 1;
       const slots = dayEvents.map((ev) => ({
@@ -486,6 +504,21 @@ export function DashboardClient({
       mamaMinutes += m.get("mama") ?? 0;
       togetherMinutes += m.get("together") ?? 0;
       otherMinutes += m.get("other") ?? 0;
+
+      for (const ev of dayEvents) {
+        if (ev.parent === "tata") {
+          tataHours += getEventHours(ev);
+          if (!ev.endTime) tataNights += 1;
+        } else if (ev.parent === "mama") {
+          mamaHours += getEventHours(ev);
+          if (!ev.endTime) mamaNights += 1;
+        } else if (ev.parent === "together") {
+          const h = getEventHours(ev) / 2;
+          tataHours += h;
+          mamaHours += h;
+          if (!ev.endTime) { tataNights += 0.5; mamaNights += 0.5; }
+        }
+      }
     }
 
     const tataDays = tataMinutes / DAY_MIN;
@@ -505,6 +538,18 @@ export function DashboardClient({
       const r = Math.round(v);
       if (Math.abs(v - r) < 0.001) return String(r);
       return v.toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+    }
+
+    function fmtHours(h: number): string {
+      const r = Math.round(h);
+      if (Math.abs(h - r) < 0.05) return String(r);
+      return h.toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+    }
+
+    function fmtHoursPerDay(h: number, days: number): string {
+      if (days === 0) return "0";
+      const hpd = h / days;
+      return hpd.toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
     }
 
     const a = parseISO(monthStartStr);
@@ -530,6 +575,13 @@ export function DashboardClient({
       tataPct,
       mamaPct,
       otherPct,
+      tataHoursStr: fmtHours(tataHours),
+      mamaHoursStr: fmtHours(mamaHours),
+      tataHoursPerDayStr: fmtHoursPerDay(tataHours, totalTrackedDays),
+      mamaHoursPerDayStr: fmtHoursPerDay(mamaHours, totalTrackedDays),
+      tataNightsStr: fmtDayFrac(tataNights),
+      mamaNightsStr: fmtDayFrac(mamaNights),
+      showNights: tataNights > 0 || mamaNights > 0,
     };
   }, [events, timeReportRange, dateLocale]);
 
@@ -1015,22 +1067,28 @@ export function DashboardClient({
             </div>
             <div className={`grid gap-3 text-sm ${parentTimeReport.showOther ? "grid-cols-3" : "grid-cols-2"}`}>
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
-                <p className="text-stone-500">{d.timeFor} {resolvedParent1}</p>
-                <p className="font-semibold text-stone-800">
-                  {parentTimeReport.tataDaysStr} {d.timeReportDaysUnit}
-                  <span className="font-medium text-stone-500"> · {parentTimeReport.tataPct}%</span>
+                <p className="text-stone-500 text-xs mb-1">{d.timeFor} {resolvedParent1}</p>
+                <p className="font-semibold text-stone-800 text-base leading-tight">
+                  {parentTimeReport.tataHoursStr} {d.timeReportHoursUnit}
+                </p>
+                <p className="text-xs text-stone-400 mt-0.5">
+                  {d.timeReportAvgPerDay}: {parentTimeReport.tataHoursPerDayStr}{d.timeReportHoursUnit}
+                  <span className="ml-1">· {parentTimeReport.tataPct}%</span>
                 </p>
               </div>
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
-                <p className="text-stone-500">{d.timeFor} {resolvedParent2}</p>
-                <p className="font-semibold text-stone-800">
-                  {parentTimeReport.mamaDaysStr} {d.timeReportDaysUnit}
-                  <span className="font-medium text-stone-500"> · {parentTimeReport.mamaPct}%</span>
+                <p className="text-stone-500 text-xs mb-1">{d.timeFor} {resolvedParent2}</p>
+                <p className="font-semibold text-stone-800 text-base leading-tight">
+                  {parentTimeReport.mamaHoursStr} {d.timeReportHoursUnit}
+                </p>
+                <p className="text-xs text-stone-400 mt-0.5">
+                  {d.timeReportAvgPerDay}: {parentTimeReport.mamaHoursPerDayStr}{d.timeReportHoursUnit}
+                  <span className="ml-1">· {parentTimeReport.mamaPct}%</span>
                 </p>
               </div>
               {parentTimeReport.showOther && (
                 <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
-                  <p className="text-stone-500">{d.timeReportOther}</p>
+                  <p className="text-stone-500 text-xs mb-1">{d.timeReportOther}</p>
                   <p className="font-semibold text-stone-800">
                     {parentTimeReport.otherDaysStr} {d.timeReportDaysUnit}
                     <span className="font-medium text-stone-500"> · {parentTimeReport.otherPct}%</span>
@@ -1038,6 +1096,24 @@ export function DashboardClient({
                 </div>
               )}
             </div>
+            {parentTimeReport.showNights && (
+              <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-[1.3rem] bg-white/82 px-3 py-2.5 flex items-center gap-2">
+                  <span className="text-lg">🌙</span>
+                  <div>
+                    <p className="text-xs text-stone-400">{d.timeReportNights} {resolvedParent1}</p>
+                    <p className="font-semibold text-stone-800">{parentTimeReport.tataNightsStr} {d.timeReportNightsUnit}</p>
+                  </div>
+                </div>
+                <div className="rounded-[1.3rem] bg-white/82 px-3 py-2.5 flex items-center gap-2">
+                  <span className="text-lg">🌙</span>
+                  <div>
+                    <p className="text-xs text-stone-400">{d.timeReportNights} {resolvedParent2}</p>
+                    <p className="font-semibold text-stone-800">{parentTimeReport.mamaNightsStr} {d.timeReportNightsUnit}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             {parentTimeReport.showTogetherLine && (
               <p className="mt-2 text-xs text-stone-500">
                 {d.togetherDays} {parentTimeReport.togetherDaysStr} {d.togetherNote}

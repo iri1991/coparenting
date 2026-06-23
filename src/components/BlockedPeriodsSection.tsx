@@ -69,8 +69,10 @@ export function BlockedPeriodsSection({ onAddClick }: BlockedPeriodsSectionProps
                 <div>
                   <span className="text-sm font-medium text-stone-800 dark:text-stone-200">
                     {format(new Date(b.startDate + "T12:00:00"), "d MMM", { locale: ro })}
+                    {b.startTime ? `, ${b.startTime}` : ""}
                     {" – "}
                     {format(new Date(b.endDate + "T12:00:00"), "d MMM yyyy", { locale: ro })}
+                    {b.endTime ? `, ${b.endTime}` : ""}
                   </span>
                   {b.note?.trim() && (
                     <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{b.note}</p>

@@ -9,12 +9,16 @@ import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { BlockedPeriod } from "@/types/blocked";
 import type { ParentType } from "@/types/events";
 
+const TIME_RE = /^\d{2}:\d{2}$/;
+
 function toBlock(doc: {
   _id: unknown;
   userId: string;
   parentType: string;
   startDate: string;
   endDate: string;
+  startTime?: string | null;
+  endTime?: string | null;
   note?: string | null;
   createdAt: Date;
 }): BlockedPeriod {
@@ -24,6 +28,8 @@ function toBlock(doc: {
     parentType: doc.parentType as ParentType,
     startDate: doc.startDate,
     endDate: doc.endDate,
+    startTime: doc.startTime ?? undefined,
+    endTime: doc.endTime ?? undefined,
     note: doc.note ?? undefined,
     createdAt: doc.createdAt.toISOString(),
   };
@@ -89,6 +95,25 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+
+  // Optional times — validate HH:MM format if provided
+  const startTime =
+    typeof body.startTime === "string" && TIME_RE.test(body.startTime)
+      ? body.startTime
+      : null;
+  const endTime =
+    typeof body.endTime === "string" && TIME_RE.test(body.endTime)
+      ? body.endTime
+      : null;
+
+  // Same-day block: startTime must be before endTime
+  if (start === end && startTime && endTime && startTime >= endTime) {
+    return NextResponse.json(
+      { error: "Ora de start trebuie să fie înainte de ora de final." },
+      { status: 400 }
+    );
+  }
+
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId!);
   const family = await getActiveFamily(db, familyId);
@@ -120,6 +145,8 @@ export async function POST(request: Request) {
     parentType,
     startDate: start,
     endDate: end,
+    startTime: startTime ?? null,
+    endTime: endTime ?? null,
     note: note ?? null,
     createdAt: now,
   });

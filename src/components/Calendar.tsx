@@ -89,18 +89,29 @@ export function Calendar({
 
   const isSelected = selectedDate ? (date: Date) => isSameDay(date, selectedDate) : () => false;
 
-  /** Pentru o zi, returnează inițialele părinților care au blocat (ex. ["I"], ["A"], ["I","A"]) */
-  function getBlockedLabelsForDay(date: Date): string[] {
+  /** Returnează inițialele blocate + tooltip cu ore pentru o zi dată. */
+  function getBlockedInfoForDay(date: Date): { labels: string[]; title: string } {
     const d = format(date, "yyyy-MM-dd");
-    const out: string[] = [];
+    const initials: string[] = [];
+    const parts: string[] = [];
     for (const b of blockedPeriods) {
       if (b.parentType !== "together" && isDateInBlock(d, b.startDate, b.endDate)) {
         const name = labels.parentLabels[b.parentType];
         const initial = name.charAt(0).toUpperCase();
-        if (!out.includes(initial)) out.push(initial);
+        if (!initials.includes(initial)) {
+          initials.push(initial);
+          // Build time context for this day
+          let timeNote = "";
+          if (d === b.startDate && b.startTime) timeNote = `de la ${b.startTime}`;
+          if (d === b.endDate && b.endTime) timeNote = timeNote ? `${timeNote} până la ${b.endTime}` : `până la ${b.endTime}`;
+          parts.push(timeNote ? `${name} (${timeNote})` : name);
+        }
       }
     }
-    return out.sort();
+    return {
+      labels: initials.sort(),
+      title: initials.length > 0 ? `Blocat: ${parts.join(", ")}` : "",
+    };
   }
 
   return (
@@ -148,7 +159,8 @@ export function Calendar({
               const inMonth = isSameMonth(date, currentDate);
               const selected = isSelected(date);
               const today = isToday(date);
-              const blockedLabels = getBlockedLabelsForDay(date);
+              const blockedInfo = getBlockedInfoForDay(date);
+              const blockedLabels = blockedInfo.labels;
               const proposal = getProposalForDay(date);
               return (
                 <button
@@ -188,7 +200,7 @@ export function Calendar({
                     {blockedLabels.length > 0 && (
                       <span
                         className="px-1 text-[10px] font-medium text-stone-400"
-                        title={`Blocat: ${blockedLabels.join(", ")}`}
+                        title={blockedInfo.title}
                       >
                         🔒 {blockedLabels.join("")}
                       </span>

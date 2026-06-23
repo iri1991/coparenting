@@ -12,6 +12,16 @@ import { useFamilyLabels } from "@/contexts/FamilyLabelsContext";
 
 type ParentRole = "tata" | "mama";
 
+function formatBlockRange(b: BlockedPeriod): string {
+  const startLabel =
+    format(new Date(b.startDate + "T12:00:00"), "d MMM", { locale: ro }) +
+    (b.startTime ? `, ${b.startTime}` : "");
+  const endLabel =
+    format(new Date(b.endDate + "T12:00:00"), "d MMM yyyy", { locale: ro }) +
+    (b.endTime ? `, ${b.endTime}` : "");
+  return `${startLabel} – ${endLabel}`;
+}
+
 interface BlockedDaysModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -220,13 +230,7 @@ function TabContent({
             >
               <div>
                 <span className="text-sm font-medium text-stone-800 dark:text-stone-200">
-                  {format(new Date(b.startDate + "T12:00:00"), "d MMM", {
-                    locale: ro,
-                  })}
-                  {" – "}
-                  {format(new Date(b.endDate + "T12:00:00"), "d MMM yyyy", {
-                    locale: ro,
-                  })}
+                  {formatBlockRange(b)}
                 </span>
                 {b.note?.trim() && (
                   <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">

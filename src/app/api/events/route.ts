@@ -109,20 +109,100 @@ export async function GET() {
   return NextResponse.json(events);
 }
 
-function isDateInBlock(dateStr: string, startDate: string, endDate: string): boolean {
-  return dateStr >= startDate && dateStr <= endDate;
+/**
+ * Returns true if an event (eventDate, optional eventStartTime/endTime) overlaps
+ * with a blocked period that has optional startTime/endTime.
+ *
+ * Rules:
+ * - Interior days (strictly between start and end dates) → always blocked.
+ * - Start day: if blockStartTime is set, only block when the event overlaps
+ *   [blockStartTime, ∞). Full-day events (no time) on a partial start day
+ *   are NOT blocked so the user can still schedule morning time.
+ * - End day: if blockEndTime is set, only block when the event overlaps
+ *   [0:00, blockEndTime). Full-day events on a partial end day are NOT blocked.
+ * - If both dates coincide (single-day partial block), apply both constraints.
+ */
+function isEventBlockedByPeriod(
+  eventDate: string,
+  eventStartTime: string | null | undefined,
+  eventEndTime: string | null | undefined,
+  blockStartDate: string,
+  blockEndDate: string,
+  blockStartTime: string | null | undefined,
+  blockEndTime: string | null | undefined,
+): boolean {
+  if (eventDate < blockStartDate || eventDate > blockEndDate) return false;
+
+  const isStartDay = eventDate === blockStartDate;
+  const isEndDay = eventDate === blockEndDate;
+  const isInterior = !isStartDay && !isEndDay;
+
+  if (isInterior) return true;
+
+  const hasBlockStart = !!blockStartTime;
+  const hasBlockEnd = !!blockEndTime;
+  const hasEventTime = !!eventStartTime || !!eventEndTime;
+
+  // Single-day partial block
+  if (isStartDay && isEndDay) {
+    if (!hasBlockStart && !hasBlockEnd) return true;
+    if (!hasEventTime) return false; // full-day event → allow on partial-day block
+    const evS = eventStartTime ?? "00:00";
+    const evE = eventEndTime ?? "23:59";
+    const blS = blockStartTime ?? "00:00";
+    const blE = blockEndTime ?? "23:59";
+    return evS < blE && evE > blS;
+  }
+
+  // Start day only (multi-day block)
+  if (isStartDay) {
+    if (!hasBlockStart) return true;
+    if (!hasEventTime) return false;
+    const evE = eventEndTime ?? "23:59";
+    return evE > blockStartTime!;
+  }
+
+  // End day only (multi-day block)
+  if (isEndDay) {
+    if (!hasBlockEnd) return true;
+    if (!hasEventTime) return false;
+    const evS = eventStartTime ?? "00:00";
+    return evS < blockEndTime!;
+  }
+
+  return false;
 }
 
 /** Returnează { userId, parentLabel } al părintelui care a blocat ziua, sau null. */
 function getBlockerForEventDate(
   dateStr: string,
   eventParent: ParentType,
-  blocks: { userId: string; parentType: string; startDate: string; endDate: string }[]
+  blocks: {
+    userId: string;
+    parentType: string;
+    startDate: string;
+    endDate: string;
+    startTime?: string | null;
+    endTime?: string | null;
+  }[],
+  eventStartTime?: string | null,
+  eventEndTime?: string | null,
 ): { userId: string; parentLabel: string } | null {
   const toCheck: ParentType[] =
     eventParent === "together" ? ["tata", "mama"] : eventParent === "other" ? [] : [eventParent];
   for (const block of blocks) {
-    if (toCheck.includes(block.parentType as ParentType) && isDateInBlock(dateStr, block.startDate, block.endDate)) {
+    if (
+      toCheck.includes(block.parentType as ParentType) &&
+      isEventBlockedByPeriod(
+        dateStr,
+        eventStartTime,
+        eventEndTime,
+        block.startDate,
+        block.endDate,
+        block.startTime,
+        block.endTime,
+      )
+    ) {
       return {
         userId: block.userId,
         parentLabel: PARENT_LABELS[block.parentType as ParentType],
@@ -161,13 +241,15 @@ export async function POST(request: Request) {
     .collection("blocked_periods")
     .find({ familyId })
     .toArray();
-  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string; startTime?: string | null; endTime?: string | null }[]).map((b) => ({
     userId: String(b.userId),
     parentType: b.parentType,
     startDate: b.startDate,
     endDate: b.endDate,
+    startTime: b.startTime ?? null,
+    endTime: b.endTime ?? null,
   }));
-  const blocker = getBlockerForEventDate(dateStr, parent as ParentType, blockList);
+  const blocker = getBlockerForEventDate(dateStr, parent as ParentType, blockList, startTime ?? null, endTime ?? null);
   if (blocker) {
     try {
       const attemptedBy =
@@ -253,13 +335,17 @@ export async function PATCH(request: Request) {
   const finalParent = (parent != null ? parent : currentEvent.parent) as ParentType;
 
   const blocks = await db.collection("blocked_periods").find({ familyId }).toArray();
-  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string }[]).map((b) => ({
+  const blockList = (blocks as unknown as { userId: string; parentType: string; startDate: string; endDate: string; startTime?: string | null; endTime?: string | null }[]).map((b) => ({
     userId: String(b.userId),
     parentType: b.parentType,
     startDate: b.startDate,
     endDate: b.endDate,
+    startTime: b.startTime ?? null,
+    endTime: b.endTime ?? null,
   }));
-  const blocker = getBlockerForEventDate(finalDate, finalParent, blockList);
+  const finalStartTime = startTime !== undefined ? startTime : currentEvent.startTime;
+  const finalEndTime = endTime !== undefined ? endTime : currentEvent.endTime;
+  const blocker = getBlockerForEventDate(finalDate, finalParent, blockList, finalStartTime ?? null, finalEndTime ?? null);
   if (blocker) {
     try {
       const attemptedBy =
