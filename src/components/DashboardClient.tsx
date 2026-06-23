@@ -577,6 +577,8 @@ export function DashboardClient({
       otherPct,
       tataHoursStr: fmtHours(tataHours),
       mamaHoursStr: fmtHours(mamaHours),
+      tataDaysFromHoursStr: fmtDayFrac(tataHours / 24),
+      mamaDaysFromHoursStr: fmtDayFrac(mamaHours / 24),
       tataHoursPerDayStr: fmtHoursPerDay(tataHours, totalTrackedDays),
       mamaHoursPerDayStr: fmtHoursPerDay(mamaHours, totalTrackedDays),
       tataNightsStr: fmtDayFrac(tataNights),
@@ -1069,7 +1071,8 @@ export function DashboardClient({
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
                 <p className="text-stone-500 text-xs mb-1">{d.timeFor} {resolvedParent1}</p>
                 <p className="font-semibold text-stone-800 text-base leading-tight">
-                  {parentTimeReport.tataHoursStr} {d.timeReportHoursUnit}
+                  {parentTimeReport.tataDaysFromHoursStr} {d.timeReportDaysUnit}
+                  <span className="font-normal text-stone-500 text-sm"> ({parentTimeReport.tataHoursStr} {d.timeReportHoursUnit})</span>
                 </p>
                 <p className="text-xs text-stone-400 mt-0.5">
                   {d.timeReportAvgPerDay}: {parentTimeReport.tataHoursPerDayStr}{d.timeReportHoursUnit}
@@ -1079,7 +1082,8 @@ export function DashboardClient({
               <div className="rounded-[1.3rem] bg-white/82 px-3 py-3">
                 <p className="text-stone-500 text-xs mb-1">{d.timeFor} {resolvedParent2}</p>
                 <p className="font-semibold text-stone-800 text-base leading-tight">
-                  {parentTimeReport.mamaHoursStr} {d.timeReportHoursUnit}
+                  {parentTimeReport.mamaDaysFromHoursStr} {d.timeReportDaysUnit}
+                  <span className="font-normal text-stone-500 text-sm"> ({parentTimeReport.mamaHoursStr} {d.timeReportHoursUnit})</span>
                 </p>
                 <p className="text-xs text-stone-400 mt-0.5">
                   {d.timeReportAvgPerDay}: {parentTimeReport.mamaHoursPerDayStr}{d.timeReportHoursUnit}
