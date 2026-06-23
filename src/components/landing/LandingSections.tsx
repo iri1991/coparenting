@@ -2,19 +2,24 @@
 
 import type { LucideIcon } from "lucide-react";
 import {
+  ArrowRightLeft,
   BellRing,
+  BookHeart,
   BookOpen,
   CalendarDays,
   Check,
   Clock3,
   FileText,
+  Handshake,
   House,
+  MessageCircleHeart,
   MessageSquare,
   MonitorSmartphone,
   MoonStar,
   Repeat2,
   ShieldCheck,
   Smartphone,
+  Smile,
   Sparkles,
 } from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
@@ -41,7 +46,12 @@ const FEATURE_CARD_META: Array<{ icon: LucideIcon; className: string; tone: stri
   { icon: FileText,     className: "",               tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
   { icon: ShieldCheck,  className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
   { icon: MessageSquare,className: "",               tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#fffdf9_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
-  { icon: BellRing,     className: "md:col-span-2",  tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fff3e7_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
+  { icon: BellRing,     className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fff3e7_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
+  { icon: ArrowRightLeft, className: "",             tone: "bg-[linear-gradient(135deg,#fff1df_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dcc0] text-[#b86a4b]" },
+  { icon: Handshake,    className: "",               tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
+  { icon: BookHeart,    className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
+  { icon: Smile,        className: "",               tone: "bg-[linear-gradient(135deg,#fbeef0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
+  { icon: MessageCircleHeart, className: "md:col-span-2", tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#edf6f3_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
 ];
 
 const HEALTH_TONES = ["bg-[#fff4e8]", "bg-[#eef4fb]", "bg-[#edf6f3]", "bg-[#f8f1dc]"];

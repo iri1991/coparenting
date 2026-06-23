@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
+import { flushDueScheduledMessages } from "@/lib/scheduled-messages";
 
 const NO_STORE_JSON = { "Cache-Control": "no-store, private, must-revalidate" } as const;
 
@@ -16,13 +17,20 @@ export async function GET() {
   }
 
   const db = await getDb();
+  const familyId = new ObjectId(session.user.familyId);
+
+  // Acest endpoint e interogat app-wide (la ~25s), deci e livrarea fiabilă a mesajelor
+  // programate (cooldown) chiar dacă niciun părinte nu are chat-ul deschis. Fără cron extern.
+  await flushDueScheduledMessages(db, familyId).catch((err) =>
+    console.error("[chat/unread] flush scheduled failed", err)
+  );
+
   const user = await db.collection("users").findOne(
     { _id: new ObjectId(session.user.id) },
     { projection: { chatLastReadAt: 1 } }
   );
   const chatLastReadAt = (user as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
 
-  const familyId = new ObjectId(session.user.familyId);
   const filter: {
     familyId: ObjectId;
     senderId: { $ne: string };

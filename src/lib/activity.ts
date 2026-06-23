@@ -21,7 +21,13 @@ export type ActivityAction =
   | "useful_link_deleted"
   | "member_joined"
   | "blocked_period_added"
-  | "blocked_period_deleted";
+  | "blocked_period_deleted"
+  | "transition_note_added"
+  | "joint_decision_added"
+  | "joint_decision_approved"
+  | "joint_decision_declined"
+  | "parenting_guide_updated"
+  | "child_mood_logged";
 
 export interface ActivityPayload {
   date?: string;

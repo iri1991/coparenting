@@ -171,6 +171,104 @@ export async function sendChildActivityAddedNotification(
 }
 
 /**
+ * Notifică părintele care preia copilul că a primit o notă de predare.
+ */
+export async function sendTransitionNoteCreatedNotification(
+  db: Db,
+  familyId: ObjectId,
+  authorUserId: string,
+  authorLabel: string,
+  dateStr: string
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const recipientIds = memberIds.filter((id) => id !== authorUserId);
+  if (recipientIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientIds);
+  if (subs.length === 0) return;
+  const dateLabel = format(new Date(dateStr + "T12:00:00"), "EEEE, d MMM", { locale: ro });
+  await sendPushToSubscriptions(subs, {
+    title: "Notă de predare nouă",
+    body: `${authorLabel} a lăsat o notă pentru predarea de ${dateLabel}: stare, somn, mâncare, medicație și obiecte.`,
+    url: homeAppUrl({ tab: "program", date: dateStr }),
+  });
+}
+
+/**
+ * Notifică celălalt părinte că s-a propus o decizie comună care așteaptă răspuns.
+ */
+export async function sendDecisionProposedNotification(
+  db: Db,
+  familyId: ObjectId,
+  proposerUserId: string,
+  proposerLabel: string,
+  title: string
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const recipientIds = memberIds.filter((id) => id !== proposerUserId);
+  if (recipientIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientIds);
+  if (subs.length === 0) return;
+  await sendPushToSubscriptions(subs, {
+    title: "Decizie de aprobat",
+    body: `${proposerLabel} propune: „${title}”. Deschide aplicația pentru a aproba sau a discuta.`,
+    url: homeAppUrl({ tab: "hub" }),
+  });
+}
+
+/**
+ * Notifică propunătorul că celălalt părinte a aprobat sau a cerut să discute decizia.
+ */
+export async function sendDecisionRespondedNotification(
+  proposerUserId: string,
+  responderLabel: string,
+  title: string,
+  status: "approved" | "declined"
+): Promise<void> {
+  const subs = await getSubscriptionsForUsers([proposerUserId]);
+  if (subs.length === 0) return;
+  const body =
+    status === "approved"
+      ? `${responderLabel} a aprobat „${title}”.`
+      : `${responderLabel} vrea să discutați despre „${title}”.`;
+  await sendPushToSubscriptions(subs, {
+    title: status === "approved" ? "Decizie aprobată" : "Decizie de discutat",
+    body,
+    url: homeAppUrl({ tab: "hub" }),
+  });
+}
+
+/**
+ * Notifică celălalt părinte când se adaugă o regulă nouă în ghidul parental comun.
+ */
+export async function sendGuideUpdatedNotification(
+  db: Db,
+  familyId: ObjectId,
+  actorUserId: string,
+  actorLabel: string,
+  title: string
+): Promise<void> {
+  const family = await db
+    .collection("families")
+    .findOne({ _id: familyId }, { projection: { memberIds: 1 } });
+  const memberIds = ((family as { memberIds?: unknown[] } | null)?.memberIds ?? []).map((id) => String(id));
+  const recipientIds = memberIds.filter((id) => id !== actorUserId);
+  if (recipientIds.length === 0) return;
+  const subs = await getSubscriptionsForUsers(recipientIds);
+  if (subs.length === 0) return;
+  await sendPushToSubscriptions(subs, {
+    title: "Ghid parental actualizat",
+    body: `${actorLabel} a adăugat o regulă comună: „${title}”.`,
+    url: homeAppUrl({ tab: "hub" }),
+  });
+}
+
+/**
  * Notifică ceilalți membri ai familiei când se adaugă un material util nou.
  */
 export async function sendUsefulLinkAddedNotification(
