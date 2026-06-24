@@ -48,10 +48,11 @@ function SectionHeading({ eyebrow, title, text, align = "center" }: {
   const alignment = align === "center" ? "mx-auto text-center items-center" : "text-left items-start";
   return (
     <div className={`flex max-w-3xl flex-col gap-4 ${alignment}`}>
-      <span className="inline-flex rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+      <span className="inline-flex items-center gap-2 rounded-full border border-[#ead9c8] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500 shadow-[0_1px_2px_rgba(28,25,23,0.04)]">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#c87a5c]" aria-hidden />
         {eyebrow}
       </span>
-      <h2 className="landing-display text-4xl leading-tight text-stone-900 sm:text-5xl">{title}</h2>
+      <h2 className="landing-display text-4xl leading-[1.05] tracking-tight text-stone-900 sm:text-5xl">{title}</h2>
       <p className="max-w-2xl text-base leading-8 text-stone-600 sm:text-lg">{text}</p>
     </div>
   );
@@ -74,7 +75,7 @@ export function LandingProblemSolution() {
   const afterLabel  = t.lang === "en" ? "after"  : "după";
 
   return (
-    <section className="py-16 sm:py-24">
+    <section className="landing-band py-16 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
         <AnimateOnScroll className="lg:sticky lg:top-28">
           <SectionHeading eyebrow={p.eyebrow} title={p.title} text={p.text} align="left" />
@@ -176,13 +177,13 @@ export function LandingFeatures() {
             const meta = PILLAR_META[index] ?? PILLAR_META[0];
             return (
               <AnimateOnScroll key={index} delay={index * 70}>
-                <div className={`h-full rounded-[2rem] border border-white/70 ${meta.tone} p-7 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
+                <div className={`landing-elevate group h-full rounded-[2rem] border border-white/70 ${meta.tone} p-7 transition duration-300 hover:-translate-y-1`}>
                   <IconBadge icon={meta.icon} colorClass={meta.iconTone} />
-                  <h3 className="mt-5 text-2xl font-extrabold text-stone-900">{pillar.title}</h3>
+                  <h3 className="mt-5 text-2xl font-extrabold tracking-tight text-stone-900">{pillar.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-stone-600">{pillar.text}</p>
                   <div className="mt-6 flex flex-wrap gap-2">
                     {pillar.chips.map((chip, ci) => (
-                      <span key={ci} className="rounded-full border border-[#ead9c8] bg-white/75 px-3 py-1.5 text-xs font-semibold text-stone-600">
+                      <span key={ci} className="rounded-full border border-white/80 bg-white/70 px-3 py-1.5 text-xs font-semibold text-stone-600 shadow-[0_1px_2px_rgba(28,25,23,0.04)] transition group-hover:bg-white/90">
                         {chip}
                       </span>
                     ))}
@@ -220,7 +221,7 @@ export function LandingHowItWorks() {
   const h = t.howItWorks;
 
   return (
-    <section id="cum-functioneaza" className="py-16 sm:py-24">
+    <section id="cum-functioneaza" className="landing-band py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <SectionHeading eyebrow={h.eyebrow} title={h.title} text={h.text} />
@@ -232,14 +233,14 @@ export function LandingHowItWorks() {
             const Icon = STEP_ICONS[index];
             return (
               <AnimateOnScroll key={index} delay={index * 90}>
-                <div className="relative h-full rounded-[2rem] border border-[#ead9c8] bg-white/85 p-6 shadow-[0_18px_40px_rgba(28,25,23,0.06)]">
+                <div className="landing-elevate-sm relative h-full rounded-[2rem] border border-white/70 bg-white/90 p-6 transition duration-300 hover:-translate-y-1">
                   <div className="flex items-center justify-between">
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fff3e7] text-[#b85c3e]">
                       <Icon className="h-6 w-6" />
                     </div>
                     <span className="landing-display text-4xl text-[#d4b39a]">{index + 1}</span>
                   </div>
-                  <h3 className="mt-6 text-xl font-extrabold text-stone-900">{step.title}</h3>
+                  <h3 className="mt-6 text-xl font-extrabold tracking-tight text-stone-900">{step.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-stone-600">{step.text}</p>
                 </div>
               </AnimateOnScroll>

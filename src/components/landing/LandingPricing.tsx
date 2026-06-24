@@ -9,7 +9,7 @@ export function LandingPricing() {
   const { t } = useLanguage();
   const p = t.pricing;
   return (
-    <section id="preturi" className="py-16 sm:py-24">
+    <section id="preturi" className="landing-band py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AnimateOnScroll>
           <div className="overflow-hidden rounded-[2.8rem] border border-[#ead9c8] bg-[linear-gradient(135deg,#fff3e7_0%,#fffdf9_58%,#edf6f3_100%)] p-6 shadow-[0_24px_60px_rgba(28,25,23,0.06)] sm:p-8">
