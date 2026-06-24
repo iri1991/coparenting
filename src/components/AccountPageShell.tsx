@@ -6,6 +6,7 @@ import { AccountClient } from "@/components/AccountClient";
 import { ConfigClient } from "@/components/ConfigClient";
 import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
+import { DataExportSection } from "@/components/DataExportSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -29,6 +30,8 @@ interface AccountPageShellProps {
   initialParentType: ParentType;
   configData: ConfigData | null;
   currentUserId?: string;
+  initialTab?: "cont" | "config" | "istoric";
+  initialConfigSection?: "general" | "child" | "health" | "residences" | "other";
 }
 
 export function AccountPageShell({
@@ -37,8 +40,13 @@ export function AccountPageShell({
   initialParentType,
   configData,
   currentUserId,
+  initialTab,
+  initialConfigSection,
 }: AccountPageShellProps) {
-  const [activeTab, setActiveTab] = useState<"cont" | "config" | "istoric">("cont");
+  // „config”/„istoric” există doar dacă familia are configData; altfel cădem pe „cont”.
+  const [activeTab, setActiveTab] = useState<"cont" | "config" | "istoric">(
+    initialTab && (initialTab === "cont" || configData) ? initialTab : "cont"
+  );
   const [scrolled, setScrolled] = useState(false);
   const { t } = useLanguage();
 
@@ -131,10 +139,10 @@ export function AccountPageShell({
               </h1>
               <p className="text-xs text-stone-500">
                 {activeTab === "cont"
-                  ? (t.lang === "en" ? "Profile, password, export" : "Profil, parolă, export")
+                  ? (t.lang === "en" ? "Profile & password" : "Profil și parolă")
                   : activeTab === "config"
-                    ? (t.lang === "en" ? "Family settings" : "Configurare familie")
-                    : (t.lang === "en" ? "Action history" : "Istoric acțiuni")}
+                    ? (t.lang === "en" ? "Family & settings" : "Familie și setări")
+                    : (t.lang === "en" ? "Export & history" : "Export și istoric")}
               </p>
             </div>
           </div>
@@ -167,15 +175,19 @@ export function AccountPageShell({
                 stripeConfigured={configData.stripeConfigured ?? false}
                 subscriptionStatus={configData.subscriptionStatus}
                 currentPeriodEnd={configData.currentPeriodEnd}
+                initialSection={initialConfigSection}
               />
             </div>
           )}
           {activeTab === "istoric" && (
-            <div className="animate-in fade-in duration-200">
-              <p className="mb-6 text-sm text-stone-500">
-                {t.app.account.historyIntro}
-              </p>
-              <ActivityHistory />
+            <div className="animate-in fade-in duration-200 space-y-6">
+              <DataExportSection />
+              <div>
+                <p className="mb-4 text-sm text-stone-500">
+                  {t.app.account.historyIntro}
+                </p>
+                <ActivityHistory />
+              </div>
             </div>
           )}
         </main>

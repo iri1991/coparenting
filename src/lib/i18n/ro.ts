@@ -413,11 +413,9 @@ export const ro = {
     },
     tabs: {
       program: "Program",
-      routines: "Rutine",
-      hub: "Hub",
-      hubShort: "Rapoarte",
-      hubLong: "Rapoarte & resurse",
-      ideas: "Idei",
+      child: "Copilul",
+      together: "Împreună",
+      reports: "Rapoarte",
     },
     config: {
       autoSave: "Modificările se salvează automat în această pagină.",
@@ -539,8 +537,8 @@ export const ro = {
     account: {
       tabs: {
         account: "Cont",
-        config: "Configurare",
-        history: "Istoric",
+        config: "Familie",
+        history: "Date",
       },
       profile: {
         title: "Profil",
@@ -610,7 +608,6 @@ export const ro = {
       timeReportNights: "Nopți",
       timeReportNightsUnit: "nopți",
       homeSectionsAria: "Secțiuni acasă",
-      hubMovedNote: "mutați din ecranul principal",
       freePlan: "Plan Free",
       freePlanDesc: "Deblochează Pro: propunere automată, documente, mai mulți copii și locații.",
       interruptBtn: "Întrerupe perioada",

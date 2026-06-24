@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CheckCircle2, Circle, HeartPulse } from "lucide-react";
+import Link from "next/link";
+import { CheckCircle2, Circle, HeartPulse, Settings2 } from "lucide-react";
 import { OnDemandAdministerDialog } from "@/components/OnDemandAdministerDialog";
 import type {
   ChildHealthCondition,
@@ -139,8 +140,15 @@ export function ActiveHealthCard({ childId, childName }: Props) {
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
           Sănătate {childName}
         </p>
+        <Link
+          href="/account?tab=config&section=health"
+          className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#f6eee5] px-2.5 py-1 text-[11px] font-semibold text-[#9f5a40] hover:bg-[#efe2d4]"
+        >
+          <Settings2 className="w-3 h-3" />
+          Gestionează
+        </Link>
         {(totalCount > 0 || onDemandAdminCount > 0) && (
-          <span className="ml-auto rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
+          <span className="rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
             {totalCount > 0 ? `${doneCount}/${totalCount}` : ""}
             {totalCount > 0 && onDemandAdminCount > 0 ? " · " : ""}
             {onDemandAdminCount > 0 ? `${onDemandAdminCount} la nevoie` : ""}

@@ -415,11 +415,9 @@ export const en: Translations = {
     },
     tabs: {
       program: "Schedule",
-      routines: "Routines",
-      hub: "Hub",
-      hubShort: "Reports",
-      hubLong: "Reports & resources",
-      ideas: "Ideas",
+      child: "Child",
+      together: "Together",
+      reports: "Reports",
     },
     config: {
       autoSave: "Changes are saved automatically on this page.",
@@ -541,8 +539,8 @@ export const en: Translations = {
     account: {
       tabs: {
         account: "Account",
-        config: "Settings",
-        history: "History",
+        config: "Family",
+        history: "Data",
       },
       profile: {
         title: "Profile",
@@ -612,7 +610,6 @@ export const en: Translations = {
       timeReportNights: "Nights",
       timeReportNightsUnit: "nights",
       homeSectionsAria: "Home sections",
-      hubMovedNote: "moved from the main screen",
       freePlan: "Free plan",
       freePlanDesc: "Unlock Pro: automatic proposal, documents, more children and locations.",
       interruptBtn: "Interrupt period",

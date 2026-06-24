@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { AuthPageShell } from "@/components/auth/AuthPageShell";
+import { AuthSuspenseFallback } from "@/components/auth/AuthSuspenseFallback";
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -52,103 +53,94 @@ function ResetPasswordForm() {
     }
   }
 
+  const inputCls =
+    "app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent";
+  const messageCls = (type: "ok" | "error") =>
+    `text-sm rounded-xl px-3 py-2 ${
+      type === "error"
+        ? "text-red-700 dark:text-red-300 bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50"
+        : "text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50"
+    }`;
+
+  const backFooter = (
+    <p className="text-center text-stone-500 text-sm">
+      <Link href="/login" className="text-amber-600 dark:text-amber-400 hover:underline">
+        Înapoi la conectare
+      </Link>
+    </p>
+  );
+
   if (!token && !message) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
-        <div className="w-full max-w-sm space-y-6 text-center flex flex-col items-center">
-          <Link href="/">
-            <Image src="/logo.png" alt="HomeSplit" width={64} height={64} className="rounded-2xl object-contain" />
-          </Link>
-          <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">Link invalid</h1>
-          <p className="text-stone-600 dark:text-stone-400 text-sm">
-            Folosește linkul primit pe email sau solicită din nou resetarea parolei.
-          </p>
-          <Link href="/forgot-password" className="inline-block text-amber-600 hover:underline font-medium">
-            Resetează parola
-          </Link>
-          <p className="text-sm">
-            <Link href="/login" className="text-stone-500 hover:underline">Înapoi la conectare</Link>
-          </p>
-        </div>
-      </div>
+      <AuthPageShell
+        title="Link invalid"
+        subtitle="Folosește linkul primit pe email sau solicită din nou resetarea parolei."
+        footer={backFooter}
+      >
+        <Link
+          href="/forgot-password"
+          className="app-native-primary-button block w-full py-3.5 text-center font-semibold"
+        >
+          Resetează parola
+        </Link>
+      </AuthPageShell>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center flex flex-col items-center gap-3">
-          <Link href="/">
-            <Image src="/logo.png" alt="HomeSplit" width={64} height={64} className="rounded-2xl object-contain" />
-          </Link>
-          <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
-            Parolă nouă
-          </h1>
-          <p className="mt-1 text-stone-600 dark:text-stone-400 text-sm">
-            Alege o parolă de cel puțin 6 caractere.
+    <AuthPageShell title="Parolă nouă" subtitle="Alege o parolă de cel puțin 6 caractere." footer={backFooter}>
+      {success ? (
+        <div className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4 text-center">
+          <p className={messageCls("ok")} role="alert">
+            {message?.text}
           </p>
-        </div>
-        {success ? (
-          <div className="space-y-4 text-center">
-            <p className="text-emerald-600 font-medium">{message?.text}</p>
-            <Link
-              href="/login"
-              className="inline-block w-full py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 text-center"
-            >
-              Mergi la conectare
-            </Link>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="password"
-              placeholder="Parolă nouă"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
-            />
-            <input
-              type="password"
-              placeholder="Confirmă parola"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800"
-            />
-            {message && (
-              <p className={`text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-600"}`}>
-                {message.text}
-              </p>
-            )}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
-            >
-              {loading ? "Se actualizează…" : "Resetează parola"}
-            </button>
-          </form>
-        )}
-        <p className="text-center text-stone-500 text-sm">
-          <Link href="/login" className="text-amber-600 hover:underline">
-            Înapoi la conectare
+          <Link href="/login" className="app-native-primary-button block w-full py-3.5 text-center font-semibold">
+            Mergi la conectare
           </Link>
-        </p>
-      </div>
-    </div>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4">
+          <input
+            type="password"
+            autoComplete="new-password"
+            placeholder="Parolă nouă"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            minLength={6}
+            className={inputCls}
+          />
+          <input
+            type="password"
+            autoComplete="new-password"
+            placeholder="Confirmă parola"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            minLength={6}
+            className={inputCls}
+          />
+          {message && (
+            <p className={messageCls(message.type)} role="alert">
+              {message.text}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="app-native-primary-button w-full py-3.5 font-semibold disabled:opacity-50"
+          >
+            {loading ? "Se actualizează…" : "Resetează parola"}
+          </button>
+        </form>
+      )}
+    </AuthPageShell>
   );
 }
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
-        <p className="text-stone-500">Se încarcă…</p>
-      </div>
-    }>
+    <Suspense fallback={<AuthSuspenseFallback />}>
       <ResetPasswordForm />
     </Suspense>
   );

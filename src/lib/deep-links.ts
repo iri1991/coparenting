@@ -1,5 +1,5 @@
-/** Tab-uri din dashboard-ul principal (`/`). */
-export type HomeDashboardTab = "program" | "rutine" | "hub" | "idei";
+/** Tab-uri din dashboard-ul principal (`/app`). */
+export type HomeDashboardTab = "program" | "copil" | "impreuna" | "rapoarte";
 
 /**
  * Link relativ către aplicația principală cu parametri pentru tab, zi în calendar și fragment.

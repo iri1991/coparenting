@@ -68,7 +68,7 @@ export function LandingFAQ() {
         <div className="mt-12 space-y-3">
           {items.map((item, index) => (
             <AnimateOnScroll key={item.q} delay={index * 60}>
-              <div className="overflow-hidden rounded-[1.8rem] border border-[#ead9c8] bg-white/88 shadow-[0_16px_36px_rgba(28,25,23,0.05)]">
+              <div className="landing-elevate-sm overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/90">
                 <button
                   type="button"
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
