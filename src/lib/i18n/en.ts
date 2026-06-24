@@ -24,9 +24,7 @@ export const en: Translations = {
   nav: {
     features: "Features",
     howItWorks: "How it works",
-    scenarios: "Scenarios",
     blog: "Blog",
-    webApp: "Web app",
     pricing: "Pricing",
     faq: "FAQ",
   },
@@ -138,86 +136,26 @@ export const en: Translations = {
         alt: "Child in a calm, focused moment",
       },
     ],
-    cards: [
+    pillars: [
       {
-        title: "Calendar that doesn't need renegotiating every day",
-        text: "Quickly see who, where and when, with times, locations and handover where it matters.",
-        bullets: ["week and month view", "handover with context", "clearly visible edits"],
+        title: "Predictability for the child",
+        text: "The schedule, handovers and special days live in one place. The child knows what to expect, with no negotiating from scratch every week.",
+        chips: ["calendar for two homes", "handover note", "special days with alternation", "time & nights report"],
       },
       {
-        title: "Shared rituals",
-        text: "The child keeps the same rhythm, regardless of where they fall asleep that evening.",
-        bullets: ["simple checklist", "clear order", "reminder at the right time"],
+        title: "Communication without escalation",
+        text: "Important messages live next to the schedule, with a pause to reflect before “send” and a clear history of changes. Fewer messages written in anger.",
+        chips: ["chat with a 5-minute pause", "tone warning", "change history", "useful notifications"],
       },
       {
-        title: "Ideas and activity journal",
-        text: "You have inspiration for the weekend and memory of what you've already done.",
-        bullets: ["AI recommendations", "accept or decline", "useful history for next time"],
+        title: "Fair, documented coordination",
+        text: "Decisions, expenses and shared rules, transparent for both. No “I didn't know”, no unclear tallies and no exclusion.",
+        chips: ["decisions with approval", "expenses & balance", "shared parenting guide", "co-parenting score"],
       },
       {
-        title: "Documents and sensitive information, at hand",
-        text: "Allergies, documents, important notes and expirations no longer scatter through messages or folders.",
-        bullets: ["child profile", "documents and reminders", "shared family access"],
-      },
-      {
-        title: "Medical history and treatment plan",
-        text: "Manage the illness end-to-end: evolution period, attached reports, recurring medications and administration history.",
-        bullets: ["illness timeline (start/end)", "treatment recurrence (daily / every N days)", "past medication history"],
-      },
-      {
-        title: "Context next to the calendar",
-        text: "Important messages live in the same area as the schedule, not in a separate universe.",
-        bullets: ["less forwarding", "fewer misinterpretations", "less ping-pong"],
-      },
-      {
-        title: "Automation and helpful notifications",
-        text: "Weekly proposals, reminders and useful notifications when there's a relevant change.",
-        bullets: ["rituals at a fixed time", "Sunday proposal", "notifications for changes"],
-      },
-      {
-        title: "Handover note — the most sensitive moment, without tension",
-        text: "When you hand over your child, you leave a short note: how they feel, how they slept and ate, what medication is next, what homework is pending and which items travel with them. The other parent takes over with context, not questions.",
-        bullets: ["emotional state", "sleep, food, medication", "items checklist", "notification on handover"],
-      },
-      {
-        title: "Joint decisions, with a documented agreement",
-        text: "School, medical, activities, money: you propose a decision, the other parent approves or asks to talk. Every important choice stays in history, with who and when — no more “I didn't know” and no exclusion.",
-        bullets: ["propose and approve", "clear categories", "decision history", "notification on response"],
-      },
-      {
-        title: "Shared parenting guide — same rules in both homes",
-        text: "Sleep, screens, food, limits and values, written once and applied the same in both homes. Less “it's different at mom's” and more predictability for the child — the second factor in their emotional balance.",
-        bullets: ["rules by category", "editable by both parents", "consistency across homes"],
-      },
-      {
-        title: "The child's emotional journal",
-        text: "A simple space for how the child feels, especially after transitions. You log the mood with an emoji and, if they want, what they said. You see the trend over time and notice early when they need more attention.",
-        bullets: ["mood with emoji", "the child's voice", "trend over time"],
-      },
-      {
-        title: "Communication without escalation — a pause before “send”",
-        text: "When a message looks tense, the app gently warns you and offers to send it after 5 minutes. In that window you can cancel, edit or send it right away. Fewer messages written in anger, fewer conflicts.",
-        bullets: ["tone warning", "5-minute cooldown", "cancel or send now"],
-      },
-      {
-        title: "Shared expenses, no unclear tallies",
-        text: "Log what you bought for the child — who paid, how much, and how it's split (equal or custom). The app keeps the balance: who owes whom and how much. Settle with one button, and the history stays transparent.",
-        bullets: ["paid by / split", "automatic balance", "settle up and history", "notification on add"],
-      },
-      {
-        title: "Special days, set once",
-        text: "Christmas, the child's birthday, the first day of school: you say who has them, and for holidays you pick automatic year-by-year alternation. You see ahead of time who has them this year and next — no renegotiating the same days.",
-        bullets: ["automatic year alternation", "2-year preview", "annual or one-off"],
-      },
-      {
-        title: "The co-parenting score — an objective picture",
-        text: "A single indicator, computed from real data: how planned the schedule is, how regular communication is, how many decisions are resolved and how many expenses are settled. It replaces impressions with numbers and shows where you can grow.",
-        bullets: ["0–100 score", "four objective signals", "improvement trend"],
-      },
-      {
-        title: "Contact balance — a gentle, timely signal",
-        text: "If one parent goes without days with the child longer than usual and has nothing scheduled, the app gently flags it and suggests a meeting. A preventive tool, not a reproach — regular contact matters enormously for the child.",
-        bullets: ["based on the schedule", "preventive signal", "no blame"],
+        title: "The child's emotional world",
+        text: "A space for how the child feels, rituals that soothe them, and a gentle signal when contact with a parent thins out.",
+        chips: ["emotional journal", "contact alert", "rituals & health", "activity ideas"],
       },
     ],
     healthTitle: "Health & treatment",
@@ -242,41 +180,6 @@ export const en: Translations = {
       { title: "Use, adjust, continue", text: "The schedule lives with you and notifies when it really matters." },
     ],
   },
-  useCases: {
-    eyebrow: "Real scenarios",
-    title: "Real situations where the difference is immediately visible.",
-    text: "From schedule changes and handover to treatment, documents and evening routines, HomeSplit keeps the same picture for everyone involved.",
-    items: [
-      {
-        quote: `\"You're leaving Tuesday morning and the handover schedule needs to change.\"`,
-        answer: "You modify it, explain why, and the other parent sees the exact change.",
-      },
-      {
-        quote: `\"We don't want to forget shower, teeth, story and early bedtime.\"`,
-        answer: "The ritual becomes visible and repeatable, not just another verbal promise.",
-      },
-      {
-        quote: `\"What do we do on the weekend without repeating the same mall?\"`,
-        answer: "The Ideas tab suggests options and the journal keeps the memory of activities.",
-      },
-      {
-        quote: `\"Where is the travel consent form?\"`,
-        answer: "In the shared hub, alongside the other important documents.",
-      },
-      {
-        quote: `\"What treatment comes next and who administered it?\"`,
-        answer: "You have an illness timeline, plans with recurrence, attached medical reports and a list of past medications.",
-      },
-      {
-        quote: `\"The child has an allergy and grandparents need to know immediately.\"`,
-        answer: "The information no longer hides in an old message.",
-      },
-      {
-        quote: `\"What changed last week?\"`,
-        answer: "The history provides context, accountability and shared memory.",
-      },
-    ],
-  },
   whyUs: {
     eyebrow: "why it works",
     title: "A useful product when you need clarity, not yet another communication channel.",
@@ -286,32 +189,6 @@ export const en: Translations = {
       { title: "Looks great on the phone", text: "Because that's where most on-the-go decisions are made." },
       { title: "Preserves context", text: "Not just the schedule, but the information that makes it easy to follow." },
       { title: "Respects data sensitivity", text: "Data about the child must be handled with care, not just stored." },
-    ],
-  },
-  webApp: {
-    eyebrow: "Web app",
-    title: "Get in immediately, from any device — no installation, no unnecessary steps.",
-    text: "When a schedule change or urgent need arises, the last thing you need is technical friction. HomeSplit works directly from the browser on phone, tablet and laptop.",
-    phoneLabel: "phone",
-    phoneItems: ["Week schedule", "Evening ritual 7:30pm", "important notification"],
-    cardTitle: "Same simple access for both parents.",
-    cardText: "No unnecessary barriers at entry. When you need the schedule, documents or context, you get in immediately.",
-    columns: [
-      {
-        title: "iPhone and Android",
-        text: "Opens directly in the browser and can be saved to the home screen as an icon.",
-        steps: ["open the link", "add to home screen", "enter like an app"],
-      },
-      {
-        title: "Laptop and desktop",
-        text: "Use the exact same space when it's more convenient to see everything on a large screen.",
-        steps: ["open in browser", "install the shortcut", "come back quickly anytime"],
-      },
-      {
-        title: "No App Store, no friction",
-        text: "Important for families: immediate access, no complicated steps or blocking updates.",
-        steps: ["no extra accounts", "no heavy installations", "no unnecessary waiting"],
-      },
     ],
   },
   security: {
@@ -425,14 +302,6 @@ export const en: Translations = {
         a: "No. You revert to the Free plan and keep your data. You can upgrade later.",
       },
       {
-        q: "How do sensitive or retroactive changes work?",
-        a: "When there's an important change, the product can log the action and make it clear to the other parent, so context is not lost.",
-      },
-      {
-        q: "Are there recommendations for activities with the child?",
-        a: "Yes. The Ideas tab offers AI-generated suggestions, taking context into account, and the journal keeps the memory of activities already done.",
-      },
-      {
         q: "Can we have shared rituals?",
         a: "Yes. You can define repeating rituals so the child feels the same rhythm regardless of where they are.",
       },
@@ -461,7 +330,6 @@ export const en: Translations = {
     links: {
       features: "Features",
       howItWorks: "How it works",
-      scenarios: "Scenarios",
       blog: "Blog",
       pricing: "Pricing",
       faq: "FAQ",

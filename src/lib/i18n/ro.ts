@@ -22,9 +22,7 @@ export const ro = {
   nav: {
     features: "Funcții",
     howItWorks: "Cum merge",
-    scenarios: "Scenarii",
     blog: "Blog",
-    webApp: "Web app",
     pricing: "Prețuri",
     faq: "Întrebări",
   },
@@ -136,86 +134,26 @@ export const ro = {
         alt: "Copil într-un moment calm și concentrat",
       },
     ],
-    cards: [
+    pillars: [
       {
-        title: "Calendar care nu se discută de la zero în fiecare zi",
-        text: "Vezi rapid cine, unde și când, cu ore, locații și handover acolo unde contează.",
-        bullets: ["săptămână și lună", "predare cu context", "editări clar vizibile"],
+        title: "Predictibilitate pentru copil",
+        text: "Programul, predările și zilele speciale stau într-un singur loc. Copilul știe la ce să se aștepte, fără negocieri de la zero în fiecare săptămână.",
+        chips: ["calendar pentru două case", "nota de predare", "zile speciale cu alternanță", "raport timp și nopți"],
       },
       {
-        title: "Ritualuri comune",
-        text: "Copilul păstrează același ritm, indiferent unde adoarme în seara respectivă.",
-        bullets: ["checklist simplu", "ordine clară", "reminder la ora potrivită"],
+        title: "Comunicare fără escaladare",
+        text: "Mesajele importante stau lângă program, cu o pauză de reflecție înainte de „trimite” și istoric clar al schimbărilor. Mai puține conflicte scrise la nervi.",
+        chips: ["chat cu pauză de 5 minute", "avertizare de ton", "istoric al modificărilor", "notificări utile"],
       },
       {
-        title: "Idei și jurnal de activități",
-        text: "Ai inspirație pentru weekend și memorie pentru ce ați făcut deja.",
-        bullets: ["recomandări AI", "accept sau refuz", "istoric util pentru data viitoare"],
+        title: "Coordonare corectă și documentată",
+        text: "Decizii, cheltuieli și reguli comune, transparente pentru amândoi. Fără „nu am știut”, fără socoteli neclare și fără excludere.",
+        chips: ["decizii cu aprobare", "cheltuieli și sold", "ghid parental comun", "scor de co-parenting"],
       },
       {
-        title: "Documente și informații sensibile, la îndemână",
-        text: "Alergii, acte, note importante și expirări nu mai stau împrăștiate prin mesaje sau foldere.",
-        bullets: ["profil copil", "acte și remindere", "acces comun în familie"],
-      },
-      {
-        title: "Istoric medical și plan de tratament",
-        text: "Gestionezi boala cap-coadă: perioadă de evoluție, rapoarte atașate, medicamente recurente și istoricul administrărilor.",
-        bullets: ["timeline boli (start/sfârșit)", "recurență tratament (zilnic / la N zile)", "istoric medicamente administrate"],
-      },
-      {
-        title: "Context lângă calendar",
-        text: "Mesajele importante trăiesc în aceeași zonă cu programul, nu în alt univers.",
-        bullets: ["mai puțin forward", "mai puține interpretări", "mai puțin ping-pong"],
-      },
-      {
-        title: "Automatizare și notificări care ajută",
-        text: "Propuneri săptămânale, remindere și notificări utile când există o schimbare relevantă.",
-        bullets: ["ritualuri la oră fixă", "propunere de duminică", "notificări pentru modificări"],
-      },
-      {
-        title: "Nota de predare — momentul cel mai sensibil, fără tensiune",
-        text: "Când predai copilul, lași o notă scurtă: cum se simte, cum a dormit și a mâncat, ce medicație urmează, ce teme are și ce obiecte pleacă cu el. Celălalt părinte preia totul cu context, nu cu întrebări.",
-        bullets: ["stare emoțională", "somn, mâncare, medicație", "checklist de obiecte", "notificare la preluare"],
-      },
-      {
-        title: "Decizii comune, cu acord documentat",
-        text: "Școală, medical, activități, bani: propui o decizie, celălalt părinte aprobă sau cere să discutați. Fiecare alegere importantă rămâne în istoric, cu cine și când — fără „nu am știut” și fără excludere.",
-        bullets: ["propunere și aprobare", "categorii clare", "istoric de decizii", "notificare la răspuns"],
-      },
-      {
-        title: "Ghid parental comun — aceleași reguli în ambele case",
-        text: "Somn, ecrane, mâncare, limite și valori, scrise o singură dată și aplicate la fel în ambele case. Mai puțin „la mama e altfel” și mai multă predictibilitate pentru copil — al doilea factor al echilibrului lui emoțional.",
-        bullets: ["reguli pe categorii", "editabil de ambii părinți", "consistență între case"],
-      },
-      {
-        title: "Jurnalul emoțional al copilului",
-        text: "Un spațiu simplu pentru cum se simte copilul, mai ales după tranziții. Notezi starea cu un emoji și, dacă vrea, ce a spus. Vezi tendința în timp și observi din vreme când are nevoie de mai multă atenție.",
-        bullets: ["stare cu emoji", "vocea copilului", "tendință în timp"],
-      },
-      {
-        title: "Comunicare fără escaladare — o pauză înainte de „trimite”",
-        text: "Când un mesaj pare tensionat, aplicația te avertizează blând și îți oferă opțiunea să-l trimiți după 5 minute. În acel timp îl poți anula, edita sau trimite imediat. Mai puține mesaje scrise la nervi, mai puține conflicte.",
-        bullets: ["avertizare de ton", "cooldown de 5 minute", "anulează sau trimite acum"],
-      },
-      {
-        title: "Cheltuieli comune, fără socoteli neclare",
-        text: "Treci ce ai cumpărat pentru copil — cine a plătit, cât și cum se împarte (egal sau custom). Aplicația ține soldul: cine cui îi datorează și cât. Decontezi cu un buton, iar istoricul rămâne transparent.",
-        bullets: ["plătit de / împărțire", "sold automat", "decontare și istoric", "notificare la adăugare"],
-      },
-      {
-        title: "Zile speciale, stabilite o singură dată",
-        text: "Crăciun, ziua copilului, prima zi de școală: spui cine îl are, iar pentru sărbători alegi alternanța automată pe ani. Vezi din timp cine îl are anul acesta și anul viitor — fără renegocierea acelorași zile.",
-        bullets: ["alternanță automată pe ani", "preview pe 2 ani", "anual sau o singură dată"],
-      },
-      {
-        title: "Scorul de co-parenting — o imagine obiectivă",
-        text: "Un singur indicator, calculat din date reale: cât de planificat e programul, cât de regulată e comunicarea, câte decizii sunt rezolvate și câte cheltuieli decontate. Înlocuiește impresiile cu cifre și arată unde puteți crește.",
-        bullets: ["scor 0–100", "patru semnale obiective", "tendință de îmbunătățire"],
-      },
-      {
-        title: "Echilibrul contactului — un semnal discret la timp",
-        text: "Dacă un părinte rămâne fără zile cu copilul mai mult decât e firesc și nu are nimic programat, aplicația semnalează blând și sugerează o întâlnire. Un instrument preventiv, nu un reproș — contactul regulat contează enorm pentru copil.",
-        bullets: ["bazat pe program", "semnal preventiv", "fără reproșuri"],
+        title: "Lumea emoțională a copilului",
+        text: "Un spațiu pentru cum se simte copilul, ritualuri care îl liniștesc și un semnal discret când contactul cu un părinte se rărește.",
+        chips: ["jurnal emoțional", "alertă de contact", "ritualuri și sănătate", "idei de activități"],
       },
     ],
     healthTitle: "Sănătate & tratament",
@@ -240,41 +178,6 @@ export const ro = {
       { title: "Folosiți, ajustați, continuați", text: "Programul trăiește cu voi și notifică atunci când chiar contează." },
     ],
   },
-  useCases: {
-    eyebrow: "Scenarii reale",
-    title: "Situații reale în care diferența se vede imediat.",
-    text: "De la mutări de program și handover, până la tratament, acte și rutină de seară, HomeSplit ține aceeași imagine pentru toți cei implicați.",
-    items: [
-      {
-        quote: '„Pleci marți dimineață și trebuie mutat programul de handover.',
-        answer: "Modifici, motivezi, iar celălalt părinte vede exact schimbarea.",
-      },
-      {
-        quote: '„Nu vrem să uităm duș, dinți, poveste și somn devreme.',
-        answer: "Ritualul devine vizibil și repetabil, nu încă o promisiune verbală.",
-      },
-      {
-        quote: '„Ce facem în weekend fără să repetăm același mall?',
-        answer: "Tab-ul Idei propune opțiuni și jurnalul păstrează memoria activităților.",
-      },
-      {
-        quote: '„Unde e acordul de călătorie?',
-        answer: "În hub-ul comun, alături de celelalte documente importante.",
-      },
-      {
-        quote: '„Ce tratament urmează și cine l-a administrat?',
-        answer: "Ai timeline de boli, planuri cu recurență, rapoarte medicale atașate și listă cu medicamente administrate în trecut.",
-      },
-      {
-        quote: '„Copilul are alergie și bunicii trebuie să știe imediat.',
-        answer: "Informația nu mai stă ascunsă într-un mesaj vechi.",
-      },
-      {
-        quote: '„Ce s-a schimbat săptămâna trecută?',
-        answer: "Istoricul oferă context, responsabilitate și memorie comună.",
-      },
-    ],
-  },
   whyUs: {
     eyebrow: "de ce funcționează",
     title: "Un produs util când aveți nevoie de claritate, nu de încă un canal de comunicare.",
@@ -284,32 +187,6 @@ export const ro = {
       { title: "Arată bine pe telefon", text: "Pentru că acolo sunt luate cele mai multe decizii din mers." },
       { title: "Păstrează contextul", text: "Nu doar programul, ci și informațiile care îl fac ușor de urmat." },
       { title: "Respectă sensibilitatea datelor", text: "Datele despre copil trebuie tratate cu grijă, nu doar stocate." },
-    ],
-  },
-  webApp: {
-    eyebrow: "Web app",
-    title: "Intri imediat, de pe orice dispozitiv — fără instalare, fără pași inutili.",
-    text: "Când apare o schimbare de program sau o nevoie urgentă, ultimul lucru de care ai nevoie e fricțiune tehnică. HomeSplit funcționează direct din browser pe telefon, tabletă și laptop.",
-    phoneLabel: "telefon",
-    phoneItems: ["Programul săptămânii", "Ritual de seară 19:30", "notificare importantă"],
-    cardTitle: "Același acces simplu pentru ambii părinți.",
-    cardText: "Fără bariere inutile la intrare. Când ai nevoie de program, documente sau context, intri imediat.",
-    columns: [
-      {
-        title: "iPhone și Android",
-        text: "Se deschide direct în browser și poate fi salvat pe ecran ca icon.",
-        steps: ["deschizi linkul", "adaugi pe home screen", "intri ca într-o aplicație"],
-      },
-      {
-        title: "Laptop și desktop",
-        text: "Folosești exact același spațiu atunci când e mai comod să vezi totul pe ecran mare.",
-        steps: ["deschizi în browser", "instalezi shortcut-ul", "revii rapid oricând"],
-      },
-      {
-        title: "Fără App Store, fără fricțiune",
-        text: "Important pentru familii: acces imediat, fără pași complicați sau update-uri care blochează.",
-        steps: ["fără conturi suplimentare", "fără instalări greoaie", "fără așteptare inutilă"],
-      },
     ],
   },
   security: {
@@ -423,14 +300,6 @@ export const ro = {
         a: "Nu. Revii pe planul Free și păstrezi datele. Poți face upgrade ulterior.",
       },
       {
-        q: "Cum funcționează modificările sensibile sau retroactive?",
-        a: "Când există o schimbare importantă, produsul poate loga acțiunea și o poate face clară pentru celălalt părinte, astfel încât contextul să nu se piardă.",
-      },
-      {
-        q: "Există și recomandări pentru activități cu copilul?",
-        a: "Da. Tab-ul Idei oferă sugestii generate cu AI, ținând cont de context, iar jurnalul păstrează memoria activităților deja făcute.",
-      },
-      {
         q: "Putem avea ritualuri comune?",
         a: "Da. Puteți defini ritualuri repetitive, astfel încât copilul să simtă același ritm, indiferent unde se află.",
       },
@@ -459,7 +328,6 @@ export const ro = {
     links: {
       features: "Funcții",
       howItWorks: "Cum merge",
-      scenarios: "Scenarii",
       blog: "Blog",
       pricing: "Prețuri",
       faq: "FAQ",

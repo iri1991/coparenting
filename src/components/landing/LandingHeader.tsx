@@ -42,9 +42,7 @@ export function LandingHeader() {
   const navLinks = [
     { href: "/#functionalitati", label: t.nav.features },
     { href: "/#cum-functioneaza", label: t.nav.howItWorks },
-    { href: "/#scenarii", label: t.nav.scenarios },
     { href: "/blog", label: t.nav.blog },
-    { href: "/#web-app", label: t.nav.webApp },
     { href: "/#preturi", label: t.nav.pricing },
     { href: "/#intrebari", label: t.nav.faq },
   ];
