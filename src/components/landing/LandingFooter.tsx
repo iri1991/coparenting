@@ -12,7 +12,6 @@ export function LandingFooter() {
     produs: [
       { label: fl.features, href: "/#functionalitati" },
       { label: fl.howItWorks, href: "/#cum-functioneaza" },
-      { label: fl.scenarios, href: "/#scenarii" },
       { label: fl.blog, href: "/blog" },
       { label: fl.pricing, href: "/#preturi" },
       { label: fl.faq, href: "/#intrebari" },

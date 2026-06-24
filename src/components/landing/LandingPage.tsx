@@ -1,12 +1,9 @@
 import { LandingHeader } from "./LandingHeader";
 import { LandingHero } from "./LandingHero";
 import {
-  LandingSocialProof,
   LandingProblemSolution,
   LandingFeatures,
   LandingHowItWorks,
-  LandingWebApp,
-  LandingUseCases,
   LandingWhyUs,
   LandingSecurity,
 } from "./LandingSections";
@@ -33,17 +30,14 @@ export function LandingPage() {
       <LandingHeader />
       <main>
         <LandingHero />
-        <LandingSocialProof />
         <LandingProblemSolution />
         <LandingFeatures />
         <LandingHowItWorks />
-        <LandingUseCases />
         <LandingWhyUs />
-        <LandingWebApp />
         <LandingSecurity />
-        <LandingBlogPreview />
         <LandingPricing />
         <LandingFAQ />
+        <LandingBlogPreview />
         <LandingGeoSection />
         <LandingFinalCTA />
         <LandingFooter />

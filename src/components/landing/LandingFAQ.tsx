@@ -22,14 +22,6 @@ const FAQ_ITEMS = [
     a: "Nu. Revii pe planul Free și păstrezi datele. Poți face upgrade ulterior.",
   },
   {
-    q: "Cum funcționează modificările sensibile sau retroactive?",
-    a: "Când există o schimbare importantă, produsul poate loga acțiunea și o poate face clară pentru celălalt părinte, astfel încât contextul să nu se piardă.",
-  },
-  {
-    q: "Există și recomandări pentru activități cu copilul?",
-    a: "Da. Tab-ul Idei oferă sugestii generate cu AI, ținând cont de context, iar jurnalul păstrează memoria activităților deja făcute.",
-  },
-  {
     q: "Putem avea ritualuri comune?",
     a: "Da. Puteți defini ritualuri repetitive, astfel încât copilul să simtă același ritm, indiferent unde se află.",
   },

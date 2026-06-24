@@ -2,29 +2,18 @@
 
 import type { LucideIcon } from "lucide-react";
 import {
-  ArrowRightLeft,
   BellRing,
-  BookHeart,
   BookOpen,
   CalendarDays,
-  CalendarHeart,
   Check,
   Clock3,
-  FileText,
-  Gauge,
   Handshake,
-  HeartHandshake,
   House,
   MessageCircleHeart,
-  MessageSquare,
-  MonitorSmartphone,
-  MoonStar,
   Repeat2,
   ShieldCheck,
   Smartphone,
   Smile,
-  Sparkles,
-  Wallet,
 } from "lucide-react";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -37,40 +26,19 @@ const STOCK_IMAGES = {
   childFocus: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1400&q=80",
 };
 
-const SOCIAL_SCENE_META = [
-  { icon: House,       accent: "from-[#fff4e8] to-[#fffdf9]", iconTone: "bg-[#f6dcc0] text-[#8a4b2d]", image: STOCK_IMAGES.outsideCalm, position: undefined },
-  { icon: MoonStar,    accent: "from-[#edf6f3] to-[#fffdf9]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]", image: STOCK_IMAGES.warmHome,    position: undefined },
-  { icon: ShieldCheck, accent: "from-[#f9f0da] to-[#fffdf9]", iconTone: "bg-[#f4e3b2] text-[#7a5620]", image: STOCK_IMAGES.childFocus,  position: "object-center" },
-] as const;
-
-const FEATURE_CARD_META: Array<{ icon: LucideIcon; className: string; tone: string; iconTone: string }> = [
-  { icon: CalendarDays, className: "md:col-span-2", tone: "bg-[linear-gradient(135deg,#fff6ed_0%,#fffdf9_100%)]",  iconTone: "bg-[#f6dcc0] text-[#8a4b2d]" },
-  { icon: MoonStar,     className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
-  { icon: Sparkles,     className: "",               tone: "bg-[linear-gradient(135deg,#fff4e8_0%,#fffdf9_100%)]", iconTone: "bg-[#f6e7c7] text-[#7a5620]" },
-  { icon: FileText,     className: "",               tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
-  { icon: ShieldCheck,  className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
-  { icon: MessageSquare,className: "",               tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#fffdf9_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
-  { icon: BellRing,     className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fff3e7_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
-  { icon: ArrowRightLeft, className: "",             tone: "bg-[linear-gradient(135deg,#fff1df_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dcc0] text-[#b86a4b]" },
-  { icon: Handshake,    className: "",               tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
-  { icon: BookHeart,    className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
-  { icon: Smile,        className: "",               tone: "bg-[linear-gradient(135deg,#fbeef0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
-  { icon: MessageCircleHeart, className: "",         tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#edf6f3_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
-  { icon: Wallet,       className: "",               tone: "bg-[linear-gradient(135deg,#f8f1dc_0%,#fffdf9_100%)]", iconTone: "bg-[#f4e3b2] text-[#7a5620]" },
-  { icon: CalendarHeart, className: "",              tone: "bg-[linear-gradient(135deg,#fbeaf0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
-  { icon: Gauge,        className: "",               tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
-  { icon: HeartHandshake, className: "md:col-span-2", tone: "bg-[linear-gradient(135deg,#f9f1e6_0%,#fffdf9_100%)]", iconTone: "bg-[#f5dfbe] text-[#8a6330]" },
+/** Cei 4 piloni de funcționalități (grupare emoțională, în loc de 15 carduri plate). */
+const PILLAR_META: Array<{ icon: LucideIcon; tone: string; iconTone: string }> = [
+  { icon: CalendarDays,       tone: "bg-[linear-gradient(135deg,#fff1df_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dcc0] text-[#b86a4b]" },
+  { icon: MessageCircleHeart, tone: "bg-[linear-gradient(135deg,#edf6f3_0%,#fffdf9_100%)]", iconTone: "bg-[#d9eee8] text-[#1f5a4e]" },
+  { icon: Handshake,          tone: "bg-[linear-gradient(135deg,#eef4fb_0%,#fffdf9_100%)]", iconTone: "bg-[#dde8f6] text-[#365d89]" },
+  { icon: Smile,              tone: "bg-[linear-gradient(135deg,#fbeaf0_0%,#fffdf9_100%)]", iconTone: "bg-[#f6dce2] text-[#a8456a]" },
 ];
 
 const HEALTH_TONES = ["bg-[#fff4e8]", "bg-[#eef4fb]", "bg-[#edf6f3]", "bg-[#f8f1dc]"];
 
 const STEP_ICONS: LucideIcon[] = [House, CalendarDays, Repeat2, BellRing];
 
-const USE_CASE_TONES = ["bg-[#fff3e7]", "bg-[#edf6f3]", "bg-[#f8f1dc]", "bg-[#eef4fb]", "bg-[#edf6f3]", "bg-[#fff5eb]", "bg-[#f6efe6]"];
-
 const PRINCIPLE_ICONS: LucideIcon[] = [Clock3, Smartphone, BookOpen, ShieldCheck];
-
-const WEB_APP_ICONS: LucideIcon[] = [Smartphone, MonitorSmartphone, BellRing];
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 
@@ -98,49 +66,6 @@ function IconBadge({ icon: Icon, colorClass }: { icon: LucideIcon; colorClass: s
 }
 
 // ─── Exported sections ────────────────────────────────────────────────────────
-
-const SOCIAL_SCENE_TEXTS = {
-  en: [
-    { title: "Two homes, same version of the schedule", text: "No more guessing. The schedule and sensitive changes stay in sync.", alt: "Parent and child in a calm outdoor moment" },
-    { title: "One home, but without scattered mental lists", text: "Rituals, activities, documents and useful ideas stay together in a space that breathes.", alt: "Parent and child in a warm moment at home" },
-    { title: "Important changes have memory", text: "What moved, who edited and when the other parent was notified are no longer ambiguous.", alt: "Child attentive in a play moment" },
-  ],
-  ro: [
-    { title: "Două case, aceeași versiune a programului", text: "Programul și schimbările sensibile rămân sincronizate, fără versiuni divergente.", alt: "Părinte și copil într-un moment calm afară" },
-    { title: "O casă, dar fără liste risipite prin cap", text: "Ritualurile, activitățile, documentele și ideile utile stau împreună, într-un spațiu care respiră.", alt: "Părinte și copil într-un moment cald acasă" },
-    { title: "Schimbările importante au memorie", text: "Ce s-a mutat, cine a editat și când a fost notificat celălalt părinte nu mai rămân ambigue.", alt: "Copil atent într-un moment de joacă" },
-  ],
-};
-
-export function LandingSocialProof() {
-  const { t, lang } = useLanguage();
-  return (
-    <section className="py-10 sm:py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-4 lg:grid-cols-3">
-          {SOCIAL_SCENE_META.map((meta, index) => {
-            const sceneTexts = SOCIAL_SCENE_TEXTS[lang][index];
-
-            return (
-              <AnimateOnScroll key={index} delay={index * 90}>
-                <div className={`h-full overflow-hidden rounded-[2rem] border border-white/70 bg-gradient-to-br ${meta.accent} p-4 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
-                  <div className="overflow-hidden rounded-[1.6rem]">
-                    <img src={meta.image} alt={sceneTexts.alt} className={`h-56 w-full object-cover transition-transform duration-700 hover:scale-[1.04] ${meta.position ?? "object-center"}`} loading="lazy" />
-                  </div>
-                  <div className="px-2 pb-2 pt-5">
-                    <IconBadge icon={meta.icon} colorClass={meta.iconTone} />
-                    <h3 className="mt-5 text-xl font-extrabold text-stone-900">{sceneTexts.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-stone-600">{sceneTexts.text}</p>
-                  </div>
-                </div>
-              </AnimateOnScroll>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export function LandingProblemSolution() {
   const { t } = useLanguage();
@@ -247,18 +172,18 @@ export function LandingFeatures() {
         </div>
 
         <div className="mt-5 grid gap-5 md:grid-cols-2">
-          {f.cards.map((card, index) => {
-            const meta = FEATURE_CARD_META[index];
+          {f.pillars.map((pillar, index) => {
+            const meta = PILLAR_META[index] ?? PILLAR_META[0];
             return (
               <AnimateOnScroll key={index} delay={index * 70}>
-                <div className={`h-full rounded-[2rem] border border-white/70 ${meta.tone} p-6 shadow-[0_20px_45px_rgba(28,25,23,0.06)] ${meta.className}`}>
+                <div className={`h-full rounded-[2rem] border border-white/70 ${meta.tone} p-7 shadow-[0_20px_45px_rgba(28,25,23,0.06)]`}>
                   <IconBadge icon={meta.icon} colorClass={meta.iconTone} />
-                  <h3 className="mt-5 text-2xl font-extrabold text-stone-900">{card.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-stone-600">{card.text}</p>
+                  <h3 className="mt-5 text-2xl font-extrabold text-stone-900">{pillar.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-600">{pillar.text}</p>
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {card.bullets.map((bullet, bi) => (
-                      <span key={bi} className="rounded-full border border-[#ead9c8] bg-white/75 px-3 py-1.5 text-xs font-semibold text-stone-600">
-                        {bullet}
+                    {pillar.chips.map((chip, ci) => (
+                      <span key={ci} className="rounded-full border border-[#ead9c8] bg-white/75 px-3 py-1.5 text-xs font-semibold text-stone-600">
+                        {chip}
                       </span>
                     ))}
                   </div>
@@ -326,32 +251,6 @@ export function LandingHowItWorks() {
   );
 }
 
-export function LandingUseCases() {
-  const { t } = useLanguage();
-  const u = t.useCases;
-
-  return (
-    <section id="scenarii" className="py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateOnScroll>
-          <SectionHeading eyebrow={u.eyebrow} title={u.title} text={u.text} />
-        </AnimateOnScroll>
-
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {u.items.map((item, index) => (
-            <AnimateOnScroll key={index} delay={index * 80}>
-              <div className={`h-full rounded-[2rem] border border-white/70 ${USE_CASE_TONES[index]} p-6 shadow-[0_18px_40px_rgba(28,25,23,0.05)]`}>
-                <p className="landing-display text-2xl leading-tight text-stone-900">{item.quote}</p>
-                <p className="mt-4 text-sm leading-7 text-stone-600">{item.answer}</p>
-              </div>
-            </AnimateOnScroll>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function LandingWhyUs() {
   const { t } = useLanguage();
   const w = t.whyUs;
@@ -386,78 +285,6 @@ export function LandingWhyUs() {
             </div>
           </div>
         </AnimateOnScroll>
-      </div>
-    </section>
-  );
-}
-
-export function LandingWebApp() {
-  const { t } = useLanguage();
-  const w = t.webApp;
-
-  return (
-    <section id="web-app" className="py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateOnScroll>
-          <SectionHeading eyebrow={w.eyebrow} title={w.title} text={w.text} />
-        </AnimateOnScroll>
-
-        <div className="mt-12 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <AnimateOnScroll>
-            <div className="rounded-[2.4rem] border border-white/70 bg-[linear-gradient(135deg,#fff3e7_0%,#edf6f3_100%)] p-5 shadow-[0_22px_50px_rgba(28,25,23,0.06)]">
-              <div className="rounded-[2rem] bg-white/85 p-5 shadow-[0_12px_26px_rgba(28,25,23,0.06)]">
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-[#f7a072]" />
-                  <span className="h-3 w-3 rounded-full bg-[#f6d365]" />
-                  <span className="h-3 w-3 rounded-full bg-[#89c2b0]" />
-                </div>
-                <div className="mt-6 grid gap-4 md:grid-cols-[0.48fr_0.52fr] md:items-end">
-                  <div className="mx-auto w-full max-w-[15rem] rounded-[2rem] bg-[#1f3a36] p-3 text-white shadow-[0_18px_40px_rgba(31,58,54,0.18)]">
-                    <div className="rounded-[1.6rem] bg-[#102523] p-4">
-                      <p className="text-xs uppercase tracking-[0.18em] text-white/60">{w.phoneLabel}</p>
-                      <div className="mt-4 space-y-3">
-                        {w.phoneItems.map((item, i) => (
-                          <div key={i} className={`rounded-[1rem] px-3 py-3 text-sm ${i === 2 ? "bg-[#f8c89f] text-[#1f3a36]" : "bg-white/10"}`}>
-                            {item}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-[1.8rem] bg-[#fff8f1] p-5">
-                    <p className="text-xs uppercase tracking-[0.18em] text-stone-400">
-                      {t.lang === "en" ? "what matters here" : "ce contează aici"}
-                    </p>
-                    <p className="landing-display mt-4 text-3xl leading-tight text-stone-900">{w.cardTitle}</p>
-                    <p className="mt-4 text-sm leading-7 text-stone-600">{w.cardText}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </AnimateOnScroll>
-
-          <div className="grid gap-5">
-            {w.columns.map((item, index) => {
-              const Icon = WEB_APP_ICONS[index];
-              return (
-                <AnimateOnScroll key={index} delay={index * 90}>
-                  <div className="rounded-[2rem] border border-[#ead9c8] bg-white/85 p-6 shadow-[0_18px_40px_rgba(28,25,23,0.06)]">
-                    <IconBadge icon={Icon} colorClass="bg-[#eef5f3] text-[#1f5a4e]" />
-                    <h3 className="mt-4 text-xl font-extrabold text-stone-900">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-stone-600">{item.text}</p>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {item.steps.map((step, si) => (
-                        <span key={si} className="rounded-full bg-[#f7f0e7] px-3 py-1.5 text-xs font-semibold text-stone-600">
-                          {step}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </AnimateOnScroll>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </section>
   );
