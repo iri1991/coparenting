@@ -6,11 +6,28 @@ import { getActiveFamily } from "@/lib/family";
 import { isStripeConfigured } from "@/lib/stripe";
 import { AccountPageShell, type ConfigData } from "@/components/AccountPageShell";
 
-export default async function AccountPage() {
+const ACCOUNT_TABS = new Set(["cont", "config", "istoric"]);
+const CONFIG_SECTIONS = new Set(["general", "child", "health", "residences", "other"]);
+
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
   }
+
+  const sp = await searchParams;
+  const initialTab =
+    typeof sp.tab === "string" && ACCOUNT_TABS.has(sp.tab)
+      ? (sp.tab as "cont" | "config" | "istoric")
+      : undefined;
+  const initialConfigSection =
+    typeof sp.section === "string" && CONFIG_SECTIONS.has(sp.section)
+      ? (sp.section as "general" | "child" | "health" | "residences" | "other")
+      : undefined;
 
   let configData: ConfigData | null = null;
 
@@ -68,6 +85,8 @@ export default async function AccountPage() {
       initialParentType={session.user.parentType ?? null}
       configData={configData}
       currentUserId={session.user.id}
+      initialTab={initialTab}
+      initialConfigSection={initialConfigSection}
     />
   );
 }

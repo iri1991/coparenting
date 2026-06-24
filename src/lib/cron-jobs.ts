@@ -289,7 +289,7 @@ export async function runRitualReminderJob(nowTimeLabel: string, nowDate: string
         lead > 0
           ? `În ${lead} min: „${ritual.title}” (programat la ${ritual.timeLabel}).`
           : `E timpul pentru „${ritual.title}” (${ritual.timeLabel}).`,
-      url: homeAppUrl({ tab: "rutine", hash: "rituals" }),
+      url: homeAppUrl({ tab: "copil", hash: "rituals" }),
     });
     remindersSent += subs.length;
 
@@ -500,7 +500,7 @@ export async function runActivityReminderJob(nowTimeLabel: string, nowDate: stri
         lead > 0
           ? `În ${lead} min: „${slot.title}” (la ${slot.timeLabel}).`
           : `E timpul pentru „${slot.title}” (${slot.timeLabel}).`,
-      url: homeAppUrl({ tab: "rutine", hash: "recurring-activities" }),
+      url: homeAppUrl({ tab: "copil", hash: "recurring-activities" }),
     });
     remindersSent += subs.length;
 

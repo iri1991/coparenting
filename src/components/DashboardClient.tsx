@@ -862,45 +862,44 @@ export function DashboardClient({
         <button
           type="button"
           role="tab"
-          aria-selected={activeTab === "rutine"}
-          onClick={() => setActiveTab("rutine")}
+          aria-selected={activeTab === "copil"}
+          onClick={() => setActiveTab("copil")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
-            activeTab === "rutine"
+            activeTab === "copil"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          {t.app.tabs.routines}
+          {t.app.tabs.child}
         </button>
         <button
           type="button"
           role="tab"
-          aria-selected={activeTab === "hub"}
-          onClick={() => setActiveTab("hub")}
+          aria-selected={activeTab === "impreuna"}
+          onClick={() => setActiveTab("impreuna")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
-            activeTab === "hub"
+            activeTab === "impreuna"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          <span className="sm:hidden">{t.app.tabs.hubShort}</span>
-          <span className="hidden sm:inline">{t.app.tabs.hubLong}</span>
+          {t.app.tabs.together}
         </button>
         <button
           type="button"
           role="tab"
-          aria-selected={activeTab === "idei"}
-          onClick={() => setActiveTab("idei")}
+          aria-selected={activeTab === "rapoarte"}
+          onClick={() => setActiveTab("rapoarte")}
           className={`rounded-[1.1rem] py-2.5 px-1 text-[11px] sm:text-sm font-semibold transition ${
-            activeTab === "idei"
+            activeTab === "rapoarte"
               ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_12px_22px_rgba(191,106,75,0.2)]"
               : "text-stone-600 hover:bg-white/80"
           }`}
         >
-          {t.app.tabs.ideas}
+          {t.app.tabs.reports}
         </button>
       </div>
-      {activeTab === "hub" && (
+      {activeTab === "program" && (
         <WeeklyProposalCard
           onApplied={fetchEvents}
           onProposalLoaded={(proposal, weekLabel) => {
@@ -911,14 +910,11 @@ export function DashboardClient({
           }}
         />
       )}
-      {activeTab === "hub" && !profileLoading && parentType && (
+      {activeTab === "program" && !profileLoading && parentType && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.quickPanel}</p>
-            <h2 className="text-base font-semibold text-stone-800">{d.usefulIndicators}</h2>
-          </div>
-          <span className="text-xs text-stone-500">{d.hubMovedNote}</span>
+        <div className="mb-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.quickPanel}</p>
+          <h2 className="text-base font-semibold text-stone-800">{d.usefulIndicators}</h2>
         </div>
         <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
           <div className="min-w-0 rounded-[1.35rem] bg-white/80 px-1.5 py-2.5 sm:px-3 sm:py-3">
@@ -991,34 +987,34 @@ export function DashboardClient({
           </div>
         </div>
       )}
-      {activeTab === "rutine" && (
+      {activeTab === "copil" && (
         <div className="space-y-4">
           <SharedRitualsCard parent1Name={resolvedParent1} parent2Name={resolvedParent2} />
           <RecurringActivitiesCard />
         </div>
       )}
-      {activeTab === "idei" && !profileLoading && parentType && (
+      {activeTab === "copil" && !profileLoading && parentType && (
         <ActivityRecommendationsTab activityCity={activityCity} onActivityLogged={fetchActivities} />
       )}
-      {activeTab === "idei" && (
+      {activeTab === "rapoarte" && (
         <BlogReferencesSection />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "rapoarte" && (
         <CoparentingScoreCard parentType={parentType} />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "impreuna" && (
         <JointDecisionsCard parentType={parentType} currentUserId={currentUserId} />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "impreuna" && (
         <ParentingGuideCard parentType={parentType} />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "impreuna" && (
         <ExpenseTrackerCard parentType={parentType} />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "program" && (
         <SpecialDaysCard parentType={parentType} />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "rapoarte" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <h2 className="text-base font-semibold text-stone-800 mb-2">{d.timeReport}</h2>
         <div className="flex flex-wrap gap-1.5 mb-2">
@@ -1150,16 +1146,16 @@ export function DashboardClient({
         )}
       </section>
       )}
-      {activeTab === "program" && childId && (
+      {activeTab === "copil" && childId && (
         <ActiveHealthCard childId={childId} childName={resolvedChild} />
       )}
-      {activeTab === "program" && (
+      {activeTab === "copil" && (
         <TransitionNoteCard
           parentType={parentType}
           handoverDate={currentParentPeriod?.endDate ?? null}
         />
       )}
-      {activeTab === "program" && (
+      {activeTab === "copil" && (
         <ChildMoodCard
           parentType={parentType}
           currentUserId={currentUserId}
@@ -1167,7 +1163,7 @@ export function DashboardClient({
           childName={resolvedChild}
         />
       )}
-      {activeTab === "program" && (
+      {activeTab === "copil" && (
         <ContactBalanceCard parentType={parentType} />
       )}
       {activeTab === "program" && (
@@ -1246,7 +1242,7 @@ export function DashboardClient({
         selectedDate={selectedDateForWeek}
       />
       )}
-      {activeTab === "hub" && (
+      {activeTab === "copil" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
           <h2 className="text-base font-semibold text-stone-800">{d.activitiesTitle}</h2>
@@ -1298,7 +1294,7 @@ export function DashboardClient({
         )}
       </section>
       )}
-      {activeTab === "hub" && (
+      {activeTab === "rapoarte" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <h2 className="text-base font-semibold text-stone-800 mb-2">{d.usefulLinks}</h2>
         <p className="text-xs text-stone-500 mb-3">

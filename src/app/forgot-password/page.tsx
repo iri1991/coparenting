@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { AuthPageShell } from "@/components/auth/AuthPageShell";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -31,47 +31,53 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-amber-50 to-orange-50 dark:from-stone-950 dark:to-stone-900">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center flex flex-col items-center gap-3">
-          <Link href="/">
-            <Image src="/logo.png" alt="HomeSplit" width={64} height={64} className="rounded-2xl object-contain" />
+    <AuthPageShell
+      title="Ai uitat parola?"
+      subtitle="Introdu emailul contului și vei primi un link pentru resetare."
+      footer={
+        <p className="text-center text-stone-500 text-sm">
+          <Link href="/login" className="text-amber-600 dark:text-amber-400 hover:underline">
+            Înapoi la conectare
           </Link>
-          <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
-            Ai uitat parola?
-          </h1>
-          <p className="mt-1 text-stone-600 dark:text-stone-400 text-sm">
-            Introdu emailul contului și vei primi un link pentru resetare.
-          </p>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        </p>
+      }
+    >
+      <form className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="forgot-email" className="sr-only">
+            Email
+          </label>
           <input
+            id="forgot-email"
             type="email"
+            autoComplete="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
+            className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
-          {message && (
-            <p className={`text-sm ${message.type === "error" ? "text-red-600" : "text-emerald-600"}`}>
-              {message.text}
-            </p>
-          )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 disabled:opacity-50"
+        </div>
+        {message && (
+          <p
+            className={`text-sm rounded-xl px-3 py-2 ${
+              message.type === "error"
+                ? "text-red-700 dark:text-red-300 bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50"
+                : "text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50"
+            }`}
+            role="alert"
           >
-            {loading ? "Se trimite…" : "Trimite link resetare"}
-          </button>
-        </form>
-        <p className="text-center text-stone-500 text-sm">
-          <Link href="/login" className="text-amber-600 hover:underline">
-            Înapoi la conectare
-          </Link>
-        </p>
-      </div>
-    </div>
+            {message.text}
+          </p>
+        )}
+        <button
+          type="submit"
+          disabled={loading}
+          className="app-native-primary-button w-full py-3.5 font-semibold disabled:opacity-50"
+        >
+          {loading ? "Se trimite…" : "Trimite link resetare"}
+        </button>
+      </form>
+    </AuthPageShell>
   );
 }

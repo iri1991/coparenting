@@ -74,7 +74,7 @@ function toEvent(doc: {
   };
 }
 
-const HOME_TABS = new Set(["program", "rutine", "hub", "idei"]);
+const HOME_TABS = new Set(["program", "copil", "impreuna", "rapoarte"]);
 
 // This page is always server-rendered on demand (needs auth + DB).
 export const dynamic = "force-dynamic";
@@ -131,7 +131,7 @@ export default async function AppPage({
   const tabParam = params?.tab;
   const initialDashboardTab =
     typeof tabParam === "string" && HOME_TABS.has(tabParam)
-      ? (tabParam as "program" | "rutine" | "hub" | "idei")
+      ? (tabParam as "program" | "copil" | "impreuna" | "rapoarte")
       : undefined;
   const dateParam = params?.date;
   const initialCalendarDate =

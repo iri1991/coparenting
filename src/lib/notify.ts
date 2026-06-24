@@ -95,7 +95,7 @@ export async function sendWeeklyProposalCreatedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Propunere program săptămână",
     body: `Programul pentru ${weekLabel} e gata. Deschide aplicația și aprobă.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "program" }),
   });
 }
 
@@ -112,7 +112,7 @@ export async function sendProposalApprovedByOtherNotification(
   await sendPushToSubscriptions(subs, {
     title: "Program aprobat",
     body: `${approverLabel} a aprobat programul pentru ${weekLabel}. Dacă și tu aprobi, se aplică automat.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "program" }),
   });
 }
 
@@ -166,7 +166,7 @@ export async function sendChildActivityAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Activitate nouă adăugată",
     body: `${actorLabel} a adăugat „${activityName}” (${dateLabel}).`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "copil" }),
   });
 }
 
@@ -192,7 +192,7 @@ export async function sendTransitionNoteCreatedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Notă de predare nouă",
     body: `${authorLabel} a lăsat o notă pentru predarea de ${dateLabel}: stare, somn, mâncare, medicație și obiecte.`,
-    url: homeAppUrl({ tab: "program", date: dateStr }),
+    url: homeAppUrl({ tab: "copil", date: dateStr }),
   });
 }
 
@@ -217,7 +217,7 @@ export async function sendDecisionProposedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Decizie de aprobat",
     body: `${proposerLabel} propune: „${title}”. Deschide aplicația pentru a aproba sau a discuta.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "impreuna" }),
   });
 }
 
@@ -239,7 +239,7 @@ export async function sendDecisionRespondedNotification(
   await sendPushToSubscriptions(subs, {
     title: status === "approved" ? "Decizie aprobată" : "Decizie de discutat",
     body,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "impreuna" }),
   });
 }
 
@@ -264,7 +264,7 @@ export async function sendGuideUpdatedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Ghid parental actualizat",
     body: `${actorLabel} a adăugat o regulă comună: „${title}”.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "impreuna" }),
   });
 }
 
@@ -291,7 +291,7 @@ export async function sendExpenseAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Cheltuială nouă",
     body: `${actorLabel} a adăugat „${title}” (${lei} lei). Vezi soldul în aplicație.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "impreuna" }),
   });
 }
 
@@ -316,7 +316,7 @@ export async function sendSpecialDayAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Zi specială adăugată",
     body: `${actorLabel} a adăugat „${title}” în calendarul zilelor speciale.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "program" }),
   });
 }
 
@@ -334,7 +334,7 @@ export async function sendUsefulLinkAddedNotification(
   await sendPushToSubscriptions(subs, {
     title: "Material util nou",
     body: `${actorLabel} a adăugat „${titleLabel}”.`,
-    url: homeAppUrl({ tab: "hub" }),
+    url: homeAppUrl({ tab: "rapoarte" }),
   });
 }
 

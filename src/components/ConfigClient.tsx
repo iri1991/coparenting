@@ -247,6 +247,8 @@ interface ConfigClientProps {
   currentPeriodEnd?: string | null;
   /** Link pentru „Înapoi” / „Merg la calendar” (ex. /?plan=pro după setup cu plan). */
   returnToHref?: string;
+  /** Sub-secțiunea inițială (deep-link, ex. „health” din cardul de sănătate). */
+  initialSection?: "general" | "child" | "health" | "residences" | "other";
 }
 
 export function ConfigClient({
@@ -261,6 +263,7 @@ export function ConfigClient({
   subscriptionStatus = null,
   currentPeriodEnd = null,
   returnToHref,
+  initialSection,
 }: ConfigClientProps) {
   type ConfigTab = "general" | "child" | "health" | "residences" | "other";
   const canUseDocuments = plan === "pro" || plan === "family";
@@ -282,7 +285,7 @@ export function ConfigClient({
   const [expandedHealthChildId, setExpandedHealthChildId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<ConfigTab>("general");
+  const [activeTab, setActiveTab] = useState<ConfigTab>(initialSection ?? "general");
   const [healthStatsByChildId, setHealthStatsByChildId] = useState<Record<string, { activeConditions: number; dueToday: number; lastAdministrationLabel: string }>>({});
   const canSharePdf = plan === "pro" || plan === "family";
 
@@ -914,7 +917,7 @@ export function ConfigClient({
         {plan === "free" && children.length >= 1 && (
           <p className="mt-2 text-xs text-stone-500 dark:text-stone-400 flex flex-wrap items-center gap-1.5">
             Planul Free: 1 copil. Pro: până la 3. Family+: nelimitat.
-            <UpgradeCta variant="inline" children="Upgrade" />
+            <UpgradeCta variant="inline">Upgrade</UpgradeCta>
           </p>
         )}
       </section>
@@ -1024,7 +1027,7 @@ export function ConfigClient({
         {plan === "free" && residences.length >= 1 && (
           <p className="mt-2 text-xs text-stone-500 dark:text-stone-400 flex flex-wrap items-center gap-1.5">
             Planul Free: 1 locuință. Pro / Family+: locații multiple.
-            <UpgradeCta variant="inline" children="Upgrade" />
+            <UpgradeCta variant="inline">Upgrade</UpgradeCta>
           </p>
         )}
       </section>
