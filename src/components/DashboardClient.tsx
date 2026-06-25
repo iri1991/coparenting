@@ -37,10 +37,12 @@ import type { WeekProposal } from "@/types/proposal";
 import { SharedRitualsCard } from "@/components/SharedRitualsCard";
 import { RecurringActivitiesCard } from "@/components/RecurringActivitiesCard";
 import type { HomeDashboardTab } from "@/lib/deep-links";
-import { CalendarRange, LockKeyhole, Sparkles } from "lucide-react";
+import { CalendarRange, LockKeyhole, Sparkles, HeartPulse, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { inter } from "@/lib/i18n/interpolate";
 import { ActiveHealthCard } from "@/components/ActiveHealthCard";
+import { ChildHealthSection } from "@/components/ChildHealthSection";
+import { ModalPortal } from "@/components/ModalPortal";
 import { TransitionNoteCard } from "@/components/TransitionNoteCard";
 import { JointDecisionsCard } from "@/components/JointDecisionsCard";
 import { ParentingGuideCard } from "@/components/ParentingGuideCard";
@@ -133,6 +135,7 @@ export function DashboardClient({
   const [currentDate, setCurrentDate] = useState(() => initialCalDate ?? new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => initialCalDate);
   const [internalModalOpen, setInternalModalOpen] = useState(false);
+  const [healthModalOpen, setHealthModalOpen] = useState(false);
   const [editEvent, setEditEvent] = useState<ScheduleEvent | null>(null);
   const [viewEvent, setViewEvent] = useState<ScheduleEvent | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -1147,7 +1150,38 @@ export function DashboardClient({
       </section>
       )}
       {activeTab === "copil" && childId && (
-        <ActiveHealthCard childId={childId} childName={resolvedChild} />
+        <ActiveHealthCard childId={childId} childName={resolvedChild} onManage={() => setHealthModalOpen(true)} />
+      )}
+      {healthModalOpen && childId && (
+        <ModalPortal>
+          <div
+            className="fixed inset-0 z-[85] flex items-start justify-center bg-black/50 p-0 sm:p-4"
+            onClick={() => setHealthModalOpen(false)}
+          >
+            <div
+              className="app-native-surface-strong flex h-full w-full max-w-2xl flex-col overflow-hidden sm:h-[92vh] sm:rounded-[2rem]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-2 border-b border-[#ead9c8] px-4 py-3">
+                <h2 className="flex items-center gap-2 text-base font-semibold text-stone-800">
+                  <HeartPulse className="h-5 w-5 text-[#b66347]" aria-hidden />
+                  {d.healthManageTitle} {resolvedChild}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setHealthModalOpen(false)}
+                  className="rounded-lg p-2 text-stone-500 hover:bg-white/70"
+                  aria-label={t.common.close}
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="min-h-0 flex-1 overflow-y-auto p-4">
+                <ChildHealthSection childId={childId} parent1Name={resolvedParent1} parent2Name={resolvedParent2} />
+              </div>
+            </div>
+          </div>
+        </ModalPortal>
       )}
       {activeTab === "copil" && (
         <TransitionNoteCard

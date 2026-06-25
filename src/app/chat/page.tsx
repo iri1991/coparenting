@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import { ChatClient, type ChatMessage } from "@/components/ChatClient";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
+import { NotificationActivationDialog } from "@/components/NotificationActivationDialog";
 
 const MAX_MESSAGES = 100;
 
@@ -118,6 +119,7 @@ export default async function ChatPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </Link>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- signout needs a full navigation to the NextAuth endpoint, not a client-side Link */}
             <a
               href="/api/auth/signout"
               className="app-native-icon-button rounded-2xl p-2.5 text-stone-600 touch-manipulation"
@@ -136,6 +138,7 @@ export default async function ChatPage() {
         <ChatClient initialMessages={initialMessages} currentUserId={session.user.id} />
       </main>
       <MobileQuickNav />
+      <NotificationActivationDialog currentUserId={session.user.id} />
     </div>
   );
 }

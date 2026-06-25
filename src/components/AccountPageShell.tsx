@@ -8,6 +8,7 @@ import { User, Settings, History } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { DataExportSection } from "@/components/DataExportSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
+import { NotificationActivationDialog } from "@/components/NotificationActivationDialog";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -31,7 +32,7 @@ interface AccountPageShellProps {
   configData: ConfigData | null;
   currentUserId?: string;
   initialTab?: "cont" | "config" | "istoric";
-  initialConfigSection?: "general" | "child" | "health" | "residences" | "other";
+  initialConfigSection?: "general" | "child" | "residences" | "other";
 }
 
 export function AccountPageShell({
@@ -193,6 +194,7 @@ export function AccountPageShell({
         </main>
       </div>
       <MobileQuickNav />
+      <NotificationActivationDialog currentUserId={currentUserId} />
     </div>
   );
 }

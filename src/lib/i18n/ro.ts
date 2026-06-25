@@ -423,7 +423,6 @@ export const ro = {
         general: "General",
         child: "Copil",
         residences: "Locuințe",
-        health: "Sănătate",
         other: "Altele",
       },
       general: {
@@ -617,6 +616,7 @@ export const ro = {
       showPreview: "Arată preview",
       quickPanel: "Panou rapid",
       usefulIndicators: "Indicatori utili",
+      healthManageTitle: "Sănătate",
       yourWeek: "Săptămâna ta",
       daysScheduled: "zile cu timp programat",
       scheduledTimeSingle: "zi cu timp programat",
@@ -691,6 +691,9 @@ export const ro = {
       blockedBrowser: "Notificările sunt blocate în browser. Activează-le din setările browserului.",
       activating: "Se activează…",
       activate: "Activează notificările",
+      promptTitle: "Activează notificările",
+      promptBody: "Ca să nu pierzi schimbările de program, mesajele și deciziile importante, activează notificările pe acest dispozitiv. Le poți opri oricând din Cont.",
+      later: "Mai târziu",
     },
     subscription: {
       title: "Abonament",
