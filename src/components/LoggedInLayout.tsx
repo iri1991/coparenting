@@ -11,6 +11,7 @@ import type { ScheduleEvent } from "@/types/events";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { inter } from "@/lib/i18n/interpolate";
+import { NotificationActivationDialog } from "@/components/NotificationActivationDialog";
 const ADD_MODAL_OPEN_DELAY_MS = 1200;
 const CHAT_UNREAD_POLL_MS = 25000;
 
@@ -277,6 +278,7 @@ export function LoggedInLayout({
       </main>
 
       <MobileQuickNav />
+      <NotificationActivationDialog currentUserId={currentUserId} />
     </div>
   );
 }

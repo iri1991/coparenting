@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { CheckCircle2, Circle, HeartPulse, Settings2 } from "lucide-react";
 import { OnDemandAdministerDialog } from "@/components/OnDemandAdministerDialog";
 import type {
@@ -13,12 +12,14 @@ import type {
 interface Props {
   childId: string;
   childName: string;
+  /** Deschide gestionarea completă a sănătății (boli, tratamente, rapoarte). */
+  onManage?: () => void;
 }
 
 const TODAY = () =>
   new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
 
-export function ActiveHealthCard({ childId, childName }: Props) {
+export function ActiveHealthCard({ childId, childName, onManage }: Props) {
   const [conditions, setConditions] = useState<ChildHealthCondition[]>([]);
   const [plans, setPlans] = useState<ChildTreatmentPlan[]>([]);
   const [administrations, setAdministrations] = useState<ChildTreatmentAdministration[]>([]);
@@ -140,13 +141,16 @@ export function ActiveHealthCard({ childId, childName }: Props) {
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
           Sănătate {childName}
         </p>
-        <Link
-          href="/account?tab=config&section=health"
-          className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#f6eee5] px-2.5 py-1 text-[11px] font-semibold text-[#9f5a40] hover:bg-[#efe2d4]"
-        >
-          <Settings2 className="w-3 h-3" />
-          Gestionează
-        </Link>
+        {onManage && (
+          <button
+            type="button"
+            onClick={onManage}
+            className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#f6eee5] px-2.5 py-1 text-[11px] font-semibold text-[#9f5a40] hover:bg-[#efe2d4]"
+          >
+            <Settings2 className="w-3 h-3" />
+            Gestionează
+          </button>
+        )}
         {(totalCount > 0 || onDemandAdminCount > 0) && (
           <span className="rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
             {totalCount > 0 ? `${doneCount}/${totalCount}` : ""}

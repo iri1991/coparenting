@@ -425,7 +425,6 @@ export const en: Translations = {
         general: "General",
         child: "Child",
         residences: "Residences",
-        health: "Health",
         other: "Other",
       },
       general: {
@@ -619,6 +618,7 @@ export const en: Translations = {
       showPreview: "Show preview",
       quickPanel: "Quick panel",
       usefulIndicators: "Useful indicators",
+      healthManageTitle: "Health",
       yourWeek: "Your week",
       daysScheduled: "days with scheduled time",
       scheduledTimeSingle: "day with scheduled time",
@@ -693,6 +693,9 @@ export const en: Translations = {
       blockedBrowser: "Notifications are blocked in the browser. Enable them in browser settings.",
       activating: "Activating…",
       activate: "Activate notifications",
+      promptTitle: "Turn on notifications",
+      promptBody: "So you don't miss schedule changes, messages and important decisions, turn on notifications on this device. You can turn them off anytime from Account.",
+      later: "Later",
     },
     subscription: {
       title: "Subscription",

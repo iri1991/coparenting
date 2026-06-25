@@ -7,7 +7,6 @@ import { SubscriptionSection } from "@/components/SubscriptionSection";
 import { UpgradeCta } from "@/components/UpgradeCta";
 import type { FamilyHouseholdMode } from "@/types/family";
 import { resolveHouseholdMode } from "@/lib/household-mode";
-import { ChildHealthSection } from "@/components/ChildHealthSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Lang } from "@/lib/i18n";
 
@@ -247,8 +246,8 @@ interface ConfigClientProps {
   currentPeriodEnd?: string | null;
   /** Link pentru „Înapoi” / „Merg la calendar” (ex. /?plan=pro după setup cu plan). */
   returnToHref?: string;
-  /** Sub-secțiunea inițială (deep-link, ex. „health” din cardul de sănătate). */
-  initialSection?: "general" | "child" | "health" | "residences" | "other";
+  /** Sub-secțiunea inițială (deep-link). */
+  initialSection?: "general" | "child" | "residences" | "other";
 }
 
 export function ConfigClient({
@@ -265,7 +264,7 @@ export function ConfigClient({
   returnToHref,
   initialSection,
 }: ConfigClientProps) {
-  type ConfigTab = "general" | "child" | "health" | "residences" | "other";
+  type ConfigTab = "general" | "child" | "residences" | "other";
   const canUseDocuments = plan === "pro" || plan === "family";
   const [family, setFamily] = useState(initialFamily);
   const [children, setChildren] = useState(initialChildren);
@@ -282,11 +281,9 @@ export function ConfigClient({
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteResult, setInviteResult] = useState<{ joinUrl: string; emailSent: boolean } | null>(null);
   const [expandedChildId, setExpandedChildId] = useState<string | null>(null);
-  const [expandedHealthChildId, setExpandedHealthChildId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<ConfigTab>(initialSection ?? "general");
-  const [healthStatsByChildId, setHealthStatsByChildId] = useState<Record<string, { activeConditions: number; dueToday: number; lastAdministrationLabel: string }>>({});
   const canSharePdf = plan === "pro" || plan === "family";
 
   useEffect(() => {
@@ -306,75 +303,6 @@ export function ConfigClient({
     };
   }, [canSharePdf]);
 
-  useEffect(() => {
-    if (activeTab !== "health" || children.length === 0) return;
-    let cancelled = false;
-    const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Bucharest" });
-
-    (async () => {
-      const pairs = await Promise.all(
-        children.map(async (child) => {
-          try {
-            const res = await fetch(`/api/children/health/summary?childId=${encodeURIComponent(child.id)}`);
-            const json = await res.json().catch(() => ({}));
-            if (!res.ok) return [child.id, { activeConditions: 0, dueToday: 0, lastAdministrationLabel: "fără istoric" }] as const;
-            const conditions = Array.isArray(json.conditions) ? json.conditions : [];
-            const plans = Array.isArray(json.plans) ? json.plans : [];
-            const administrations = Array.isArray(json.administrations) ? json.administrations : [];
-            const activeConditions = conditions.filter((c: { status?: string }) => c.status !== "resolved").length;
-            const dueToday = plans.reduce((acc: number, p: {
-              id?: string;
-              active?: boolean;
-              startDate?: string;
-              endDate?: string;
-              recurrenceType?: "daily" | "interval";
-              recurrenceIntervalDays?: number;
-              times?: string[];
-            }) => {
-              if (!p.active) return acc;
-              if (!p.startDate || p.startDate > today) return acc;
-              if (p.endDate && p.endDate < today) return acc;
-              if (p.recurrenceType === "interval") {
-                const start = new Date(`${p.startDate}T00:00:00`).getTime();
-                const current = new Date(`${today}T00:00:00`).getTime();
-                const interval = Math.max(1, p.recurrenceIntervalDays ?? 1);
-                const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
-                if (days < 0 || days % interval !== 0) return acc;
-              }
-              const times = Array.isArray(p.times) ? p.times : [];
-              const doneCount = times.filter((t) =>
-                administrations.some(
-                  (a: { planId?: string; date?: string; timeLabel?: string; status?: string }) =>
-                    a.planId === p.id && a.date === today && a.timeLabel === t && a.status === "done"
-                )
-              ).length;
-              const remaining = Math.max(0, times.length - doneCount);
-              return acc + remaining;
-            }, 0);
-            const latestDone = administrations
-              .filter((a: { status?: string }) => a.status === "done")
-              .sort((a: { date?: string; timeLabel?: string }, b: { date?: string; timeLabel?: string }) => {
-                const ad = a.date ?? "";
-                const bd = b.date ?? "";
-                if (ad !== bd) return bd.localeCompare(ad);
-                return (b.timeLabel ?? "").localeCompare(a.timeLabel ?? "");
-              })[0] as { date?: string; timeLabel?: string } | undefined;
-            const lastAdministrationLabel = latestDone?.date
-              ? `${latestDone.date}${latestDone.timeLabel ? ` ${latestDone.timeLabel}` : ""}`
-              : "fără istoric";
-            return [child.id, { activeConditions, dueToday, lastAdministrationLabel }] as const;
-          } catch {
-            return [child.id, { activeConditions: 0, dueToday: 0, lastAdministrationLabel: "fără istoric" }] as const;
-          }
-        })
-      );
-      if (!cancelled) setHealthStatsByChildId(Object.fromEntries(pairs));
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab, children]);
 
   async function saveFamily() {
     setSaving(true);
@@ -630,19 +558,6 @@ export function ConfigClient({
           }`}
         >
           {cfg.tabs.residences}
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === "health"}
-          onClick={() => setActiveTab("health")}
-          className={`shrink-0 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold transition ${
-            activeTab === "health"
-              ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white"
-              : "text-stone-600 hover:bg-white/80"
-          }`}
-        >
-          {cfg.tabs.health}
         </button>
         <button
           type="button"
@@ -923,51 +838,6 @@ export function ConfigClient({
       </section>
       )}
 
-      {activeTab === "health" && (
-      <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">
-        <h2 className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-2">Sănătate copil</h2>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
-          Fiecare copil are secțiunea lui: boli (timeline), rapoarte medicale, planuri de tratament, recurență și istoric administrări.
-        </p>
-        {children.length === 0 ? (
-          <p className="text-sm text-stone-500 dark:text-stone-400">Adaugă mai întâi un copil în tab-ul „Copil”.</p>
-        ) : (
-          <ul className="space-y-2">
-            {children.map((c) => (
-              <li key={`health-${c.id}`} className="rounded-xl bg-stone-50 dark:bg-stone-800/50 overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => setExpandedHealthChildId(expandedHealthChildId === c.id ? null : c.id)}
-                  className="w-full flex items-center justify-between gap-2 py-3 px-3 text-left"
-                  aria-expanded={expandedHealthChildId === c.id}
-                >
-                  <div className="min-w-0">
-                    <span className="font-medium text-stone-800 dark:text-stone-200">{c.name}</span>
-                    <div className="mt-1 flex flex-wrap gap-1.5">
-                      <span className="rounded-full bg-[#fff4e8] px-2 py-0.5 text-[11px] font-semibold text-[#8a4b2d]">
-                        Boli active: {healthStatsByChildId[c.id]?.activeConditions ?? 0}
-                      </span>
-                      <span className="rounded-full bg-[#edf6f3] px-2 py-0.5 text-[11px] font-semibold text-[#1f5a4e]">
-                        Doze azi: {healthStatsByChildId[c.id]?.dueToday ?? 0}
-                      </span>
-                      <span className="rounded-full bg-[#f8f1dc] px-2 py-0.5 text-[11px] font-semibold text-[#7a5620]">
-                        Ultima administrare: {healthStatsByChildId[c.id]?.lastAdministrationLabel ?? "fără istoric"}
-                      </span>
-                    </div>
-                  </div>
-                  <span className="text-xs text-stone-500 shrink-0">{expandedHealthChildId === c.id ? "Ascunde" : "Deschide"}</span>
-                </button>
-                {expandedHealthChildId === c.id ? (
-                  <div className="px-3 pb-3">
-                    <ChildHealthSection childId={c.id} parent1Name={family.parent1Name} parent2Name={family.parent2Name} />
-                  </div>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      )}
 
       {activeTab === "child" && (
       <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-4">

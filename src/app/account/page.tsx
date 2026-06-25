@@ -7,7 +7,7 @@ import { isStripeConfigured } from "@/lib/stripe";
 import { AccountPageShell, type ConfigData } from "@/components/AccountPageShell";
 
 const ACCOUNT_TABS = new Set(["cont", "config", "istoric"]);
-const CONFIG_SECTIONS = new Set(["general", "child", "health", "residences", "other"]);
+const CONFIG_SECTIONS = new Set(["general", "child", "residences", "other"]);
 
 export default async function AccountPage({
   searchParams,
@@ -26,7 +26,7 @@ export default async function AccountPage({
       : undefined;
   const initialConfigSection =
     typeof sp.section === "string" && CONFIG_SECTIONS.has(sp.section)
-      ? (sp.section as "general" | "child" | "health" | "residences" | "other")
+      ? (sp.section as "general" | "child" | "residences" | "other")
       : undefined;
 
   let configData: ConfigData | null = null;
