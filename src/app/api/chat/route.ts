@@ -5,9 +5,9 @@ import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { sendNewChatMessageNotification } from "@/lib/notify";
 import { flushDueScheduledMessages } from "@/lib/scheduled-messages";
+import { loadChatMessages } from "@/lib/chat";
 
 const MAX_MESSAGE_LENGTH = 2000;
-const MAX_MESSAGES = 100;
 const MAX_REPLY_PREVIEW_LENGTH = 120;
 
 /** Fără cache HTTP / SW stale pentru lista de mesaje (altfel „dispar/apar” mesaje). */
@@ -38,78 +38,14 @@ export async function GET() {
     console.error("[chat] flush scheduled failed", err)
   );
 
-  const memberIds = family.memberIds ?? [];
-  const parent1Name = (family as { parent1Name?: string }).parent1Name?.trim() || "Părinte 1";
-  const parent2Name = (family as { parent2Name?: string }).parent2Name?.trim() || "Părinte 2";
-  const otherMemberId = memberIds.find((id) => id !== session.user.id) ?? null;
-  let otherLastReadAt: Date | null = null;
-  if (otherMemberId) {
-    const otherUser = await db.collection("users").findOne(
-      { _id: new ObjectId(otherMemberId) },
-      { projection: { chatLastReadAt: 1 } }
-    );
-    otherLastReadAt = (otherUser as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
-  }
-
-  const docs = await db
-    .collection("messages")
-    .find({ familyId })
-    .sort({ createdAt: -1 })
-    .limit(MAX_MESSAGES)
-    .toArray();
-
-  const messages = (docs as {
-    _id: unknown;
-    senderId: string;
-    text: string;
-    createdAt: Date;
-    replyToId?: string;
-    replyToSenderId?: string;
-    replyToText?: string;
-  }[]).map(
-    (d) => {
-      const senderIndex = memberIds.indexOf(d.senderId);
-      const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
-      const seenByOther =
-        d.senderId === session.user.id &&
-        !!otherLastReadAt &&
-        d.createdAt.getTime() <= otherLastReadAt.getTime();
-      let replyTo: {
-        id: string;
-        senderId: string;
-        senderLabel: string;
-        text: string;
-      } | null = null;
-      if (
-        typeof d.replyToId === "string" &&
-        d.replyToId &&
-        typeof d.replyToSenderId === "string" &&
-        d.replyToSenderId &&
-        typeof d.replyToText === "string"
-      ) {
-        const replySenderIndex = memberIds.indexOf(d.replyToSenderId);
-        const replySenderLabel =
-          replySenderIndex === 0 ? parent1Name : replySenderIndex === 1 ? parent2Name : "Membru";
-        replyTo = {
-          id: d.replyToId,
-          senderId: d.replyToSenderId,
-          senderLabel: replySenderLabel,
-          text: d.replyToText,
-        };
-      }
-      return {
-        id: String(d._id),
-        senderId: d.senderId,
-        senderLabel,
-        text: d.text,
-        createdAt: d.createdAt.toISOString(),
-        seenByOther,
-        replyTo,
-      };
-    }
+  const messages = await loadChatMessages(
+    db,
+    familyId,
+    family as { memberIds?: string[]; parent1Name?: string; parent2Name?: string },
+    session.user.id
   );
 
-  return NextResponse.json({ messages: messages.reverse() }, { headers: NO_STORE_JSON });
+  return NextResponse.json({ messages }, { headers: NO_STORE_JSON });
 }
 
 /** POST: trimite un mesaj în chat-ul familiei. */

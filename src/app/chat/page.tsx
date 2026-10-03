@@ -8,8 +8,8 @@ import { ChatClient, type ChatMessage } from "@/components/ChatClient";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { NotificationActivationDialog } from "@/components/NotificationActivationDialog";
-
-const MAX_MESSAGES = 100;
+import { loadChatMessages } from "@/lib/chat";
+import { flushDueScheduledMessages } from "@/lib/scheduled-messages";
 
 export default async function ChatPage() {
   const session = await auth();
@@ -27,71 +27,17 @@ export default async function ChatPage() {
     redirect("/family-deactivated");
   }
 
-  const memberIds = family.memberIds ?? [];
-  const parent1Name = (family as { parent1Name?: string }).parent1Name?.trim() || "Părinte 1";
-  const parent2Name = (family as { parent2Name?: string }).parent2Name?.trim() || "Părinte 2";
-  const otherMemberId = memberIds.find((id) => id !== session.user.id) ?? null;
-  let otherLastReadAt: Date | null = null;
-  if (otherMemberId) {
-    const otherUser = await db.collection("users").findOne(
-      { _id: new ObjectId(otherMemberId) },
-      { projection: { chatLastReadAt: 1 } }
-    );
-    otherLastReadAt = (otherUser as { chatLastReadAt?: Date } | null)?.chatLastReadAt ?? null;
-  }
-
-  const docs = await db
-    .collection("messages")
-    .find({ familyId })
-    .sort({ createdAt: 1 })
-    .limit(MAX_MESSAGES)
-    .toArray();
-
-  const initialMessages: ChatMessage[] = (
-    docs as {
-      _id: unknown;
-      senderId: string;
-      text: string;
-      createdAt: Date;
-      replyToId?: string;
-      replyToSenderId?: string;
-      replyToText?: string;
-    }[]
-  ).map((d) => {
-    const senderIndex = memberIds.indexOf(d.senderId);
-    const senderLabel = senderIndex === 0 ? parent1Name : senderIndex === 1 ? parent2Name : "Membru";
-    const seenByOther =
-      d.senderId === session.user.id &&
-      !!otherLastReadAt &&
-      d.createdAt.getTime() <= otherLastReadAt.getTime();
-    let replyTo: ChatMessage["replyTo"] = null;
-    if (
-      typeof d.replyToId === "string" &&
-      d.replyToId &&
-      typeof d.replyToSenderId === "string" &&
-      d.replyToSenderId &&
-      typeof d.replyToText === "string"
-    ) {
-      const replySenderIndex = memberIds.indexOf(d.replyToSenderId);
-      const replySenderLabel =
-        replySenderIndex === 0 ? parent1Name : replySenderIndex === 1 ? parent2Name : "Membru";
-      replyTo = {
-        id: d.replyToId,
-        senderId: d.replyToSenderId,
-        senderLabel: replySenderLabel,
-        text: d.replyToText,
-      };
-    }
-    return {
-      id: String(d._id),
-      senderId: d.senderId,
-      senderLabel,
-      text: d.text,
-      createdAt: d.createdAt.toISOString(),
-      seenByOther,
-      replyTo,
-    };
-  });
+  // Ca în GET /api/chat: livrează mesajele programate scadente, apoi citește aceeași fereastră
+  // (cele mai noi mesaje). Altfel refresh-ul arăta alte mesaje decât polling-ul.
+  await flushDueScheduledMessages(db, familyId).catch((err) =>
+    console.error("[chat] flush scheduled failed", err)
+  );
+  const initialMessages: ChatMessage[] = await loadChatMessages(
+    db,
+    familyId,
+    family as { memberIds?: string[]; parent1Name?: string; parent2Name?: string },
+    session.user.id
+  );
 
   return (
     <div className="app-native-shell h-screen max-h-[100dvh] overflow-hidden">

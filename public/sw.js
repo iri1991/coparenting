@@ -29,6 +29,15 @@ function isChatPagePath(pathname) {
   return pathname === "/chat" || pathname.startsWith("/chat/");
 }
 
+/** Marchează un răspuns servit din cache-ul offline, ca aplicația să știe că poate fi vechi. */
+function markOffline(response) {
+  return response.blob().then(function (body) {
+    var headers = new Headers(response.headers);
+    headers.set("X-HomeSplit-Offline", "1");
+    return new Response(body, { status: response.status, statusText: response.statusText, headers: headers });
+  });
+}
+
 var lastChatOfflineWrite = 0;
 var CHAT_OFFLINE_MIN_MS = 60 * 1000;
 
@@ -91,7 +100,7 @@ self.addEventListener("fetch", function (event) {
         .catch(function () {
           return caches.open(CHAT_OFFLINE_CACHE).then(function (cache) {
             return cache.match(req).then(function (cached) {
-              if (cached) return cached;
+              if (cached) return markOffline(cached);
               if (url.pathname.includes("unread")) {
                 return new Response(JSON.stringify({ unreadCount: 0 }), {
                   status: 200,
@@ -100,7 +109,7 @@ self.addEventListener("fetch", function (event) {
               }
               return new Response(JSON.stringify({ messages: [] }), {
                 status: 200,
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "X-HomeSplit-Offline": "1" },
               });
             });
           });

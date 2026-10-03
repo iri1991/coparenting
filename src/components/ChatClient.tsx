@@ -33,15 +33,35 @@ function formatCountdown(sendAt: string, nowTs: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
+function sameMessage(a: ChatMessage, b: ChatMessage): boolean {
+  return (
+    a.id === b.id &&
+    a.text === b.text &&
+    a.createdAt === b.createdAt &&
+    a.senderLabel === b.senderLabel &&
+    Boolean(a.seenByOther) === Boolean(b.seenByOther) &&
+    (a.replyTo?.id ?? null) === (b.replyTo?.id ?? null)
+  );
+}
+
+/**
+ * Unește lista locală cu cea de pe server (serverul câștigă pentru mesajele comune).
+ * Întoarce exact `prev` dacă nu s-a schimbat nimic, ca să nu provoace re-randări/scroll inutile.
+ */
 function mergeChatMessages(prev: ChatMessage[], server: ChatMessage[]): ChatMessage[] {
   const map = new Map<string, ChatMessage>();
   for (const m of server) map.set(m.id, m);
   for (const m of prev) {
     if (!map.has(m.id)) map.set(m.id, m);
   }
-  return Array.from(map.values()).sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
+  const merged = Array.from(map.values()).sort((a, b) => {
+    const diff = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    return diff !== 0 ? diff : a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
+  if (merged.length === prev.length && merged.every((m, i) => sameMessage(m, prev[i]))) {
+    return prev;
+  }
+  return merged;
 }
 
 export function ChatClient({
@@ -74,11 +94,20 @@ export function ChatClient({
     }
   }, []);
 
+  // Numerotează cererile ca un răspuns întârziat (mai vechi) să nu suprascrie unul mai nou.
+  const fetchSeqRef = useRef(0);
+  const appliedSeqRef = useRef(0);
+
   const fetchMessages = useCallback(async () => {
+    const seq = ++fetchSeqRef.current;
     try {
       const res = await fetch("/api/chat", { cache: "no-store" });
       if (!res.ok) return;
+      // Copie din cache-ul offline al service worker-ului: poate fi veche, nu o aplicăm peste lista curentă.
+      if (res.headers.get("X-HomeSplit-Offline") === "1") return;
       const data = await res.json();
+      if (seq < appliedSeqRef.current) return;
+      appliedSeqRef.current = seq;
       if (Array.isArray(data.messages)) {
         setMessages((prev) => mergeChatMessages(prev, data.messages));
       }
@@ -128,9 +157,40 @@ export function ChatClient({
     return () => window.removeEventListener("homesplit:online", onOnline as EventListener);
   }, [fetchMessages]);
 
+  // La revenirea în aplicație (tab din fundal, PWA reluată, pagină din bfcache) reîncarcă imediat,
+  // altfel se vede lista veche până la următorul poll.
   useEffect(() => {
-    listEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const refresh = () => {
+      if (document.visibilityState !== "visible") return;
+      fetchMessages();
+      fetch("/api/chat/read", { method: "POST" }).catch(() => {});
+    };
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("pageshow", refresh);
+    window.addEventListener("focus", refresh);
+    return () => {
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("pageshow", refresh);
+      window.removeEventListener("focus", refresh);
+    };
+  }, [fetchMessages]);
+
+  // Scroll la final doar când apare un mesaj nou la capăt (nu la fiecare poll) și doar dacă
+  // utilizatorul e deja jos sau mesajul e al lui — să nu-l tragem în jos cât citește istoricul.
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const lastMessageIdRef = useRef<string | null>(null);
+  // Măsurat la scroll (înainte să apară mesajul nou), nu după randare.
+  const nearBottomRef = useRef(true);
+  useEffect(() => {
+    const last = messages[messages.length - 1];
+    const lastId = last?.id ?? null;
+    if (lastId === lastMessageIdRef.current) return;
+    const isFirst = lastMessageIdRef.current === null;
+    lastMessageIdRef.current = lastId;
+    if (isFirst || nearBottomRef.current || last?.senderId === currentUserId) {
+      listEndRef.current?.scrollIntoView({ behavior: isFirst ? "auto" : "smooth", block: "end" });
+    }
+  }, [messages, currentUserId]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -224,6 +284,11 @@ export function ChatClient({
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div
+        ref={scrollContainerRef}
+        onScroll={(e) => {
+          const el = e.currentTarget;
+          nearBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+        }}
         className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-4 pb-4 pt-3"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
