@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
+import { ShieldCheck } from "lucide-react";
 import { AppLogo } from "@/components/AppLogo";
 import { DashboardClient } from "@/components/DashboardClient";
 import { UpgradeCta } from "@/components/UpgradeCta";
@@ -209,10 +210,11 @@ export function LoggedInLayout({
               {isAdmin && (
                 <Link
                   href="/admin"
-                  className="rounded-full bg-white/76 px-4 py-2 text-sm font-semibold text-stone-700"
-                  title="Admin"
-                  aria-label="Admin"
+                  className="flex h-11 items-center gap-1.5 rounded-2xl bg-stone-900 px-3.5 text-sm font-semibold text-white"
+                  title="Panou admin"
+                  aria-label="Panou admin"
                 >
+                  <ShieldCheck className="h-4 w-4" />
                   Admin
                 </Link>
               )}

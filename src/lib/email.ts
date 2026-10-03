@@ -254,3 +254,18 @@ export async function notifyFamilyConfigUpdated(
     text: `${actionSentence} Verifică în aplicație: ${baseUrl}`,
   });
 }
+
+/** Trimite emailul de invitație în familie. */
+export async function sendFamilyInvitationEmail(to: string, joinUrl: string, expiryDays: number): Promise<boolean> {
+  const content = `
+      <p style="margin: 0 0 16px; font-size: 16px;">Ai fost invitat(ă) să te alături unei familii pe <strong>HomeSplit</strong>.</p>
+      <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;">Acceptă invitația pentru a avea acces la calendarul comun. Linkul expiră în ${expiryDays} zile.</p>
+      ${emailButtonHtml(joinUrl, "Acceptă invitația")}
+    `;
+  return sendEmail({
+    to,
+    subject: "Invitație HomeSplit – alătură-te familiei",
+    html: wrapEmailHtml(content),
+    text: `Invitație HomeSplit. Acceptă aici: ${joinUrl} (expiră în ${expiryDays} zile.)`,
+  });
+}

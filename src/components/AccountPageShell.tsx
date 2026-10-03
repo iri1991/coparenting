@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { AppLogo } from "@/components/AppLogo";
 import { AccountClient } from "@/components/AccountClient";
 import { ConfigClient } from "@/components/ConfigClient";
-import { User, Settings, History } from "lucide-react";
+import Link from "next/link";
+import { User, Settings, History, ShieldCheck, ChevronRight } from "lucide-react";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { DataExportSection } from "@/components/DataExportSection";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
@@ -33,6 +34,7 @@ interface AccountPageShellProps {
   currentUserId?: string;
   initialTab?: "cont" | "config" | "istoric";
   initialConfigSection?: "general" | "child" | "residences" | "other";
+  isAdmin?: boolean;
 }
 
 export function AccountPageShell({
@@ -43,6 +45,7 @@ export function AccountPageShell({
   currentUserId,
   initialTab,
   initialConfigSection,
+  isAdmin = false,
 }: AccountPageShellProps) {
   // „config”/„istoric” există doar dacă familia are configData; altfel cădem pe „cont”.
   const [activeTab, setActiveTab] = useState<"cont" | "config" | "istoric">(
@@ -153,6 +156,21 @@ export function AccountPageShell({
 
       <div className="max-w-3xl mx-auto px-4 py-6 pb-24 sm:pb-8">
         <main>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="app-native-surface mb-5 flex items-center gap-3 rounded-[1.6rem] px-4 py-3.5 transition hover:bg-white/80"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-stone-900 text-white">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-stone-900">Panou admin</span>
+                <span className="block text-xs text-stone-500">Utilizatori, familii, abonamente și unelte</span>
+              </span>
+              <ChevronRight className="h-5 w-5 text-stone-400" />
+            </Link>
+          )}
           {activeTab === "cont" && (
             <AccountClient
               initialEmail={initialEmail}

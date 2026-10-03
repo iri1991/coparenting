@@ -87,6 +87,7 @@ export default async function AccountPage({
       currentUserId={session.user.id}
       initialTab={initialTab}
       initialConfigSection={initialConfigSection}
+      isAdmin={Boolean(session.user.isAdmin)}
     />
   );
 }

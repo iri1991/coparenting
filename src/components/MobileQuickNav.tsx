@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, MessageCircle, UserRound, BookOpen } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { House, MessageCircle, UserRound, BookOpen, ShieldCheck } from "lucide-react";
 
 const ITEMS = [
   { href: "/app", label: "Acasă", Icon: House },
@@ -11,8 +12,12 @@ const ITEMS = [
   { href: "/account", label: "Cont", Icon: UserRound },
 ] as const;
 
+const ADMIN_ITEM = { href: "/admin", label: "Admin", Icon: ShieldCheck } as const;
+
 export function MobileQuickNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const items = session?.user?.isAdmin ? [...ITEMS, ADMIN_ITEM] : ITEMS;
 
   const isActive = (href: string) => {
     if (href === "/app") return pathname === "/app";
@@ -24,8 +29,8 @@ export function MobileQuickNav() {
     <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-[50] px-4 pb-[max(0.7rem,env(safe-area-inset-bottom))] pt-2">
       <div className="mx-auto max-w-md">
         <div className="app-native-glass overflow-hidden rounded-[30px] px-2 py-2 shadow-[0_22px_50px_rgba(28,25,23,0.16)]">
-          <div className="relative grid grid-cols-4 gap-1">
-            {ITEMS.map(({ href, label, Icon }) => {
+          <div className={`relative grid gap-1 ${items.length === 5 ? "grid-cols-5" : "grid-cols-4"}`}>
+            {items.map(({ href, label, Icon }) => {
               const active = isActive(href);
               return (
                 <Link

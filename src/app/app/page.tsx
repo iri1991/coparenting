@@ -204,7 +204,7 @@ export default async function AppPage({
         childId={childId}
         residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
         initialUnreadCount={chatUnreadCount}
-        isAdmin={(session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro"}
+        isAdmin={Boolean(session.user.isAdmin)}
         activityCity={activityCity}
         initialDashboardTab={initialDashboardTab}
         initialCalendarDate={initialCalendarDate}

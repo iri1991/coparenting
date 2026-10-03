@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
+import { isAdminEmail } from "@/lib/admin-emails";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -55,7 +56,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email as string;
         session.user.name = token.name as string | undefined;
         session.user.parentType = token.parentType as "tata" | "mama" | undefined;
-        session.user.isAdmin = (session.user.email ?? "").toLowerCase() === "me@irinelnicoara.ro";
+        session.user.isAdmin = isAdminEmail(session.user.email);
         const db = await getDb();
         const u = await db.collection("users").findOne(
           { _id: new ObjectId(token.id as string) },
