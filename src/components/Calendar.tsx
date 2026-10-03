@@ -7,6 +7,7 @@ import {
   startOfWeek,
   endOfWeek,
   addDays,
+  addMonths,
   isSameMonth,
   isSameDay,
   isToday,
@@ -119,7 +120,7 @@ export function Calendar({
       <div className="flex items-center justify-between gap-3 border-b border-[#ead9c8] pb-4">
         <button
           type="button"
-          onClick={() => onMonthChange(addDays(currentDate, -30))}
+          onClick={() => onMonthChange(addMonths(currentDate, -1))}
           className="app-native-icon-button flex h-11 w-11 items-center justify-center rounded-2xl text-stone-600 active:scale-95 touch-manipulation"
           aria-label="Luna anterioară"
         >
@@ -135,7 +136,7 @@ export function Calendar({
         </div>
         <button
           type="button"
-          onClick={() => onMonthChange(addDays(currentDate, 30))}
+          onClick={() => onMonthChange(addMonths(currentDate, 1))}
           className="app-native-icon-button flex h-11 w-11 items-center justify-center rounded-2xl text-stone-600 active:scale-95 touch-manipulation"
           aria-label="Luna următoare"
         >

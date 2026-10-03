@@ -142,9 +142,6 @@ export function DashboardClient({
   const [profileLoading, setProfileLoading] = useState(true);
   const [blockedPeriods, setBlockedPeriods] = useState<BlockedPeriod[]>([]);
   const [internalBlockedDaysModalOpen, setInternalBlockedDaysModalOpen] = useState(false);
-  const [calendarExpanded, setCalendarExpanded] = useState(
-    () => Boolean(initialCalDate && resolvedInitialTab === "program")
-  );
   const [activities, setActivities] = useState<ChildActivityEntry[]>([]);
   const [activityCatalog, setActivityCatalog] = useState<string[]>([]);
   const [usefulLinks, setUsefulLinks] = useState<UsefulLinkEntry[]>([]);
@@ -806,7 +803,7 @@ export function DashboardClient({
       residenceNames={residenceNames}
     >
     <div className="space-y-5">
-      {plan === "free" && (
+      {plan === "free" && activeTab !== "program" && (
         <div className="app-native-surface rounded-[2rem] border-[#ecd8c5] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] px-4 py-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b85c3e]">{d.freePlan}</p>
@@ -818,30 +815,19 @@ export function DashboardClient({
         </div>
       )}
       {!profileLoading && parentType && activeTab === "program" && (
-        <div className="app-native-surface-strong overflow-hidden rounded-[2.3rem] p-5 sm:p-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500">
-                <Sparkles className="h-3.5 w-3.5 text-[#b85c3e]" />
-                {d.nativeExperienceBadge}
-              </div>
-              <h1 className="mt-4 text-2xl font-semibold tracking-tight text-stone-900 sm:text-[2rem]">
-                {greeting ?? inter(d.greetingShort, { greetingHello: d.greetingHello, name: greetingName })}
-              </h1>
-              <p className="mt-2 max-w-xl text-sm leading-7 text-stone-600">
-                {inter(d.programIntro, { child: resolvedChild })}
-              </p>
-            </div>
-            {todayEventForLoggedParent && currentParentPeriod && (
-              <button
-                type="button"
-                onClick={openInterruptModal}
-                className="inline-flex items-center rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(191,106,75,0.22)]"
-              >
-                {d.interruptBtn}
-              </button>
-            )}
-          </div>
+        <div className="flex items-center justify-between gap-3 px-1">
+          <h1 className="min-w-0 truncate text-lg font-semibold tracking-tight text-stone-900 sm:text-xl">
+            {greeting ?? inter(d.greetingShort, { greetingHello: d.greetingHello, name: greetingName })}
+          </h1>
+          {todayEventForLoggedParent && currentParentPeriod && (
+            <button
+              type="button"
+              onClick={openInterruptModal}
+              className="inline-flex shrink-0 items-center rounded-full bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] px-3.5 py-2 text-xs font-semibold text-white shadow-[0_10px_22px_rgba(191,106,75,0.2)] sm:text-sm"
+            >
+              {d.interruptBtn}
+            </button>
+          )}
         </div>
       )}
       <div
@@ -902,6 +888,120 @@ export function DashboardClient({
           {t.app.tabs.reports}
         </button>
       </div>
+      {activeTab === "program" && (
+      <div className="app-native-surface overflow-hidden rounded-[2rem]">
+        {proposalPreviewDays.length > 0 && (
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#ecd8c5] bg-[#fff5eb] px-4 py-3">
+            <div>
+              <p className="text-xs font-medium text-[#9f5a40]">
+                {d.calendarPreviewTitle}
+              </p>
+              {proposalWeekLabel && (
+                <p className="text-[11px] text-[#b86a4b]">{proposalWeekLabel}</p>
+              )}
+              <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
+                <span className="inline-flex items-center gap-1 rounded bg-[#f6ddd2] px-1.5 py-0.5 text-[#b66347]">
+                  {resolvedParent1.charAt(0).toUpperCase()} · {resolvedParent1}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded bg-[#fde9d6] px-1.5 py-0.5 text-[#a56a3d]">
+                  {resolvedParent2.charAt(0).toUpperCase()} · {resolvedParent2}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
+                  {d.previewTogether}
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowProposalPreview((v) => !v)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold border transition ${
+                showProposalPreview
+                  ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white border-[#bf6a4b]"
+                  : "bg-white text-stone-700 border-[#d7c3af]"
+              }`}
+            >
+              {showProposalPreview ? t.app.dashboard.hidePreview : t.app.dashboard.showPreview}
+            </button>
+          </div>
+        )}
+        <div>
+            <Calendar
+              currentDate={currentDate}
+              onMonthChange={setCurrentDate}
+              events={events}
+              onSelectDate={handleSelectDate}
+              selectedDate={selectedDate}
+              blockedPeriods={blockedPeriods}
+              proposalPreviewDays={showProposalPreview ? proposalPreviewDays : []}
+            />
+        </div>
+      </div>
+      )}
+      {activeTab === "program" && (
+      <WeekSummary
+        events={events}
+        onSelectDay={handleSelectDate}
+        selectedDate={selectedDateForWeek}
+      />
+      )}
+      {activeTab === "program" && (
+      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.calendarExtended}</p>
+            <h2 className="text-base font-semibold text-stone-800">
+            {listTitle}
+            </h2>
+          </div>
+          {selectedDate && (
+            <button
+              type="button"
+              onClick={() => setSelectedDate(null)}
+              className="app-native-secondary-button px-4 py-2 text-sm font-semibold text-stone-700 touch-manipulation"
+            >
+              {d.showMonth}
+            </button>
+          )}
+        </div>
+        {selectedDate ? (
+          <EventList
+            key={selectedDate.toISOString()}
+            events={eventsForRangeOrMonth}
+            onView={(e) => {
+              setViewEvent(e);
+              setEditEvent(null);
+            }}
+            onEdit={(e) => {
+              setEditEvent(e);
+              setViewEvent(null);
+              setModalOpen(true);
+            }}
+            onDelete={handleDelete}
+            canEditEvent={canEditEvent}
+            emptyMessage={d.eventsEmpty}
+          />
+        ) : (
+          <MonthEventsTimeline
+            key={format(currentDate, "yyyy-MM")}
+            events={eventsForRangeOrMonth}
+            currentDate={currentDate}
+            onView={(e) => {
+              setViewEvent(e);
+              setEditEvent(null);
+            }}
+            onEdit={(e) => {
+              setEditEvent(e);
+              setViewEvent(null);
+              setModalOpen(true);
+            }}
+            onDelete={handleDelete}
+            canEditEvent={canEditEvent}
+            onSelectDate={handleSelectDate}
+            emptyMessage={d.eventsMonthEmpty}
+          />
+        )}
+      </section>
+      )}
       {activeTab === "program" && (
         <WeeklyProposalCard
           onApplied={fetchEvents}
@@ -1016,6 +1116,17 @@ export function DashboardClient({
       )}
       {activeTab === "program" && (
         <SpecialDaysCard parentType={parentType} />
+      )}
+      {plan === "free" && activeTab === "program" && (
+        <div className="app-native-surface rounded-[2rem] border-[#ecd8c5] bg-[linear-gradient(135deg,rgba(255,243,231,0.92)_0%,rgba(255,251,247,0.82)_100%)] px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b85c3e]">{d.freePlan}</p>
+            <p className="mt-1 text-sm text-stone-700">
+            {d.freePlanDesc}
+            </p>
+          </div>
+          <UpgradeCta variant="button" />
+        </div>
       )}
       {activeTab === "rapoarte" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
@@ -1200,82 +1311,6 @@ export function DashboardClient({
       {activeTab === "copil" && (
         <ContactBalanceCard parentType={parentType} />
       )}
-      {activeTab === "program" && (
-      <div className="app-native-surface overflow-hidden rounded-[2rem]">
-        {proposalPreviewDays.length > 0 && (
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#ecd8c5] bg-[#fff5eb] px-4 py-3">
-            <div>
-              <p className="text-xs font-medium text-[#9f5a40]">
-                {d.calendarPreviewTitle}
-              </p>
-              {proposalWeekLabel && (
-                <p className="text-[11px] text-[#b86a4b]">{proposalWeekLabel}</p>
-              )}
-              <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
-                <span className="inline-flex items-center gap-1 rounded bg-[#f6ddd2] px-1.5 py-0.5 text-[#b66347]">
-                  {resolvedParent1.charAt(0).toUpperCase()} · {resolvedParent1}
-                </span>
-                <span className="inline-flex items-center gap-1 rounded bg-[#fde9d6] px-1.5 py-0.5 text-[#a56a3d]">
-                  {resolvedParent2.charAt(0).toUpperCase()} · {resolvedParent2}
-                </span>
-                <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-amber-700">
-                  {d.previewTogether}
-                </span>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowProposalPreview((v) => !v)}
-              className={`rounded-full px-3 py-1.5 text-xs font-semibold border transition ${
-                showProposalPreview
-                  ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white border-[#bf6a4b]"
-                  : "bg-white text-stone-700 border-[#d7c3af]"
-              }`}
-            >
-              {showProposalPreview ? t.app.dashboard.hidePreview : t.app.dashboard.showPreview}
-            </button>
-          </div>
-        )}
-        <button
-          type="button"
-          onClick={() => setCalendarExpanded((e) => !e)}
-          className="w-full flex items-center justify-between gap-2 px-4 py-4 text-left hover:bg-white/40 touch-manipulation"
-          aria-expanded={calendarExpanded}
-        >
-          <span className="text-sm font-semibold text-stone-800">
-            {inter(d.calendarWithMonth, { month: format(currentDate, "MMMM yyyy", { locale: dateLocale }) })}
-          </span>
-          <svg
-            className={`w-5 h-5 text-stone-500 transition-transform ${calendarExpanded ? "rotate-180" : ""}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        {calendarExpanded && (
-          <div className="border-t border-[#ead9c8]">
-            <Calendar
-              currentDate={currentDate}
-              onMonthChange={setCurrentDate}
-              events={events}
-              onSelectDate={handleSelectDate}
-              selectedDate={selectedDate}
-              blockedPeriods={blockedPeriods}
-              proposalPreviewDays={showProposalPreview ? proposalPreviewDays : []}
-            />
-          </div>
-        )}
-      </div>
-      )}
-      {activeTab === "program" && (
-      <WeekSummary
-        events={events}
-        onSelectDay={handleSelectDate}
-        selectedDate={selectedDateForWeek}
-      />
-      )}
       {activeTab === "copil" && (
       <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
@@ -1387,64 +1422,6 @@ export function DashboardClient({
               </li>
             ))}
           </ul>
-        )}
-      </section>
-      )}
-      {activeTab === "program" && (
-      <section className="app-native-surface rounded-[2rem] p-4 sm:p-5">
-        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.calendarExtended}</p>
-            <h2 className="text-base font-semibold text-stone-800">
-            {listTitle}
-            </h2>
-          </div>
-          {selectedDate && (
-            <button
-              type="button"
-              onClick={() => setSelectedDate(null)}
-              className="app-native-secondary-button px-4 py-2 text-sm font-semibold text-stone-700 touch-manipulation"
-            >
-              {d.showMonth}
-            </button>
-          )}
-        </div>
-        {selectedDate ? (
-          <EventList
-            key={selectedDate.toISOString()}
-            events={eventsForRangeOrMonth}
-            onView={(e) => {
-              setViewEvent(e);
-              setEditEvent(null);
-            }}
-            onEdit={(e) => {
-              setEditEvent(e);
-              setViewEvent(null);
-              setModalOpen(true);
-            }}
-            onDelete={handleDelete}
-            canEditEvent={canEditEvent}
-            emptyMessage={d.eventsEmpty}
-          />
-        ) : (
-          <MonthEventsTimeline
-            key={format(currentDate, "yyyy-MM")}
-            events={eventsForRangeOrMonth}
-            currentDate={currentDate}
-            onView={(e) => {
-              setViewEvent(e);
-              setEditEvent(null);
-            }}
-            onEdit={(e) => {
-              setEditEvent(e);
-              setViewEvent(null);
-              setModalOpen(true);
-            }}
-            onDelete={handleDelete}
-            canEditEvent={canEditEvent}
-            onSelectDate={handleSelectDate}
-            emptyMessage={d.eventsMonthEmpty}
-          />
         )}
       </section>
       )}
