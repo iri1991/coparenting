@@ -15,11 +15,19 @@ interface MobileAppTopBarProps {
 function getTitle(pathname: string): { title: string; subtitle: string } {
   if (pathname === "/chat") return { title: "Chat", subtitle: "Conversația voastră" };
   if (pathname === "/account") return { title: "Cont", subtitle: "Date și configurare" };
+  if (pathname === "/blog" || pathname.startsWith("/blog/")) return { title: "Blog", subtitle: "Ghiduri pentru părinți" };
   return { title: "HomeSplit", subtitle: "spațiul familiei" };
 }
 
+/** Unde duce butonul „înapoi”: din articol în lista blogului, altfel acasă. */
+function getBackHref(pathname: string): string {
+  if (pathname.startsWith("/blog/")) return "/blog";
+  return "/app";
+}
+
 export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }: MobileAppTopBarProps) {
-  const pathname = usePathname();
+  // Blogul în engleză e servit sub /en/… (rewrite); tratăm la fel ruta.
+  const pathname = usePathname().replace(/^\/en(?=\/|$)/, "") || "/";
   const isHome = pathname === "/app";
   const [collapsed, setCollapsed] = useState(false);
   const lastScrollY = useRef(0);
@@ -95,9 +103,9 @@ export function MobileAppTopBar({ onAddClick, onLockClick, hideOnScroll = true }
               lockButton ?? <div className="h-11 w-11" />
             ) : (
               <Link
-                href="/app"
+                href={getBackHref(pathname)}
                 className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/76 text-stone-700 shadow-[0_12px_28px_rgba(28,25,23,0.08)] backdrop-blur touch-manipulation"
-                aria-label="Înapoi acasă"
+                aria-label="Înapoi"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Link>

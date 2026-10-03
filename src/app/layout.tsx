@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
+import { EdgeSwipeBack } from "@/components/EdgeSwipeBack";
 import { UpgradeModalProvider } from "@/contexts/UpgradeModalContext";
 import {
   siteUrl,
@@ -241,6 +242,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <AppLanguageRoot>
             <UpgradeModalProvider>
               <PwaRuntime />
+              <EdgeSwipeBack />
               {children}
             </UpgradeModalProvider>
           </AppLanguageRoot>

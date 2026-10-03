@@ -626,6 +626,11 @@ function MessageRow({
       className={`group relative flex ${isMe ? "justify-end" : "justify-start"} ${groupedWithPrev ? "mt-[3px]" : "mt-2.5"}`}
       onTouchStart={(e) => {
         const t = e.touches[0];
+        // Din marginea ecranului e gestul global „înapoi”, nu „răspunde”.
+        if (t.clientX < 28) {
+          touch.current = null;
+          return;
+        }
         touch.current = { x: t.clientX, y: t.clientY, locked: null };
       }}
       onTouchMove={(e) => {

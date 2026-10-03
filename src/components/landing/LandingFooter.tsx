@@ -69,8 +69,8 @@ export function LandingFooter() {
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.product}</h4>
               <ul className="mt-4 space-y-3">
-                {footerLinks.produs.map((link) => (
-                  <li key={link.href}>
+                {footerLinks.produs.map((link, i) => (
+                  <li key={`${i}-${link.href}`}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
                     </Link>
@@ -81,8 +81,8 @@ export function LandingFooter() {
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Co-parenting</h4>
               <ul className="mt-4 space-y-3">
-                {footerLinks.coparenting.map((link) => (
-                  <li key={link.href}>
+                {footerLinks.coparenting.map((link, i) => (
+                  <li key={`${i}-${link.href}`}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
                     </Link>
@@ -93,8 +93,8 @@ export function LandingFooter() {
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.contact}</h4>
               <ul className="mt-4 space-y-3">
-                {footerLinks.contact.map((link) => (
-                  <li key={link.label}>
+                {footerLinks.contact.map((link, i) => (
+                  <li key={`${i}-${link.href}`}>
                     <a href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
                     </a>
@@ -103,8 +103,8 @@ export function LandingFooter() {
               </ul>
               <h4 className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">{t.footer.legal}</h4>
               <ul className="mt-4 space-y-3">
-                {footerLinks.companie.map((link) => (
-                  <li key={link.href}>
+                {footerLinks.companie.map((link, i) => (
+                  <li key={`${i}-${link.href}`}>
                     <Link href={link.href} className="text-sm text-stone-600 transition-colors hover:text-stone-900">
                       {link.label}
                     </Link>

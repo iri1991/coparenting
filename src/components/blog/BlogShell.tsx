@@ -3,6 +3,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { landingDisplay, landingSans } from "@/components/landing/landingFonts";
 import { BlogBackToAppButton } from "@/components/blog/BlogBackToAppButton";
+import { BlogChrome } from "@/components/blog/BlogChrome";
 
 export function BlogShell({ children }: { children: ReactNode }) {
   return (
@@ -16,9 +17,9 @@ export function BlogShell({ children }: { children: ReactNode }) {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,245,0.92)_0%,rgba(248,239,230,0.86)_36%,rgba(255,253,249,0.98)_100%)]" />
       </div>
 
-      <LandingHeader />
-      <main>{children}</main>
-      <LandingFooter />
+      <BlogChrome header={<LandingHeader />} footer={<LandingFooter />}>
+        {children}
+      </BlogChrome>
       <BlogBackToAppButton />
     </div>
   );
