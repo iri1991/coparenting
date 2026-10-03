@@ -355,7 +355,7 @@ export function ChatClient({
       className="fixed inset-x-0 top-0 z-30 flex flex-col bg-[#f6f0e8] sm:bg-[#efe6db]"
       style={viewport ? { height: viewport.height, transform: `translateY(${viewport.top}px)` } : { height: "100dvh" }}
     >
-      <div className="mx-auto flex h-full w-full max-w-3xl flex-col sm:py-4">
+      <div className="app-screen-enter mx-auto flex h-full w-full max-w-3xl flex-col sm:py-4">
         <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#f6f0e8] sm:rounded-[28px] sm:border sm:border-[#eadccd] sm:shadow-[0_24px_60px_rgba(28,25,23,0.10)]">
           {/* Header */}
           <header className="shrink-0 border-b border-[#eadccd] bg-white/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl">

@@ -8,6 +8,7 @@ import { DashboardClient } from "@/components/DashboardClient";
 import { UpgradeCta } from "@/components/UpgradeCta";
 import { MobileAppTopBar } from "@/components/MobileAppTopBar";
 import { MobileQuickNav } from "@/components/MobileQuickNav";
+import { PullToRefresh } from "@/components/PullToRefresh";
 import type { ScheduleEvent } from "@/types/events";
 import type { HomeDashboardTab } from "@/lib/deep-links";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -253,7 +254,7 @@ export function LoggedInLayout({
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-5xl flex-1 px-4 pb-32 pt-24 sm:pt-6">
+      <main className="app-screen-enter mx-auto flex w-full max-w-5xl flex-1 px-4 pb-32 pt-24 sm:pt-6">
         <div className="w-full">
           <DashboardClient
             initialEvents={initialEvents}
@@ -279,6 +280,7 @@ export function LoggedInLayout({
         </div>
       </main>
 
+      <PullToRefresh />
       <MobileQuickNav />
       <NotificationActivationDialog currentUserId={currentUserId} />
     </div>

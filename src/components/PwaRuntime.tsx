@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function PwaRuntime() {
+  const router = useRouter();
   const [isOffline, setIsOffline] = useState(false);
   const [justReconnected, setJustReconnected] = useState(false);
 
@@ -20,9 +22,13 @@ export function PwaRuntime() {
       const data = event.data as { type?: string; url?: string } | undefined;
       if (!data || data.type !== "homesplit:navigate" || !data.url || typeof window === "undefined") return;
       try {
-        const nextUrl = new URL(data.url, window.location.origin).href;
-        if (window.location.href !== nextUrl) {
-          window.location.assign(nextUrl);
+        const next = new URL(data.url, window.location.origin);
+        if (window.location.href === next.href) return;
+        // Navigare în aplicație (fără reîncărcare completă) pentru linkurile interne.
+        if (next.origin === window.location.origin) {
+          router.push(`${next.pathname}${next.search}${next.hash}`);
+        } else {
+          window.location.assign(next.href);
         }
       } catch {
         // ignore invalid URL payload
@@ -32,7 +38,7 @@ export function PwaRuntime() {
     return () => {
       navigator.serviceWorker.removeEventListener("message", onSwMessage);
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const onOffline = () => {

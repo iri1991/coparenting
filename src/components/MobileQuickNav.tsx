@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -19,7 +20,12 @@ export function MobileQuickNav() {
   const { data: session } = useSession();
   const items = session?.user?.isAdmin ? [...ITEMS, ADMIN_ITEM] : ITEMS;
 
+  // Tab-ul apăsat devine activ imediat, înainte să se termine navigarea (feedback instant).
+  const [pending, setPending] = useState<{ href: string; from: string } | null>(null);
+  const pendingHref = pending && pending.from === pathname ? pending.href : null;
+
   const isActive = (href: string) => {
+    if (pendingHref) return href === pendingHref;
     if (href === "/app") return pathname === "/app";
     if (href === "/blog") return pathname === "/blog" || pathname.startsWith("/blog/");
     return pathname.startsWith(href);
@@ -36,7 +42,18 @@ export function MobileQuickNav() {
                 <Link
                   key={href}
                   href={href}
-                  className={`relative flex flex-col items-center justify-center gap-1.5 rounded-[22px] px-1.5 py-2.5 transition-all duration-200 active:scale-95 ${
+                  aria-current={active ? "page" : undefined}
+                  onClick={(e) => {
+                    if (active) {
+                      e.preventDefault();
+                      // Tap pe tab-ul curent = înapoi sus, ca în aplicațiile native.
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      return;
+                    }
+                    setPending({ href, from: pathname });
+                    if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate?.(8);
+                  }}
+                  className={`relative flex flex-col items-center justify-center gap-1.5 rounded-[22px] px-1.5 py-2.5 transition-[background-color,color,transform] duration-150 active:scale-95 ${
                     active
                       ? "bg-[linear-gradient(180deg,#d48a63_0%,#bf6a4b_100%)] text-white shadow-[0_16px_30px_rgba(191,106,75,0.22)]"
                       : "text-stone-600 hover:bg-white/55"

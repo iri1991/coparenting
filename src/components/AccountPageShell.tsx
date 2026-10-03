@@ -154,7 +154,7 @@ export function AccountPageShell({
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-4 py-6 pb-24 sm:pb-8">
+      <div className="app-screen-enter max-w-3xl mx-auto px-4 py-6 pb-24 sm:pb-8">
         <main>
           {isAdmin && (
             <Link
