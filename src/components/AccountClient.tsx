@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { User, Key, LogOut } from "lucide-react";
@@ -83,6 +84,8 @@ export function AccountClient({
         setPasswordMessage({ type: "error", text: data.error || a.security.errorChange });
         return;
       }
+      // Schimbarea parolei închide toate sesiunile; reautentificăm acest dispozitiv cu parola nouă.
+      await signIn("credentials", { email: initialEmail, password: newPassword, redirect: false }).catch(() => {});
       setPasswordMessage({ type: "ok", text: a.security.success });
       setCurrentPassword("");
       setNewPassword("");

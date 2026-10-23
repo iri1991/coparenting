@@ -1,3 +1,4 @@
+import { getActiveFamily } from "@/lib/family";
 import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
@@ -62,6 +63,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "JSON invalid." }, { status: 400 });
   }
   const arr = Array.isArray(body) ? body : [body];
+  if (arr.length > 1000) {
+    return NextResponse.json({ error: "Maxim 1000 evenimente per import." }, { status: 400 });
+  }
   const events = arr.map(parseEvent).filter((e): e is NonNullable<typeof e> => e !== null);
   if (events.length === 0) {
     return NextResponse.json(
@@ -72,6 +76,9 @@ export async function POST(request: Request) {
 
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   const now = new Date();
 
   for (const ev of events) {

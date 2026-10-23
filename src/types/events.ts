@@ -29,15 +29,15 @@ export interface ScheduleEvent {
 
 /** Numele afișat pentru fiecare părinte (implicit; în UI se folosesc numele din familia utilizatorului) */
 export const PARENT_LABELS: Record<ParentType, string> = {
-  tata: "Irinel",
-  mama: "Andreea",
+  tata: "Părinte 1",
+  mama: "Părinte 2",
   together: "Cu toții",
   other: "Alt responsabil",
 };
 
 export const LOCATION_LABELS: Record<LocationType, string> = {
-  tunari: "Tunari",
-  otopeni: "Otopeni",
+  tunari: "Locația 1",
+  otopeni: "Locația 2",
   other: "Alte locații",
 };
 

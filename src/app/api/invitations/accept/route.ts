@@ -50,6 +50,23 @@ export async function POST(request: Request) {
   if (memberIds.length >= 2) {
     return NextResponse.json({ error: "Familia are deja doi membri." }, { status: 400 });
   }
+  // Un utilizator e membru într-o singură familie. Altfel familia veche l-ar păstra în memberIds
+  // (ar primi în continuare notificările și datele ei).
+  const me = await db.collection("users").findOne({ _id: new ObjectId(session.user.id) }, { projection: { familyId: 1 } });
+  const currentFamilyId = (me as { familyId?: unknown } | null)?.familyId;
+  if (currentFamilyId && String(currentFamilyId) !== String(familyId)) {
+    const currentFamily = await getActiveFamily(db, new ObjectId(String(currentFamilyId)));
+    if (currentFamily) {
+      return NextResponse.json(
+        { error: "Faci deja parte dintr-o altă familie. Părăsește-o sau contactează suportul înainte de a accepta invitația." },
+        { status: 409 }
+      );
+    }
+    // Familia veche e dezactivată: îl scoatem din ea înainte de a-l muta.
+    await db
+      .collection("families")
+      .updateOne({ _id: new ObjectId(String(currentFamilyId)) }, { $pull: { memberIds: session.user.id } as never });
+  }
   const now = new Date();
   await db.collection("families").updateOne(
     { _id: familyId },

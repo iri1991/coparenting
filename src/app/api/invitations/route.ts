@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getActiveFamily } from "@/lib/family";
 import { sendFamilyInvitationEmail } from "@/lib/email";
+import { isRateLimited } from "@/lib/rate-limit";
 import type { Invitation } from "@/types/family";
 import crypto from "crypto";
 
@@ -77,6 +78,13 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.toLowerCase().trim() : "";
   if (!email) {
     return NextResponse.json({ error: "Email-ul este obligatoriu." }, { status: 400 });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    return NextResponse.json({ error: "Adresă de email invalidă." }, { status: 400 });
+  }
+  // Max. 10 invitații pe zi per familie (protejează împotriva trimiterii de emailuri în masă).
+  if (await isRateLimited(`invite:${String(familyId)}`, 10, 24 * 60 * 60 * 1000)) {
+    return NextResponse.json({ error: "Ai trimis prea multe invitații azi. Încearcă mâine." }, { status: 429 });
   }
   const existingMember = await db.collection("users").findOne(
     { email, familyId },

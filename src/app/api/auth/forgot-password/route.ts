@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { createPasswordResetAndSend } from "@/lib/password-reset";
+import { isRateLimited } from "@/lib/rate-limit";
 
 /** POST: trimite email cu link de resetare parolă. Nu dezvăluie dacă emailul există. */
 export async function POST(request: Request) {
@@ -8,6 +9,12 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.toLowerCase().trim() : "";
   if (!email) {
     return NextResponse.json({ error: "Email-ul este obligatoriu." }, { status: 400 });
+  }
+
+  // Max. 3 emailuri de resetare pe oră pentru aceeași adresă (anti-spam). Răspuns identic, ca să nu
+  // dezvăluim dacă emailul există.
+  if (await isRateLimited(`forgot:${email}`, 3, 60 * 60 * 1000)) {
+    return NextResponse.json({ ok: true, message: "Dacă există un cont cu acest email, vei primi un link." });
   }
 
   const db = await getDb();

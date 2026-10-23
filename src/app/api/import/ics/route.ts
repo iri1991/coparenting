@@ -1,9 +1,13 @@
+import { getFamilyEventLabels, type FamilyEventLabels } from "@/lib/family-labels";
+import { getActiveFamily } from "@/lib/family";
 import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import type { ParentType, LocationType } from "@/types/events";
+
+const MAX_IMPORT_EVENTS = 1000;
 
 function unescapeIcs(value: string): string {
   return value
@@ -30,22 +34,33 @@ function parseDtStart(line: string): { date: string; startTime?: string; endTime
   return { date };
 }
 
-function inferParentLocation(summary: string): { parent: ParentType; location: LocationType; locationLabel?: string } {
+function escapeRegExp(v: string): string {
+  return v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function containsWord(text: string, word: string): boolean {
+  const w = word.trim().toLowerCase();
+  return w.length > 1 && new RegExp(`(^|[^\\p{L}])${escapeRegExp(w)}($|[^\\p{L}])`, "u").test(text);
+}
+
+/** Deduce părintele și locația din titlul evenimentului, folosind numele din familia curentă. */
+function inferParentLocation(
+  summary: string,
+  labels: FamilyEventLabels
+): { parent: ParentType; location: LocationType; locationLabel?: string; residenceId?: string } {
   const s = summary.toLowerCase();
+  const isParent1 = containsWord(s, "tata") || containsWord(s, "tată") || containsWord(s, labels.parentLabels.tata);
+  const isParent2 = containsWord(s, "mama") || containsWord(s, "mamă") || containsWord(s, labels.parentLabels.mama);
   let parent: ParentType = "tata";
-  if (/\b(mama|andreea|mamă)\b/.test(s) && !/\b(tata|tată|irinel)\b/.test(s)) parent = "mama";
+  if (isParent2 && !isParent1) parent = "mama";
   else if (/\b(toți|together|cu toții|toate)\b/.test(s)) parent = "together";
 
-  let location: LocationType = "tunari";
-  let locationLabel: string | undefined;
-  if (/\botopeni\b/.test(s)) location = "otopeni";
-  else if (/\btunari\b/.test(s)) location = "tunari";
-  else {
-    location = "other";
-    const match = summary.match(/,\s*([^,]+)$/);
-    locationLabel = match ? match[1].trim() : summary.slice(0, 80);
+  const residence = labels.residences.find((r) => r.name && s.includes(r.name.toLowerCase()));
+  if (residence) {
+    return { parent, location: "other", locationLabel: residence.name, residenceId: residence.id };
   }
-  return { parent, location, locationLabel };
+  const match = summary.match(/,\s*([^,]+)$/);
+  return { parent, location: "other", locationLabel: match ? match[1].trim() : summary.slice(0, 80) };
 }
 
 function parseIcsEvents(icsText: string): Array<{ date: string; startTime?: string; endTime?: string; summary: string; description: string }> {
@@ -106,17 +121,24 @@ export async function POST(request: Request) {
   }
 
   const events = parseIcsEvents(icsText);
+  if (events.length > MAX_IMPORT_EVENTS) {
+    return NextResponse.json({ error: `Maxim ${MAX_IMPORT_EVENTS} evenimente per import.` }, { status: 400 });
+  }
   if (events.length === 0) {
     return NextResponse.json({ error: "Nu s-au găsit evenimente în fișierul .ics." }, { status: 400 });
   }
 
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   const now = new Date();
   const inserted: string[] = [];
 
+  const labels = await getFamilyEventLabels(db, familyId);
   for (const ev of events) {
-    const { parent, location, locationLabel } = inferParentLocation(ev.summary);
+    const { parent, location, locationLabel, residenceId } = inferParentLocation(ev.summary, labels);
     const title = ev.summary.length > 200 ? ev.summary.slice(0, 200) : ev.summary;
     const notes = ev.description && ev.description !== ev.summary ? ev.description : undefined;
     const { insertedId } = await db.collection("schedule_events").insertOne({
@@ -125,6 +147,7 @@ export async function POST(request: Request) {
       parent,
       location,
       locationLabel: locationLabel ?? null,
+      residenceId: residenceId ?? null,
       title: title || null,
       notes: notes ?? null,
       startTime: ev.startTime ?? null,

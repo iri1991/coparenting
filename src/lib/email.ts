@@ -12,6 +12,21 @@ const baseUrl = process.env.NEXTAUTH_URL?.replace(/\/$/, "") || "https://homespl
 
 const resend = apiKey ? new Resend(apiKey) : null;
 
+/** Escapare pentru text introdus de utilizatori (nume etc.) inserat în HTML-ul emailurilor. */
+export function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/** Text de utilizator pe un singur rând (pentru subiect), limitat ca lungime. */
+function oneLine(value: string, max = 80): string {
+  return value.replace(/[\r\n\t]+/g, " ").trim().slice(0, max);
+}
+
 export function isEmailConfigured(): boolean {
   return Boolean(apiKey);
 }
@@ -141,7 +156,7 @@ export async function sendAdminNewUserEmail(newUserEmail: string): Promise<void>
       <tr>
         <td style="padding: 16px; background-color: ${BRAND.primaryLight}; border-radius: 10px; border: 1px solid ${BRAND.border};">
           <p style="margin: 0; font-size: 15px; color: ${BRAND.text};">
-            <strong>Email:</strong> ${newUserEmail}
+            <strong>Email:</strong> ${escapeHtml(newUserEmail)}
           </p>
           <p style="margin: 8px 0 0; font-size: 13px; color: ${BRAND.textMuted};">
             Data înregistrării: ${new Date().toLocaleString("ro-RO", { timeZone: "Europe/Bucharest" })}
@@ -163,9 +178,9 @@ export async function sendAdminNewUserEmail(newUserEmail: string): Promise<void>
  * Trimite un reminder utilizatorilor inactivi (nu au deschis aplicația de 5+ zile).
  */
 export async function sendInactivityReminderEmail(to: string, name?: string | null): Promise<boolean> {
-  const greeting = name ? `Bună, ${name}!` : "Bună!";
+  const greeting = name ? `Bună, ${oneLine(name)}!` : "Bună!";
   const content = `
-    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${greeting}</p>
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${escapeHtml(greeting)}</p>
     <p style="margin: 0 0 16px; font-size: 15px; color: ${BRAND.textMuted};">
       Nu te-am mai văzut pe <strong>HomeSplit</strong> de câteva zile. Programul copilului
       te așteaptă — verifică ce mai e de planificat.
@@ -191,11 +206,11 @@ export async function sendPendingInvitationReminderEmail(
   invitedByName: string | null | undefined,
   joinUrl: string
 ): Promise<boolean> {
-  const who = invitedByName?.trim() || "un coleg de familie";
+  const who = oneLine(invitedByName?.trim() || "un coleg de familie");
   const content = `
     <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">Bună!</p>
     <p style="margin: 0 0 16px; font-size: 15px; color: ${BRAND.textMuted};">
-      <strong>${who}</strong> te-a invitat să te alături familiei pe <strong>HomeSplit</strong>,
+      <strong>${escapeHtml(who)}</strong> te-a invitat să te alături familiei pe <strong>HomeSplit</strong>,
       dar invitația nu a fost acceptată încă.
     </p>
     <p style="margin: 0 0 24px; font-size: 15px; color: ${BRAND.textMuted};">
@@ -243,7 +258,7 @@ export async function notifyFamilyConfigUpdated(
     ? `${who} ${actionDetail}`
     : `Configurarea familiei a fost actualizată de ${who}.`;
   const content = `
-    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${actionSentence}</p>
+    <p style="margin: 0 0 16px; font-size: 16px; color: ${BRAND.text};">${escapeHtml(actionSentence)}</p>
     <p style="margin: 0 0 8px; font-size: 15px; color: ${BRAND.textMuted};">Verifică în aplicație pentru detalii.</p>
     ${emailButtonHtml(baseUrl, "Deschide aplicația")}
   `;

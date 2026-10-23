@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   const passwordHash = await bcrypt.hash(newPassword, 10);
   await db.collection("users").updateOne(
     { email },
-    { $set: { passwordHash, updatedAt: now } }
+    { $set: { passwordHash, passwordChangedAt: now, updatedAt: now } }
   );
   await db.collection("password_reset_tokens").deleteMany({ token });
 

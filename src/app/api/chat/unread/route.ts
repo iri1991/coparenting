@@ -1,3 +1,4 @@
+import { getActiveFamily } from "@/lib/family";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -18,6 +19,9 @@ export async function GET() {
 
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
 
   // Acest endpoint e interogat app-wide (la ~25s), deci e livrarea fiabilă a mesajelor
   // programate (cooldown) chiar dacă niciun părinte nu are chat-ul deschis. Fără cron extern.

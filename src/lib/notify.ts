@@ -5,7 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import { getFamilyEventLabels, formatEventLabel } from "@/lib/family-labels";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
 import { homeAppUrl } from "@/lib/deep-links";
-import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
+import { sendEmail, wrapEmailHtml, emailButtonHtml, escapeHtml } from "@/lib/email";
 import type { ScheduleEvent } from "@/types/events";
 
 type Db = Awaited<ReturnType<typeof getDb>>;
@@ -393,7 +393,7 @@ export async function sendEventUpdatedNotification(
   if (emails.length > 0) {
     const appUrl = (process.env.NEXTAUTH_URL || "https://homesplit.ro").replace(/\/$/, "");
     const content = `
-      <p style="margin: 0 0 16px; font-size: 16px;">${actionSentence}</p>
+      <p style="margin: 0 0 16px; font-size: 16px;">${escapeHtml(actionSentence)}</p>
       <p style="margin: 0 0 8px; font-size: 15px; color: #78716c;">Deschide aplicația pentru a vedea modificările.</p>
       ${emailButtonHtml(appUrl, "Deschide aplicația")}
     `;

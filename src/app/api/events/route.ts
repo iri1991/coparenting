@@ -1,3 +1,4 @@
+import { getActiveFamily } from "@/lib/family";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -119,6 +120,9 @@ export async function GET() {
   }
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   await ensureEventResidenceIds(db, familyId);
   const docs = await db
     .collection("schedule_events")
@@ -259,6 +263,9 @@ export async function POST(request: Request) {
   const dateStr = String(date).slice(0, 10);
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
 
   const blocks = await db
     .collection("blocked_periods")
@@ -348,6 +355,9 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Neautorizat pentru familie." }, { status: 400 });
   }
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   const current = await db.collection("schedule_events").findOne({ _id: oid, familyId });
   if (!current) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
@@ -476,6 +486,9 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Neautorizat." }, { status: 400 });
   }
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   const existing = await db.collection("schedule_events").findOne({ _id: oid, familyId }, { projection: { date: 1 } });
   if (!existing) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });

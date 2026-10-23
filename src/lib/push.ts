@@ -38,6 +38,10 @@ export async function sendPushToSubscriptions(
   const col = db.collection("push_subscriptions");
 
   for (const sub of subscriptions) {
+    if (!isAllowedPushEndpoint(sub.endpoint)) {
+      await col.deleteOne({ endpoint: sub.endpoint });
+      continue;
+    }
     try {
       await webpush.sendNotification(
         {
@@ -64,11 +68,37 @@ export async function sendPushToSubscriptions(
 }
 
 /**
- * Returnează toate abonamentele push pentru utilizatorii dați (sau toți dacă userIds e gol).
+ * Host-urile serviciilor push ale browserelor. Serverul face POST către endpoint-ul abonamentului,
+ * deci acceptăm doar aceste servicii (altfel un utilizator ar putea face serverul să trimită cereri
+ * către adrese interne — SSRF).
+ */
+const PUSH_HOST_SUFFIXES = [
+  "fcm.googleapis.com",
+  "android.googleapis.com",
+  "push.apple.com",
+  "push.services.mozilla.com",
+  "notify.windows.com",
+];
+
+export function isAllowedPushEndpoint(endpoint: string): boolean {
+  try {
+    const url = new URL(endpoint);
+    if (url.protocol !== "https:") return false;
+    const host = url.hostname.toLowerCase();
+    return PUSH_HOST_SUFFIXES.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Returnează abonamentele push ale utilizatorilor dați. Listă goală → niciun abonament
+ * (nu „toate”), ca o listă de destinatari goală să nu trimită accidental tuturor.
  */
 export async function getSubscriptionsForUsers(userIds: string[]): Promise<PushSubscriptionDoc[]> {
+  if (userIds.length === 0) return [];
   const db = await getDb();
-  const filter = userIds.length > 0 ? { userId: { $in: userIds } } : {};
+  const filter = { userId: { $in: userIds } };
   const docs = await db
     .collection("push_subscriptions")
     .find(filter)

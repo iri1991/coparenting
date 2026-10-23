@@ -857,7 +857,7 @@ export function ConfigClient({
         <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
           {resolveHouseholdMode(family.householdMode) === "together"
             ? "Opțional: ex. Acasă, Bunici, vacanță — pentru etichete în calendar. La modul „două locuințe” devin necesare pentru program."
-            : "Ex: Tunari, Otopeni, Bunici – unde poate sta copilul (minim una pentru acces la calendar)."}
+            : "Ex: Acasă la mama, Acasă la tata, Bunici – unde poate sta copilul (minim una pentru acces la calendar)."}
         </p>
         <ul className="space-y-2 mb-3">
           {residences.map((r) => (

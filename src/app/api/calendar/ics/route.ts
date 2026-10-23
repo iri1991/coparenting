@@ -1,3 +1,4 @@
+import { getActiveFamily } from "@/lib/family";
 import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
@@ -54,6 +55,9 @@ export async function GET() {
   }
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  if (!(await getActiveFamily(db, familyId))) {
+    return NextResponse.json({ error: "Familia nu există sau a fost dezactivată." }, { status: 403 });
+  }
   await ensureEventResidenceIds(db, familyId);
   const docs = await db
     .collection("schedule_events")

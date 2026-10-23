@@ -42,9 +42,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Parola curentă este incorectă." }, { status: 400 });
   }
   const passwordHash = await bcrypt.hash(newPassword, 10);
+  // passwordChangedAt invalidează sesiunile existente (inclusiv pe alte dispozitive);
+  // clientul se reautentifică imediat cu parola nouă.
+  const now = new Date();
   await db.collection("users").updateOne(
     { _id: oid },
-    { $set: { passwordHash, updatedAt: new Date() } }
+    { $set: { passwordHash, passwordChangedAt: now, updatedAt: now } }
   );
   return NextResponse.json({ ok: true });
 }
