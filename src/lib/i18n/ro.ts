@@ -735,6 +735,7 @@ export const ro = {
       caretakerRequired: "Adaugă numele responsabilului.",
       location: "Locație",
       locationPlaceholder: "Ex: vacanță, bunici...",
+      otherLocation: "Altă locație",
       titleOpt: "Titlu (opțional)",
       notesOpt: "Note (opțional)",
       notesPlaceholder: "Detalii, ore, etc.",

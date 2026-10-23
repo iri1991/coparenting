@@ -49,8 +49,8 @@ function getLocationLabel(
   residenceNames: string[]
 ): string {
   if (location === "other") return locationLabel?.trim() || "Alte locații";
-  if (location === "tunari") return residenceNames[0] || "Tunari";
-  if (location === "otopeni") return residenceNames[1] || "Otopeni";
+  if (location === "tunari") return residenceNames[0] || "Locația 1";
+  if (location === "otopeni") return residenceNames[1] || "Locația 2";
   return locationLabel || "Locație";
 }
 

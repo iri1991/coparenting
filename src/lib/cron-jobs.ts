@@ -4,7 +4,7 @@ import { ro } from "date-fns/locale";
 import { getDb } from "@/lib/mongodb";
 import { getNextMonday, generateProposalForWeek } from "@/lib/proposal";
 import { sendWeeklyProposalCreatedNotification } from "@/lib/notify";
-import { getEventDisplayLabel } from "@/types/events";
+import { getFamilyEventLabels, formatEventLabel, type FamilyEventLabels } from "@/lib/family-labels";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
 import { homeAppUrl } from "@/lib/deep-links";
 import type { ParentType, LocationType } from "@/types/events";
@@ -26,19 +26,23 @@ function deriveFromType(type: string): { parent: ParentType; location: LocationT
   }
 }
 
-function toDisplayEvent(doc: {
+function toDisplayEvent(
+  doc: {
   type?: string | null;
   parent?: string | null;
   location?: string | null;
   locationLabel?: string | null;
   startTime?: string | null;
   endTime?: string | null;
-}) {
+  caretakerLabel?: string | null;
+},
+  labels: FamilyEventLabels
+) {
   const hasNew = doc.parent != null && doc.location != null;
   const parent = (hasNew ? doc.parent : deriveFromType(doc.type ?? "other").parent) as ParentType;
   const location = (hasNew ? doc.location : deriveFromType(doc.type ?? "other").location) as LocationType;
   const locationLabel = doc.locationLabel ?? undefined;
-  const label = getEventDisplayLabel({ parent, location, locationLabel } as Parameters<typeof getEventDisplayLabel>[0]);
+  const label = formatEventLabel({ parent, location, locationLabel, caretakerLabel: doc.caretakerLabel }, labels);
   const time = doc.startTime || doc.endTime ? [doc.startTime, doc.endTime].filter(Boolean).join(" – ") : null;
   return time ? `${label} (${time})` : label;
 }
@@ -128,7 +132,8 @@ export async function runEveningReminderJob() {
       continue;
     }
 
-    const lines = familyEvents.map((doc) => toDisplayEvent(doc as Parameters<typeof toDisplayEvent>[0]));
+    const labels = await getFamilyEventLabels(db, family._id as ObjectId);
+    const lines = familyEvents.map((doc) => toDisplayEvent(doc as Parameters<typeof toDisplayEvent>[0], labels));
     const body = lines.join(" · ");
     await sendPushToSubscriptions(subs, {
       title: `Mâine: ${tomorrowLabel}`,

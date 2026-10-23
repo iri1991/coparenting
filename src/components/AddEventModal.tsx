@@ -30,13 +30,24 @@ export function AddEventModal({
   currentUserId,
 }: AddEventModalProps) {
   const labels = useFamilyLabels();
+  // Câte o opțiune pentru fiecare locuință a familiei. Primele două folosesc sloturile istorice
+  // „tunari”/„otopeni” (= locuința 1 / 2); de la a treia încolo se salvează ca „other” + numele locuinței.
+  const residenceOptions = labels.residenceNames.map((name, i) => ({
+    key: `res-${i}`,
+    name,
+    location: (i === 0 ? "tunari" : i === 1 ? "otopeni" : "other") as LocationType,
+    locationLabel: i >= 2 ? name : "",
+  }));
+  const defaultLocation: LocationType = residenceOptions.length > 0 ? "tunari" : "other";
   const [date, setDate] = useState(
     initialDate ? format(initialDate, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")
   );
   const [endDate, setEndDate] = useState("");
   const [parent, setParent] = useState<ParentType>("tata");
-  const [location, setLocation] = useState<LocationType>("tunari");
+  const [location, setLocation] = useState<LocationType>(defaultLocation);
   const [locationLabel, setLocationLabel] = useState("");
+  // „Altă locație” aleasă explicit (text liber), chiar dacă textul seamănă cu numele unei locuințe.
+  const [customLocation, setCustomLocation] = useState(false);
   const { t } = useLanguage();
   const ev = t.app.events;
   const [title, setTitle] = useState("");
@@ -54,6 +65,10 @@ export function AddEventModal({
       setParent(editEvent.parent);
       setLocation(editEvent.location);
       setLocationLabel(editEvent.locationLabel || "");
+      setCustomLocation(
+        editEvent.location === "other" &&
+          !labels.residenceNames.slice(2).includes((editEvent.locationLabel || "").trim())
+      );
       setTitle(editEvent.title || "");
       setNotes(editEvent.notes || "");
       setStartTime(editEvent.startTime || "");
@@ -65,8 +80,9 @@ export function AddEventModal({
       setDate(format(initialDate, "yyyy-MM-dd"));
       setEndDate("");
       setParent("tata");
-      setLocation("tunari");
+      setLocation(defaultLocation);
       setLocationLabel("");
+      setCustomLocation(defaultLocation === "other");
       setTitle("");
       setNotes("");
       setStartTime("");
@@ -78,8 +94,9 @@ export function AddEventModal({
       setDate(format(new Date(), "yyyy-MM-dd"));
       setEndDate("");
       setParent("tata");
-      setLocation("tunari");
+      setLocation(defaultLocation);
       setLocationLabel("");
+      setCustomLocation(defaultLocation === "other");
       setTitle("");
       setNotes("");
       setStartTime("");
@@ -88,6 +105,7 @@ export function AddEventModal({
       setAllowPastEdit(false);
       setPastEditReason("");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- defaultLocation derivă din etichetele familiei
   }, [editEvent, initialDate, isOpen]);
 
   const displayLabel = getEventDisplayLabelWithLabels(
@@ -105,6 +123,14 @@ export function AddEventModal({
   );
   const todayStr = format(new Date(), "yyyy-MM-dd");
   const isEditingPastEvent = Boolean(editEvent && editEvent.date < todayStr);
+
+  const selectedLocationKey = (() => {
+    if (customLocation) return "custom";
+    if (location === "tunari") return residenceOptions[0] ? "res-0" : "custom";
+    if (location === "otopeni") return residenceOptions[1] ? "res-1" : "custom";
+    const match = residenceOptions.find((o) => o.location === "other" && o.locationLabel === locationLabel.trim());
+    return match ? match.key : "custom";
+  })();
 
   if (!isOpen) return null;
 
@@ -264,22 +290,41 @@ export function AddEventModal({
             <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">
               {ev.location}
             </label>
-            <div className="grid grid-cols-3 gap-2">
-              {(["tunari", "otopeni", "other"] as const).map((loc) => (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {residenceOptions.map((opt) => (
                 <button
-                  key={loc}
+                  key={opt.key}
                   type="button"
-                  onClick={() => setLocation(loc)}
+                  onClick={() => {
+                    setLocation(opt.location);
+                    setLocationLabel(opt.locationLabel);
+                    setCustomLocation(false);
+                  }}
                   className={`
-                    rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation
-                    ${location === loc ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
+                    truncate rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation
+                    ${selectedLocationKey === opt.key ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
                   `}
+                  title={opt.name}
                 >
-                  {labels.locationLabels[loc]}
+                  {opt.name}
                 </button>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setLocation("other");
+                  setLocationLabel("");
+                  setCustomLocation(true);
+                }}
+                className={`
+                  rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation
+                  ${selectedLocationKey === "custom" ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
+                `}
+              >
+                {ev.otherLocation}
+              </button>
             </div>
-            {location === "other" && (
+            {selectedLocationKey === "custom" && (
               <input
                 type="text"
                 value={locationLabel}

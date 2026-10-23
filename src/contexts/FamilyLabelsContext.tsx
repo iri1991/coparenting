@@ -17,9 +17,9 @@ const defaultLabels: FamilyLabelsContextValue = {
   parent1Name: "Părinte 1",
   parent2Name: "Părinte 2",
   childName: "copilul",
-  residenceNames: ["Tunari", "Otopeni"],
+  residenceNames: [],
   parentLabels: { tata: "Părinte 1", mama: "Părinte 2", together: "Cu toții", other: "Alt responsabil" },
-  locationLabels: { tunari: "Tunari", otopeni: "Otopeni", other: "Alte locații" },
+  locationLabels: { tunari: "Locația 1", otopeni: "Locația 2", other: "Altă locație" },
 };
 
 const FamilyLabelsContext = createContext<FamilyLabelsContextValue>(defaultLabels);
@@ -49,9 +49,10 @@ export function FamilyLabelsProvider({
       other: "Alt responsabil",
     },
     locationLabels: {
-      tunari: residenceNames[0] ?? "Tunari",
-      otopeni: residenceNames[1] ?? "Otopeni",
-      other: "Alte locații",
+      // „tunari”/„otopeni” sunt sloturile primei / celei de-a doua locuințe ale familiei.
+      tunari: residenceNames[0] || "Locația 1",
+      otopeni: residenceNames[1] || "Locația 2",
+      other: "Altă locație",
     },
   };
   return (
@@ -80,7 +81,7 @@ export function getEventDisplayLabelWithLabels(
   const loc =
     event.location === "other" && event.locationLabel?.trim()
       ? event.locationLabel.trim()
-      : labels.locationLabels[event.location] ?? "Alte locații";
+      : labels.locationLabels[event.location] ?? "Altă locație";
   return `${labels.childName} cu ${parent}, ${loc}`;
 }
 
@@ -93,6 +94,6 @@ export function getEventShortLabelWithLabels(
   const loc =
     event.location === "other" && event.locationLabel?.trim()
       ? event.locationLabel.trim()
-      : labels.locationLabels[event.location] ?? "Alte locații";
+      : labels.locationLabels[event.location] ?? "Altă locație";
   return `${parent} · ${loc}`;
 }

@@ -737,6 +737,7 @@ export const en: Translations = {
       caretakerRequired: "Add the caretaker's name.",
       location: "Location",
       locationPlaceholder: "e.g. holiday, grandparents...",
+      otherLocation: "Other place",
       titleOpt: "Title (optional)",
       notesOpt: "Notes (optional)",
       notesPlaceholder: "Details, times, etc.",

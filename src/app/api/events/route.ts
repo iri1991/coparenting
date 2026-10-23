@@ -7,9 +7,7 @@ import { sendBlockedDayAttemptNotification, sendNewEventNotification, sendEventU
 import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
-import { PARENT_LABELS } from "@/types/events";
-import { getEventDisplayLabel } from "@/types/events";
-import { LOCATION_LABELS } from "@/types/events";
+import { getFamilyEventLabels, formatEventLabel, locationName, type FamilyEventLabels } from "@/lib/family-labels";
 
 function deriveFromType(
   type: string
@@ -60,21 +58,16 @@ function toEvent(doc: {
   };
 }
 
-function displayLocation(location: LocationType, locationLabel?: string | null): string {
-  if (location === "other" && locationLabel?.trim()) return locationLabel.trim();
-  return LOCATION_LABELS[location] ?? location;
-}
-
-function computeEventChanges(before: ScheduleEvent, after: ScheduleEvent): string[] {
+function computeEventChanges(before: ScheduleEvent, after: ScheduleEvent, labels: FamilyEventLabels): string[] {
   const changes: string[] = [];
   if (before.date !== after.date) changes.push(`Data: ${before.date} → ${after.date}`);
   if (before.parent !== after.parent) {
     changes.push(
-      `Cu cine: ${PARENT_LABELS[before.parent] ?? before.parent} → ${PARENT_LABELS[after.parent] ?? after.parent}`
+      `Cu cine: ${labels.parentLabels[before.parent] ?? before.parent} → ${labels.parentLabels[after.parent] ?? after.parent}`
     );
   }
-  const oldLocation = displayLocation(before.location, before.locationLabel);
-  const newLocation = displayLocation(after.location, after.locationLabel);
+  const oldLocation = locationName(before.location, before.locationLabel, labels);
+  const newLocation = locationName(after.location, after.locationLabel, labels);
   if (oldLocation !== newLocation) changes.push(`Locație: ${oldLocation} → ${newLocation}`);
   if ((before.title ?? "") !== (after.title ?? "")) {
     changes.push(`Titlu: ${before.title?.trim() || "—"} → ${after.title?.trim() || "—"}`);
@@ -173,7 +166,7 @@ function isEventBlockedByPeriod(
   return false;
 }
 
-/** Returnează { userId, parentLabel } al părintelui care a blocat ziua, sau null. */
+/** Returnează { userId, parentType } al părintelui care a blocat ziua, sau null. */
 function getBlockerForEventDate(
   dateStr: string,
   eventParent: ParentType,
@@ -187,7 +180,7 @@ function getBlockerForEventDate(
   }[],
   eventStartTime?: string | null,
   eventEndTime?: string | null,
-): { userId: string; parentLabel: string } | null {
+): { userId: string; parentType: ParentType } | null {
   const toCheck: ParentType[] =
     eventParent === "together" ? ["tata", "mama"] : eventParent === "other" ? [] : [eventParent];
   for (const block of blocks) {
@@ -205,7 +198,7 @@ function getBlockerForEventDate(
     ) {
       return {
         userId: block.userId,
-        parentLabel: PARENT_LABELS[block.parentType as ParentType],
+        parentType: block.parentType as ParentType,
       };
     }
   }
@@ -254,12 +247,12 @@ export async function POST(request: Request) {
     try {
       const attemptedBy =
         session.user.parentType && (session.user.parentType === "tata" || session.user.parentType === "mama")
-          ? PARENT_LABELS[session.user.parentType]
+          ? (await getFamilyEventLabels(db, familyId)).parentLabels[session.user.parentType]
           : "Cineva";
       await sendBlockedDayAttemptNotification(blocker.userId, attemptedBy, dateStr);
     } catch (_) {}
     return NextResponse.json(
-      { error: `Nu poți adăuga: ${blocker.parentLabel} are zilele blocate în acea perioadă.` },
+      { error: `Nu poți adăuga: ${(await getFamilyEventLabels(db, familyId)).parentLabels[blocker.parentType] ?? "celălalt părinte"} are zilele blocate în acea perioadă.` },
       { status: 400 }
     );
   }
@@ -289,7 +282,7 @@ export async function POST(request: Request) {
   const userLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   await logFamilyActivity(db, familyId, session.user.id, userLabel, "event_created", {
     date: dateStr,
-    label: getEventDisplayLabel(createdEvent),
+    label: formatEventLabel(createdEvent, await getFamilyEventLabels(db, familyId)),
   });
   return NextResponse.json(createdEvent);
 }
@@ -350,12 +343,12 @@ export async function PATCH(request: Request) {
     try {
       const attemptedBy =
         session.user.parentType && (session.user.parentType === "tata" || session.user.parentType === "mama")
-          ? PARENT_LABELS[session.user.parentType]
+          ? (await getFamilyEventLabels(db, familyId)).parentLabels[session.user.parentType]
           : "Cineva";
       await sendBlockedDayAttemptNotification(blocker.userId, attemptedBy, finalDate);
     } catch (_) {}
     return NextResponse.json(
-      { error: `Nu poți muta evenimentul: ${blocker.parentLabel} are zilele blocate în acea perioadă.` },
+      { error: `Nu poți muta evenimentul: ${(await getFamilyEventLabels(db, familyId)).parentLabels[blocker.parentType] ?? "celălalt părinte"} are zilele blocate în acea perioadă.` },
       { status: 400 }
     );
   }
@@ -388,7 +381,8 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Eveniment negăsit." }, { status: 404 });
   }
   const updatedEvent = toEvent(result as Parameters<typeof toEvent>[0]);
-  const changeSummary = computeEventChanges(currentEvent, updatedEvent);
+  const familyLabels = await getFamilyEventLabels(db, familyId);
+  const changeSummary = computeEventChanges(currentEvent, updatedEvent, familyLabels);
   const threeDaysLater = addDays(new Date(), 3).toISOString().slice(0, 10);
   const editorLabel = await getParentDisplayName(db, familyId, session.user.id, session.user.parentType ?? undefined);
   if ((finalDate >= todayStr && finalDate <= threeDaysLater) || isPastEvent) {
@@ -404,7 +398,7 @@ export async function PATCH(request: Request) {
   }
   await logFamilyActivity(db, familyId, session.user.id, editorLabel, "event_updated", {
     date: finalDate,
-    label: getEventDisplayLabel(updatedEvent),
+    label: formatEventLabel(updatedEvent, familyLabels),
     changes: changeSummary,
     wasPastEvent: isPastEvent,
     reason: isPastEvent ? normalizedPastReason : null,

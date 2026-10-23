@@ -45,7 +45,7 @@ export function LoggedInLayout({
   parent2Name,
   childName,
   childId,
-  residenceNames = ["Tunari", "Otopeni"],
+  residenceNames = [],
   initialUnreadCount = 0,
   isAdmin = false,
   plan = "free",

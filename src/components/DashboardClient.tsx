@@ -104,7 +104,7 @@ export function DashboardClient({
   parent2Name = "",
   childName = "",
   childId,
-  residenceNames = ["Tunari", "Otopeni"],
+  residenceNames = [],
   modalOpen: modalOpenProp,
   setModalOpen: setModalOpenProp,
   blockedDaysModalOpen: blockedDaysModalOpenProp,

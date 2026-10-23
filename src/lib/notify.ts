@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ro } from "date-fns/locale";
 import type { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
-import { getEventDisplayLabel } from "@/types/events";
+import { getFamilyEventLabels, formatEventLabel } from "@/lib/family-labels";
 import { getSubscriptionsForUsers, sendPushToSubscriptions } from "@/lib/push";
 import { homeAppUrl } from "@/lib/deep-links";
 import { sendEmail, wrapEmailHtml, emailButtonHtml } from "@/lib/email";
@@ -31,7 +31,7 @@ export async function sendNewEventNotification(
   if (subs.length === 0) return;
 
   const dateLabel = format(new Date(event.date + "T12:00:00"), "EEEE, d MMM", { locale: ro });
-  const label = getEventDisplayLabel(event);
+  const label = formatEventLabel(event, await getFamilyEventLabels(db, familyId));
   const time =
     event.startTime || event.endTime
       ? [event.startTime, event.endTime].filter(Boolean).join(" – ")
@@ -360,7 +360,7 @@ export async function sendEventUpdatedNotification(
   if (recipientIds.length === 0) return;
 
   const dateLabel = format(new Date(event.date + "T12:00:00"), "EEEE, d MMM", { locale: ro });
-  const label = getEventDisplayLabel(event);
+  const label = formatEventLabel(event, await getFamilyEventLabels(db, familyId));
   const time =
     event.startTime || event.endTime ? [event.startTime, event.endTime].filter(Boolean).join(" – ") : null;
   const body = time ? `${label} (${time})` : label;

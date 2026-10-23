@@ -2,12 +2,8 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
-import {
-  PARENT_LABELS,
-  LOCATION_LABELS,
-  type ParentType,
-  type LocationType,
-} from "@/types/events";
+import type { ParentType, LocationType } from "@/types/events";
+import { getFamilyEventLabels, formatEventLabel, type FamilyEventLabels } from "@/lib/family-labels";
 
 function escapeIcs(str: string): string {
   return str.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
@@ -28,23 +24,21 @@ function deriveFromType(
   }
 }
 
-function getSummary(doc: {
+function getSummary(
+  labels: FamilyEventLabels,
+  doc: {
   title?: string | null;
   type?: string | null;
   parent?: string | null;
   location?: string | null;
   locationLabel?: string | null;
+  caretakerLabel?: string | null;
 }): string {
   if (doc.title?.trim()) return doc.title.trim();
   const hasNew = doc.parent != null && doc.location != null;
   const parent = hasNew ? (doc.parent as ParentType) : deriveFromType(doc.type ?? "other").parent;
   const location = hasNew ? (doc.location as LocationType) : deriveFromType(doc.type ?? "other").location;
-  const parentStr = PARENT_LABELS[parent];
-  const locStr =
-    location === "other" && doc.locationLabel?.trim()
-      ? doc.locationLabel.trim()
-      : LOCATION_LABELS[location];
-  return `Copil cu ${parentStr}, ${locStr}`;
+  return formatEventLabel({ parent, location, locationLabel: doc.locationLabel, caretakerLabel: doc.caretakerLabel }, labels);
 }
 
 export async function GET() {
@@ -64,6 +58,7 @@ export async function GET() {
     .find({ familyId })
     .sort({ date: 1 })
     .toArray();
+  const labels = await getFamilyEventLabels(db, familyId);
 
   const lines: string[] = [
     "BEGIN:VCALENDAR",
@@ -81,12 +76,13 @@ export async function GET() {
       parent?: string | null;
       location?: string | null;
       locationLabel?: string | null;
+      caretakerLabel?: string | null;
       title?: string | null;
       notes?: string | null;
       startTime?: string | null;
       endTime?: string | null;
     };
-    const summary = getSummary(eventDoc);
+    const summary = getSummary(labels, eventDoc);
     const desc = [summary, eventDoc.notes].filter(Boolean).join(" – ");
     const hasTime = eventDoc.startTime || eventDoc.endTime;
     lines.push("BEGIN:VEVENT");
