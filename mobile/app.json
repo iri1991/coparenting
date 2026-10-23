@@ -1,0 +1,81 @@
+{
+  "expo": {
+    "name": "HomeSplit",
+    "slug": "homesplit",
+    "scheme": "homesplit",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#f6efe6",
+    "ios": {
+      "bundleIdentifier": "ro.homesplit.app",
+      "supportsTablet": false,
+      "associatedDomains": [
+        "applinks:homesplit.ro"
+      ],
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "ro.homesplit.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#f6efe6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "homesplit.ro",
+              "pathPrefix": "/app"
+            },
+            {
+              "scheme": "https",
+              "host": "homesplit.ro",
+              "pathPrefix": "/chat"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "color": "#bf6a4b"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#f6efe6"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiUrl": "https://homesplit.ro",
+      "eas": {
+        "projectId": ""
+      }
+    }
+  }
+}

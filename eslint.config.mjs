@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Aplicația React Native are propriul tooling (mobile/).
+    "mobile/**",
   ]),
 ]);
 
