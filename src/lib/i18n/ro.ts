@@ -568,6 +568,18 @@ export const ro = {
         errorChange: "Eroare la schimbarea parolei.",
         success: "Parola a fost actualizată.",
       },
+      deleteAccount: {
+        eyebrow: "Zonă sensibilă",
+        title: "Șterge contul",
+        desc: "Contul și datele tale personale se șterg definitiv. Dacă celălalt părinte rămâne în familie, calendarul și istoricul comun rămân la el. Dacă ești singurul membru, se șterg toate datele familiei și abonamentul se anulează.",
+        start: "Vreau să-mi șterg contul",
+        passwordLabel: "Confirmă cu parola",
+        confirmCheck: "Înțeleg că ștergerea este definitivă și nu poate fi anulată.",
+        submit: "Șterge definitiv",
+        deleting: "Se șterge…",
+        cancel: "Renunță",
+        error: "Contul nu a putut fi șters.",
+      },
       export: {
         title: "Export",
         desc: "Descarcă datele familiei",

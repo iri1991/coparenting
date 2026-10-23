@@ -1,9 +1,9 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { User, Key, LogOut } from "lucide-react";
+import { User, Key, LogOut, Trash2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 type ParentType = "tata" | "mama" | null;
@@ -210,6 +210,8 @@ export function AccountClient({
         </form>
       </section>
 
+      <DeleteAccountSection />
+
       <div className="grid gap-3 sm:grid-cols-2">
         <Link
           href="/"
@@ -227,5 +229,106 @@ export function AccountClient({
         </a>
       </div>
     </div>
+  );
+}
+
+function DeleteAccountSection() {
+  const { t } = useLanguage();
+  const d = t.app.account.deleteAccount;
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleDelete(e: React.FormEvent) {
+    e.preventDefault();
+    setDeleting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/user/account", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || d.error);
+        return;
+      }
+      await signOut({ callbackUrl: "/?cont-sters=1" });
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  return (
+    <section className="app-native-surface rounded-[2rem] p-5">
+      <div className="flex items-start gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[1.4rem] bg-red-50 text-red-600">
+          <Trash2 className="h-5 w-5" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">{d.eyebrow}</p>
+          <h2 className="mt-1 text-lg font-semibold text-stone-900">{d.title}</h2>
+          <p className="mt-1 text-sm leading-6 text-stone-500">{d.desc}</p>
+        </div>
+      </div>
+
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-red-100 bg-white/76 px-4 py-3 text-sm font-semibold text-red-700 shadow-[0_12px_28px_rgba(28,25,23,0.06)]"
+        >
+          {d.start}
+        </button>
+      ) : (
+        <form onSubmit={handleDelete} className="mt-5 space-y-3">
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{d.passwordLabel}</label>
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="app-native-input w-full px-4 py-3 text-sm"
+            />
+          </div>
+          <label className="flex items-start gap-2 text-sm text-stone-700">
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(e) => setConfirmed(e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-red-600"
+            />
+            {d.confirmCheck}
+          </label>
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          <div className="grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                setPassword("");
+                setConfirmed(false);
+                setError(null);
+              }}
+              className="app-native-secondary-button px-4 py-3 text-sm font-semibold"
+            >
+              {d.cancel}
+            </button>
+            <button
+              type="submit"
+              disabled={deleting || !confirmed || !password}
+              className="inline-flex items-center justify-center rounded-full bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(220,38,38,0.22)] disabled:opacity-50"
+            >
+              {deleting ? d.deleting : d.submit}
+            </button>
+          </div>
+        </form>
+      )}
+    </section>
   );
 }

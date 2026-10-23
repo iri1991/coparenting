@@ -570,6 +570,18 @@ export const en: Translations = {
         errorChange: "Error changing the password.",
         success: "Password updated.",
       },
+      deleteAccount: {
+        eyebrow: "Danger zone",
+        title: "Delete account",
+        desc: "Your account and personal data are permanently deleted. If the other parent stays in the family, the shared calendar and history remain with them. If you are the only member, all family data is deleted and the subscription is cancelled.",
+        start: "I want to delete my account",
+        passwordLabel: "Confirm with your password",
+        confirmCheck: "I understand that deletion is permanent and cannot be undone.",
+        submit: "Delete permanently",
+        deleting: "Deleting…",
+        cancel: "Cancel",
+        error: "The account could not be deleted.",
+      },
       export: {
         title: "Export",
         desc: "Download family data",

@@ -319,7 +319,7 @@ function UserActions({
       {showDelete && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-3 dark:border-red-900 dark:bg-red-950/40">
           <p className="mb-2 text-sm text-red-800 dark:text-red-300">
-            Ștergerea este definitivă: contul, sesiunile push și tokenurile de resetare dispar. Datele familiei rămân; dacă familia rămâne fără membri, va fi dezactivată. Scrie emailul pentru confirmare.
+            Ștergerea este definitivă: contul și datele personale dispar. Datele comune rămân la celălalt părinte; dacă era ultimul membru, se șterg toate datele familiei și se anulează abonamentul. Scrie emailul pentru confirmare.
           </p>
           <div className="flex flex-wrap gap-2">
             <input value={confirmDelete} onChange={(e) => setConfirmDelete(e.target.value)} placeholder={user.email} className={`${inputClass} flex-1`} />

@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { requireAdminApi, logAdminAction, isAdminEmail } from "@/lib/admin";
 import { removeUserFromFamily } from "@/lib/admin-actions";
+import { deleteUserAccount } from "@/lib/account-deletion";
 import { createPasswordResetAndSend } from "@/lib/password-reset";
 import { getSubscriptionsForUsers, isPushConfigured, sendPushToSubscriptions } from "@/lib/push";
 
@@ -76,20 +77,12 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   }
 
   const db = await getDb();
-  let familyDeactivated = false;
-  if (user.familyId) {
-    ({ familyDeactivated } = await removeUserFromFamily(id, new ObjectId(String(user.familyId))));
-  }
-  await Promise.all([
-    db.collection("push_subscriptions").deleteMany({ userId: id }),
-    db.collection("password_reset_tokens").deleteMany({ email: user.email }),
-    db.collection("users").deleteOne({ _id: user._id }),
-  ]);
+  const { familyDeleted } = await deleteUserAccount(db, id);
   await logAdminAction(
     session,
     "Cont șters",
     { type: "user", id },
-    { email: user.email, familyId: user.familyId ? String(user.familyId) : null, familyDeactivated }
+    { email: user.email, familyId: user.familyId ? String(user.familyId) : null, familyDeleted }
   );
-  return NextResponse.json({ ok: true, familyDeactivated });
+  return NextResponse.json({ ok: true, familyDeleted });
 }
