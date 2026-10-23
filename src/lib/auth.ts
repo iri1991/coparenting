@@ -2,6 +2,9 @@ import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { getServerSession } from "next-auth/next";
+import type { Session } from "next-auth";
+import { encode, decode } from "next-auth/jwt";
+import { headers } from "next/headers";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
@@ -10,6 +13,39 @@ import { clearAttempts, countAttempts, recordAttempt } from "@/lib/rate-limit";
 
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_FAILURES = 10;
+
+export interface VerifiedUser {
+  id: string;
+  email: string;
+  name?: string;
+  parentType?: "tata" | "mama";
+  familyId?: string;
+}
+
+/**
+ * Verifică email + parolă (cu limită de încercări greșite per email).
+ * Folosit de login-ul web (NextAuth) și de login-ul aplicației mobile.
+ */
+export async function verifyCredentials(rawEmail: string, password: string): Promise<VerifiedUser | null> {
+  const email = rawEmail.toLowerCase().trim();
+  if (!email || !password) return null;
+  const limitKey = `login:${email}`;
+  if ((await countAttempts(limitKey, LOGIN_WINDOW_MS)) >= LOGIN_MAX_FAILURES) return null;
+  const db = await getDb();
+  const user = await db.collection("users").findOne({ email });
+  if (!user?.passwordHash || !(await bcrypt.compare(password, user.passwordHash))) {
+    await recordAttempt(limitKey, LOGIN_WINDOW_MS);
+    return null;
+  }
+  await clearAttempts(limitKey).catch(() => {});
+  return {
+    id: String(user._id),
+    email: user.email,
+    name: (user as { name?: string }).name ?? undefined,
+    parentType: (user as { parentType?: "tata" | "mama" }).parentType ?? undefined,
+    familyId: (user as { familyId?: unknown }).familyId != null ? String((user as { familyId?: unknown }).familyId) : undefined,
+  };
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -21,32 +57,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        const email = (credentials.email as string).toLowerCase().trim();
-        // Limită de încercări greșite per email (anti brute-force).
-        const limitKey = `login:${email}`;
-        if ((await countAttempts(limitKey, LOGIN_WINDOW_MS)) >= LOGIN_MAX_FAILURES) return null;
-        const db = await getDb();
-        const user = await db.collection("users").findOne({ email });
-        if (!user?.passwordHash) {
-          await recordAttempt(limitKey, LOGIN_WINDOW_MS);
-          return null;
-        }
-        const ok = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-        if (!ok) {
-          await recordAttempt(limitKey, LOGIN_WINDOW_MS);
-          return null;
-        }
-        await clearAttempts(limitKey).catch(() => {});
-        return {
-          id: String(user._id),
-          email: user.email,
-          name: (user as { name?: string }).name ?? undefined,
-          parentType: (user as { parentType?: "tata" | "mama" }).parentType ?? undefined,
-          familyId: (user as { familyId?: unknown }).familyId != null ? String((user as { familyId?: unknown }).familyId) : undefined,
-        };
+        return verifyCredentials(credentials.email as string, credentials.password as string);
       },
     }),
   ],
@@ -102,8 +113,50 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
+/** Durata tokenului aplicației mobile (reînnoit la fiecare deschidere a aplicației). */
+export const MOBILE_TOKEN_MAX_AGE = 90 * 24 * 60 * 60;
+
+/** Emite tokenul aplicației mobile (același format ca sesiunea web: JWT NextAuth). */
+export async function issueMobileToken(user: VerifiedUser, authAt: number = Date.now()): Promise<string> {
+  return encode({
+    token: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      parentType: user.parentType,
+      familyId: user.familyId,
+      authAt,
+      mobile: true,
+    },
+    secret: process.env.NEXTAUTH_SECRET!,
+    maxAge: MOBILE_TOKEN_MAX_AGE,
+  });
+}
+
+/** Sesiune din `Authorization: Bearer <token>` (aplicația mobilă), validată ca o sesiune web. */
+async function sessionFromBearer(raw: string): Promise<Session | null> {
+  try {
+    const token = await decode({ token: raw, secret: process.env.NEXTAUTH_SECRET! });
+    if (!token?.id || token.mobile !== true) return null;
+    const base: Session = {
+      user: { id: String(token.id), email: token.email ?? null, name: token.name ?? null },
+      expires: new Date(((token.exp as number | undefined) ?? 0) * 1000).toISOString(),
+    };
+    const session = (await authOptions.callbacks!.session!({ session: base, token } as never)) as Session;
+    return session?.user?.id ? session : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function auth() {
-  return getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+  if (session?.user?.id) return session;
+  const authorization = (await headers()).get("authorization") ?? "";
+  if (authorization.startsWith("Bearer ")) {
+    return (await sessionFromBearer(authorization.slice(7).trim())) ?? session;
+  }
+  return session;
 }
 
 declare module "next-auth" {
@@ -127,6 +180,8 @@ declare module "next-auth/jwt" {
   interface JWT {
     parentType?: "tata" | "mama";
     authAt?: number;
+    /** Token emis pentru aplicația mobilă (Bearer), nu cookie de browser. */
+    mobile?: boolean;
     familyId?: string | null;
   }
 }

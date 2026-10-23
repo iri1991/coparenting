@@ -11,6 +11,8 @@ if (vapidPublic && vapidPrivate) {
 }
 
 export interface PushSubscriptionDoc {
+  /** "web" = Web Push (browser / PWA); "expo" = aplicația mobilă (Expo push token). */
+  kind?: "web" | "expo";
   userId: string;
   endpoint: string;
   keys: { p256dh: string; auth: string };
@@ -19,6 +21,40 @@ export interface PushSubscriptionDoc {
 
 export function isPushConfigured(): boolean {
   return Boolean(vapidPublic && vapidPrivate);
+}
+
+const EXPO_PREFIX = "expo:";
+
+export function isExpoPushToken(token: string): boolean {
+  return /^(ExponentPushToken|ExpoPushToken)\[[A-Za-z0-9_-]+\]$/.test(token);
+}
+
+/** Trimite prin serviciul Expo (APNs pe iOS, FCM pe Android). Șterge tokenurile invalide. */
+async function sendExpoPush(tokens: string[], payload: { title: string; body?: string; url?: string }): Promise<void> {
+  if (tokens.length === 0) return;
+  const db = await getDb();
+  for (let i = 0; i < tokens.length; i += 100) {
+    const batch = tokens.slice(i, i + 100);
+    try {
+      const res = await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(process.env.EXPO_ACCESS_TOKEN ? { Authorization: `Bearer ${process.env.EXPO_ACCESS_TOKEN}` } : {}),
+        },
+        body: JSON.stringify(
+          batch.map((to) => ({ to, title: payload.title, body: payload.body, sound: "default", data: { url: payload.url ?? "/app" } }))
+        ),
+      });
+      const json = (await res.json().catch(() => null)) as { data?: { status: string; details?: { error?: string } }[] } | null;
+      const tickets = json?.data ?? [];
+      const invalid = batch.filter((_, idx) => tickets[idx]?.details?.error === "DeviceNotRegistered");
+      if (invalid.length > 0) await db.collection("native_push_tokens").deleteMany({ token: { $in: invalid } });
+    } catch (e) {
+      console.error("[push] expo send failed", e);
+    }
+  }
 }
 
 export function getVapidPublicKey(): string | null {
@@ -33,11 +69,15 @@ export async function sendPushToSubscriptions(
   subscriptions: PushSubscriptionDoc[],
   payload: { title: string; body?: string; url?: string }
 ): Promise<void> {
+  const expoTokens = subscriptions.filter((s) => s.kind === "expo").map((s) => s.endpoint.slice(EXPO_PREFIX.length));
+  await sendExpoPush(expoTokens, payload);
+
   const payloadStr = JSON.stringify(payload);
   const db = await getDb();
   const col = db.collection("push_subscriptions");
 
   for (const sub of subscriptions) {
+    if (sub.kind === "expo") continue;
     if (!isAllowedPushEndpoint(sub.endpoint)) {
       await col.deleteOne({ endpoint: sub.endpoint });
       continue;
@@ -103,10 +143,19 @@ export async function getSubscriptionsForUsers(userIds: string[]): Promise<PushS
     .collection("push_subscriptions")
     .find(filter)
     .toArray();
-  return docs.map((d) => ({
+  const nativeDocs = await db.collection("native_push_tokens").find({ userId: { $in: userIds } }).toArray();
+  const native: PushSubscriptionDoc[] = nativeDocs.map((d) => ({
+    kind: "expo",
+    userId: String(d.userId),
+    endpoint: `${EXPO_PREFIX}${String(d.token)}`,
+    keys: { p256dh: "", auth: "" },
+    createdAt: d.createdAt instanceof Date ? d.createdAt : new Date(),
+  }));
+  return [...native, ...docs.map((d) => ({
+    kind: "web" as const,
     userId: String(d.userId),
     endpoint: String(d.endpoint),
     keys: { p256dh: String(d.keys?.p256dh), auth: String(d.keys?.auth) },
     createdAt: d.createdAt instanceof Date ? d.createdAt : new Date(d.createdAt),
-  }));
+  }))];
 }
