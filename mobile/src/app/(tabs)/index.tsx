@@ -3,13 +3,15 @@ import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "r
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { Icon } from "@/components/Icon";
-import { Surface } from "@/components/ui";
+import { Button, Surface } from "@/components/ui";
 import { api } from "@/lib/api";
+import { router } from "expo-router";
+import { onEventsChanged, setEventToEdit } from "@/lib/event-draft";
 import { addMonths, dayLabel, monthGrid, monthLabel, parseYmd, WEEKDAYS_SHORT_RO, ymd } from "@/lib/dates";
 import { locationName, parentName } from "@/lib/labels";
 import { useBootstrap } from "@/lib/session";
 import type { ScheduleEvent } from "@/lib/types";
-import { colors, font, radius, spacing } from "@/theme";
+import { accentShadow, colors, font, radius, spacing } from "@/theme";
 
 export default function HomeScreen() {
   const { user, family, needsSetup, familyDeactivated } = useBootstrap();
@@ -31,6 +33,9 @@ export default function HomeScreen() {
   useEffect(() => {
     if (family && !familyDeactivated) load();
   }, [family, familyDeactivated, load]);
+
+  // Reîncarcă după adăugare / editare / ștergere din ecranul de eveniment.
+  useEffect(() => onEventsChanged(load), [load]);
 
   const byDate = useMemo(() => {
     const map = new Map<string, ScheduleEvent[]>();
@@ -57,8 +62,9 @@ export default function HomeScreen() {
             <Text style={[font.small, { marginTop: spacing.sm, lineHeight: 20 }]}>
               {familyDeactivated
                 ? "Contactează suportul HomeSplit pentru detalii."
-                : "Adaugă copilul și cel puțin o locuință în HomeSplit, apoi revino aici — calendarul apare imediat."}
+                : "Adaugă copilul și cel puțin o locuință — calendarul apare imediat după."}
             </Text>
+            {!familyDeactivated ? <Button title="Continuă configurarea" onPress={() => router.push("/setup")} style={{ marginTop: spacing.lg }} /> : null}
           </Surface>
         </View>
       </SafeAreaView>
@@ -67,8 +73,19 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={["top"]}>
+      <Pressable
+        accessibilityLabel="Adaugă în calendar"
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+          setEventToEdit(null);
+          router.push({ pathname: "/event", params: { date: selected } });
+        }}
+        style={({ pressed }) => [styles.fab, pressed && { transform: [{ scale: 0.94 }] }]}
+      >
+        <Text style={styles.fabPlus}>+</Text>
+      </Pressable>
       <ScrollView
-        contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg, paddingBottom: spacing.xxl }}
+        contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg, paddingBottom: 96 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -152,7 +169,15 @@ export default function HomeScreen() {
             </Surface>
           ) : (
             dayEvents.map((e) => (
-              <Surface key={e.id} style={{ padding: spacing.lg, flexDirection: "row", gap: spacing.md, alignItems: "center" }}>
+              <Pressable
+                key={e.id}
+                onPress={() => {
+                  setEventToEdit(e);
+                  router.push("/event");
+                }}
+                style={({ pressed }) => (pressed ? { transform: [{ scale: 0.98 }] } : undefined)}
+              >
+              <Surface style={{ padding: spacing.lg, flexDirection: "row", gap: spacing.md, alignItems: "center" }}>
                 <View style={[styles.parentBar, { backgroundColor: colors.parent[e.parent] }]} />
                 <View style={{ flex: 1 }}>
                   <Text style={[font.body, { fontWeight: "600" }]}>
@@ -164,7 +189,9 @@ export default function HomeScreen() {
                   </Text>
                   {e.notes ? <Text style={[font.meta, { marginTop: 4 }]}>{e.notes}</Text> : null}
                 </View>
+                <Icon name="chevronRight" size={18} color={colors.textMuted} />
               </Surface>
+              </Pressable>
             ))
           )}
         </View>
@@ -186,4 +213,18 @@ const styles = StyleSheet.create({
   dots: { flexDirection: "row", gap: 2, height: 6, marginTop: 2 },
   dot: { width: 5, height: 5, borderRadius: 3 },
   parentBar: { width: 4, alignSelf: "stretch", borderRadius: 2 },
+  fab: {
+    position: "absolute",
+    right: spacing.xl,
+    bottom: spacing.xl,
+    zIndex: 10,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+    ...accentShadow,
+  },
+  fabPlus: { color: colors.white, fontSize: 30, lineHeight: 32, fontWeight: "400" },
 });

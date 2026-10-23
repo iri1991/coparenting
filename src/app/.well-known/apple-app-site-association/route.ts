@@ -10,7 +10,7 @@ export function GET() {
   const appId = `${teamId}.ro.homesplit.app`;
   return NextResponse.json({
     applinks: {
-      details: [{ appIDs: [appId], components: [{ "/": "/app*" }, { "/": "/chat*" }] }],
+      details: [{ appIDs: [appId], components: [{ "/": "/app*" }, { "/": "/chat*" }, { "/": "/join*" }] }],
     },
   });
 }

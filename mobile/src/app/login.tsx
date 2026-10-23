@@ -14,7 +14,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (state.status === "signedIn") return <Redirect href="/(tabs)" />;
+  if (state.status === "signedIn") return <Redirect href="/" />;
 
   async function submit() {
     setLoading(true);

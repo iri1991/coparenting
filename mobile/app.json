@@ -40,6 +40,11 @@
               "scheme": "https",
               "host": "homesplit.ro",
               "pathPrefix": "/chat"
+            },
+            {
+              "scheme": "https",
+              "host": "homesplit.ro",
+              "pathPrefix": "/join"
             }
           ],
           "category": [

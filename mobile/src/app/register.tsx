@@ -18,7 +18,7 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (state.status === "signedIn") return <Redirect href="/(tabs)" />;
+  if (state.status === "signedIn") return <Redirect href="/" />;
 
   async function submit() {
     setError(null);

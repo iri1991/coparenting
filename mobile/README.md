@@ -7,7 +7,7 @@ autentificare cu token (`Authorization: Bearer`) și design system-ul din [`../D
 ## Structură
 
 ```
-src/app/            ecranele (Expo Router)
+src/app/            ecranele (Expo Router): setup, join, event (modal)
   _layout.tsx       providere, notificări
   index.tsx         redirect: login sau aplicație
   login.tsx, register.tsx
@@ -68,9 +68,16 @@ Notificările push nu funcționează în Expo Go; folosește un development buil
 - [ ] Variabilele de mediu de mai sus setate pe server
 - [ ] Textele de pe site („nu necesită App Store”) actualizate la lansare
 
-## Următorii pași (funcționalități)
+## Funcționalități
 
-Acum aplicația are: login / creare cont, calendarul lunii cu evenimentele zilei, chat, cont (inclusiv
-ștergere), notificări native și deschiderea linkurilor. Urmează: adăugare / editare evenimente,
-configurarea familiei (copil, locuințe, invitație), zile blocate, propunerea săptămânală, tab-urile
-„Copil” și „Împreună”.
+Acum aplicația are:
+- login / creare cont; invitațiile deschise înainte de conectare sunt reluate după login;
+- configurarea familiei în aplicație: creare familie sau acceptare invitație (link lipit sau deschis
+  din email), numele părinților, copilul, locuința, invitația celuilalt părinte;
+- calendarul lunii; adăugare (inclusiv interval de zile), editare și ștergere de evenimente, cu
+  aceleași reguli ca pe web (zile blocate, motiv pentru modificarea evenimentelor din trecut);
+- chat, cont (inclusiv ștergere), notificări native, linkuri web → ecrane (`/app`, `/chat`,
+  `/account`, `/join`).
+
+Urmează: zile blocate, propunerea săptămânală, setările familiei (mai multe locuințe, copii),
+tab-urile „Copil” și „Împreună”.

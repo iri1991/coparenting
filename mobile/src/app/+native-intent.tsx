@@ -5,6 +5,10 @@
 export function redirectSystemPath({ path }: { path: string; initial: boolean }): string {
   try {
     const pathname = path.startsWith("http") ? new URL(path).pathname : path.split("?")[0];
+    if (pathname.startsWith("/join")) {
+      const query = path.includes("?") ? path.slice(path.indexOf("?")) : "";
+      return `/join${query}`;
+    }
     if (pathname.startsWith("/chat")) return "/chat";
     if (pathname.startsWith("/account")) return "/account";
     if (pathname.startsWith("/app")) return "/";

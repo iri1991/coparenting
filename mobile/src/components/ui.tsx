@@ -132,3 +132,44 @@ export const styles = StyleSheet.create({
     color: colors.text,
   },
 });
+
+/** Opțiune selectabilă (pastilă), ca alegerile din formularele web. */
+export function Chip({ label, selected, onPress, color }: { label: string; selected: boolean; onPress: () => void; color?: string }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ selected }}
+      onPress={() => {
+        Haptics.selectionAsync().catch(() => {});
+        onPress();
+      }}
+      style={({ pressed }) => [
+        chipStyles.chip,
+        selected && chipStyles.chipSelected,
+        pressed && { transform: [{ scale: 0.97 }] },
+      ]}
+    >
+      {color ? <View style={[chipStyles.dot, { backgroundColor: color }]} /> : null}
+      <Text numberOfLines={1} style={[chipStyles.text, selected && { color: colors.text }]}>
+        {label}
+      </Text>
+    </Pressable>
+  );
+}
+
+const chipStyles = StyleSheet.create({
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    minHeight: 44,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.inner,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.7)",
+    backgroundColor: "rgba(255,255,255,0.74)",
+  },
+  chipSelected: { borderColor: "#c87a5c", backgroundColor: colors.accentSoft },
+  text: { fontSize: 14, fontWeight: "600", color: "#57534e" },
+  dot: { width: 8, height: 8, borderRadius: 4 },
+});

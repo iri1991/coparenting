@@ -23,7 +23,9 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <SessionProvider>
           <StatusBar style="dark" />
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
+          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
+            <Stack.Screen name="event" options={{ presentation: "modal" }} />
+          </Stack>
         </SessionProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
