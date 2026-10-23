@@ -1,3 +1,4 @@
+import { validateNewPassword } from "@/lib/password-policy";
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
@@ -23,11 +24,9 @@ export async function POST(request: Request) {
     if (await isRateLimited(`signup:${ip}`, 10, 60 * 60 * 1000)) {
       return NextResponse.json({ error: "Prea multe înregistrări. Încearcă mai târziu." }, { status: 429 });
     }
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: "Parola trebuie să aibă cel puțin 6 caractere." },
-        { status: 400 }
-      );
+    const passwordError = validateNewPassword(password);
+    if (passwordError) {
+      return NextResponse.json({ error: passwordError }, { status: 400 });
     }
     const db = await getDb();
     const existing = await db.collection("users").findOne({ email: emailNorm });

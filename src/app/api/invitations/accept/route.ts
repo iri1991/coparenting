@@ -31,6 +31,17 @@ export async function POST(request: Request) {
     );
     return NextResponse.json({ error: "Invitația a expirat." }, { status: 400 });
   }
+  // Invitația e personală: se acceptă doar din contul cu adresa invitată.
+  const sessionEmail = (session.user.email ?? "").toLowerCase().trim();
+  if (!sessionEmail || sessionEmail !== String(invDoc.email ?? "").toLowerCase().trim()) {
+    return NextResponse.json(
+      {
+        error: `Invitația a fost trimisă către ${invDoc.email}. Conectează-te cu acel cont pentru a o accepta.`,
+        code: "email_mismatch",
+      },
+      { status: 403 }
+    );
+  }
   const familyId = invDoc.familyId;
   const family = await getActiveFamily(db, familyId);
   if (!family) {

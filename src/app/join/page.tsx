@@ -3,6 +3,17 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { JoinClient } from "@/components/JoinClient";
+import { getDb } from "@/lib/mongodb";
+
+/** Emailul invitat (doar pentru invitații valide), ca să precompletăm formularul. */
+async function getInvitedEmail(token: string | undefined): Promise<string | null> {
+  if (!token) return null;
+  const db = await getDb();
+  const inv = await db
+    .collection("invitations")
+    .findOne({ token, status: "pending", expiresAt: { $gt: new Date() } }, { projection: { email: 1 } });
+  return (inv as { email?: string } | null)?.email ?? null;
+}
 
 export default async function JoinPage({
   searchParams,
@@ -12,6 +23,7 @@ export default async function JoinPage({
   const session = await auth();
   const params = await searchParams;
   const token = params.token?.trim();
+  const invitedEmail = await getInvitedEmail(token);
 
   if (!session?.user?.id) {
     return (
@@ -26,13 +38,17 @@ export default async function JoinPage({
           <p className="text-stone-600 dark:text-stone-400 text-sm">
             Conectează-te sau creează un cont pentru a accepta invitația.
           </p>
-          <JoinClient token={token || ""} isLoggedIn={false} />
+          <JoinClient token={token || ""} isLoggedIn={false} invitedEmail={invitedEmail} />
         </div>
       </div>
     );
   }
 
-  if (session.user.familyId) {
+  // Logat cu alt cont decât cel invitat: arătăm explicația (chiar dacă acest cont are deja familie).
+  const emailMismatch =
+    !!invitedEmail && (session.user.email ?? "").toLowerCase() !== invitedEmail.toLowerCase();
+
+  if (session.user.familyId && !emailMismatch) {
     redirect("/app");
   }
 
@@ -54,7 +70,12 @@ export default async function JoinPage({
             Vei fi adăugat în familia celuilalt părinte.
           </p>
         </div>
-        <JoinClient token={token} isLoggedIn={true} />
+        <JoinClient
+          token={token}
+          isLoggedIn={true}
+          invitedEmail={invitedEmail}
+          currentEmail={session.user.email ?? null}
+        />
       </div>
     </div>
   );

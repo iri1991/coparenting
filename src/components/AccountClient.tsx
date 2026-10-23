@@ -178,7 +178,7 @@ export function AccountClient({
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
-              minLength={6}
+              minLength={8}
               className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>
@@ -189,7 +189,7 @@ export function AccountClient({
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              minLength={6}
+              minLength={8}
               className="app-native-input w-full px-4 py-3 text-sm"
             />
           </div>

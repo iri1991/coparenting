@@ -1,3 +1,4 @@
+import { validateNewPassword } from "@/lib/password-policy";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -17,11 +18,9 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (newPassword.length < 6) {
-    return NextResponse.json(
-      { error: "Parola nouă trebuie să aibă cel puțin 6 caractere." },
-      { status: 400 }
-    );
+  const passwordError = validateNewPassword(newPassword);
+  if (passwordError) {
+    return NextResponse.json({ error: passwordError }, { status: 400 });
   }
   const db = await getDb();
   let oid: ObjectId;

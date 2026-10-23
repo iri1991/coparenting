@@ -25,8 +25,8 @@ function ResetPasswordForm() {
       setMessage({ type: "error", text: "Parolele nu coincid." });
       return;
     }
-    if (newPassword.length < 6) {
-      setMessage({ type: "error", text: "Parola trebuie să aibă cel puțin 6 caractere." });
+    if (newPassword.length < 8) {
+      setMessage({ type: "error", text: "Parola trebuie să aibă cel puțin 8 caractere." });
       return;
     }
     if (!token) {
@@ -88,7 +88,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <AuthPageShell title="Parolă nouă" subtitle="Alege o parolă de cel puțin 6 caractere." footer={backFooter}>
+    <AuthPageShell title="Parolă nouă" subtitle="Alege o parolă de cel puțin 8 caractere." footer={backFooter}>
       {success ? (
         <div className="app-native-surface-strong rounded-[1.8rem] p-4 sm:p-5 space-y-4 text-center">
           <p className={messageCls("ok")} role="alert">
@@ -107,7 +107,7 @@ function ResetPasswordForm() {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-            minLength={6}
+            minLength={8}
             className={inputCls}
           />
           <input
@@ -117,7 +117,7 @@ function ResetPasswordForm() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            minLength={6}
+            minLength={8}
             className={inputCls}
           />
           {message && (

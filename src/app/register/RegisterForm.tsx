@@ -35,7 +35,7 @@ export function RegisterForm() {
       setMessage({ type: "error", text: a.passwordsMismatch });
       return;
     }
-    if (password.length < 6) {
+    if (password.length < 8) {
       setMessage({ type: "error", text: a.passwordShort });
       return;
     }
@@ -134,7 +134,7 @@ export function RegisterForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            minLength={6}
+            minLength={8}
             className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
@@ -150,7 +150,7 @@ export function RegisterForm() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            minLength={6}
+            minLength={8}
             className="app-native-input w-full px-4 py-3 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>

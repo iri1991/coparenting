@@ -3,18 +3,23 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 interface JoinClientProps {
   token: string;
   isLoggedIn: boolean;
+  /** Adresa către care a fost trimisă invitația (dacă invitația e validă). */
+  invitedEmail?: string | null;
+  /** Emailul contului conectat. */
+  currentEmail?: string | null;
 }
 
-export function JoinClient({ token, isLoggedIn }: JoinClientProps) {
+export function JoinClient({ token, isLoggedIn, invitedEmail, currentEmail }: JoinClientProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "ok" | "error"; text: string } | null>(null);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(invitedEmail ?? "");
+  const joinUrl = token ? `/join?token=${encodeURIComponent(token)}` : "/join";
   const [password, setPassword] = useState("");
 
   async function handleAccept() {
@@ -57,7 +62,7 @@ export function JoinClient({ token, isLoggedIn }: JoinClientProps) {
       return;
     }
     if (res?.ok) {
-      window.location.href = token ? `/join?token=${encodeURIComponent(token)}` : "/join";
+      window.location.href = joinUrl;
       return;
     }
     setMessage({ type: "error", text: "Ceva nu a mers bine." });
@@ -73,12 +78,43 @@ export function JoinClient({ token, isLoggedIn }: JoinClientProps) {
       body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
     });
     const data = await res.json().catch(() => ({}));
-    setLoading(false);
     if (!res.ok) {
+      setLoading(false);
       setMessage({ type: "error", text: data.error || "Eroare la înregistrare." });
       return;
     }
-    window.location.href = token ? `/join?token=${encodeURIComponent(token)}` : "/join";
+    // Contul nou trebuie și autentificat, altfel pagina invitației cere din nou conectarea.
+    const login = await signIn("credentials", { email: email.trim().toLowerCase(), password, redirect: false });
+    setLoading(false);
+    if (login?.error) {
+      setMessage({ type: "error", text: "Contul a fost creat. Conectează-te pentru a accepta invitația." });
+      return;
+    }
+    window.location.href = joinUrl;
+  }
+
+  const emailMismatch =
+    isLoggedIn && !!invitedEmail && (currentEmail ?? "").toLowerCase() !== invitedEmail.toLowerCase();
+
+  if (emailMismatch) {
+    return (
+      <div className="space-y-4 text-center">
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Invitația a fost trimisă către <strong className="text-stone-900 dark:text-stone-100">{invitedEmail}</strong>, dar ești
+          conectat ca <strong className="text-stone-900 dark:text-stone-100">{currentEmail}</strong>.
+        </p>
+        <button
+          type="button"
+          onClick={() => signOut({ callbackUrl: joinUrl })}
+          className="w-full py-3 px-4 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600"
+        >
+          Schimbă contul
+        </button>
+        <p className="text-xs text-stone-500">
+          Dacă vrei să folosești alt email, roagă celălalt părinte să-ți trimită o invitație pe adresa corectă.
+        </p>
+      </div>
+    );
   }
 
   if (isLoggedIn && token) {
@@ -132,12 +168,13 @@ export function JoinClient({ token, isLoggedIn }: JoinClientProps) {
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        readOnly={!!invitedEmail}
         required
         className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
       />
       <input
         type="password"
-        placeholder="Parolă"
+        placeholder="Parolă (min. 8 caractere la înregistrare)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
