@@ -46,3 +46,23 @@ export interface ChatMessage {
   seenByOther?: boolean;
   replyTo?: { id: string; senderId: string; senderLabel: string; text: string } | null;
 }
+
+export interface BlockedPeriod {
+  id: string;
+  userId: string;
+  parentType: ParentType;
+  startDate: string;
+  endDate: string;
+  startTime?: string;
+  endTime?: string;
+  note?: string;
+}
+
+export interface WeekProposal {
+  id: string;
+  weekStart: string;
+  weekLabel: string;
+  days: { date: string; parent: ParentType; location: "tunari" | "otopeni" | "other" }[];
+  myApproved: boolean;
+  otherApproved: boolean;
+}

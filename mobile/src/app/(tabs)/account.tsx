@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { Button, SectionHeader, Surface, TextField } from "@/components/ui";
 import { api } from "@/lib/api";
@@ -51,6 +52,14 @@ export default function AccountScreen() {
             </View>
           ) : null}
         </Surface>
+
+        {family ? (
+          <Surface style={{ gap: spacing.md }}>
+            <SectionHeader icon={<Icon name="house" color={colors.accent} />} eyebrow="Familie" title="Setările familiei" description="Numele părinților, copiii, locuințele, invitația." />
+            <Button title="Deschide setările familiei" variant="secondary" onPress={() => router.push("/family")} />
+            <Button title="Zile indisponibile" variant="secondary" onPress={() => router.push("/blocked")} />
+          </Surface>
+        ) : null}
 
         <Surface style={{ gap: spacing.md }}>
           <SectionHeader icon={<Icon name="lock" color={colors.accent} />} eyebrow="Securitate" title="Parolă și confidențialitate" />

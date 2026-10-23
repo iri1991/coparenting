@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   const plan = await getFamilyPlan(db, familyId);
   if (!canUseDocuments(plan)) {
     return NextResponse.json(
-      { error: "Documentele sunt disponibile în planul Pro. Faceți upgrade pentru a încărca documente." },
+      { error: "Documentele sunt disponibile în planul Pro. Faceți upgrade pentru a încărca documente.", code: "plan_limit" },
       { status: 403 }
     );
   }

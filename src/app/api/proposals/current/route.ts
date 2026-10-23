@@ -29,7 +29,7 @@ export async function GET() {
   }
   const plan = await getFamilyPlan(db, familyId);
   if (!canUseWeeklyProposal(plan)) {
-    return NextResponse.json({ proposal: null, plan, upgradeMessage: "Propunerea automată de program este disponibilă în planul Pro." });
+    return NextResponse.json({ proposal: null, plan, upgradeMessage: "Propunerea automată de program este disponibilă în planul Pro.", code: "plan_limit" });
   }
   let doc = await db
     .collection("schedule_proposals")

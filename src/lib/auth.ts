@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
         const db = await getDb();
         const u = await db.collection("users").findOne(
           { _id: new ObjectId(token.id as string) },
-          { projection: { familyId: 1, lastActiveDateKey: 1, passwordChangedAt: 1 } }
+          { projection: { familyId: 1, lastActiveDateKey: 1, passwordChangedAt: 1, parentType: 1, name: 1 } }
         );
         // Cont șters sau parolă schimbată după emiterea sesiunii → sesiunea nu mai e validă.
         const changedAt = (u as { passwordChangedAt?: Date } | null)?.passwordChangedAt;
@@ -94,8 +94,10 @@ export const authOptions: NextAuthOptions = {
         }
         session.user.id = token.id as string;
         session.user.email = token.email as string;
-        session.user.name = token.name as string | undefined;
-        session.user.parentType = token.parentType as "tata" | "mama" | undefined;
+        // Rolul și numele vin din baza de date (se pot schimba după login, ex. în configurare).
+        const dbUser = u as { parentType?: "tata" | "mama"; name?: string };
+        session.user.name = dbUser.name ?? (token.name as string | undefined);
+        session.user.parentType = dbUser.parentType ?? (token.parentType as "tata" | "mama" | undefined);
         session.user.isAdmin = isAdminEmail(session.user.email);
         const fid = (u as { familyId?: unknown })?.familyId;
         session.user.familyId = fid != null ? String(fid) : null;

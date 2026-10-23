@@ -85,7 +85,7 @@ export async function POST(request: Request) {
   if (!isWithinLimit(plan, "maxResidences", currentCount)) {
     const max = getMaxResidences(plan);
     return NextResponse.json(
-      { error: `Planul Free permite o singură locație. Treci la Pro pentru locații multiple.` },
+      { error: `Planul Free permite o singură locație. Treci la Pro pentru locații multiple.`, code: "plan_limit" },
       { status: 403 }
     );
   }

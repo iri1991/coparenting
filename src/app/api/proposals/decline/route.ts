@@ -37,7 +37,7 @@ export async function POST() {
   const plan = await getFamilyPlan(db, familyId);
   if (!canUseWeeklyProposal(plan)) {
     return NextResponse.json(
-      { error: "Propunerea automată de program este disponibilă în planul Pro." },
+      { error: "Propunerea automată de program este disponibilă în planul Pro.", code: "plan_limit" },
       { status: 403 }
     );
   }

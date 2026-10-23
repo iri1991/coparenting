@@ -37,7 +37,7 @@ export async function PATCH(request: Request) {
   const plan = await getFamilyPlan(db, familyId);
   if (!canUseWeeklyProposal(plan)) {
     return NextResponse.json(
-      { error: "Propunerea automată de program este disponibilă în planul Pro. Faceți upgrade pentru a o folosi." },
+      { error: "Propunerea automată de program este disponibilă în planul Pro. Faceți upgrade pentru a o folosi.", code: "plan_limit" },
       { status: 403 }
     );
   }

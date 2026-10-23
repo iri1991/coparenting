@@ -62,7 +62,7 @@ export async function POST(request: Request) {
   const plan = (family.plan === "pro" || family.plan === "family" ? family.plan : "free") as "free" | "pro" | "family";
   if (!canUseExportPdf(plan)) {
     return NextResponse.json(
-      { error: "Export PDF și partajare link sunt disponibile în planul Pro sau Family+." },
+      { error: "Export PDF și partajare link sunt disponibile în planul Pro sau Family+.", code: "plan_limit" },
       { status: 403 }
     );
   }

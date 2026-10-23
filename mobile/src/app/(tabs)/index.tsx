@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { Icon } from "@/components/Icon";
 import { Button, Surface } from "@/components/ui";
+import { ProposalCard } from "@/components/ProposalCard";
 import { api } from "@/lib/api";
 import { router } from "expo-router";
 import { onEventsChanged, setEventToEdit } from "@/lib/event-draft";
@@ -98,7 +99,16 @@ export default function HomeScreen() {
           />
         }
       >
-        <Text style={[font.title, { paddingHorizontal: spacing.xs }]}>{firstName ? `Bună, ${firstName}` : "Bună"}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: spacing.xs }}>
+          <Text style={font.title}>{firstName ? `Bună, ${firstName}` : "Bună"}</Text>
+          <Pressable
+            accessibilityLabel="Zile indisponibile"
+            onPress={() => router.push("/blocked")}
+            style={({ pressed }) => [styles.navButton, pressed && { transform: [{ scale: 0.95 }] }]}
+          >
+            <Icon name="lock" size={20} color="#57534e" />
+          </Pressable>
+        </View>
 
         {/* Calendarul: elementul principal al ecranului, ca pe web. */}
         <Surface style={{ padding: spacing.lg }}>
@@ -195,6 +205,7 @@ export default function HomeScreen() {
             ))
           )}
         </View>
+        <ProposalCard family={family} onApplied={load} />
       </ScrollView>
     </SafeAreaView>
   );

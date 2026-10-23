@@ -79,5 +79,9 @@ Acum aplicația are:
 - chat, cont (inclusiv ștergere), notificări native, linkuri web → ecrane (`/app`, `/chat`,
   `/account`, `/join`).
 
-Urmează: zile blocate, propunerea săptămânală, setările familiei (mai multe locuințe, copii),
-tab-urile „Copil” și „Împreună”.
+- zile indisponibile (adăugare / ștergere, ale ambilor părinți), propunerea săptămânală (aprobare /
+  refuz), setările familiei (nume, copii, locuințe, invitație).
+
+Limitele de plan apar neutru („nu este inclusă în planul actual”), fără îndemn la upgrade.
+
+Urmează: tab-urile „Copil” (activități, ritualuri, sănătate) și „Împreună” (decizii, cheltuieli, ghid).

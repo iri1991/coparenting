@@ -13,10 +13,16 @@ export async function setToken(token: string | null): Promise<void> {
 }
 
 export class ApiError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(public status: number, message: string, public code?: string) {
     super(message);
   }
 }
+
+/**
+ * Limitele de plan se afișează neutru în aplicație: fără îndemn la upgrade sau cumpărare în afara
+ * store-ului (regulile App Store / Google Play). Abonamentele se gestionează pe site.
+ */
+export const PLAN_LIMIT_MESSAGE = "Această funcție nu este inclusă în planul actual al familiei.";
 
 /** Ascultător pentru 401 (sesiune expirată / invalidată) — setat de SessionProvider. */
 let onUnauthorized: (() => void) | null = null;
@@ -39,7 +45,9 @@ export async function api<T>(path: string, init: { method?: string; body?: unkno
   const data = (await res.json().catch(() => ({}))) as T & { error?: string };
   if (!res.ok) {
     if (res.status === 401 && token) onUnauthorized?.();
-    throw new ApiError(res.status, (data as { error?: string }).error || "A apărut o eroare. Încearcă din nou.");
+    const code = (data as { code?: string }).code;
+    const message = code === "plan_limit" ? PLAN_LIMIT_MESSAGE : (data as { error?: string }).error || "A apărut o eroare. Încearcă din nou.";
+    throw new ApiError(res.status, message, code);
   }
   return data;
 }

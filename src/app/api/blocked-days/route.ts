@@ -134,7 +134,7 @@ export async function POST(request: Request) {
   });
   if (!canAddBlockedDayThisMonth(plan, countThisMonth)) {
     return NextResponse.json(
-      { error: "Planul Free permite maxim 5 zile blocate pe lună. Treci la Pro pentru zile nelimitate." },
+      { error: "Planul Free permite maxim 5 zile blocate pe lună. Treci la Pro pentru zile nelimitate.", code: "plan_limit" },
       { status: 403 }
     );
   }
