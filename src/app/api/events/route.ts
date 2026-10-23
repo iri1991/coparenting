@@ -8,6 +8,7 @@ import { logFamilyActivity } from "@/lib/activity";
 import { getParentDisplayName } from "@/lib/parent-display-name";
 import type { ScheduleEvent, ParentType, LocationType } from "@/types/events";
 import { getFamilyEventLabels, formatEventLabel, locationName, type FamilyEventLabels } from "@/lib/family-labels";
+import { ensureEventResidenceIds, getFamilyResidences } from "@/lib/event-residences";
 
 function deriveFromType(
   type: string
@@ -36,6 +37,7 @@ function toEvent(doc: {
   startTime?: string | null;
   endTime?: string | null;
   caretakerLabel?: string | null;
+  residenceId?: string | null;
   created_by: string | null;
   created_at: Date;
 }): ScheduleEvent {
@@ -53,9 +55,33 @@ function toEvent(doc: {
     startTime: doc.startTime ?? undefined,
     endTime: doc.endTime ?? undefined,
     caretakerLabel: doc.caretakerLabel ?? undefined,
+    residenceId: doc.residenceId ?? undefined,
     created_by: doc.created_by ?? "",
     created_at: doc.created_at.toISOString(),
   };
+}
+
+const PARENTS: ParentType[] = ["tata", "mama", "together", "other"];
+const LOCATIONS: LocationType[] = ["tunari", "otopeni", "other"];
+
+/**
+ * Normalizează locația trimisă de client. Cu `residenceId` (locuință a familiei) salvăm
+ * location "other" + numele locuinței ca rezervă + ID-ul stabil. Fără el, locația e text liber.
+ */
+async function resolveLocationInput(
+  db: Awaited<ReturnType<typeof getDb>>,
+  familyId: ObjectId,
+  input: { location?: unknown; locationLabel?: unknown; residenceId?: unknown }
+): Promise<{ location: LocationType; locationLabel: string | null; residenceId: string | null } | { error: string }> {
+  if (typeof input.residenceId === "string" && input.residenceId) {
+    const residences = await getFamilyResidences(db, familyId);
+    const res = residences.find((r) => r.id === input.residenceId);
+    if (!res) return { error: "Locuința nu aparține familiei." };
+    return { location: "other", locationLabel: res.name, residenceId: res.id };
+  }
+  if (!LOCATIONS.includes(input.location as LocationType)) return { error: "Locație invalidă." };
+  const label = typeof input.locationLabel === "string" ? input.locationLabel.trim().slice(0, 120) || null : null;
+  return { location: input.location as LocationType, locationLabel: label, residenceId: null };
 }
 
 function computeEventChanges(before: ScheduleEvent, after: ScheduleEvent, labels: FamilyEventLabels): string[] {
@@ -66,8 +92,8 @@ function computeEventChanges(before: ScheduleEvent, after: ScheduleEvent, labels
       `Cu cine: ${labels.parentLabels[before.parent] ?? before.parent} → ${labels.parentLabels[after.parent] ?? after.parent}`
     );
   }
-  const oldLocation = locationName(before.location, before.locationLabel, labels);
-  const newLocation = locationName(after.location, after.locationLabel, labels);
+  const oldLocation = locationName(before.location, before.locationLabel, labels, before.residenceId);
+  const newLocation = locationName(after.location, after.locationLabel, labels, after.residenceId);
   if (oldLocation !== newLocation) changes.push(`Locație: ${oldLocation} → ${newLocation}`);
   if ((before.title ?? "") !== (after.title ?? "")) {
     changes.push(`Titlu: ${before.title?.trim() || "—"} → ${after.title?.trim() || "—"}`);
@@ -93,6 +119,7 @@ export async function GET() {
   }
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  await ensureEventResidenceIds(db, familyId);
   const docs = await db
     .collection("schedule_events")
     .find({ familyId })
@@ -217,12 +244,15 @@ export async function POST(request: Request) {
     );
   }
   const body = await request.json();
-  const { date, parent, location, locationLabel, title, notes, startTime, endTime, caretakerLabel } = body;
-  if (!date || parent == null || location == null) {
+  const { date, parent, location, locationLabel, residenceId, title, notes, startTime, endTime, caretakerLabel } = body;
+  if (!date || parent == null || (location == null && !residenceId)) {
     return NextResponse.json(
       { error: "Data, părintele și locația sunt obligatorii." },
       { status: 400 }
     );
+  }
+  if (!PARENTS.includes(parent) || !/^\d{4}-\d{2}-\d{2}$/.test(String(date).slice(0, 10))) {
+    return NextResponse.json({ error: "Date invalide." }, { status: 400 });
   }
   const caretakerLabelVal =
     parent === "other" && typeof caretakerLabel === "string" ? caretakerLabel.trim() || null : null;
@@ -257,13 +287,19 @@ export async function POST(request: Request) {
     );
   }
 
+  const loc = await resolveLocationInput(db, familyId, { location, locationLabel, residenceId });
+  if ("error" in loc) {
+    return NextResponse.json({ error: loc.error }, { status: 400 });
+  }
+
   const now = new Date();
   const { insertedId } = await db.collection("schedule_events").insertOne({
     familyId,
     date: dateStr,
     parent,
-    location,
-    locationLabel: locationLabel ?? null,
+    location: loc.location,
+    locationLabel: loc.locationLabel,
+    residenceId: loc.residenceId,
     title: title ?? null,
     notes: notes ?? null,
     startTime: startTime ?? null,
@@ -293,7 +329,10 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
   const body = await request.json();
-  const { id, date, parent, location, locationLabel, title, notes, startTime, endTime, caretakerLabel, allowPastEdit, pastEditReason } = body;
+  const { id, date, parent, location, locationLabel, residenceId, title, notes, startTime, endTime, caretakerLabel, allowPastEdit, pastEditReason } = body;
+  if (parent != null && !PARENTS.includes(parent)) {
+    return NextResponse.json({ error: "Părinte invalid." }, { status: 400 });
+  }
   if (!id) {
     return NextResponse.json({ error: "ID lipsă." }, { status: 400 });
   }
@@ -356,8 +395,17 @@ export async function PATCH(request: Request) {
   const update: Record<string, unknown> = {};
   if (date != null) update.date = String(date).slice(0, 10);
   if (parent != null) update.parent = parent;
-  if (location != null) update.location = location;
-  if (locationLabel !== undefined) update.locationLabel = locationLabel ?? null;
+  if (location != null || residenceId) {
+    const loc = await resolveLocationInput(db, familyId, { location, locationLabel, residenceId });
+    if ("error" in loc) {
+      return NextResponse.json({ error: loc.error }, { status: 400 });
+    }
+    update.location = loc.location;
+    update.locationLabel = loc.locationLabel;
+    update.residenceId = loc.residenceId;
+  } else if (locationLabel !== undefined) {
+    update.locationLabel = typeof locationLabel === "string" ? locationLabel.trim().slice(0, 120) || null : null;
+  }
   if (title !== undefined) update.title = title ?? null;
   if (notes !== undefined) update.notes = notes ?? null;
   if (startTime !== undefined) update.startTime = startTime ?? null;
@@ -373,7 +421,7 @@ export async function PATCH(request: Request) {
   }
 
   const result = await db.collection("schedule_events").findOneAndUpdate(
-    { _id: oid },
+    { _id: oid, familyId },
     { $set: update },
     { returnDocument: "after" }
   );

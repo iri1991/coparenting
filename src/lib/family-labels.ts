@@ -6,18 +6,20 @@
 import type { ObjectId } from "mongodb";
 import type { Db } from "@/lib/plan";
 import type { LocationType, ParentType } from "@/types/events";
+import { getFamilyResidences, resolveResidenceName, type ResidenceRef } from "@/lib/event-residences";
 
 export interface FamilyEventLabels {
   childName: string;
   parentLabels: Record<ParentType, string>;
   residenceNames: string[];
+  residences: ResidenceRef[];
 }
 
 export async function getFamilyEventLabels(db: Db, familyId: ObjectId): Promise<FamilyEventLabels> {
   const [family, child, residences] = await Promise.all([
     db.collection("families").findOne({ _id: familyId }, { projection: { parent1Name: 1, parent2Name: 1 } }),
     db.collection("children").findOne({ familyId }, { sort: { createdAt: 1 }, projection: { name: 1 } }),
-    db.collection("residences").find({ familyId }).sort({ order: 1, createdAt: 1 }).project({ name: 1 }).toArray(),
+    getFamilyResidences(db, familyId),
   ]);
   const f = (family ?? {}) as { parent1Name?: string; parent2Name?: string };
   return {
@@ -28,7 +30,8 @@ export async function getFamilyEventLabels(db: Db, familyId: ObjectId): Promise<
       together: "Cu toții",
       other: "Alt responsabil",
     },
-    residenceNames: residences.map((r) => String((r as { name?: string }).name ?? "").trim()).filter(Boolean),
+    residenceNames: residences.map((r) => r.name).filter(Boolean),
+    residences,
   };
 }
 
@@ -36,8 +39,11 @@ export async function getFamilyEventLabels(db: Db, familyId: ObjectId): Promise<
 export function locationName(
   location: LocationType | string,
   locationLabel: string | null | undefined,
-  labels: Pick<FamilyEventLabels, "residenceNames">
+  labels: Pick<FamilyEventLabels, "residenceNames"> & Partial<Pick<FamilyEventLabels, "residences">>,
+  residenceId?: string | null
 ): string {
+  const live = resolveResidenceName(residenceId, labels.residences ?? []);
+  if (live) return live;
   if (location === "other") return locationLabel?.trim() || "Altă locație";
   if (location === "tunari") return labels.residenceNames[0] || "Locația 1";
   if (location === "otopeni") return labels.residenceNames[1] || "Locația 2";
@@ -45,10 +51,10 @@ export function locationName(
 }
 
 export function formatEventLabel(
-  event: { parent: ParentType; location: LocationType; locationLabel?: string | null; caretakerLabel?: string | null },
+  event: { parent: ParentType; location: LocationType; locationLabel?: string | null; caretakerLabel?: string | null; residenceId?: string | null },
   labels: FamilyEventLabels
 ): string {
   const parent =
     event.parent === "other" ? event.caretakerLabel?.trim() || labels.parentLabels.other : labels.parentLabels[event.parent];
-  return `${labels.childName} cu ${parent}, ${locationName(event.location, event.locationLabel, labels)}`;
+  return `${labels.childName} cu ${parent}, ${locationName(event.location, event.locationLabel, labels, event.residenceId)}`;
 }

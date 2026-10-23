@@ -1,3 +1,5 @@
+import type { ObjectId } from "mongodb";
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
@@ -83,6 +85,7 @@ export default async function SharePage({
       : getMondayOfWeek(now);
   const weekEnd = addDays(weekStart, 6);
 
+  await ensureEventResidenceIds(db, familyId as ObjectId);
   const [eventDocs, residenceDocs] = await Promise.all([
     db
       .collection("schedule_events")

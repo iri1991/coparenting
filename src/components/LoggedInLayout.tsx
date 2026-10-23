@@ -26,6 +26,7 @@ interface LoggedInLayoutProps {
   childName?: string;
   childId?: string;
   residenceNames?: string[];
+  residences?: { id: string; name: string }[];
   initialUnreadCount?: number;
   isAdmin?: boolean;
   plan?: "free" | "pro" | "family";
@@ -46,6 +47,7 @@ export function LoggedInLayout({
   childName,
   childId,
   residenceNames = [],
+  residences = [],
   initialUnreadCount = 0,
   isAdmin = false,
   plan = "free",
@@ -265,6 +267,7 @@ export function LoggedInLayout({
             childName={resolvedChild}
             childId={childId}
             residenceNames={residenceNames}
+            residences={residences}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}
             blockedDaysModalOpen={blockedDaysModalOpen}

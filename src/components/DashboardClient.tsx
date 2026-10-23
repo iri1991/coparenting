@@ -74,6 +74,7 @@ interface DashboardClientProps {
   childName?: string;
   childId?: string;
   residenceNames?: string[];
+  residences?: { id: string; name: string }[];
   /** When provided (e.g. from header), modals are controlled by parent */
   modalOpen?: boolean;
   setModalOpen?: (open: boolean) => void;
@@ -105,6 +106,7 @@ export function DashboardClient({
   childName = "",
   childId,
   residenceNames = [],
+  residences = [],
   modalOpen: modalOpenProp,
   setModalOpen: setModalOpenProp,
   blockedDaysModalOpen: blockedDaysModalOpenProp,
@@ -340,6 +342,7 @@ export function DashboardClient({
             parent: payload.parent,
             location: payload.location,
             locationLabel: payload.locationLabel ?? null,
+            residenceId: payload.residenceId ?? null,
             title: payload.title ?? null,
             notes: payload.notes ?? null,
             startTime: payload.startTime ?? null,
@@ -383,6 +386,7 @@ export function DashboardClient({
               parent: payload.parent,
               location: payload.location,
               locationLabel: payload.locationLabel ?? null,
+              residenceId: payload.residenceId ?? null,
               title: payload.title ?? null,
               notes: payload.notes ?? null,
               startTime: isFirst ? (payload.startTime ?? null) : null,
@@ -801,6 +805,7 @@ export function DashboardClient({
       parent2Name={resolvedParent2}
       childName={resolvedChild}
       residenceNames={residenceNames}
+      residences={residences}
     >
     <div className="space-y-5">
       {plan === "free" && activeTab !== "program" && (

@@ -1,3 +1,4 @@
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -93,6 +94,8 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ error: "Numele locuinței este obligatoriu." }, { status: 400 });
   }
+  // Fixează legătura evenimentelor cu locuințele existente înainte ca lista să se schimbe.
+  await ensureEventResidenceIds(db, familyId);
   const now = new Date();
   const { insertedId } = await db.collection("residences").insertOne({
     familyId,
@@ -140,6 +143,9 @@ export async function DELETE(request: Request) {
   } catch {
     return NextResponse.json({ error: "ID invalid." }, { status: 400 });
   }
+  // Înainte de ștergere: evenimentele pe sloturi se leagă de locuința lor, altfel s-ar „muta”
+  // pe locuința care urcă în ordine. După ștergere păstrează numele salvat.
+  await ensureEventResidenceIds(db, familyId);
   const resDoc = await db.collection("residences").findOne({ _id: oid, familyId }, { projection: { name: 1 } });
   const result = await db.collection("residences").deleteOne({ _id: oid, familyId });
   if (result.deletedCount === 0) {

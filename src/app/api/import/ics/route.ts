@@ -1,3 +1,4 @@
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -133,6 +134,7 @@ export async function POST(request: Request) {
     });
     inserted.push(String(insertedId));
   }
+  await ensureEventResidenceIds(db, familyId);
 
   return NextResponse.json({
     imported: inserted.length,

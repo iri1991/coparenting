@@ -9,6 +9,8 @@ export interface FamilyLabelsContextValue {
   parent2Name: string;
   childName: string;
   residenceNames: string[];
+  /** Locuințele cu ID (pentru evenimente legate prin residenceId). */
+  residences: { id: string; name: string }[];
   parentLabels: Record<ParentType, string>;
   locationLabels: Record<string, string>;
 }
@@ -18,6 +20,7 @@ const defaultLabels: FamilyLabelsContextValue = {
   parent2Name: "Părinte 2",
   childName: "copilul",
   residenceNames: [],
+  residences: [],
   parentLabels: { tata: "Părinte 1", mama: "Părinte 2", together: "Cu toții", other: "Alt responsabil" },
   locationLabels: { tunari: "Locația 1", otopeni: "Locația 2", other: "Altă locație" },
 };
@@ -29,12 +32,14 @@ export function FamilyLabelsProvider({
   parent2Name,
   childName,
   residenceNames,
+  residences = [],
   children,
 }: {
   parent1Name: string;
   parent2Name: string;
   childName: string;
   residenceNames: string[];
+  residences?: { id: string; name: string }[];
   children: React.ReactNode;
 }) {
   const value: FamilyLabelsContextValue = {
@@ -42,6 +47,7 @@ export function FamilyLabelsProvider({
     parent2Name,
     childName,
     residenceNames,
+    residences,
     parentLabels: {
       tata: parent1Name,
       mama: parent2Name,
@@ -72,16 +78,23 @@ function parentLabelForEvent(event: ScheduleEvent, labels: FamilyLabelsContextVa
   return labels.parentLabels[event.parent];
 }
 
+/** Numele locației: locuința curentă după residenceId, altfel eticheta salvată / slotul istoric. */
+export function eventLocationName(event: ScheduleEvent, labels: FamilyLabelsContextValue): string {
+  if (event.residenceId) {
+    const live = labels.residences.find((r) => r.id === event.residenceId)?.name;
+    if (live) return live;
+  }
+  if (event.location === "other" && event.locationLabel?.trim()) return event.locationLabel.trim();
+  return labels.locationLabels[event.location] ?? "Altă locație";
+}
+
 /** Etichetă lungă pentru eveniment (folosește etichete din context) */
 export function getEventDisplayLabelWithLabels(
   event: ScheduleEvent,
   labels: FamilyLabelsContextValue
 ): string {
   const parent = parentLabelForEvent(event, labels);
-  const loc =
-    event.location === "other" && event.locationLabel?.trim()
-      ? event.locationLabel.trim()
-      : labels.locationLabels[event.location] ?? "Altă locație";
+  const loc = eventLocationName(event, labels);
   return `${labels.childName} cu ${parent}, ${loc}`;
 }
 
@@ -91,9 +104,6 @@ export function getEventShortLabelWithLabels(
   labels: FamilyLabelsContextValue
 ): string {
   const parent = parentLabelForEvent(event, labels);
-  const loc =
-    event.location === "other" && event.locationLabel?.trim()
-      ? event.locationLabel.trim()
-      : labels.locationLabels[event.location] ?? "Altă locație";
+  const loc = eventLocationName(event, labels);
   return `${parent} · ${loc}`;
 }

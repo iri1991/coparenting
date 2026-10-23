@@ -30,24 +30,18 @@ export function AddEventModal({
   currentUserId,
 }: AddEventModalProps) {
   const labels = useFamilyLabels();
-  // Câte o opțiune pentru fiecare locuință a familiei. Primele două folosesc sloturile istorice
-  // „tunari”/„otopeni” (= locuința 1 / 2); de la a treia încolo se salvează ca „other” + numele locuinței.
-  const residenceOptions = labels.residenceNames.map((name, i) => ({
-    key: `res-${i}`,
-    name,
-    location: (i === 0 ? "tunari" : i === 1 ? "otopeni" : "other") as LocationType,
-    locationLabel: i >= 2 ? name : "",
-  }));
-  const defaultLocation: LocationType = residenceOptions.length > 0 ? "tunari" : "other";
+  // Câte o opțiune pentru fiecare locuință a familiei, legată prin ID (stabil la reordonare/ștergere).
+  const residenceOptions = labels.residences;
+  const defaultResidenceId = residenceOptions[0]?.id ?? "";
   const [date, setDate] = useState(
     initialDate ? format(initialDate, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")
   );
   const [endDate, setEndDate] = useState("");
   const [parent, setParent] = useState<ParentType>("tata");
-  const [location, setLocation] = useState<LocationType>(defaultLocation);
+  const [location, setLocation] = useState<LocationType>("other");
+  // Locuința aleasă ("" = locație scrisă de mână).
+  const [residenceId, setResidenceId] = useState(defaultResidenceId);
   const [locationLabel, setLocationLabel] = useState("");
-  // „Altă locație” aleasă explicit (text liber), chiar dacă textul seamănă cu numele unei locuințe.
-  const [customLocation, setCustomLocation] = useState(false);
   const { t } = useLanguage();
   const ev = t.app.events;
   const [title, setTitle] = useState("");
@@ -65,9 +59,15 @@ export function AddEventModal({
       setParent(editEvent.parent);
       setLocation(editEvent.location);
       setLocationLabel(editEvent.locationLabel || "");
-      setCustomLocation(
-        editEvent.location === "other" &&
-          !labels.residenceNames.slice(2).includes((editEvent.locationLabel || "").trim())
+      // Evenimente vechi pe sloturi: tunari/otopeni = locuința 1/2 în ordinea curentă.
+      setResidenceId(
+        editEvent.residenceId ||
+          (editEvent.location === "tunari"
+            ? residenceOptions[0]?.id
+            : editEvent.location === "otopeni"
+              ? residenceOptions[1]?.id
+              : undefined) ||
+          ""
       );
       setTitle(editEvent.title || "");
       setNotes(editEvent.notes || "");
@@ -80,9 +80,9 @@ export function AddEventModal({
       setDate(format(initialDate, "yyyy-MM-dd"));
       setEndDate("");
       setParent("tata");
-      setLocation(defaultLocation);
+      setLocation("other");
       setLocationLabel("");
-      setCustomLocation(defaultLocation === "other");
+      setResidenceId(defaultResidenceId);
       setTitle("");
       setNotes("");
       setStartTime("");
@@ -94,9 +94,9 @@ export function AddEventModal({
       setDate(format(new Date(), "yyyy-MM-dd"));
       setEndDate("");
       setParent("tata");
-      setLocation(defaultLocation);
+      setLocation("other");
       setLocationLabel("");
-      setCustomLocation(defaultLocation === "other");
+      setResidenceId(defaultResidenceId);
       setTitle("");
       setNotes("");
       setStartTime("");
@@ -105,8 +105,11 @@ export function AddEventModal({
       setAllowPastEdit(false);
       setPastEditReason("");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- defaultLocation derivă din etichetele familiei
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- opțiunile de locuință derivă din etichetele familiei
   }, [editEvent, initialDate, isOpen]);
+
+  const selectedResidence = residenceOptions.find((r) => r.id === residenceId) ?? null;
+  const selectedLocationKey = selectedResidence ? selectedResidence.id : "custom";
 
   const displayLabel = getEventDisplayLabelWithLabels(
     {
@@ -114,7 +117,8 @@ export function AddEventModal({
       date,
       parent,
       location,
-      locationLabel: locationLabel.trim() || undefined,
+      locationLabel: selectedResidence ? selectedResidence.name : locationLabel.trim() || undefined,
+      residenceId: selectedResidence?.id,
       caretakerLabel: caretakerLabel.trim() || undefined,
       created_by: "",
       created_at: "",
@@ -123,14 +127,6 @@ export function AddEventModal({
   );
   const todayStr = format(new Date(), "yyyy-MM-dd");
   const isEditingPastEvent = Boolean(editEvent && editEvent.date < todayStr);
-
-  const selectedLocationKey = (() => {
-    if (customLocation) return "custom";
-    if (location === "tunari") return residenceOptions[0] ? "res-0" : "custom";
-    if (location === "otopeni") return residenceOptions[1] ? "res-1" : "custom";
-    const match = residenceOptions.find((o) => o.location === "other" && o.locationLabel === locationLabel.trim());
-    return match ? match.key : "custom";
-  })();
 
   if (!isOpen) return null;
 
@@ -145,8 +141,9 @@ export function AddEventModal({
       {
         date,
         parent,
-        location,
-        locationLabel: locationLabel.trim() || undefined,
+        location: selectedResidence ? "other" : location,
+        locationLabel: selectedResidence ? selectedResidence.name : locationLabel.trim() || undefined,
+        residenceId: selectedResidence?.id,
         title: title.trim() || undefined,
         notes: notes.trim() || undefined,
         startTime: startTime.trim() || undefined,
@@ -293,16 +290,12 @@ export function AddEventModal({
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {residenceOptions.map((opt) => (
                 <button
-                  key={opt.key}
+                  key={opt.id}
                   type="button"
-                  onClick={() => {
-                    setLocation(opt.location);
-                    setLocationLabel(opt.locationLabel);
-                    setCustomLocation(false);
-                  }}
+                  onClick={() => setResidenceId(opt.id)}
                   className={`
                     truncate rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation
-                    ${selectedLocationKey === opt.key ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
+                    ${selectedLocationKey === opt.id ? "border-[#c87a5c] bg-[#fff4e9] text-stone-800 shadow-[0_14px_28px_rgba(184,92,62,0.1)]" : "border-white/70 bg-white/74 text-stone-600 hover:bg-white/86"}
                   `}
                   title={opt.name}
                 >
@@ -312,9 +305,9 @@ export function AddEventModal({
               <button
                 type="button"
                 onClick={() => {
+                  if (selectedResidence) setLocationLabel("");
+                  setResidenceId("");
                   setLocation("other");
-                  setLocationLabel("");
-                  setCustomLocation(true);
                 }}
                 className={`
                   rounded-[1.3rem] border px-3 py-3 text-center text-sm font-semibold transition touch-manipulation

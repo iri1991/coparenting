@@ -7,6 +7,7 @@
  * NOTE: The public marketing homepage lives at / (fully static SSG).
  * The middleware redirects authenticated users who visit / to /app.
  */
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
@@ -53,6 +54,7 @@ function toEvent(doc: {
   notes?: string | null;
   startTime?: string | null;
   endTime?: string | null;
+  residenceId?: string | null;
   created_by: string | null;
   created_at: Date;
 }): ScheduleEvent {
@@ -69,6 +71,7 @@ function toEvent(doc: {
     notes: doc.notes ?? undefined,
     startTime: doc.startTime ?? undefined,
     endTime: doc.endTime ?? undefined,
+    residenceId: doc.residenceId ?? undefined,
     created_by: doc.created_by ?? "",
     created_at: doc.created_at.toISOString(),
   };
@@ -151,6 +154,8 @@ export default async function AppPage({
   if (!family) {
     redirect("/family-deactivated");
   }
+  // Leagă evenimentele vechi (pe sloturi) de ID-ul locuinței înainte de a le citi.
+  await ensureEventResidenceIds(db, familyId);
   const [children, residences, eventDocs, userDoc] = await Promise.all([
     db.collection("children").find({ familyId }).sort({ createdAt: 1 }).toArray(),
     db.collection("residences").find({ familyId }).sort({ order: 1, createdAt: 1 }).toArray(),
@@ -203,6 +208,7 @@ export default async function AppPage({
         childName={childName}
         childId={childId}
         residenceNames={(residences as unknown as { name: string }[]).map((r) => r.name)}
+        residences={(residences as unknown as { _id: unknown; name: string }[]).map((r) => ({ id: String(r._id), name: r.name }))}
         initialUnreadCount={chatUnreadCount}
         isAdmin={Boolean(session.user.isAdmin)}
         activityCity={activityCity}

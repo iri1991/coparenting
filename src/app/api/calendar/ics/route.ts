@@ -1,3 +1,4 @@
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -53,6 +54,7 @@ export async function GET() {
   }
   const db = await getDb();
   const familyId = new ObjectId(session.user.familyId);
+  await ensureEventResidenceIds(db, familyId);
   const docs = await db
     .collection("schedule_events")
     .find({ familyId })

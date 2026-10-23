@@ -7,7 +7,7 @@ import { enGB } from "date-fns/locale";
 import { X, MapPin, Calendar, Clock, Lock } from "lucide-react";
 import type { ScheduleEvent } from "@/types/events";
 import { ParentIcon } from "@/components/ParentIcon";
-import { useFamilyLabels, getEventDisplayLabelWithLabels } from "@/contexts/FamilyLabelsContext";
+import { useFamilyLabels, getEventDisplayLabelWithLabels, eventLocationName } from "@/contexts/FamilyLabelsContext";
 import type { BlockedPeriod } from "@/types/blocked";
 
 interface EventViewModalProps {
@@ -41,10 +41,7 @@ export function EventViewModal({
   );
 
   const title = event.title?.trim() || getEventDisplayLabelWithLabels(event, labels);
-  const locationLabel =
-    event.location === "other" && event.locationLabel?.trim()
-      ? event.locationLabel.trim()
-      : labels.locationLabels[event.location];
+  const locationLabel = eventLocationName(event, labels);
   const hasTime = !!(event.startTime || event.endTime);
 
   const timeLabel = event.startTime && event.endTime

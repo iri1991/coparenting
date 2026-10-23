@@ -1,3 +1,4 @@
+import { ensureEventResidenceIds } from "@/lib/event-residences";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { auth } from "@/lib/auth";
@@ -79,6 +80,8 @@ export async function POST() {
         created_at: now,
       });
     }
+    // Propunerile folosesc sloturile tunari/otopeni (ordinea curentă) — le legăm de ID-ul locuinței.
+    await ensureEventResidenceIds(db, familyId);
     await db.collection("schedule_proposals").updateOne(
       { _id: p._id },
       { $set: { status: "approved", approvedBy, updatedAt: now } }

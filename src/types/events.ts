@@ -11,8 +11,10 @@ export interface ScheduleEvent {
   parent: ParentType;
   /** Locație */
   location: LocationType;
-  /** Locație custom când location === "other" */
+  /** Locație custom când location === "other" (sau numele locuinței, salvat ca rezervă) */
   locationLabel?: string;
+  /** ID-ul locuinței familiei (stabil la reordonare/ștergere). Are prioritate la afișare. */
+  residenceId?: string;
   title?: string;
   notes?: string;
   startTime?: string;
